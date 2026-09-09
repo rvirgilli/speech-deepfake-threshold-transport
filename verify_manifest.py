@@ -37,6 +37,7 @@ def main() -> None:
         path.relative_to(ROOT).as_posix()
         for path in ROOT.rglob("*")
         if path.is_file() and path.name != "manifest.json"
+        and path.relative_to(ROOT).parts[0] != ".git"
     }
     unbound = sorted(actual - set(manifest))
     if unbound:
