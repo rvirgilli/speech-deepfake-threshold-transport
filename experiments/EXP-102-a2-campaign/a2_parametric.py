@@ -22,7 +22,7 @@ Z_ALPHA = 1.6448536269514722
 NS = [30, 100, 300, 500, 1000, 3000, 10000]
 B = 1000
 SEED = 20260813
-TARGETS = ["asv21la", "asv21df_100k", "itw", "brspeech_test"]
+TARGETS = ["asv21la", "asv21df_full", "itw", "brspeech_test"]
 
 
 def load(model, corpus):

@@ -72,70 +72,70 @@
         }
       }
     },
-    "asv21df_100k": {
-      "n_bona": 3430,
-      "n_spoof": 93621,
+    "asv21df_full": {
+      "n_bona": 20637,
+      "n_spoof": 572611,
       "naive_transfer": {
-        "fpr": 0.3799,
-        "fnr": 0.0001
+        "fpr": 0.3837,
+        "fnr": 0.0002
       },
       "oracle": {
-        "threshold": -4.452996199999999,
-        "fnr": 0.0687
+        "threshold": -4.4227891999999995,
+        "fnr": 0.0673
       },
-      "same_sample_quantile_identity": 0.0501,
+      "same_sample_quantile_identity": 0.05,
       "quantile": {
         "50": {
-          "fpr_mean": 0.0406,
+          "fpr_mean": 0.0396,
           "fpr_ci": [
-            0.0041,
-            0.1184
+            0.0056,
+            0.1057
           ],
-          "fnr_mean": 0.0949,
+          "fnr_mean": 0.0875,
           "fnr_ci": [
-            0.0304,
-            0.2094
+            0.033,
+            0.159
           ],
-          "fnr_minus_oracle_pts": 2.62
+          "fnr_minus_oracle_pts": 2.02
         },
         "100": {
-          "fpr_mean": 0.0494,
-          "fpr_ci": [
-            0.0168,
-            0.0988
-          ],
-          "fnr_mean": 0.0753,
-          "fnr_ci": [
-            0.0391,
-            0.1163
-          ],
-          "fnr_minus_oracle_pts": 0.66
-        },
-        "500": {
           "fpr_mean": 0.0499,
           "fpr_ci": [
-            0.0307,
-            0.0724
+            0.0178,
+            0.0985
           ],
-          "fnr_mean": 0.0711,
+          "fnr_mean": 0.072,
           "fnr_ci": [
-            0.0515,
-            0.0923
+            0.0357,
+            0.1096
           ],
-          "fnr_minus_oracle_pts": 0.24
+          "fnr_minus_oracle_pts": 0.47
         },
-        "1000": {
+        "500": {
           "fpr_mean": 0.05,
           "fpr_ci": [
-            0.0346,
-            0.0683
+            0.033,
+            0.07
           ],
-          "fnr_mean": 0.0704,
+          "fnr_mean": 0.0686,
           "fnr_ci": [
-            0.0554,
-            0.086
+            0.0507,
+            0.0899
           ],
-          "fnr_minus_oracle_pts": 0.17
+          "fnr_minus_oracle_pts": 0.13
+        },
+        "1000": {
+          "fpr_mean": 0.0501,
+          "fpr_ci": [
+            0.0372,
+            0.0638
+          ],
+          "fnr_mean": 0.0679,
+          "fnr_ci": [
+            0.055,
+            0.0831
+          ],
+          "fnr_minus_oracle_pts": 0.06
         }
       }
     },
@@ -153,56 +153,56 @@
       "same_sample_quantile_identity": 0.05,
       "quantile": {
         "50": {
-          "fpr_mean": 0.0382,
+          "fpr_mean": 0.0391,
           "fpr_ci": [
-            0.0048,
-            0.1053
+            0.005,
+            0.1083
           ],
-          "fnr_mean": 0.2326,
+          "fnr_mean": 0.2315,
           "fnr_ci": [
-            0.1192,
-            0.4443
+            0.1162,
+            0.4366
           ],
-          "fnr_minus_oracle_pts": 5.15
+          "fnr_minus_oracle_pts": 5.05
         },
         "100": {
-          "fpr_mean": 0.0505,
+          "fpr_mean": 0.0503,
           "fpr_ci": [
             0.0159,
-            0.1027
+            0.1011
           ],
-          "fnr_mean": 0.1897,
+          "fnr_mean": 0.19,
           "fnr_ci": [
-            0.1213,
-            0.2786
+            0.1222,
+            0.279
           ],
-          "fnr_minus_oracle_pts": 0.86
+          "fnr_minus_oracle_pts": 0.9
         },
         "500": {
-          "fpr_mean": 0.0496,
+          "fpr_mean": 0.0499,
           "fpr_ci": [
-            0.0325,
-            0.0694
+            0.0327,
+            0.0708
           ],
-          "fnr_mean": 0.1838,
+          "fnr_mean": 0.1833,
           "fnr_ci": [
-            0.1556,
-            0.217
+            0.154,
+            0.2166
           ],
-          "fnr_minus_oracle_pts": 0.27
+          "fnr_minus_oracle_pts": 0.23
         },
         "1000": {
           "fpr_mean": 0.05,
           "fpr_ci": [
-            0.0367,
-            0.0649
+            0.0366,
+            0.0659
           ],
           "fnr_mean": 0.1823,
           "fnr_ci": [
-            0.1615,
+            0.1606,
             0.206
           ],
-          "fnr_minus_oracle_pts": 0.13
+          "fnr_minus_oracle_pts": 0.12
         }
       }
     },
@@ -220,56 +220,56 @@
       "same_sample_quantile_identity": 0.05,
       "quantile": {
         "50": {
-          "fpr_mean": 0.0394,
+          "fpr_mean": 0.0387,
           "fpr_ci": [
-            0.0055,
-            0.1063
+            0.0039,
+            0.1
           ],
-          "fnr_mean": 0.9879,
+          "fnr_mean": 0.9884,
           "fnr_ci": [
-            0.9575,
-            0.9983
+            0.9617,
+            0.9985
           ],
-          "fnr_minus_oracle_pts": 0.32
+          "fnr_minus_oracle_pts": 0.38
         },
         "100": {
           "fpr_mean": 0.0503,
           "fpr_ci": [
-            0.0148,
-            0.1049
-          ],
-          "fnr_mean": 0.9844,
-          "fnr_ci": [
-            0.9599,
-            0.9965
-          ],
-          "fnr_minus_oracle_pts": -0.03
-        },
-        "500": {
-          "fpr_mean": 0.05,
-          "fpr_ci": [
-            0.0268,
-            0.0756
+            0.0164,
+            0.1016
           ],
           "fnr_mean": 0.9845,
+          "fnr_ci": [
+            0.9617,
+            0.9958
+          ],
+          "fnr_minus_oracle_pts": -0.01
+        },
+        "500": {
+          "fpr_mean": 0.0493,
+          "fpr_ci": [
+            0.028,
+            0.0756
+          ],
+          "fnr_mean": 0.9847,
           "fnr_ci": [
             0.9783,
             0.9923
           ],
-          "fnr_minus_oracle_pts": -0.02
+          "fnr_minus_oracle_pts": 0.01
         },
         "1000": {
-          "fpr_mean": 0.0503,
+          "fpr_mean": 0.0495,
           "fpr_ci": [
             0.025,
             0.0781
           ],
-          "fnr_mean": 0.9842,
+          "fnr_mean": 0.9843,
           "fnr_ci": [
             0.9812,
             0.9862
           ],
-          "fnr_minus_oracle_pts": -0.04
+          "fnr_minus_oracle_pts": -0.03
         }
       }
     }
@@ -347,70 +347,70 @@
         }
       }
     },
-    "asv21df_100k": {
-      "n_bona": 3430,
-      "n_spoof": 93621,
+    "asv21df_full": {
+      "n_bona": 20637,
+      "n_spoof": 572611,
       "naive_transfer": {
-        "fpr": 0.3443,
-        "fnr": 0.0146
+        "fpr": 0.3404,
+        "fnr": 0.0141
       },
       "oracle": {
-        "threshold": -3.37875655,
-        "fnr": 0.3648
+        "threshold": -3.3952608,
+        "fnr": 0.3658
       },
-      "same_sample_quantile_identity": 0.0501,
+      "same_sample_quantile_identity": 0.05,
       "quantile": {
         "50": {
-          "fpr_mean": 0.039,
+          "fpr_mean": 0.0394,
           "fpr_ci": [
-            0.0044,
-            0.1074
+            0.0043,
+            0.1088
           ],
-          "fnr_mean": 0.4685,
+          "fnr_mean": 0.4606,
           "fnr_ci": [
-            0.1935,
-            0.7597
+            0.1862,
+            0.7574
           ],
-          "fnr_minus_oracle_pts": 10.38
+          "fnr_minus_oracle_pts": 9.48
         },
         "100": {
-          "fpr_mean": 0.0483,
-          "fpr_ci": [
-            0.0141,
-            0.1
-          ],
-          "fnr_mean": 0.3942,
-          "fnr_ci": [
-            0.2107,
-            0.6424
-          ],
-          "fnr_minus_oracle_pts": 2.94
-        },
-        "500": {
           "fpr_mean": 0.0502,
           "fpr_ci": [
-            0.031,
-            0.0747
+            0.0174,
+            0.102
           ],
-          "fnr_mean": 0.368,
+          "fnr_mean": 0.381,
           "fnr_ci": [
-            0.2802,
-            0.4481
+            0.1962,
+            0.5884
           ],
-          "fnr_minus_oracle_pts": 0.32
+          "fnr_minus_oracle_pts": 1.52
         },
-        "1000": {
-          "fpr_mean": 0.0501,
+        "500": {
+          "fpr_mean": 0.0504,
           "fpr_ci": [
-            0.035,
-            0.0671
+            0.0335,
+            0.072
           ],
           "fnr_mean": 0.3667,
           "fnr_ci": [
-            0.3222,
-            0.4098
+            0.2775,
+            0.4475
           ],
-          "fnr_minus_oracle_pts": 0.19
+          "fnr_minus_oracle_pts": 0.1
+        },
+        "1000": {
+          "fpr_mean": 0.05,
+          "fpr_ci": [
+            0.0368,
+            0.0639
+          ],
+          "fnr_mean": 0.3672,
+          "fnr_ci": [
+            0.3082,
+            0.4302
+          ],
+          "fnr_minus_oracle_pts": 0.14
         }
       }
     },
@@ -428,56 +428,56 @@
       "same_sample_quantile_identity": 0.05,
       "quantile": {
         "50": {
-          "fpr_mean": 0.0394,
+          "fpr_mean": 0.0406,
           "fpr_ci": [
-            0.0048,
-            0.1104
+            0.0053,
+            0.1097
           ],
-          "fnr_mean": 0.9609,
+          "fnr_mean": 0.9598,
           "fnr_ci": [
-            0.8921,
-            0.9935
+            0.8932,
+            0.9933
           ],
-          "fnr_minus_oracle_pts": 0.89
+          "fnr_minus_oracle_pts": 0.78
         },
         "100": {
-          "fpr_mean": 0.0489,
-          "fpr_ci": [
-            0.018,
-            0.098
-          ],
-          "fnr_mean": 0.9524,
-          "fnr_ci": [
-            0.9063,
-            0.9801
-          ],
-          "fnr_minus_oracle_pts": 0.04
-        },
-        "500": {
           "fpr_mean": 0.0497,
           "fpr_ci": [
-            0.0312,
-            0.0689
+            0.0153,
+            0.0992
           ],
-          "fnr_mean": 0.9519,
+          "fnr_mean": 0.9517,
           "fnr_ci": [
-            0.9341,
-            0.9685
+            0.9044,
+            0.9819
           ],
-          "fnr_minus_oracle_pts": -0.01
+          "fnr_minus_oracle_pts": -0.04
+        },
+        "500": {
+          "fpr_mean": 0.0502,
+          "fpr_ci": [
+            0.0328,
+            0.0695
+          ],
+          "fnr_mean": 0.9515,
+          "fnr_ci": [
+            0.9336,
+            0.9675
+          ],
+          "fnr_minus_oracle_pts": -0.05
         },
         "1000": {
           "fpr_mean": 0.0498,
           "fpr_ci": [
-            0.0369,
-            0.0642
+            0.0371,
+            0.0648
           ],
-          "fnr_mean": 0.9518,
+          "fnr_mean": 0.9519,
           "fnr_ci": [
-            0.9382,
+            0.9376,
             0.9634
           ],
-          "fnr_minus_oracle_pts": -0.02
+          "fnr_minus_oracle_pts": -0.01
         }
       }
     },
@@ -495,56 +495,56 @@
       "same_sample_quantile_identity": 0.05,
       "quantile": {
         "50": {
-          "fpr_mean": 0.0389,
+          "fpr_mean": 0.0374,
           "fpr_ci": [
-            0.0047,
-            0.1095
+            0.0031,
+            0.1056
           ],
-          "fnr_mean": 0.8721,
+          "fnr_mean": 0.876,
           "fnr_ci": [
-            0.7209,
-            0.9795
+            0.7259,
+            0.9889
           ],
-          "fnr_minus_oracle_pts": 2.94
+          "fnr_minus_oracle_pts": 3.32
         },
         "100": {
-          "fpr_mean": 0.0494,
+          "fpr_mean": 0.05,
           "fpr_ci": [
             0.0156,
-            0.0967
+            0.1016
           ],
-          "fnr_mean": 0.8417,
+          "fnr_mean": 0.8405,
           "fnr_ci": [
-            0.7491,
-            0.9189
+            0.734,
+            0.9193
           ],
-          "fnr_minus_oracle_pts": -0.1
+          "fnr_minus_oracle_pts": -0.23
         },
         "500": {
           "fpr_mean": 0.0501,
           "fpr_ci": [
-            0.0268,
-            0.0744
+            0.028,
+            0.0768
           ],
-          "fnr_mean": 0.8403,
+          "fnr_mean": 0.8402,
           "fnr_ci": [
-            0.8055,
-            0.872
+            0.8051,
+            0.8688
           ],
-          "fnr_minus_oracle_pts": -0.24
+          "fnr_minus_oracle_pts": -0.26
         },
         "1000": {
-          "fpr_mean": 0.0498,
+          "fpr_mean": 0.0502,
           "fpr_ci": [
             0.025,
             0.0813
           ],
-          "fnr_mean": 0.8428,
+          "fnr_mean": 0.8424,
           "fnr_ci": [
             0.823,
             0.8509
           ],
-          "fnr_minus_oracle_pts": 0.01
+          "fnr_minus_oracle_pts": -0.03
         }
       }
     }

@@ -47,7 +47,7 @@ SEVERITY_BAR = 1.0  # |log2(FPR/alpha)|: off target by more than a factor of two
 ACI_REPS = 5
 SEED = 20260813
 MODELS = ["ssl", "aasist"]
-CROSS = ["asv21la_nocodec", "asv21df_100k", "itw", "brspeech_test"]
+CROSS = ["asv21la_nocodec", "asv21df_full", "itw", "brspeech_test"]
 
 
 def load_scores(model, corpus):

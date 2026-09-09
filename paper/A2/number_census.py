@@ -86,7 +86,7 @@ AUC_OTHERS = [AUC[c] for c in ("alaw", "ulaw", "gsm", "g722", "opus", "none")]
 MON = D["monitor_eval"]["ssl/w1_mixture"]
 OP = MON["achieves_tpr80_fpr20"]
 BENIGN = [v for k, v in cells.items() if k.startswith("ssl/") and abs(v["log2_fpr_ratio"]) <= SEV]
-E2_CORPORA = ("asv21la", "asv21df_100k", "itw", "brspeech_test")
+E2_CORPORA = ("asv21la", "asv21df_full", "itw", "brspeech_test")
 SLS_CORPORA = ("asv21la", "asv21df_full", "itw", "brspeech_test")
 
 _cont = {k: c["N500_c0.05"]["fpr_mean"] for k, c in NSW["contamination"].items()}
@@ -251,7 +251,6 @@ _par500 = {(d, c): PAR[d][c]["500"]["parametric"]["fpr_mean"] for d in PAR for c
 _zdev = [abs(M10[d][c]["500"]["znorm"]["fpr_mean"] - ALPHA) * 100 for d in ("ssl", "aasist")
          for c in E2_CORPORA]
 _beyond = [x for x in _zdev if x > 2]
-DF = EER["cells"]["ssl/asv21df_100k"]
 N_BONA = {v["n_dep_bona"] for v in within.values()}.pop()
 N_SPOOF = {v["n_dep_spoof"] for v in within.values()}.pop()
 N_SPK = {v["n_speakers"] for v in SPK["cells"].values()}.pop()
@@ -352,10 +351,8 @@ ARTIFACT_DERIVED = {
     f"{N_BONA:,}": "bona-fide recordings per 21LA condition, hidden phase excluded",
     f"{N_SPOOF:,}": "spoofed trials per 21LA condition, hidden phase excluded",
     str(N_SPK): "speakers per 21LA condition",
-    f"{DF['n_bona'] + DF['n_spoof']:,}": "21DF 100k-sample trials after the exclusion",
-    f"{DF['n_bona']:,}": "21DF 100k-sample bona fide after the exclusion",
-    f"{SLS['asv21la']['n_bona']:,}": "full 21LA bona fide, hidden phase excluded",
-    f"{SLS['asv21df_full']['n_bona']:,}": "full 21DF bona fide, hidden phase excluded",
+    f"{E2['ssl']['asv21la']['n_bona']:,}": "full 21LA bona fide, hidden phase excluded (EXP-002; equals SLS n_bona)",
+    f"{E2['ssl']['asv21df_full']['n_bona']:,}": "full 21DF bona fide, hidden phase excluded (EXP-002; equals SLS n_bona)",
     # speaker diagnostic
     str(SPK["cells"]["aasist/pstn"]["permutation"]["median_calibration_speakers"]): "median calibration speakers",
     str(SPK["draws_per_width"]): "draws per speaker-disjoint width",

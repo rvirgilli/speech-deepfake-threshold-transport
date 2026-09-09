@@ -49,7 +49,7 @@ def cell(rng, cal, dep):
 def run(selection):
     def load(model, corpus):
         d = raw_scores(model, corpus)
-        if selection is not None and corpus in ("asv21la", "asv21df_100k"):
+        if selection is not None and corpus in ("asv21la", "asv21df_full"):
             d = {u: v for u, v in d.items() if PHASE.get(u) in selection}
         return d
     dm.load_scores = load

@@ -11,7 +11,7 @@ MISS x PRICE cross-tab (all cells):
   miss=True  priced=True :  21
 
 Worst cells by spoof-side price (oracle-referenced), all sections:
-  ssl/brspeech_test->asv21la_nocodec         FPR 0.0000  log2  -5.30  FNR 0.001->0.735 (price +0.735, diag -0.249)  old rule: graceful [resolution-limited]
+  ssl/brspeech_test->asv21la_nocodec         FPR 0.0000  log2  -5.30  FNR 0.001->0.736 (price +0.735, diag -0.249)  old rule: graceful [resolution-limited]
   aasist/pstn->none                          FPR 0.0002  log2  -5.30  FNR 0.004->0.699 (price +0.695, diag +0.393)  old rule: graceful [resolution-limited]
   aasist/pstn->g722                          FPR 0.0042  log2  -3.56  FNR 0.007->0.701 (price +0.694, diag +0.392)  old rule: graceful
   aasist/pstn->opus                          FPR 0.0035  log2  -3.84  FNR 0.048->0.680 (price +0.632, diag +0.374)  old rule: graceful
@@ -20,7 +20,7 @@ Worst cells by spoof-side price (oracle-referenced), all sections:
   aasist/itw->asv21la_nocodec                FPR 0.0008  log2  -5.30  FNR 0.004->0.527 (price +0.523, diag -0.425)  old rule: graceful [resolution-limited]
   ssl/brspeech_test->itw                     FPR 0.0013  log2  -5.22  FNR 0.181->0.693 (price +0.512, diag -0.291)  old rule: graceful
   aasist/gsm->none                           FPR 0.0009  log2  -5.30  FNR 0.004->0.441 (price +0.437, diag +0.294)  old rule: graceful [resolution-limited]
-  ssl/brspeech_test->asv21df_100k            FPR 0.0000  log2  -5.84  FNR 0.069->0.504 (price +0.435, diag -0.481)  old rule: graceful [resolution-limited]
+  ssl/brspeech_test->asv21df_full            FPR 0.0000  log2  -8.43  FNR 0.067->0.504 (price +0.437, diag -0.480)  old rule: graceful [resolution-limited]
 
 Cells the old rule called graceful that miss target by >2x:
   41 of 72 old-rule passes (108 cells total)

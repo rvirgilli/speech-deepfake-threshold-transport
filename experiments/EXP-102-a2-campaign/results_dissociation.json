@@ -10,7 +10,7 @@
    "opus": 0.9978264577161012,
    "none": 0.9997990469127991,
    "asv21la_nocodec": 0.9997990469127991,
-   "asv21df_100k": 0.9888912005893871,
+   "asv21df_full": 0.9896338557383343,
    "itw": 0.957248126366208,
    "brspeech_test": 0.6548454025605992
   },
@@ -29,9 +29,9 @@
     "sev": 5.2952
    },
    {
-    "cell": "ssl/asv21df_100k->asv21la_nocodec",
-    "dauc": 0.010907846323412018,
-    "auc_cal": 0.9888912005893871,
+    "cell": "ssl/asv21df_full->asv21la_nocodec",
+    "dauc": 0.010165191174464794,
+    "auc_cal": 0.9896338557383343,
     "auc_dep": 0.9997990469127991,
     "sev": 5.2952
    },
@@ -69,7 +69,7 @@
    "opus": 0.9857424586838849,
    "none": 0.9974630775776786,
    "asv21la_nocodec": 0.9974630775776786,
-   "asv21df_100k": 0.9381906105327655,
+   "asv21df_full": 0.9396442075727557,
    "itw": 0.6012330453519105,
    "brspeech_test": 0.6961742826780021
   },
@@ -77,8 +77,8 @@
   "n_stable_and_blown": 16,
   "frac_blown_among_stable": 0.6153846153846154,
   "jackknife_se": 0.2560612514973975,
-  "spearman_absdauc_sev": 0.6274442538593481,
-  "spearman_absdmed_sev": 0.7552125023823136,
+  "spearman_absdauc_sev": 0.6257671050123879,
+  "spearman_absdmed_sev": 0.7539927577663424,
   "worst": [
    {
     "cell": "aasist/g722->gsm",

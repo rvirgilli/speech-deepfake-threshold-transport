@@ -58,7 +58,7 @@ def main():
         itw_lab = {r["utt_id"]: r["label"] == "bonafide" for r in csv.DictReader(f)}
     sets = {}
     for model in ("aasist", "ssl"):
-        for corpus in ("asv21la", "asv21df_100k", "itw", "brspeech_test"):
+        for corpus in ("asv21la", "asv21df_full", "itw", "brspeech_test"):
             sets[f"{model}/{corpus}"] = load_e001(model, corpus)
     sets["sls/asv21la"] = load_official(OFF / "scores_LA.txt", labels_21(DATA / "keys/LA/CM/trial_metadata.txt"))
     sets["sls/asv21df_full"] = load_official(OFF / "scores_DF.txt", labels_21(DATA / "keys/DF/CM/trial_metadata.txt"))

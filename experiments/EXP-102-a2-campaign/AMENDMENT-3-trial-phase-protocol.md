@@ -78,3 +78,16 @@ within-2 pp count; and the adaptive oracle-label result is no longer a ceiling,
 because in large-shift cells its level parameter reaches the clip bound and the
 threshold cannot leave the support of the 500-score cohort. The paper records
 the exclusion as a post-hoc protocol correction, not as the design.
+
+## Addendum, 2026-09-09 (later): full 21DF set
+
+After the correction above, the reproduction-scored detectors were rescored on the full
+21DF evaluation release (611,829 trials; 5 undecodable files skipped, listed in
+`EXP-001-scoring-campaign/skipped.txt`), replacing the pre-registered 100k subsample so
+that every Table 1 row uses one protocol (eval + progress: 20,637 bona fide, 572,611 spoofed
+trials for the reproduction-scored detectors, 572,616 for the official XLS-R+SLS scores).
+The corpus key `asv21df_100k` became `asv21df_full` in every A2 script. No headline count
+moved (77/108, 72 in band, 41 hidden, 57/84 within; eval-only identical). Table 1 21DF
+cells moved from 36.8 (+0.3) / 7.1 (+0.2) to 36.7 (+0.1) / 6.9 (+0.1); AASIST 21DF EER
+14.5 → 14.2; the policy block's 21DF column and the contamination and Gaussian ranges moved
+at the first decimal. The subsample artifacts survive at commit `2ceba26`.

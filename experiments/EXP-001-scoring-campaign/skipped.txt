@@ -2,3 +2,11 @@ ssl /home/rv/exp-artifacts/icassp2027/EXP-001/manifests/asv21df_100k.csv DF_E_44
 aasist /home/rv/exp-artifacts/icassp2027/EXP-001/manifests/asv21df_100k.csv DF_E_4459808
 ssl /home/rv/exp-artifacts/icassp2027/EXP-001/manifests/asv21df_full.csv DF_E_2101080
 ssl /home/rv/exp-artifacts/icassp2027/EXP-001/manifests/asv21df_full.csv DF_E_2416160
+ssl /home/rv/exp-artifacts/icassp2027/EXP-001/manifests/asv21df_full.csv DF_E_4459808
+ssl /home/rv/exp-artifacts/icassp2027/EXP-001/manifests/asv21df_full.csv DF_E_4830191
+ssl /home/rv/exp-artifacts/icassp2027/EXP-001/manifests/asv21df_full.csv DF_E_4887195
+aasist /home/rv/exp-artifacts/icassp2027/EXP-001/manifests/asv21df_full.csv DF_E_2101080
+aasist /home/rv/exp-artifacts/icassp2027/EXP-001/manifests/asv21df_full.csv DF_E_2416160
+aasist /home/rv/exp-artifacts/icassp2027/EXP-001/manifests/asv21df_full.csv DF_E_4459808
+aasist /home/rv/exp-artifacts/icassp2027/EXP-001/manifests/asv21df_full.csv DF_E_4830191
+aasist /home/rv/exp-artifacts/icassp2027/EXP-001/manifests/asv21df_full.csv DF_E_4887195

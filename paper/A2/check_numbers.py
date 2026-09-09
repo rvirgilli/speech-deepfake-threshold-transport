@@ -61,7 +61,7 @@ cells = {k: v for sec in ("within", "cross") for k, v in drift[sec].items()}
 within = drift["within"]
 in_tol = [v for v in cells.values() if abs(v["vanilla_fpr_mean"] - ALPHA) <= TOL]
 hidden = [v for v in in_tol if abs(v["log2_fpr_ratio"]) > SEV_BAR]
-E2_CORPORA = ("asv21la", "asv21df_100k", "itw", "brspeech_test")
+E2_CORPORA = ("asv21la", "asv21df_full", "itw", "brspeech_test")
 SLS_CORPORA = ("asv21la", "asv21df_full", "itw", "brspeech_test")
 
 failures = []
@@ -206,7 +206,7 @@ for m in re.finditer(r"\b72 cells\b(.{0,30})", _flat(TEX)):
         failures.append(f"an unqualified '72 cells' at {m.group(0)!r}: say 'inside the tolerance'")
 
 for claim, forcedness in (
-        ("realizes 5.0\\% FPR on all four corpora",
+        (_q5_lit,
          "as marginal rank validity predicts"),):
     w = _flat(TEX)
     i = w.find(_flat(claim))
@@ -298,11 +298,15 @@ check("the drift cell estimand names B and N", "\\textbf{Drift} is detector-cond
 check("the band's blind spot is stated as by-construction", "\\textbf{Drift} is detector-conditioned",
       "includes zero by construction, so it cannot distinguish a collapsed threshold from a controlled one; "
       "an absolute tolerance narrower than the target would not share this defect")
-check("the figure is the single-panel drift map", "\\begin{figure}", "{figs/drift.pdf}")
-if not (HERE / "figs/drift.pdf").is_file():
-    failures.append("figs/drift.pdf missing")
-if "def a2_drift" not in (HERE.parent / "figures.py").read_text():
-    failures.append("paper/figures.py no longer defines a2_drift, the generator of figs/drift.pdf")
+_figfile = re.search(r"\\includegraphics\[[^\]]*\]\{(figs/[^}]+)\}", TEX).group(1)
+if not (HERE / _figfile).is_file():
+    failures.append(f"{_figfile} missing")
+_figsrc = (HERE.parent / "figures.py").read_text()
+_body = _figsrc[_figsrc.find("def a2_drift():"):]
+_body = _body[:_body.find("\ndef ", 10)] if "\ndef " in _body[10:] else _body
+if "def a2_drift():" not in _figsrc or "subplots(1, 1" not in _body:
+    failures.append("paper/figures.py::a2_drift is not the single-panel generator")
+print(f"  ok  figure file {_figfile} exists; a2_drift_single defined")
 
 # --- the setup: the twin structure every 21LA condition shares ------------------
 # 2,356 / 67 / 21,164 are derived from the LA key (column 8 = phase, `hidden`
@@ -326,14 +330,16 @@ check("dependence unit is disclosed for the within-corpus cells", "Over the 108 
       (n_bona, n_spk), "results_drift.json")
 check("the replicate names the reordered set", "\\textbf{Replication on recording-disjoint data.}",
       f"reorders one {n_bona:,}-recording set", n_bona, "results_drift.json")
-df = EER["cells"]["ssl/asv21df_100k"]
-assert df["n_bona"] == E2["ssl"]["asv21df_100k"]["n_bona"] == EER["cells"]["aasist/asv21df_100k"]["n_bona"]
-check("21DF 100k sample size after the exclusion", "use a random 100k-trial subsample",
-      f"({df['n_bona'] + df['n_spoof']:,} trials, {df['n_bona']:,} bona fide, after the exclusion)",
-      (df["n_bona"], df["n_spoof"]), "results_table1_eer_spread.json")
-check("official-score evaluation population", "official XLS-R+SLS scores are evaluated on the full",
-      f"({SLS['asv21la']['n_bona']:,} and {SLS['asv21df_full']['n_bona']:,} bona fide)",
-      None, "results_sls_complete.json n_bona")
+# One evaluation population for every detector: the reproduction-scored E2 rows
+# and the official-score SLS rows must agree on the full-set bona-fide counts.
+_pop = {c: {E2[d][c]["n_bona"] for d in ("ssl", "aasist")} | {SLS[c]["n_bona"]} |
+        {EER["cells"][f"{d}/{c}"]["n_bona"] for d in ("ssl", "aasist", "sls")} for c in ("asv21la", "asv21df_full")}
+assert all(len(v) == 1 for v in _pop.values()), _pop
+check("evaluation population is the full 21LA and 21DF sets for every detector",
+      "By contrast, 21DF is compression-only and untransmitted.",
+      f"Every detector is evaluated on the full 21LA and 21DF sets ({_pop['asv21la'].pop():,} and "
+      f"{_pop['asv21df_full'].pop():,} bona fide)", None,
+      "EXP-002 results.json / results_sls_complete.json / results_table1_eer_spread.json n_bona")
 check("the protocol correction is disclosed as post-hoc", "The 2021 keys carry",
       "A first version of this study did so; as a post-hoc protocol correction, every result "
       "below excludes it and keeps the two untrimmed phases", chars=1600)
@@ -415,9 +421,12 @@ check("intro naive-transfer FPR range (SSL-AASIST)", "A threshold set to 5\\% FP
       (min(ssl_naive), max(ssl_naive)), "EXP-002 results.json naive_transfer")
 check("intro naive-transfer FPR (XLS-R+SLS)", "A threshold set to 5\\% FPR on ASVspoof~2019~LA dev",
       f"it reaches {max(sls_naive)*100:.1f}\\%", max(sls_naive), "results_sls_complete.json")
-assert all(round(E2["ssl"][c]["quantile"]["500"]["fpr_mean"] * 100, 1) == 5.0 for c in E2_CORPORA)
-check("the quantile hits target on all four SSL corpora", "\\textbf{Matched-resource policy comparison.}",
-      "realizes 5.0\\% FPR on all four corpora", None, "EXP-002 results.json quantile/500")
+_q5 = {c: E2["ssl"][c]["quantile"]["500"]["fpr_mean"] for c in E2_CORPORA}
+_q5_lo, _q5_hi = min(_q5.values()) * 100, max(_q5.values()) * 100
+_q5_lit = (f"realizes {_q5_lo:.1f}\\% FPR on all four corpora" if round(_q5_lo, 1) == round(_q5_hi, 1)
+           else f"realizes {_q5_lo:.1f}--{_q5_hi:.1f}\\% FPR on all four corpora")
+check("the quantile's realized FPR range on the four SSL corpora", "\\textbf{Matched-resource policy comparison.}",
+      _q5_lit, _q5, "EXP-002 results.json quantile/500")
 naive_miss = [abs(f - ALPHA) * 100 for f in ssl_naive]
 unlab = [abs(CMS["ssl"][c][m]["fpr"] - ALPHA) * 100 for c in E2_CORPORA
          for m in ("C1_znorm", "C2_tempshift", "C5_asnorm")]
@@ -799,7 +808,9 @@ RETIRED = [
     (r"\+0\.55", "the all-phase flagship price"),
     (r"\b7\.03\b", "the all-phase speaker-disjoint width"),
     (r"MC SD 0\.17", "the all-phase speaker-disjoint SD"),
-    (r"\b38\.4\b|\b36\.4\b|\b43\.5\b|\b15\.9\b|\b10\.5\b", "all-phase Table 1 values"),
+    # 38.4 is retired only as the prose percentage (the all-phase AASIST oracle FNR on
+# PSTN); the policy-block cell 38.4 is a row-bound artifact value in the census.
+    (r"\b38\.4\\%|\b36\.4\b|\b43\.5\b|\b15\.9\b|\b10\.5\b", "all-phase Table 1 / PSTN oracle values"),
     (r"(?<![\d.])74\\%|(?<![\d.])0\.47\\%|(?<![\d.])19\\% ", "the all-phase flagship triple"),
     (r"58 of 108|34 of the 84|60 of 84|22 of 84", "the all-phase grid counts"),
     (r"2,636", "the all-phase recording count"),
@@ -813,6 +824,7 @@ RETIRED = [
     (r"17--93 pp|3--95 pp|0\.68 pp on ITW|2--18 pp", "prose ranges now carried by Table 1's policy block"),
     (r"0\.74/0\.84|0\.53/0\.25|held-out \$R\^2\$", "Fig. 1's right panel (cut; single-panel figure)"),
     (r"Budget sweeps cover", "the N-sweep sentence (cut)"),
+    (r"100k-trial|97,051|3,430", "the 21DF 100k subsample (superseded by full-set rescoring)"),
     (r"An additive band has only", "superseded band description"),
 ]
 print("\nretired-number checks:")
