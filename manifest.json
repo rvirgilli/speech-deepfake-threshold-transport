@@ -432,12 +432,12 @@
     "bytes": 157
   },
   "paper/A2/main.pdf": {
-    "sha256": "f108e3ad2b610a8e8c620966f092dfc87c168117a7f13b37058c882762ef7675",
-    "bytes": 235175
+    "sha256": "0cd727ea94940b38a056ae996966a6ced8289a64371667d0702a9425c3e145db",
+    "bytes": 236207
   },
   "paper/A2/main.tex": {
-    "sha256": "86ac6b7ee217a2d5731c40905f005e449324070bbb49eab894c0da61e562aca5",
-    "bytes": 27947
+    "sha256": "b28d62afcc0a664147710508a016f853fd2668b2fe82eae3b7bbea5b8aad864a",
+    "bytes": 28141
   },
   "paper/A2/refs.bib": {
     "sha256": "b25cbf72fa572e18cba53de72b25ac17ad0d2782e7e27dfaf4775eeaadbb9ac9",
@@ -464,8 +464,8 @@
     "bytes": 5324
   },
   "paper/A2/figs/drift.pdf": {
-    "sha256": "d1c5d03babe185042da63e62f285af08b8f8d4c72841ffb3110ae4edf406922b",
-    "bytes": 26085
+    "sha256": "8fa0aa7df1fa679556e3edb0638407c3f135983d367fcee89457c8e24db5b632",
+    "bytes": 25990
   },
   "claim_map.json": {
     "sha256": "8ed96e9622a3bc268a67ac7f668fb6c92216ee639ca9ca12cfeae17243db0a86",
