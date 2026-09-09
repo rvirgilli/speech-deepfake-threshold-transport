@@ -604,9 +604,10 @@ def _table1_occurrence_bindings(tex):
         lines = list(re.finditer(rf"(?m)^{re.escape(row)}\s*&[^\n]*\\\\\s*$", tex))
         if len(lines) != len(blocks):
             raise AssertionError(f"Table 1 row {row}: expected {len(blocks)} line(s), found {len(lines)}")
-        if len(blocks) > 1:
-            # Each block is anchored on its header: the line for block k must
-            # come after that block's \multicolumn header and before the next.
+        if True:
+            # Every line is anchored on its block header: a row's k-th line must
+            # come after the header of the block it is bound to and before the
+            # next header, so a row that drifts under another block fails.
             headers = {"FNR": None, "quantile FPR": "Realized FPR (\\%) at the conformal quantile",
                        "EER": "EER (\\%) on the same trials", "realized FPR": "Realized FPR (\\%) per policy",
                        "competitor FNR": "Mean FNR (\\%) of the two labeled competitors"}

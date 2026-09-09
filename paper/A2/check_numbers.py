@@ -486,7 +486,9 @@ check("C5 degeneracy level (Table 1 caption)", "\\caption{Upper block:",
       f"C5 reaches its FPR only at FNR ${{\\approx}}{c5*100:.0f}\\%", c5, "results_cmethods.json C5_asnorm min fnr")
 check("the lower block is described", "\\caption{Upper block:",
       "Lower block: mean realized FPR of each policy of \\S\\ref{sec:method} for SSL-AASIST at the same $N$ and $B$ "
-      "from separate runs (naive transfer and C1/C2/C5 are deterministic)")
+      "from separate runs, with mean FNR for the two labeled competitors (naive transfer and C1/C2/C5 are deterministic)")
+check("caption defines italics as overlap-dominated with no usable operating point", "\\caption{Upper block:",
+      "Italics: overlap-dominated cells (oracle FNR ${>}50\\%$, no usable operating point).")
 check("the release URL states the C5 embedding gap", "\\caption{Upper block:",
       "C5 transformed scores and cohort IDs are included; embeddings are omitted")
 _c5files = [E102 / "scores" / f"c5_{m}_{c}.csv.gz" for m in ("ssl", "aasist") for c in E2_CORPORA] + \
@@ -953,6 +955,7 @@ RETIRED = [
     (r"C5 AS-norm &|C5 is AS-norm over the 100 nearest", "the C5 row/sentence under its old name"),
     (r"our scores agree at per-trial", "the unnamed agreement statistic"),
     (r"C5 also needs cohort embeddings, not included", "the pre-release C5 caveat"),
+    (r"where FPR control holds but no usable operating point exists", "the old italics definition"),
     (r"on the channels and corpora tested here|Of the 72 cells within our own|thresholds set on 1,000 cohorts|"
      r"Without target labels, an importance-weighted quantile|in the run shown, in cells where that reference misses at most 50",
      "abstract phrasings replaced in the fifth delta"),
