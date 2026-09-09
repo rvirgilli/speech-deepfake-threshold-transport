@@ -71,7 +71,10 @@ environment overrides: `A2_SCORES` (directory of the EXP-001 score tables, here
 `experiments/EXP-001-scoring-campaign/scores`), `A2_DATA` (ASVspoof 2021 keys and
 official XLS-R+SLS scores, `keys/{LA,DF}/CM/trial_metadata.txt` and
 `official-scores/xlsr-sls/`), `A2_EMB` (EXP-001 embedding arrays, needed only for C5
-and not included), `A2_A5_RAW` (ASVspoof 5 chunk dumps; the exported tables in
-`experiments/EXP-103-a5-replicate/artifacts/` carry the same scores) and
+and not included; `c_methods.py` skips C5 and still computes C1 and C2 when they are
+absent), `A2_A5_RAW` (ASVspoof 5 chunk dumps; when absent, `analyze.py` reads the
+exported tables in `experiments/EXP-103-a5-replicate/artifacts/`, which carry the same
+scores rounded to six decimals), `A2_A5_PROTO` (the ASVspoof 5 evaluation protocol
+`ASVspoof5.eval.track_1.tsv`, otherwise under `A2_DATA/asvspoof5`) and
 `A2_MANIFESTS` (EXP-001 manifests). Public keys and official scores are downloaded from
 asvspoof.org and the SLS authors' repository.

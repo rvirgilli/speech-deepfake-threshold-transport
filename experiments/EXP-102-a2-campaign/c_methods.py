@@ -120,29 +120,36 @@ def main():
     results = {}
     for model in ["ssl", "aasist"]:
         d_utts, d_s, d_bona = load("ssl" if model == "ssl" else "aasist", "asv19_dev")
-        d_emb = load_emb(model, "asv19_dev", d_utts)
+        # C5 is the only correction that needs embeddings; C1 and C2 run from the
+        # released score tables alone when the embedding arrays are absent.
+        with_c5 = (EMB / f"{model}_asv19_dev_emb.npy").exists()
 
         # Per-correction dev-side threshold (5% FPR on dev bona, corrected space).
         t_c1 = float(np.quantile((d_s[d_bona] - d_s.mean()) / d_s.std(), ALPHA))
         T_d, b_d = fit_temp_shift(d_s)
         t_c2 = float(np.quantile((d_s[d_bona] + b_d) / T_d, ALPHA))
-        sub = rng.choice(len(d_s), min(COHORT_SUB, len(d_s)), replace=False)
-        d_asn = asnorm(rng, d_s, d_emb, d_emb[sub], d_s[sub])
-        t_c5 = float(np.quantile(d_asn[d_bona], ALPHA))
+        if with_c5:
+            d_emb = load_emb(model, "asv19_dev", d_utts)
+            sub = rng.choice(len(d_s), min(COHORT_SUB, len(d_s)), replace=False)
+            d_asn = asnorm(rng, d_s, d_emb, d_emb[sub], d_s[sub])
+            t_c5 = float(np.quantile(d_asn[d_bona], ALPHA))
+        else:
+            print(f"{model}: embeddings not found under {EMB}; C5 skipped", flush=True)
 
         results[model] = {}
         for corpus in TARGETS:
             utts, s, bona = load(model, corpus)
-            emb = load_emb(model, corpus, utts)
             cell = {}
             s1 = (s - s.mean()) / s.std()
             cell["C1_znorm"] = dict(zip(("fpr", "fnr"), rates(t_c1, s1[bona], s1[~bona])))
             T_t, b_t = fit_temp_shift(s)
             s2 = (s + b_t) / T_t
             cell["C2_tempshift"] = dict(zip(("fpr", "fnr"), rates(t_c2, s2[bona], s2[~bona])))
-            sub = rng.choice(len(s), min(COHORT_SUB, len(s)), replace=False)
-            s5 = asnorm(rng, s, emb, emb[sub], s[sub])
-            cell["C5_asnorm"] = dict(zip(("fpr", "fnr"), rates(t_c5, s5[bona], s5[~bona])))
+            if with_c5:
+                emb = load_emb(model, corpus, utts)
+                sub = rng.choice(len(s), min(COHORT_SUB, len(s)), replace=False)
+                s5 = asnorm(rng, s, emb, emb[sub], s[sub])
+                cell["C5_asnorm"] = dict(zip(("fpr", "fnr"), rates(t_c5, s5[bona], s5[~bona])))
             results[model][corpus] = cell
             print(f"{model}/{corpus}: " + " ".join(
                 f"{k}: fpr={v['fpr']} fnr={v['fnr']}" for k, v in cell.items()), flush=True)

@@ -13,6 +13,7 @@ from pathlib import Path
 import numpy as np
 
 HERE = Path(__file__).parent
+SCORES = Path(os.environ.get("A2_SCORES", Path(__file__).resolve().parent.parent / "EXP-001-scoring-campaign/scores"))
 DATA = Path(os.environ.get("A2_DATA", Path.home() / "data/corpora/anti-spoofing"))
 OFF = DATA / "official-scores/xlsr-sls"
 ALPHA = 0.05
@@ -57,8 +58,7 @@ def main():
           f"(dev FPR {np.mean(dev_bona < t_naive):.4f}, FNR {np.mean(dev_spoof >= t_naive):.4f})",
           flush=True)
 
-    with gzip.open(Path.home() / "projects/academic/icassp2027/experiments/"
-                   "EXP-001-scoring-campaign/scores/ssl_itw.csv.gz", "rt") as f:
+    with gzip.open(SCORES / "ssl_itw.csv.gz", "rt") as f:
         itw_lab = {r["utt_id"]: r["label"] == "bonafide" for r in csv.DictReader(f)}
     corpora = {
         "asv21la": load_official(OFF / "scores_LA.txt", labels_21(DATA / "keys/LA/CM/trial_metadata.txt")),

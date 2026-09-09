@@ -161,3 +161,20 @@ from the twin-free arm with the estimators of `analyze.py`:
 
 Both are descriptive; the dependence unit is the ordered condition pair, and
 pairs sharing a destination are not independent.
+
+## Addendum, 2026-09-09 (audit round 5): the twin-free roster, stated exactly
+
+The released selector grouped bona-fide rows by the protocol's source field, which is
+`-` for every unprocessed recording, so all 35,149 unprocessed recordings formed one
+pseudo-source and the roster was described as "sources appearing under one condition".
+The population actually evaluated is: every unprocessed bona-fide recording (35,149)
+plus the processed versions of the 28,310 sources that appear under exactly one codec
+(80.5% of the 35,149 sources), 63,459 bona-fide trials; the 6,839 sources under all
+eleven codecs contribute only their unprocessed row to this arm and their processed
+rows to the crossed arm. `analyze.py` now implements that rule explicitly; the trial
+set per (condition, speaker half) cell is identical to the released one (checked
+utterance by utterance), so `results_a5.json` and every derived number are unchanged.
+Speaker halves remain disjoint, and a recording and its processed version fall in the
+same half. Rerunning `analyze.py` from the released CSV tables (scores rounded to six
+decimals) reproduces all 332 factor-of-two misses and every cell value within
+1.9e-4.

@@ -16,6 +16,7 @@ from pathlib import Path
 
 import numpy as np
 
+SCORES = Path(os.environ.get("A2_SCORES", Path(__file__).resolve().parent.parent / "EXP-001-scoring-campaign/scores"))
 DATA = Path(os.environ.get("A2_DATA", Path.home() / "data/corpora/anti-spoofing"))
 OFF = DATA / "official-scores/xlsr-sls"
 ALPHA = 0.05
@@ -34,8 +35,7 @@ def eval_labels_21(key_path, phase_col=7):
 
 
 def itw_labels():
-    with gzip.open(Path.home() / "projects/academic/icassp2027/experiments/"
-                   "EXP-001-scoring-campaign/scores/ssl_itw.csv.gz", "rt") as f:
+    with gzip.open(SCORES / "ssl_itw.csv.gz", "rt") as f:
         return {r["utt_id"]: r["label"] == "bonafide" for r in csv.DictReader(f)}
 
 

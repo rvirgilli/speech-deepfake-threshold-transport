@@ -262,12 +262,14 @@ check("the censored higher cells are counted and the rule stated", "Their spoof-
       len(above), "resolution_limited cells with price above the named cell")
 for site, anc in (("abstract", "In one AASIST example"),):
     check(f"flagship named ({site})", anc,
-          (f"In one {det.upper()} example, a threshold calibrated on a {CODEC_TEX[src]} transmission and "
-           f"deployed on the same recordings over {CODEC_TEX[dst]}") if site == "abstract"
+          (f"In one {det.upper()} example, thresholds set on {script_constant(E102 / 'drift_map.py', 'B'):,} cohorts of "
+           f"{script_constant(E102 / 'drift_map.py', 'N_CAL')} {CODEC_TEX[src]} bona-fide recordings and deployed on the same "
+           f"recordings over {CODEC_TEX[dst]} realize a mean") if site == "abstract"
           else f"{det.upper()} {CODEC_TEX[src]}$\\to${CODEC_TEX[dst]}",
           quotable[0], "results_drift.json")
     check(f"flagship missed-spoof rate ({site})", anc,
-          f"{_F['vanilla_fnr_mean']*100:.0f}\\% of spoofs",
+          (f"missing a mean \\textbf{{{_F['vanilla_fnr_mean']*100:.0f}\\% of spoofs" if site == "abstract"
+           else f"{_F['vanilla_fnr_mean']*100:.0f}\\% of spoofs"),
           f"{_F['vanilla_fnr_mean']:.4f}", "results_drift.json")
     check(f"flagship oracle rate ({site})", anc,
           f"against {_F['fnr_oracle']*100:.2f}\\%", f"{_F['fnr_oracle']:.4f}", "results_drift.json")
@@ -281,9 +283,6 @@ PSTN_ANCHOR = f"Every {det.upper()} cell calibrated on {CODEC_TEX[src]} pays at 
 check("every cell calibrated on the flagship source pays a floor price", PSTN_ANCHOR,
       f"pays at least $+{math.floor(min(v['fnr_price'] for v in pstn_cells.values()) * 100 + 1e-9)}$ points",
       min(v['fnr_price'] for v in pstn_cells.values()), "min fnr_price over the six cells")
-check("positive-cost cells pass the tolerance (forced by construction, then observed)", "\\textbf{Drift} is detector-conditioned",
-      "A positive spoof-side cost places the threshold below oracle and so inside the $\\pm$5\\,pp tolerance, which is why "
-      "the additive test cannot reveal it; empirically every such cell passes", chars=3600)
 assert all(v["vanilla_fpr_mean"] <= 2 * ALPHA for v in cells.values() if v["fnr_price"] > 0), "a positive-price cell is outside the tolerance"
 check("title hedges the failure mode", "\\title{", "TRANSPORTED ANTI-SPOOFING THRESHOLDS CAN FAIL CONSERVATIVELY: MISSED SPOOFS AT A FALSE-ALARM RATE BELOW TARGET}", chars=200)
 check("the same threshold's FNR on the calibration condition", PSTN_ANCHOR,
@@ -351,14 +350,14 @@ _skipped = (EXP / "EXP-001-scoring-campaign/skipped.txt").read_text().splitlines
 assert _undec == E2["aasist"]["asv21df_full"]["n_spoof"] and False or True
 assert {sum(1 for l in _skipped if "asv21df_full" in l and l.startswith(d)) for d in ("ssl", "aasist")} == {_undec}, _undec
 assert E2["aasist"]["asv21df_full"]["n_spoof"] == E2["ssl"]["asv21df_full"]["n_spoof"]
-WORDS = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 12: "twelve"}
+WORDS = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 11: "eleven", 12: "twelve"}
 # One evaluation population for every detector: the reproduction-scored E2 rows
 # and the official-score SLS rows must agree on the full-set bona-fide counts.
 _pop = {c: {E2[d][c]["n_bona"] for d in ("ssl", "aasist")} | {SLS[c]["n_bona"]} |
         {EER["cells"][f"{d}/{c}"]["n_bona"] for d in ("ssl", "aasist", "sls")} for c in ("asv21la", "asv21df_full")}
 assert all(len(v) == 1 for v in _pop.values()), _pop
 check("evaluation population is the full 21LA and 21DF sets for every detector",
-      "By contrast, 21DF is compression-only and untransmitted.",
+      "Every detector is evaluated on the full 21LA and 21DF sets",
       f"Every detector is evaluated on the full 21LA and 21DF sets ({_pop['asv21la'].pop():,} and "
       f"{_pop['asv21df_full'].pop():,} bona fide; {WORDS[_undec]} 21DF spoof files were undecodable for our two "
       "detectors and excluded)", _undec,
@@ -418,6 +417,13 @@ check("C-method protocol: source-quantile threshold applied to transformed targe
       "the 5\\% quantile of transformed source bona fide is taken, and that threshold is applied to transformed target scores",
       chars=2600)
 # The unpaired-means disclosure lives in Setup ("paired draws B, scoped to a run; Table 1 declared unpaired").
+_am = (EXP / "EXP-010-a2-matched-baseline/a2_matched.py").read_text()
+assert "tstar_z = (t_naive - mu_d) / sd_d" in _am and "cohort.mean() + cohort.std() * tstar_z" in _am \
+    and "t_naive = float(np.quantile(dev_bona, ALPHA))" in _am, "a2_matched.py z-norm no longer matches the printed formula"
+check("cohort z-norm formula matches a2_matched.py", "\\section{Threshold policies}",
+      "cohort z-norm sets $t=\\bar s_N+\\hat\\sigma_N\\,(t_{\\mathrm{src}}-\\mu_{\\mathrm{dev}})/\\sigma_{\\mathrm{dev}}$, "
+      "with $t_{\\mathrm{src}}$ the 5\\% quantile and $\\mu_{\\mathrm{dev}},\\sigma_{\\mathrm{dev}}$ the mean and "
+      "standard deviation of the source-development bona fide", None, "EXP-010 a2_matched.py", chars=3200)
 check("C4 is declared not evaluated", "\\section{Threshold policies}",
       "applying the frozen classifier head to transformed embeddings and is not evaluated", chars=3200)
 check("Gaussian quantile constant", "\\section{Threshold policies}",
@@ -473,8 +479,8 @@ check("the lower block is described", "\\caption{Upper block:",
       "Lower block: mean realized FPR of each policy of \\S\\ref{sec:method} for SSL-AASIST at the same $N$ and $B$ "
       "from separate runs (naive transfer and C1/C2/C5 are deterministic)")
 check("the release URL states the C5 embedding gap", "\\caption{Upper block:",
-      "Code, score tables and results (input roots via environment variables; C5 also needs the cohort embeddings, "
-      "not included): \\protect\\url{https://github.com/rvirgilli/speech-deepfake-threshold-transport")
+      "Score tables, code and results (C5 also needs cohort embeddings, not included): "
+      "\\protect\\url{https://github.com/rvirgilli/speech-deepfake-threshold-transport")
 check("Table 1 footnote states the BRSpeech SLS provenance", "\\label{tab:fnr}",
       "$^\\dagger$Official author-released scores for 21LA, 21DF and ITW; BRSpeech scored by us with the released checkpoint.",
       chars=1400)
@@ -490,7 +496,8 @@ zdev = [abs(M10[d][c]["500"]["znorm"]["fpr_mean"] - ALPHA) * 100 for d in ("ssl"
 beyond = [x for x in zdev if x > 2]
 sls_z = max(abs(SLS[c]["znorm"]["fpr_mean"] - ALPHA) * 100 for c in SLS_CORPORA)
 check("cohort z-norm miss range and cell count", "\\textbf{Matched-resource policy comparison.}",
-      f"({len(beyond)}/{len(zdev)} detector--corpus cells beyond $\\pm$2 pp, up to {sls_z:.1f} pp for XLS-R+SLS)",
+      f"Cohort z-norm does not target a target-domain FPR ({len(beyond)}/{len(zdev)} detector--corpus cells beyond "
+      f"$\\pm$2 pp, up to {sls_z:.1f} pp for XLS-R+SLS), a category difference rather than a direct contest",
       (beyond, sls_z),
       "EXP-010 results.json 500/znorm; results_sls_complete.json znorm")
 
@@ -541,7 +548,7 @@ assert all(drift[r][f"{d}/entropy"]["achieves_tpr80_fpr20"] is None
            for r in ("monitor_eval", "monitor_eval_PREREGISTERED") for d in ("ssl", "aasist")), "an entropy monitor has an operating point"
 check("abstract: heuristic label-free, W1 monitor defeated by prevalence, entropy monitor never meets the criterion",
       "An importance-weighted quantile without target labels does not reliably restore near-target FPR",
-      f"a mixture-distance drift monitor is defeated by attack-prevalence shifts, and an entropy monitor never flags drifted "
+      f"a mixture-distance drift monitor is defeated by attack-prevalence shifts, and no entropy-monitor cutoff flags drifted "
       f"cells at TPR${{\\ge}}{acc[0]}$ with FPR${{\\le}}{acc[1]}$", acc, "drift_map.py acceptance; results_drift.json entropy null under both readings")
 check("abstract opening is scoped to the tested channels and corpora", "A speech-deepfake detector's threshold",
       "often loses that operating point on the channels and corpora tested here")
@@ -595,12 +602,33 @@ check("abstract carries the pooled A5 count and denominator",
 check("abstract carries the pooled A5 rate",
       "The failure persists on ASVspoof~5", f"({round(100*_n_tf/_tot_tf)}\\%)",
       f"{_n_tf}/{_tot_tf}", "results_a5.json")
-check("A5 speaker count and twin-free share (declared; no artifact carries them)",
+# The twin-free roster, re-derived from the ASVspoof 5 protocol exactly as
+# EXP-103 analyze.py build() does (columns: 0 speaker, 3 condition, 5 source,
+# 8 label): every unprocessed bona-fide row plus the processed versions of
+# sources that appear under exactly one codec. Read from the data root the
+# scripts use; a missing protocol file is a failure, not a skip.
+_proto = Path(os.environ.get("A2_A5_PROTO", Path(os.environ.get("A2_DATA", Path.home() / "data/corpora/anti-spoofing"))
+                             / "asvspoof5/ASVspoof5.eval.track_1.tsv"))
+_prows = [l.split() for l in open(_proto)]
+_processed = {}
+for _r in _prows:
+    if _r[8] == "bonafide" and _r[5] != "-":
+        _processed.setdefault(_r[5], set()).add(_r[3])
+_one = {s for s, c in _processed.items() if len(c) == 1}
+_unproc = sum(1 for _r in _prows if _r[8] == "bonafide" and _r[5] == "-")
+_kept = sum(1 for _r in _prows if _r[8] == "bonafide" and _r[5] in _one)
+_spk = len({_r[0] for _r in _prows})
+_a5conds = {_r[3] for _r in _prows}
+assert _a5conds == conds and len(_one) == _kept, (len(_a5conds), len(_one), _kept)
+check("A5 roster: conditions and speakers", "\\textbf{Replication on recording-disjoint data.}",
+      f"The grid has {WORDS[len(conds) - 1]} codec conditions and the unprocessed source, with {_spk} speakers",
+      (len(conds), _spk), "ASVspoof5.eval.track_1.tsv via analyze.py build()")
+check("A5 roster: unprocessed rows, one-codec processed versions, share and total",
       "\\textbf{Replication on recording-disjoint data.}",
-      "737 speakers. It is restricted to the 80.5\\% of bona-fide sources appearing under one condition")
-check("A5 condition count", "\\textbf{Replication on recording-disjoint data.}",
-      f"The grid contains {len(conds) - 1} organizer-applied codecs plus the unprocessed source",
-      len(conds), "results_a5.json condition keys")
+      f"We keep all {_unproc:,} unprocessed bona-fide recordings and the {_kept:,} processed versions whose source has "
+      f"exactly one codec condition ({100 * len(_one) / len(_processed):.1f}\\% of sources), {_unproc + _kept:,} bona-fide "
+      "trials, split 50/50 by speaker so that a recording and its processed version fall in the same half",
+      (_unproc, _kept, len(_one), len(_processed)), "ASVspoof5.eval.track_1.tsv via analyze.py build()")
 assert "hidden excluded" in CORS["phases"], CORS["phases"]
 _cors_n = {d: sum(1 for v in c.values() if abs(v["log2_fpr_ratio"]) > SEV_BAR) for d, c in CORS["cells"].items()}
 assert set(_cors_n) == {"xlsr_sls", "xlsr_mamba", "xlsr_conformer"} and all(len(c) == 42 for c in CORS["cells"].values())
@@ -739,7 +767,8 @@ if any(v["permutation"]["null_exceedances"] != 0 for v in SPK["cells"].values())
     failures.append("speaker clustering: a cell no longer exceeds every permutation null")
 assert all(v["seed_sweep"]["mean_width_pp"] > v["permutation"]["null_median_pp"] for v in SPK["cells"].values())
 check("the abstract's 'every tested cell' is the six-cell claim", "The guarantee is marginal, not per deployment",
-      "speaker clustering widens it on every tested cell", None, "all six widths exceed their null")
+      f"speaker clustering widens the realized-FPR spread in all {WORDS[len(SPK['cells'])]} tested cells", len(SPK["cells"]),
+      "speaker_clustering.json cells; all widths exceed their null")
 
 # --- table and figure furniture -------------------------------------------------
 print("\ntable and figure furniture:")
@@ -756,6 +785,8 @@ check("Table 1 caption: per-condition 21LA EER ranges", "\\caption{Upper block:"
 check("Table 1 caption resolves to the release", "\\caption{Upper block:",
       "\\url{https://github.com/rvirgilli/speech-deepfake-threshold-transport")
 check("Table 1 EER block header", "\\label{tab:fnr}", "\\emph{EER (\\%) on the same trials}")
+check("Table 1 realized-FPR block header", "\\label{tab:fnr}",
+      "\\emph{Realized FPR (\\%) at the conformal quantile, same run}")
 
 # --- SCOPE WORDS AND DISQUALIFICATIONS -----------------------------------------
 # Every item below is something a previous round RESTORED after it had silently
@@ -812,6 +843,8 @@ PRESENCE = [
     ("the bona-fide resource-shift neighbour is cited", r"under bona-fide resource shifts \\cite\{pham26\}"),
     ("the DCF/tandem scope is stated and the 5% target justified",
      r"tandem evaluation uses t-DCF \\cite\{tdcf\}; we report EER and both class-conditional errors at a prescribed 5\\% bona-fide rejection target"),
+    ("the three positioned neighbours (drift monitoring, entropy reliability, Beta under dependence) are cited",
+     r"Wang et al\.\\ \\cite\{driftmon26\} monitor spoof-conditioned embedding distributions.{0,140}Pascu et al\.\\ \\cite\{pascu24\}.{0,120}Ramos et al\.\\ \\cite\{ramos26\} analyse the calibration-conditional Beta law under dependence"),
     ("the speaker-sensitivity and two-class-calibration neighbours are cited",
      r"label-free speaker sensitivity \\cite\{darross26\}, and calibration from labeled examples of both classes \\cite\{negroni26\}"),
     ("the speaker-unit failure is disclosed",
@@ -878,6 +911,10 @@ RETIRED = [
     (r"\\caption\{Drift map", "the old drift-map caption (figure is now the joint FPR/cost scatter)"),
     (r"AASIST pays the larger spoof-side cost", "the detector-comparison sentence (cut)"),
     (r"with a measurable spoof side", "the vague usable-pair description (now the oracle-FNR rule)"),
+    (r"80\.5\\% of bona-fide sources appearing under one condition|11 organizer-applied codecs", "the old A5 roster wording"),
+    (r"widens it on every tested cell|an entropy monitor never flags", "abstract clauses replaced in the closure delta"),
+    (r"By contrast, 21DF is compression-only", "the 21DF aside (cut)"),
+    (r"\\textbf\{Operational implications\.\}", "the prescription sentence (cut)"),
     (r"follow the codec change, not the speaker split", "the over-read of the same-condition control"),
     (r"displayed rows are unpaired means", "the section-3 pairing sentence (moved to Setup)"),
     (r"under seven 21LA channel conditions, so", "the long dependence-unit wording (shortened)"),
@@ -904,7 +941,7 @@ RETIRED = [
     (r"TPR 0\.89|FPR 0\.16|Spearman 0\.70", "the in-sample monitor operating point (cut; the pass is stated, not its numbers)"),
     (r"covers the eight cells", "the sweep-coverage sentence (cut)"),
     (r"We treat unlabeled drift monitoring as open", "the open-problem sentence (cut for space)"),
-    (r"\\cite\{[^}]*\b(leroux25|rtcfake26|leong26|mcp25|falsesafety26|cdts26|bashari25|brummer06|barber23|radar26|schaefer26reality|tong20|pascu24|driftmon26)\b",
+    (r"\\cite\{[^}]*\b(leroux25|rtcfake26|leong26|mcp25|falsesafety26|cdts26|bashari25|brummer06|barber23|radar26|schaefer26reality|tong20|firc26)\b",
      "a citation dropped on 2026-09-09 for the page budget"),
     (r"7--8\\,pp|0\.6--1\.4\\,pp", "the ITW budget-sweep offsets (sentence cut)"),
     (r"17--93 pp|3--95 pp|0\.68 pp on ITW|2--18 pp", "prose ranges now carried by Table 1's policy block"),

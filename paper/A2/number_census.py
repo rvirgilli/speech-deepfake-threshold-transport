@@ -63,6 +63,18 @@ M10 = json.load(open(EXP / "EXP-010-a2-matched-baseline/results.json"))
 A5 = json.load(open(EXP / "EXP-103-a5-replicate/artifacts/results_a5.json"))
 PRE = json.load(open(EXP / "EXP-103-a5-replicate/artifacts/precheck.json"))
 A5EER = json.load(open(EXP / "EXP-103-a5-replicate/artifacts/a5_eer.json"))
+_proto = Path(os.environ.get("A2_A5_PROTO", Path(os.environ.get("A2_DATA", Path.home() / "data/corpora/anti-spoofing"))
+                             / "asvspoof5/ASVspoof5.eval.track_1.tsv"))
+_prows = [l.split() for l in open(_proto)]
+_processed = {}
+for _r in _prows:
+    if _r[8] == "bonafide" and _r[5] != "-":
+        _processed.setdefault(_r[5], set()).add(_r[3])
+_one = {s for s, c in _processed.items() if len(c) == 1}
+A5_UNPROC = sum(1 for _r in _prows if _r[8] == "bonafide" and _r[5] == "-")
+A5_KEPT = sum(1 for _r in _prows if _r[8] == "bonafide" and _r[5] in _one)
+A5_SHARE = 100 * len(_one) / len(_processed)
+A5_SPK = len({_r[0] for _r in _prows})
 A5DIAG = json.load(open(EXP / "EXP-103-a5-replicate/artifacts/a5_diagonal.json"))
 DRIFT_MAP = (E102 / "drift_map.py").read_text()
 CORS = json.load(open(EXP / "EXP-109-a2-cors-transport/results_cellA.json"))
@@ -214,18 +226,24 @@ POLICY_ROWS = {
     "Gaussian q.": tuple((f"{PAR['ssl'][c]['500']['parametric']['fpr_mean']*100:.1f}",) for c in E2_CORPORA),
     "Conformal q.": tuple((f"{E2['ssl'][c]['quantile']['500']['fpr_mean']*100:.1f}",) for c in E2_CORPORA),
 }
+FPR_ROWS = {
+    "AASIST": tuple((f"{E2['aasist'][c]['quantile']['500']['fpr_mean']*100:.2f}",) for c in E2_CORPORA),
+    "SSL-AASIST": tuple((f"{E2['ssl'][c]['quantile']['500']['fpr_mean']*100:.2f}",) for c in E2_CORPORA),
+    "XLS-R+SLS$^\\dagger$": tuple((f"{SLS[c]['quantile']['fpr_mean']*100:.2f}",) for c in SLS_CORPORA),
+}
 EER_ROWS = {
     "AASIST": tuple((f"{EER['cells'][f'aasist/{c}']['eer']*100:.1f}",) for c in E2_CORPORA),
     "SSL-AASIST": tuple((f"{EER['cells'][f'ssl/{c}']['eer']*100:.1f}",) for c in E2_CORPORA),
     "XLS-R+SLS$^\\dagger$": tuple((f"{EER['cells'][f'sls/{c}']['eer']*100:.1f}",) for c in SLS_CORPORA),
 }
-TABLE1_BLOCKS = (("FNR", "delta"), ("EER",), ("realized FPR",))
+TABLE1_BLOCKS = (("FNR", "delta"), ("EER",), ("realized FPR",), ("quantile FPR",))
 # Every table line, in document order per row name: the detector rows appear
 # twice (FNR block, then EER block); each policy row once (lower block).
-TABLE1_LINES = {row: [(TABLE1_ROWS[row], TABLE1_BLOCKS[0]), (EER_ROWS[row], TABLE1_BLOCKS[1])] for row in TABLE1_ROWS}
+TABLE1_LINES = {row: [(TABLE1_ROWS[row], TABLE1_BLOCKS[0]), (FPR_ROWS[row], TABLE1_BLOCKS[3]),
+                      (EER_ROWS[row], TABLE1_BLOCKS[1])] for row in TABLE1_ROWS}
 TABLE1_LINES.update({row: [(cells_, TABLE1_BLOCKS[2])] for row, cells_ in POLICY_ROWS.items()})
 TABLE1 = {}
-for block, rows in ((TABLE1_ROWS, 0), (EER_ROWS, 1), (POLICY_ROWS, 2)):
+for block, rows in ((TABLE1_ROWS, 0), (EER_ROWS, 1), (POLICY_ROWS, 2), (FPR_ROWS, 3)):
     for row, cells_ in block.items():
         for column, values in zip(("21LA", "21DF", "ITW", "BRSpeech"), cells_):
             for value, quantity in zip(values, TABLE1_BLOCKS[rows]):
@@ -338,6 +356,11 @@ ARTIFACT_DERIVED = {
     f"{max(_naive_miss + _unlab):.0f}": "naive/unlabeled worst miss over SSL corpora (pp)",
     f"{max(abs(f-ALPHA)*100 for f in _par500.values()):.1f}": "Gaussian quantile worst miss at N=500 (pp)",
     f"{PRE['ssl']['n_bona']:,}": "A5 pilot recordings per class (precheck.json)",
+    f"{A5_UNPROC:,}": "A5 unprocessed bona-fide recordings (protocol via analyze.py build())",
+    f"{A5_KEPT:,}": "A5 processed versions of one-codec sources (protocol)",
+    f"{A5_UNPROC + A5_KEPT:,}": "A5 twin-free bona-fide trials (protocol)",
+    f"{A5_SHARE:.1f}": "A5 share of one-codec sources (%)",
+    str(A5_SPK): "A5 speakers (protocol)",
     f"{A5EER['ssl']['n_bona']:,}": "A5 deployment-half bona fide (a5_eer.json)",
     f"{A5EER['ssl']['n_spoof']:,}": "A5 deployment-half spoofs (a5_eer.json)",
     f"{A5EER['aasist']['eer']*100:.1f}": "A5 deployment-half pooled EER, AASIST (%)",
@@ -389,10 +412,10 @@ DECLARED_RAW = {
     "80": "twin-free share of sources (%)", "90": "percentile", "95": "confidence level",
     "97.5": "percentile", "2.5": "percentile", "100": "N endpoint, 100k",
     "500": "calibration cohort size N",
-    "737": "A5 speakers", "994": "part of r=0.994", "0.994": "per-trial correlation with official scores",
+    "994": "part of r=0.994", "0.994": "per-trial correlation with official scores",
     "0.5": "beta-bound and overlap cutoff in prose", "0.8": "monitor acceptance TPR",
     "0.2": "monitor acceptance FPR", "0.1": "weight clip lower bound", "1.5": "sensitivity bar",
-    "0.0": "zero delta in Table 1", "80.5": "twin-free share of A5 bona-fide sources (%)",
+    "0.0": "zero delta in Table 1",
     "1000": "B=1000 paired calibration draws", "2019": "corpus year, ASVspoof 2019",
     "2021": "corpus year, ASVspoof 2021", "2027": "venue year", "66": "language count from cited LRLspoof work",
     "15": "histogram bins in the heuristic", "200": "B_WEIGHTED draws / permutations",
@@ -444,11 +467,12 @@ ARTIFACT_CONTEXT_RULES = (
     ("0", re.compile(r"collapses to 0\\% on BRSpeech"), "Gaussian quantile FPR on BRSpeech, results_parametric.json"),
     (str(B_WEIGHTED), re.compile(r"200 draws"), "B_WEIGHTED in drift_map.py"),
     (str(SPK["permutations"]), re.compile(r"200 permutations"), "speaker_clustering.json permutations"),
-    (str(N_CAL), re.compile(r"(?:the 500 cohort|at least 500 recordings|N\{=\}500)"),
+    (f"{script_constant(E102 / 'drift_map.py', 'B'):,}", re.compile(r"1,000 cohorts of 500"), "B in drift_map.py (abstract flagship)"),
+    (str(N_CAL), re.compile(r"(?:the 500 cohort|at least 500 recordings|N\{=\}500|1,000 cohorts of 500)"),
      "N_CAL in drift_map.py"),
     (str(len(_beyond)), re.compile(r"6/8 cells beyond"), "EXP-010 z-norm cells beyond 2 pp"),
     ("8", re.compile(r"6/8 cells beyond"), "EXP-010 z-norm cells at N=500"),
-    (str(len(A5_CONDS) - 1), re.compile(r"11 organizer-applied codecs"), "A5 conditions minus the source"),
+    (str(len(A5_CONDS) - 1), re.compile(r"eleven codec conditions"), "A5 conditions minus the source"),
     ("0.5", re.compile(r"odds by 0\.5 and 1\.5"), "prevalence factor, drift_map.py"),
     ("1.5", re.compile(r"odds by 0\.5 and 1\.5"), "prevalence factor, drift_map.py"),
     ("50", re.compile(r"50 Newton steps"), "C2 Newton steps, c_methods.py"),

@@ -52,11 +52,11 @@ def main():
             fpr_n, fnr_n = rates(t_naive, bona, spoof)
             cell = {
                 "n_bona": len(bona), "n_spoof": len(spoof),
-                "naive_transfer": {"fpr": round(fpr_n, 4), "fnr": round(fnr_n, 4)},
-                "oracle": {"threshold": t_oracle, "fnr": round(fnr_o, 4)},
+                "naive_transfer": {"fpr": float(fpr_n), "fnr": float(fnr_n)},
+                "oracle": {"threshold": t_oracle, "fnr": float(fnr_o)},
                 # The same bona-fide scores define and read back t_oracle. This
                 # records the quantile/tie convention; it is not evidence.
-                "same_sample_quantile_identity": round(fpr_o, 4),
+                "same_sample_quantile_identity": float(fpr_o),
                 "quantile": {},
             }
             for N in NS:
@@ -76,13 +76,13 @@ def main():
                     fprs.append(np.mean(bona[mask] < t))
                     fnrs.append(np.mean(spoof >= t))
                 cell["quantile"][N] = {
-                    "fpr_mean": round(float(np.mean(fprs)), 4),
-                    "fpr_ci": [round(float(np.percentile(fprs, 2.5)), 4),
-                               round(float(np.percentile(fprs, 97.5)), 4)],
-                    "fnr_mean": round(float(np.mean(fnrs)), 4),
-                    "fnr_ci": [round(float(np.percentile(fnrs, 2.5)), 4),
-                               round(float(np.percentile(fnrs, 97.5)), 4)],
-                    "fnr_minus_oracle_pts": round(100 * (float(np.mean(fnrs)) - fnr_o), 2),
+                    "fpr_mean": float(np.mean(fprs)),
+                    "fpr_ci": [float(np.percentile(fprs, 2.5)),
+                               float(np.percentile(fprs, 97.5))],
+                    "fnr_mean": float(np.mean(fnrs)),
+                    "fnr_ci": [float(np.percentile(fnrs, 2.5)),
+                               float(np.percentile(fnrs, 97.5))],
+                    "fnr_minus_oracle_pts": 100 * (float(np.mean(fnrs)) - fnr_o),
                 }
             results[model][corpus] = cell
             q = cell["quantile"].get(500)
