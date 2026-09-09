@@ -5,7 +5,7 @@ Pre-registered **2026-08-21**, before any new scoring. Protocol:
 [../../docs/a2-extension-campaign-20260820.md](../../docs/a2-extension-campaign-20260820.md).
 
 **No score is computed until this file is frozen and hashed.** Nothing here selects a
-headline; the headline is chosen after the evidence exists (CLAUDE.md rule 4).
+headline; the headline is chosen after the evidence exists (repository rule 4, docs/methodology.md).
 
 ## Phase-0 finding that changed the design
 

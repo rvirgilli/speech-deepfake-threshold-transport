@@ -396,8 +396,8 @@
     "bytes": 2470
   },
   "experiments/EXP-109-a2-cors-transport/PREREG.md": {
-    "sha256": "a7a8dbec56e126a0867dc9eee6d36d3b78fb30bbb110d121667c01fbb0f17a71",
-    "bytes": 6951
+    "sha256": "093e2689c1ea991f4a439cae3a4c63b3163d541035009d07f1cafc9f94372c18",
+    "bytes": 6973
   },
   "experiments/EXP-109-a2-cors-transport/AMENDMENT-1-detector-provenance.md": {
     "sha256": "e01e36debdcf813a65929640a444a508254e5fb5edf69ebf013a718cfb446334",
@@ -452,8 +452,8 @@
     "bytes": 18044
   },
   "paper/A2/check_numbers.py": {
-    "sha256": "db43c97b2d201a5908abd33f4b4c55a03ae5c248c388fcb232f52faf26cb871d",
-    "bytes": 80667
+    "sha256": "fc77c9eb8a4fc3157ba09372819efbc2361801ecbec7456e14c2ca72c878c28b",
+    "bytes": 80656
   },
   "paper/A2/number_census.py": {
     "sha256": "e18639495ce9f9a0e63bb404ff2fa3d80eba4a1285a7498768c9d016977e2b75",

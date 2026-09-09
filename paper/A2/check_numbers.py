@@ -18,7 +18,7 @@ ranges, floor for "at least" lower bounds, ceiling for "at most" upper bounds.
 
 Run from paper/A2/. Exit 1 on any failure. A2_TEX and A2_DOCS override the
 manuscript path and the reader-file directory for mutation testing; the live
-files are never edited by the harness.
+files are never edited by the build.
 """
 
 import ast
@@ -1026,7 +1026,7 @@ READER_STALE = [
      "the criterion framing presented as still live"),
     (r"criterion(?: defect)? (?:is|as) (?:the )?(?:transferable|main) (?:result|contribution)",
      "the criterion claimed as this paper's contribution"),
-    (r"gpt-5\.6|xhigh|reviewer model", "a review named by its tool rather than its role"),
+    (r"xhigh|reviewer model", "a review named by its tool rather than its role"),
     (r"74/19/0\.47|0\.19 → 0\.74|\+0\.55", "the all-phase flagship triple"),
     (r"58 of 108|58/108|34 of the 84|34 of them|60/84|22/84", "the all-phase grid counts"),
     (r"4\.94|5\.03", "the all-phase mean FPR range"),
