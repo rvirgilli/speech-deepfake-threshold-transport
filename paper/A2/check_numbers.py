@@ -275,8 +275,11 @@ PSTN_ANCHOR = f"Every {det.upper()} cell calibrated on {CODEC_TEX[src]} pays at 
 check("every cell calibrated on the flagship source pays a floor price", PSTN_ANCHOR,
       f"pays at least $+{math.floor(min(v['fnr_price'] for v in pstn_cells.values()) * 100 + 1e-9)}$ points",
       min(v['fnr_price'] for v in pstn_cells.values()), "min fnr_price over the six cells")
-check("positive-cost cells pass the tolerance (identity stated as empirical)", "\\textbf{Drift} is detector-conditioned",
-      "every cell with positive spoof-side cost passes it, which is why the additive test cannot reveal this cost", chars=3600)
+check("positive-cost cells pass the tolerance (forced by construction, then observed)", "\\textbf{Drift} is detector-conditioned",
+      "A positive spoof-side cost places the threshold below oracle and so inside the $\\pm$5\\,pp tolerance, which is why "
+      "the additive test cannot reveal it; empirically every such cell passes", chars=3600)
+assert all(v["vanilla_fpr_mean"] <= 2 * ALPHA for v in cells.values() if v["fnr_price"] > 0), "a positive-price cell is outside the tolerance"
+check("title hedges the failure mode", "\\title{", "TRANSPORTED ANTI-SPOOFING THRESHOLDS CAN FAIL CONSERVATIVELY: MISSED SPOOFS AT A FALSE-ALARM RATE BELOW TARGET}", chars=200)
 check("the same threshold's FNR on the calibration condition", PSTN_ANCHOR,
       f"the same threshold misses {_F['cal_fnr_at_threshold']*100:.0f}\\% of {CODEC_TEX[src]} spoofs",
       _F["cal_fnr_at_threshold"], "cal_fnr_at_threshold")
@@ -464,8 +467,8 @@ check("the lower block is described", "\\caption{Upper block:",
       "Lower block: mean realized FPR of each policy of \\S\\ref{sec:method} for SSL-AASIST at the same $N$ and $B$ "
       "from separate runs (naive transfer and C1/C2/C5 are deterministic)")
 check("the release URL states the C5 embedding gap", "\\caption{Upper block:",
-      "Code, score tables and results (recomputing C5 additionally needs the cohort embeddings, not included): "
-      "\\protect\\url{https://github.com/rvirgilli/speech-deepfake-threshold-transport")
+      "Code, score tables and results (input roots via environment variables; C5 also needs the cohort embeddings, "
+      "not included): \\protect\\url{https://github.com/rvirgilli/speech-deepfake-threshold-transport")
 check("Table 1 footnote states the BRSpeech SLS provenance", "\\label{tab:fnr}",
       "$^\\dagger$Official author-released scores for 21LA, 21DF and ITW; BRSpeech scored by us with the released checkpoint.",
       chars=1400)
@@ -528,9 +531,12 @@ _eclip = re.search(r"p = np\.clip\(p, (1e-\d+), 1 - 1e-\d+\)", dm).group(1)
 check("entropy monitor clip constant", MON,
       f"$p_i=\\mathrm{{clip}}(\\sigma((s_i-\\mu)/\\varsigma),10^{{{int(_eclip.split('e')[1])}}},1-10^{{{int(_eclip.split('e')[1])}}})$",
       _eclip, "drift_map.py entropy clip")
-check("abstract names the heuristic as label-free and both monitors as failing",
+assert all(drift[r][f"{d}/entropy"]["achieves_tpr80_fpr20"] is None
+           for r in ("monitor_eval", "monitor_eval_PREREGISTERED") for d in ("ssl", "aasist")), "an entropy monitor has an operating point"
+check("abstract: heuristic label-free, W1 monitor defeated by prevalence, entropy monitor never meets the criterion",
       "An importance-weighted quantile without target labels does not reliably restore near-target FPR",
-      "and two unlabeled drift monitors fail their tests")
+      f"a mixture-distance drift monitor is defeated by attack-prevalence shifts, and an entropy monitor never flags drifted "
+      f"cells at TPR${{\\ge}}{acc[0]}$ with FPR${{\\le}}{acc[1]}$", acc, "drift_map.py acceptance; results_drift.json entropy null under both readings")
 check("abstract opening is scoped to the tested channels and corpora", "A speech-deepfake detector's threshold",
       "often loses that operating point on the channels and corpora tested here")
 pre = drift["monitor_eval_PREREGISTERED"]
@@ -836,6 +842,8 @@ RETIRED = [
     (r"-0\.65|-0\.07", "the weight-localisation correlations (cut)"),
     (r"54/108|54\\slash108", "the weight-localisation cell count (cut)"),
     (r"quadrupl", "the fold-ratio title, which one cell cannot support"),
+    (r"THRESHOLDS FAIL CONSERVATIVELY:", "the unhedged title (now 'CAN FAIL')"),
+    (r"two unlabeled drift monitors fail their tests", "the abstract's unspecific monitor clause"),
     (r"(?i)manifest-bound", "release wording superseded by the URL in the Table 1 caption"),
     (r"pre-registered", "the text now says pre-specified"),
     (r"viability gate", "the text now says cutoff"),

@@ -23,13 +23,14 @@ import glob
 import hashlib
 import json
 from collections import defaultdict
+import os
 from pathlib import Path
 
 import numpy as np
 
 A5 = Path.home() / "data/corpora/anti-spoofing/asvspoof5"
 PROTO = A5 / "ASVspoof5.eval.track_1.tsv"
-RAW = Path.home() / "icassp-runs/EXP-103-a5-replicate/raw"
+RAW = Path(os.environ.get("A2_A5_RAW", Path.home() / "icassp-runs/EXP-103-a5-replicate/raw"))
 OUT = Path(__file__).parent / "artifacts"
 ALPHA = 0.05
 N_CAL = 500

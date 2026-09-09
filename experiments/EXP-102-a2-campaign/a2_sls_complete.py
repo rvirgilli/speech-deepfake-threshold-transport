@@ -5,6 +5,7 @@ official releases (21LA, 21DF full, ITW).
 """
 
 import csv
+import os
 import gzip
 import json
 from pathlib import Path
@@ -12,7 +13,7 @@ from pathlib import Path
 import numpy as np
 
 HERE = Path(__file__).parent
-DATA = Path.home() / "data/corpora/anti-spoofing"
+DATA = Path(os.environ.get("A2_DATA", Path.home() / "data/corpora/anti-spoofing"))
 OFF = DATA / "official-scores/xlsr-sls"
 ALPHA = 0.05
 Z_ALPHA = 1.6448536269514722

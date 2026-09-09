@@ -18,7 +18,7 @@ from a2_sls_complete import labels_21, load_local, load_official, DATA, OFF
 HERE = Path(__file__).parent
 E001 = HERE.parent / "EXP-001-scoring-campaign/scores"
 import sys
-sys.path.insert(0, str(E001.parent / "code"))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "EXP-001-scoring-campaign/code"))
 from protocol import drop_hidden  # noqa: E402
 
 ALPHA, N, B, SEED = 0.05, 500, 1000, 20260813

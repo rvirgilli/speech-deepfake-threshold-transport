@@ -14,18 +14,19 @@ deferred (REPORT deviation); anchor reports it non-monotone but still failing.
 """
 
 import csv
+import os
 import gzip
 import json
 from pathlib import Path
 
 import numpy as np
 
-SCORES = Path.home() / "projects/academic/icassp2027/experiments/EXP-001-scoring-campaign/scores"
+SCORES = Path(os.environ.get("A2_SCORES", Path.home() / "projects/academic/icassp2027/experiments/EXP-001-scoring-campaign/scores"))
 import sys
-sys.path.insert(0, str(SCORES.parent / "code"))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "EXP-001-scoring-campaign/code"))
 from protocol import drop_hidden  # noqa: E402
 
-EMB = Path.home() / "exp-artifacts/icassp2027/EXP-001/emb"
+EMB = Path(os.environ.get("A2_EMB", Path.home() / "exp-artifacts/icassp2027/EXP-001/emb"))
 ALPHA = 0.05
 K_COHORT = 100
 COHORT_SUB = 5000

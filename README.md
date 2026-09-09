@@ -63,3 +63,15 @@ and untransmitted.
 Code is MIT (`LICENSE`). Score tables are derived from ASVspoof 2019, ASVspoof
 2021, ASVspoof 5, In-the-Wild and BRSpeech-DF and keep those datasets' terms; no
 audio, model weights or third-party code is redistributed.
+
+## Running the analysis code elsewhere
+
+Every script resolves its inputs from the authors' layout by default and accepts
+environment overrides: `A2_SCORES` (directory of the EXP-001 score tables, here
+`experiments/EXP-001-scoring-campaign/scores`), `A2_DATA` (ASVspoof 2021 keys and
+official XLS-R+SLS scores, `keys/{LA,DF}/CM/trial_metadata.txt` and
+`official-scores/xlsr-sls/`), `A2_EMB` (EXP-001 embedding arrays, needed only for C5
+and not included), `A2_A5_RAW` (ASVspoof 5 chunk dumps; the exported tables in
+`experiments/EXP-103-a5-replicate/artifacts/` carry the same scores) and
+`A2_MANIFESTS` (EXP-001 manifests). Public keys and official scores are downloaded from
+asvspoof.org and the SLS authors' repository.

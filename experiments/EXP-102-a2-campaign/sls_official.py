@@ -9,13 +9,14 @@ complete, not pending: `a2_sls_complete.py` is the current implementation and
 """
 
 import csv
+import os
 import gzip
 import json
 from pathlib import Path
 
 import numpy as np
 
-DATA = Path.home() / "data/corpora/anti-spoofing"
+DATA = Path(os.environ.get("A2_DATA", Path.home() / "data/corpora/anti-spoofing"))
 OFF = DATA / "official-scores/xlsr-sls"
 ALPHA = 0.05
 NS = [100, 500]

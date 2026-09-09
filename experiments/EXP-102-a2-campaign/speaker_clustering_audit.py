@@ -14,6 +14,7 @@ No model inference is performed and spoof scores are never used.
 from __future__ import annotations
 
 import csv
+import os
 import gzip
 import hashlib
 import json
@@ -26,10 +27,10 @@ import numpy as np
 HERE = Path(__file__).resolve().parent
 SCORES = HERE.parent / "EXP-001-scoring-campaign" / "scores"
 import sys
-sys.path.insert(0, str(SCORES.parent / "code"))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "EXP-001-scoring-campaign/code"))
 from protocol import drop_hidden  # noqa: E402
 
-KEY = Path.home() / "data/corpora/anti-spoofing/keys/LA/CM/trial_metadata.txt"
+KEY = Path(os.environ.get("A2_DATA", Path.home() / "data/corpora/anti-spoofing")) / "keys/LA/CM/trial_metadata.txt"
 OUT = HERE / "artifacts" / "speaker_clustering.json"
 
 ALPHA = 0.05

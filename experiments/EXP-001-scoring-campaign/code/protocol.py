@@ -10,9 +10,10 @@ holds the same 2,356 bona-fide recordings of the same 67 speakers, the twin
 structure the drift map relies on.
 """
 
+import os
 from pathlib import Path
 
-DATA = Path.home() / "data/corpora/anti-spoofing"
+DATA = Path(os.environ.get("A2_DATA", Path.home() / "data/corpora/anti-spoofing"))
 KEYS = (DATA / "keys/LA/CM/trial_metadata.txt", DATA / "keys/DF/CM/trial_metadata.txt")
 EXCLUDED_PHASES = ("hidden",)
 PHASE_COL = 7

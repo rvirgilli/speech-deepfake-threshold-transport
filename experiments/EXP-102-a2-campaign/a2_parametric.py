@@ -6,15 +6,16 @@ distribution-freeness from the renormalization-vs-threshold confound.
 """
 
 import csv
+import os
 import gzip
 import json
 from pathlib import Path
 
 import numpy as np
 
-SCORES = Path.home() / "projects/academic/icassp2027/experiments/EXP-001-scoring-campaign/scores"
+SCORES = Path(os.environ.get("A2_SCORES", Path.home() / "projects/academic/icassp2027/experiments/EXP-001-scoring-campaign/scores"))
 import sys
-sys.path.insert(0, str(SCORES.parent / "code"))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "EXP-001-scoring-campaign/code"))
 from protocol import drop_hidden  # noqa: E402
 
 ALPHA = 0.05

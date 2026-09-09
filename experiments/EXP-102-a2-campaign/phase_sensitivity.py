@@ -7,6 +7,7 @@ is the protocol of every reported result (EXP-001/code/protocol.py).
 """
 
 import json
+import os
 from pathlib import Path
 
 import numpy as np
@@ -14,7 +15,7 @@ import numpy as np
 import drift_map as dm
 
 HERE = Path(__file__).parent
-KEYS = Path.home() / "data/corpora/anti-spoofing/keys"
+KEYS = Path(os.environ.get("A2_DATA", Path.home() / "data/corpora/anti-spoofing")) / "keys"
 PHASE = {}
 for track in ("LA", "DF"):
     for line in (KEYS / f"{track}/CM/trial_metadata.txt").read_text().splitlines():

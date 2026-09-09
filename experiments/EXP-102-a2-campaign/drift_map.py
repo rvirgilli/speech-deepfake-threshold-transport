@@ -26,18 +26,19 @@ Drift cell = (system, calibration slice, deployment slice). Within-corpus axis:
 """
 
 import csv
+import os
 import gzip
 import json
 from pathlib import Path
 
 import numpy as np
 
-EXP001 = Path.home() / "projects/academic/icassp2027/experiments/EXP-001-scoring-campaign/scores"
+EXP001 = Path(os.environ.get("A2_SCORES", Path.home() / "projects/academic/icassp2027/experiments/EXP-001-scoring-campaign/scores"))
 import sys
-sys.path.insert(0, str(EXP001.parent / "code"))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "EXP-001-scoring-campaign/code"))
 from protocol import drop_hidden  # noqa: E402
 
-LA_KEY = Path.home() / "data/corpora/anti-spoofing/keys/LA/CM/trial_metadata.txt"
+LA_KEY = Path(os.environ.get("A2_DATA", Path.home() / "data/corpora/anti-spoofing")) / "keys/LA/CM/trial_metadata.txt"
 ALPHA = 0.05
 N_CAL = 500
 B = 1000

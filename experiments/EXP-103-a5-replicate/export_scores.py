@@ -8,13 +8,14 @@ the EXP-001 asv5_eval manifest. No audio or embeddings are written.
 import csv
 import glob
 import gzip
+import os
 from pathlib import Path
 
 import numpy as np
 
 HERE = Path(__file__).parent
-RAW = Path.home() / "icassp-runs/EXP-103-a5-replicate/raw"
-MANIFEST = Path("/home/rv/exp-artifacts/icassp2027/EXP-001/manifests/asv5_eval.csv")
+RAW = Path(os.environ.get("A2_A5_RAW", Path.home() / "icassp-runs/EXP-103-a5-replicate/raw"))
+MANIFEST = Path(os.environ.get("A2_MANIFESTS", "/home/rv/exp-artifacts/icassp2027/EXP-001/manifests")) / "asv5_eval.csv"
 
 
 def main():
