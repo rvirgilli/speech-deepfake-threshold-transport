@@ -13,16 +13,16 @@
 | # | Cell | Fills | Method | Budget |
 |---|---|---|---|---|
 | 1 | XLS-R+SLS scoring: 19LA dev + 21LA + 21DF-100k + ITW + BRSpeech-DF, scores dumped to EXP-001 format | Tables 1–2 row 3 | gpu-queue chained job; EXP-001 harness + public checkpoint | ~2 GPU-h (EXP-001 anchor: 64 utt/s SSL lane, ~450k utts); skipped without penalty if checkpoint unobtainable → grid stays 2 systems, stated limitation |
-| 2 | Unlabeled C-methods: C1 z-norm, C4 CORAL, C5 AS-norm w/ unlabeled target cohort, on all (system, corpus) | Table 2 "unlabeled" row | reimplementation per arXiv 2606.21584 descriptions; CPU on existing scores | CPU <1 h (EXP-002 class); ~2 agent-h |
+| 2 | Unlabeled C-methods: C1 z-norm, C4 CORAL, C5 AS-norm w/ unlabeled target cohort, on all (system, corpus) | Table 2 "unlabeled" row | reimplementation per arXiv 2606.21584 descriptions; CPU on existing scores | CPU <1 h (EXP-002 class); ~2 h |
 | 3 | N-sweep: quantile + cohort z-norm, N ∈ {30, 100, 300, 1000, 3000, 10000}, B=1000, both FPR tightness and FNR gap, vs Beta-law prediction | Fig. 2 (cost-of-labels) | extends EXP-010 harness | CPU <1 h |
 | 4 | Contamination: 1/2/5% spoofs injected into calibration set, N ∈ {100, 500}, realized-FPR excursion | Fig. 2 panel | extends EXP-010 harness; cite Bashari et al. for theory, claim measurement only | CPU <1 h |
 | 5 | Drift map — within-corpus channel axis: calibrate on one 21LA channel/transmission condition's bona fide (N=500), deploy on each other condition; all 7×6 ordered pairs, both/3 systems | Fig. 1 | 21LA `keys/LA/CM/trial_metadata.txt` col-3 condition labels (historical field name: `codec`); six real transmissions plus untransmitted `none` | CPU ~1 h |
 | 6 | Drift map — cross-corpus bundle + language (n=1, flagged): calibrate on corpus A bona fide, deploy on corpus B, all ordered pairs of {21LA-nocodec, 21DF-100k, ITW, BRSpeech} | Fig. 1 | same harness | CPU <1 h |
-| 7 | Drift baselines in every drift cell: weighted conformal (Tibshirani 2019; weights from a label-free density-ratio estimate on scores) + adaptive conformal (Gibbs & Candès 2021, online on the deployment stream) | Fig. 1 / §5 | required by V2′ panel: the claim under breakage must be "label-free repairs don't restore control" | CPU ~2 h; ~3 agent-h |
+| 7 | Drift baselines in every drift cell: weighted conformal (Tibshirani 2019; weights from a label-free density-ratio estimate on scores) + adaptive conformal (Gibbs & Candès 2021, online on the deployment stream) | Fig. 1 / §5 | required by V2′ panel: the claim under breakage must be "label-free repairs don't restore control" | CPU ~2 h; ~3 h |
 | 8 | Excursion-vs-distance curve: realized-FPR excursion vs oracle W1 (calibration-vs-deployment bona-fide scores), fitted on 2 systems, **predicted on the held-out third** (transfer validation); reported R² | Fig. 1 | oracle diagnostic, labelled as such | CPU minutes |
 | 9 | Unlabeled monitoring statistics (co-primary): (a) W1 between deployment *mixture* score distribution and calibration-time reference mixture; (b) CDTS-style batch predictive-entropy. Success criterion per statistic: flags cells with excursion > 2 pp at TPR ≥ 0.8, FPR ≤ 0.2 across drift cells, AND Spearman(monitor, excursion) ≥ 0.6. Attack-prevalence confound probed by re-mixing spoof share ±50% in deployment stream | Fig. 1 / §5 | label-free by construction | CPU ~1 h |
 
-Total: ≤2 GPU-h (cell 1 only, skippable), ~6 h CPU, ~10 agent-h. **Contingency budget (≤20%):** α=1% target replication, extra N values, per-codec FNR table, monitor sensitivity sweeps — spent only on mock-review demands, never on new claims.
+Total: ≤2 GPU-h (cell 1 only, skippable), ~6 h CPU, ~10 h. **Contingency budget (≤20%):** α=1% target replication, extra N values, per-codec FNR table, monitor sensitivity sweeps — spent only on mock-review demands, never on new claims.
 
 ## Pre-registered decision tree (outcome regions → variant)
 
@@ -37,9 +37,9 @@ One reframe maximum (methodology Step 3); tree edits after results exist are pro
 
 ## Kill criteria (per protocol — campaign-level)
 - Quantile excursion > 2 pp at N=500 on ≥ 2 main-grid corpora (contradicting both pilots) → campaign halted, pilots re-audited before any writing continues.
-- Cell 1 checkpoint sanity: XLS-R+SLS must reproduce its published 21DF EER within 1.0 absolute pt, else its rows are dropped (sourcing rule), not debugged past 2 agent-h.
+- Cell 1 checkpoint sanity: XLS-R+SLS must reproduce its published 21DF EER within 1.0 absolute pt, else its rows are dropped (sourcing rule), not debugged past 2 h.
 
-- **Budget:** ≤2 GPU-h + ~6 h CPU + ~10 agent-h; wall-clock ≤3 days including writing integration. Anchors: EXP-001 (scoring throughput), EXP-002/EXP-010 (CPU cell class), EXP-009 (sim class).
+- **Budget:** ≤2 GPU-h + ~6 h CPU + ~10 h; wall-clock ≤3 days including writing integration. Anchors: EXP-001 (scoring throughput), EXP-002/EXP-010 (CPU cell class), EXP-009 (sim class).
 
 ## Addendum 2026-08-14 (spec-gate D1/D6)
 
