@@ -26,15 +26,13 @@ The source payload is build-complete: it includes the local `spconf.sty`,
 From the package root, `python3 verify_manifest.py` checks every packaged file's
 size and SHA-256 digest and refuses any file not bound by the manifest.
 
-The current scientific scope is deliberately narrower than the historical
-reports. The held-out R² point is descriptive; its former Fisher interval and
-p-value are invalid and retired, and its delete-one-A5 range is 0.45--0.64. The
-71% versus 50% A5 difference is confounded and is not attributed to
-disjointness. Exchangeability without ties gives the quantile's marginal rank
-validity; its conditional-FPR Beta law additionally requires iid continuous
-sampling from a fixed score distribution. Neither is a per-deployment
-guarantee. The speaker-clustering analysis is visibly post-hoc, and its 0.17
-value is a Monte Carlo SD rather than population uncertainty.
+The submitted manuscript reports 71% versus 68% twofold FPR misses (ASVspoof 5 against
+within-21LA); the difference is confounded by corpus, codecs and attacks and is not
+attributed to disjointness. The exploratory cost-map results in the historical EXP-103
+report are outside the submitted claims. Exchangeability without ties gives the
+quantile's marginal rank validity; its conditional-FPR Beta law additionally requires
+iid continuous sampling from a fixed score distribution. Neither is a per-deployment
+guarantee. The speaker-clustering analysis is post hoc.
 
 Per-utterance score tables for every detector--corpus pair are included under
 `experiments/EXP-001-scoring-campaign/scores/` and

@@ -5,12 +5,13 @@ pre-registered seed 20260813. All other corpora are complete.
 """
 
 import csv
+import os
 import random
 from pathlib import Path
 
-DATA = Path.home() / "data/corpora/anti-spoofing"
-CML = Path.home() / "data/corpora/speech-resources/BRSpeech_CML_TTS_v04012024"
-OUT = Path("/home/rv/exp-artifacts/icassp2027/EXP-001/manifests")
+DATA = Path(os.environ.get("A2_DATA", Path.home() / "data/corpora/anti-spoofing"))
+CML = Path(os.environ.get("A2_CML", Path.home() / "data/corpora/speech-resources/BRSpeech_CML_TTS_v04012024"))
+OUT = Path(os.environ.get("A2_MANIFESTS", Path.home() / "exp-artifacts/icassp2027/EXP-001/manifests"))
 SEED = 20260813
 
 

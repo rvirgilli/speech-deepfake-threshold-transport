@@ -165,8 +165,8 @@ check("total miss count and its sign split (abstract)", ABS,
 # missing by >2x, when only the ones inside the band are -- so every headline
 # count is bound to its scope, and the scoping words are part of the check.
 check("in-tolerance count and hidden count, scoped (abstract)", ABS,
-      f"Of the {len(in_tol)} cells within our own $\\pm5$-percentage-point FPR tolerance, "
-      f"{len(hidden)} fall below half the target",
+      f"The conservative misses are the quiet ones: {len(hidden)} of the {len(in_tol)} cells inside a $\\pm5$-point FPR "
+      "tolerance sit below half the target, so the tolerance reads clean while spoofs pass",
       f"{len(hidden)}/{len(in_tol)}; {n_conservative} conservative / {n_liberal} liberal",
       "results_drift.json")
 check("miss count and within-corpus share (experiments)", "Over the 108 cells",
@@ -260,11 +260,10 @@ check("the censored higher cells are counted and the rule stated", "Their spoof-
       f"{ {1: 'one', 2: 'two', 3: 'three'}[len(above)] } cells score marginally higher but "
       "their FPR rests on fewer than five expected false alarms, $\\mathrm{FPR}<5/n$",
       len(above), "resolution_limited cells with price above the named cell")
-for site, anc in (("abstract", "In one AASIST example"),):
+for site, anc in (("abstract", "In one AASIST case"),):
     check(f"flagship named ({site})", anc,
-          (f"In one {det.upper()} example, thresholds set on {script_constant(E102 / 'drift_map.py', 'B'):,} cohorts of "
-           f"{script_constant(E102 / 'drift_map.py', 'N_CAL')} {CODEC_TEX[src]} bona-fide recordings and deployed on the same "
-           f"recordings over {CODEC_TEX[dst]} realize a mean") if site == "abstract"
+          (f"In one {det.upper()} case, a threshold calibrated on {CODEC_TEX[src]} and deployed on the same "
+           f"recordings over {CODEC_TEX[dst]} gives a mean") if site == "abstract"
           else f"{det.upper()} {CODEC_TEX[src]}$\\to${CODEC_TEX[dst]}",
           quotable[0], "results_drift.json")
     check(f"flagship missed-spoof rate ({site})", anc,
@@ -371,14 +370,16 @@ _pk = ("miss_2x", "within_miss_2x", "in_band", "hidden_in_band")
 assert all(PHASE["eval_only"][k] == PHASE["eval+progress"][k] for k in _pk), \
     {k: (PHASE["eval_only"][k], PHASE["eval+progress"][k]) for k in _pk}
 assert (PHASE["eval+progress"]["miss_2x"], PHASE["eval+progress"]["hidden_in_band"]) == (n_miss, len(hidden))
-check("eval-only sensitivity is stated and holds", "The 2021 keys carry",
-      "restricting to the eval phase alone changes no count reported below",
+_fl = {r: PHASE[r]["flagship_aasist_pstn_g722"] for r in ("eval_only", "eval+progress")}
+assert _fl["eval_only"]["fpr"] != _fl["eval+progress"]["fpr"] and _fl["eval_only"]["fnr"] != _fl["eval+progress"]["fnr"], \
+    "eval-only and eval+progress agree on the flagship rates; 'individual rates change' would be false"
+assert PHASE["eval_only"]["n_cells"] == PHASE["eval+progress"]["n_cells"]
+check("eval-only sensitivity is stated and holds (totals equal, rates differ)", "The 2021 keys carry",
+      "restricting to the eval phase alone preserves every grid total below while trial counts and individual rates change",
       {k: PHASE["eval_only"][k] for k in _pk}, "results_phase_sensitivity.json eval_only == eval+progress",
       chars=1600)
 check("the hidden phase is described", "The 2021 keys carry",
       "the hidden phase removes non-speech by voice-activity detection")
-check("ASVspoof 5 is scoped out of the correction", "\\textbf{Setup.}",
-      "ASVspoof~5 has no hidden phase", chars=3000)
 _node = {(v["n_dep_bona"], v["n_dep_spoof"]) for k, v in drift["cross"].items() if k.endswith("->asv21la_nocodec")}
 assert _node == {(n_bona, n_spoof)}, _node
 check("the cross-corpus 21LA node is the untransmitted condition", "For cross-corpus transport the 21LA node",
@@ -439,10 +440,10 @@ fpr_lo, fpr_hi = min(e["fpr_mean"] for e in q), max(e["fpr_mean"] for e in q)
 # "at most" is an upper bound, so the printed premium is the ceiling of the max
 # over usable cells (oracle FNR <= 50%).
 premium = ceil_to(max(e["fnr_minus_oracle_pts"] for e, o in zip(q, oracles) if o <= 0.5), 1)
-check("mean realized FPR range (abstract)", "A target-channel bona-fide order statistic restores \\emph{marginal expected}",
-      f"mean realized FPR is {fpr_lo*100:.2f}--{fpr_hi*100:.2f}\\% over twelve detector--corpus "
-      f"cells, with mean false-negative rate (FNR) at most {premium:.1f} points above a threshold fitted on all deployment bona fide "
-      "in the run shown, in cells where that reference misses at most 50\\% of spoofs",
+check("mean realized FPR range and premium (abstract)", "Recalibrating on",
+      f"Recalibrating on {script_constant(E102 / 'drift_map.py', 'N_CAL')} target bona-fide recordings with an order statistic "
+      f"restores mean FPR to {fpr_lo*100:.2f}--{fpr_hi*100:.2f}\\% across twelve detector--corpus cells at a mean FNR cost of "
+      f"at most {premium:.1f} points in usable cells, but the guarantee is marginal, not per deployment",
       (fpr_lo, fpr_hi, premium), "EXP-002 results.json + results_sls_complete.json")
 check("mean realized FPR range (experiments)", "\\textbf{FPR control and FNR cost.}",
       f"mean realized FPR is {fpr_lo*100:.2f}--{fpr_hi*100:.2f}\\% across the {len(q)} "
@@ -494,11 +495,14 @@ check("Gaussian worst miss and BRSpeech collapse at N=500", "\\textbf{Matched-re
 zdev = [abs(M10[d][c]["500"]["znorm"]["fpr_mean"] - ALPHA) * 100 for d in ("ssl", "aasist")
         for c in E2_CORPORA]
 beyond = [x for x in zdev if x > 2]
-sls_z = max(abs(SLS[c]["znorm"]["fpr_mean"] - ALPHA) * 100 for c in SLS_CORPORA)
+sls_beyond_all = [abs(SLS[c]["znorm"]["fpr_mean"] - ALPHA) * 100 for c in SLS_CORPORA]
+sls_beyond = [x for x in sls_beyond_all if x > 2]
+sls_z = max(sls_beyond_all + zdev)
 check("cohort z-norm miss range and cell count", "\\textbf{Matched-resource policy comparison.}",
-      f"Cohort z-norm does not target a target-domain FPR ({len(beyond)}/{len(zdev)} detector--corpus cells beyond "
-      f"$\\pm$2 pp, up to {sls_z:.1f} pp for XLS-R+SLS), a category difference rather than a direct contest",
-      (beyond, sls_z),
+      f"Cohort z-norm does not target a target-domain FPR ({len(beyond)}/{len(zdev)} AASIST and SSL-AASIST cells, "
+      f"{len(beyond) + len(sls_beyond)}/{len(zdev) + len(sls_beyond_all)} including XLS-R+SLS, depart by more than 2 pp, "
+      f"the largest by {sls_z:.1f} pp), a category difference rather than a direct contest",
+      (beyond, sls_beyond, sls_z),
       "EXP-010 results.json 500/znorm; results_sls_complete.json znorm")
 
 # --- contamination and the label-free heuristic ---------------------------------
@@ -509,13 +513,17 @@ _below = sorted(v for v in _cont if v < ALPHA)
 assert len(_below) == 7 and len(_cont) == 8, f"contamination: {len(_below)}/{len(_cont)} below target"
 CONT = "A pre-specified contamination test"
 check("contamination: rate and cohort size", CONT,
-      f"replacing {round(c_rate * c_n)} of the {c_n} cohort recordings with spoofs",
+      f"on AASIST and SSL-AASIST across the four corpora, replacing {round(c_rate * c_n)} of the {c_n} cohort recordings with spoofs",
       (c_rate, c_n), "n_sweep.py CONTAM / CONTAM_NS")
 check("contamination: how many cells fall below target", CONT,
       f"on seven of eight cells ({_below[0]*100:.2f}--{_below[-1]*100:.2f}\\%)",
       f"{len(_below)}/{len(_cont)} below {ALPHA}", "results_nsweep.json")
-check("contamination: the cell above target is named as near-inert", CONT,
-      f"overlap-dominated cell stays at {max(_cont)*100:.2f}\\%", f"max {max(_cont)}", "results_nsweep.json")
+_cx = max(NSW["contamination"], key=lambda k: NSW["contamination"][k][f"N{c_n}_c{c_rate}"]["fpr_mean"])
+_CORP = {"asv21la": "21LA", "asv21df_full": "21DF", "itw": "ITW", "brspeech_test": "BRSpeech"}
+check("contamination: the cell above target is named", CONT,
+      f"{ {'ssl': 'SSL-AASIST', 'aasist': 'AASIST'}[_cx.split('/')[0]] } on {_CORP[_cx.split('/')[1]]}, an overlap-dominated cell, "
+      f"stays at {max(_cont)*100:.2f}\\%", _cx, "results_nsweep.json contamination argmax")
+assert E2[_cx.split("/")[0]][_cx.split("/")[1]]["oracle"]["fnr"] > 0.5, "the named contamination exception is not overlap-dominated"
 n_w = sum(1 for v in cells.values() if abs(v["weighted_fpr_mean"] - ALPHA) <= 0.02)
 n_u = sum(1 for v in cells.values() if abs(v["vanilla_fpr_mean"] - ALPHA) <= 0.02)
 check("heuristic contest, both counts", "\\textbf{Label-free heuristic.}",
@@ -546,12 +554,14 @@ check("entropy monitor clip constant", MON,
       _eclip, "drift_map.py entropy clip")
 assert all(drift[r][f"{d}/entropy"]["achieves_tpr80_fpr20"] is None
            for r in ("monitor_eval", "monitor_eval_PREREGISTERED") for d in ("ssl", "aasist")), "an entropy monitor has an operating point"
-check("abstract: heuristic label-free, W1 monitor defeated by prevalence, entropy monitor never meets the criterion",
-      "An importance-weighted quantile without target labels does not reliably restore near-target FPR",
-      f"a mixture-distance drift monitor is defeated by attack-prevalence shifts, and no entropy-monitor cutoff flags drifted "
-      f"cells at TPR${{\\ge}}{acc[0]}$ with FPR${{\\le}}{acc[1]}$", acc, "drift_map.py acceptance; results_drift.json entropy null under both readings")
-check("abstract opening is scoped to the tested channels and corpora", "A speech-deepfake detector's threshold",
-      "often loses that operating point on the channels and corpora tested here")
+check("abstract: label-free heuristic and both monitors reported as negatives",
+      "Label-free alternatives, an importance-weighted quantile and two drift monitors",
+      "neither restore nor reliably detect the loss of control", None,
+      "results_drift.json: no pre-specified operating point; W1 pass defeated by re-mix; entropy null under both readings")
+check("abstract opening hedges the failure", "A speech-deepfake detector's threshold",
+      "often loses that operating point on another")
+check("abstract closes on the reporting prescription", "Threshold transport can therefore fail quietly",
+      "fixed-threshold deployments should report both error rates, the calibration sampling unit and its dispersion")
 pre = drift["monitor_eval_PREREGISTERED"]
 cor = drift["monitor_eval"]
 assert all(v["achieves_tpr80_fpr20"] is None for v in pre.values()), "a pre-specified pass exists"
@@ -597,10 +607,7 @@ check("the grid it is contrasted against, at the SAME scope",
       f"compared with {n_within_miss} of {len(within)} within-21LA pairs ({round(100*n_within_miss/len(within))}\\%)",
       f"{n_within_miss}/{len(within)} pooled over both detectors", "results_drift.json")
 check("abstract carries the pooled A5 count and denominator",
-      "The failure persists on ASVspoof~5", f"{_n_tf} of {_tot_tf} ordered pairs",
-      f"{_n_tf}/{_tot_tf}", "results_a5.json")
-check("abstract carries the pooled A5 rate",
-      "The failure persists on ASVspoof~5", f"({round(100*_n_tf/_tot_tf)}\\%)",
+      "The failure persists on ASVspoof~5", f"with no shared recordings or speakers: {_n_tf} of {_tot_tf} pairs miss by more than $2\\times$",
       f"{_n_tf}/{_tot_tf}", "results_a5.json")
 # The twin-free roster, re-derived from the ASVspoof 5 protocol exactly as
 # EXP-103 analyze.py build() does (columns: 0 speaker, 3 condition, 5 source,
@@ -687,9 +694,12 @@ check("usable-pair spoof-side cost: median and count above 10 points (section 4)
       f"(Fig.~\\ref{{fig:drift}}, filled triangles)",
       (_med, _over10), "results_a5.json ssl/twin_free usable pairs; a5_usable_cost.json")
 check("usable-pair spoof-side cost (abstract)", "The failure persists on ASVspoof~5",
-      f"across two detectors, and on the {len(_usable)} SSL-AASIST pairs whose destinations keep oracle FNR at or below "
-      f"{round(_obar * 100)}\\% for every source, the transported threshold misses a median {_med:.1f} points more spoofs "
-      "than the deployment-calibrated one", (len(_usable), _obar, _med), "a5_usable_cost.json; analyze.py OVERLAP_BAR")
+      f", and on the {len(_usable)} usable SSL-AASIST pairs the transported threshold misses a median "
+      f"{_med:.1f} points more spoofs", (len(_usable), _med), "a5_usable_cost.json")
+if "keep oracle FNR at or below" in window("\\begin{abstract}", 3000):
+    failures.append("abstract restates the usable-destination rule; it belongs in section 4 and the Fig. 1 caption only")
+check("the usable-destination rule is stated in section 4", PILOT, f"exceed {round(_obar * 100)}\\% oracle FNR", _obar,
+      "analyze.py OVERLAP_BAR")
 def _diag(det):
     cs = A5DIAG[det]["cells"]
     fprs = [v["fpr"] for v in cs.values()]
@@ -766,7 +776,7 @@ check("speaker-permutation null range and count", SPK_ANCHOR,
 if any(v["permutation"]["null_exceedances"] != 0 for v in SPK["cells"].values()):
     failures.append("speaker clustering: a cell no longer exceeds every permutation null")
 assert all(v["seed_sweep"]["mean_width_pp"] > v["permutation"]["null_median_pp"] for v in SPK["cells"].values())
-check("the abstract's 'every tested cell' is the six-cell claim", "The guarantee is marginal, not per deployment",
+check("the abstract's six-cell speaker claim", "but the guarantee is marginal, not per deployment",
       f"speaker clustering widens the realized-FPR spread in all {WORDS[len(SPK['cells'])]} tested cells", len(SPK["cells"]),
       "speaker_clustering.json cells; all widths exceed their null")
 
@@ -798,14 +808,14 @@ SCOPE_CRITICAL = [
      "the spoof-side axis here rests on one detector"),
     ("the A5 rate contrast is not attributed to disjointness",
      "numerical rate difference is confounded by corpus, codecs and attacks"),
-    ("the finite-sample claim is marginal",
-     "\\emph{marginal expected} FPR control"),
+    ("the finite-sample claim is marginal (conclusion)",
+     "restores marginal expected control"),
     ("the additive band's blind spot is stated as arithmetic, not as a finding",
      "cannot distinguish a collapsed threshold from a controlled one"),
 ]
 print("\nscope words and disqualifications:")
-check("the realized-threshold limitation is explicit (abstract)", "The guarantee is marginal, not per deployment",
-      "its Beta dispersion law assumes iid sampling")
+check("the realized-threshold limitation is explicit (abstract)", "Recalibrating on",
+      "but the guarantee is marginal, not per deployment")
 check("exchangeability is scoped to marginal rank validity (section 1)", "We study the deployment behavior",
       "has marginal rank validity under exchangeability without ties, and under iid continuous sampling "
       "its conditional FPR follows an exact finite-sample Beta law")
@@ -843,6 +853,10 @@ PRESENCE = [
     ("the bona-fide resource-shift neighbour is cited", r"under bona-fide resource shifts \\cite\{pham26\}"),
     ("the DCF/tandem scope is stated and the 5% target justified",
      r"tandem evaluation uses t-DCF \\cite\{tdcf\}; we report EER and both class-conditional errors at a prescribed 5\\% bona-fide rejection target"),
+    ("demographic threshold calibration is cited as the class-conditional neighbour",
+     r"Demographic threshold calibration \\cite\{fursule26\} likewise separates class-conditional error changes from unchanged discrimination"),
+    ("EER is described as measured at an oracle threshold, not as an operating point",
+     r"report equal error rate \(EER\), measured at an oracle threshold selected with labels from both classes"),
     ("the three positioned neighbours (drift monitoring, entropy reliability, Beta under dependence) are cited",
      r"Wang et al\.\\ \\cite\{driftmon26\} monitor spoof-conditioned embedding distributions.{0,140}Pascu et al\.\\ \\cite\{pascu24\}.{0,120}Ramos et al\.\\ \\cite\{ramos26\} analyse the calibration-conditional Beta law under dependence"),
     ("the speaker-sensitivity and two-class-calibration neighbours are cited",
@@ -914,6 +928,13 @@ RETIRED = [
     (r"80\.5\\% of bona-fide sources appearing under one condition|11 organizer-applied codecs", "the old A5 roster wording"),
     (r"widens it on every tested cell|an entropy monitor never flags", "abstract clauses replaced in the closure delta"),
     (r"By contrast, 21DF is compression-only", "the 21DF aside (cut)"),
+    (r"the eighth, overlap-dominated cell stays", "the unnamed contamination exception"),
+    (r"up to 50\.8 pp for XLS-R\+SLS", "the old z-norm phrasing (now 10/12 cells, largest 50.8)"),
+    (r"changes no count reported below", "the over-strong eval-only claim (rates do change)"),
+    (r"EER, an oracle operating point", "the EER-as-operating-point phrasing"),
+    (r"on the channels and corpora tested here|Of the 72 cells within our own|thresholds set on 1,000 cohorts|"
+     r"Without target labels, an importance-weighted quantile|in the run shown, in cells where that reference misses at most 50",
+     "abstract phrasings replaced in the fifth delta"),
     (r"\\textbf\{Operational implications\.\}", "the prescription sentence (cut)"),
     (r"follow the codec change, not the speaker split", "the over-read of the same-condition control"),
     (r"displayed rows are unpaired means", "the section-3 pairing sentence (moved to Setup)"),
