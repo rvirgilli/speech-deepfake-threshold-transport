@@ -82,11 +82,11 @@ def main():
                 for p in acc:
                     fprs, fnrs = np.array(acc[p]["fpr"]), np.array(acc[p]["fnr"])
                     cell[N][p] = {
-                        "fpr_mean": round(float(fprs.mean()), 4),
-                        "fpr_ci": [round(float(np.percentile(fprs, 2.5)), 4),
-                                   round(float(np.percentile(fprs, 97.5)), 4)],
-                        "fnr_mean": round(float(fnrs.mean()), 4),
-                        "fnr_minus_oracle_pts": round(100 * (float(fnrs.mean()) - fnr_o), 2),
+                        "fpr_mean": float(fprs.mean()),
+                        "fpr_ci": [float(np.percentile(fprs, 2.5)),
+                                   float(np.percentile(fprs, 97.5))],
+                        "fnr_mean": float(fnrs.mean()),
+                        "fnr_minus_oracle_pts": 100 * (float(fnrs.mean()) - fnr_o),
                     }
             results[model][corpus] = cell
             n5 = cell[500]

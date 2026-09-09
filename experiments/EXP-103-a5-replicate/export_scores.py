@@ -1,7 +1,7 @@
 """Export the ASVspoof 5 trial scores used by analyze.py as public score tables.
 
 Reads the same raw chunk dumps analyze.py reads and writes
-artifacts/scores_<model>_asv5_eval.csv.gz (utt_id, score, label) with labels from
+artifacts/scores_<model>_asv5_eval.csv.gz (utt_id, score, label; scores at round-trip precision) with labels from
 the EXP-001 asv5_eval manifest. No audio or embeddings are written.
 """
 
@@ -31,7 +31,7 @@ def main():
             w = csv.writer(f)
             w.writerow(["utt_id", "score", "label"])
             for u, s in rows:
-                w.writerow([str(u), f"{float(s):.6f}", labels[str(u)]])
+                w.writerow([str(u), repr(float(s)), labels[str(u)]])
         print(model, len(rows), "trials ->", out.name)
 
 

@@ -68,9 +68,10 @@ Every script resolves its inputs from the authors' layout by default and accepts
 environment overrides: `A2_SCORES` (directory of the EXP-001 score tables, here
 `experiments/EXP-001-scoring-campaign/scores`), `A2_DATA` (ASVspoof 2021 keys and
 official XLS-R+SLS scores, `keys/{LA,DF}/CM/trial_metadata.txt` and
-`official-scores/xlsr-sls/`), `A2_EMB` (EXP-001 embedding arrays, needed only for C5
+`official-scores/xlsr-sls/`), `A2_EMB` (EXP-001 embedding arrays, needed only to regenerate C5
 and not included; `c_methods.py` skips C5 and still computes C1 and C2 when they are
-absent), `A2_A5_RAW` (ASVspoof 5 chunk dumps; when absent, `analyze.py` reads the
+absent, and the C5-transformed per-trial scores and cohort utterance lists it produced are
+released as `experiments/EXP-102-a2-campaign/scores/c5_*`), `A2_A5_RAW` (ASVspoof 5 chunk dumps; when absent, `analyze.py` reads the
 exported tables in `experiments/EXP-103-a5-replicate/artifacts/`, which carry the same
 scores rounded to six decimals), `A2_A5_PROTO` (the ASVspoof 5 evaluation protocol
 `ASVspoof5.eval.track_1.tsv`, otherwise under `A2_DATA/asvspoof5`) and

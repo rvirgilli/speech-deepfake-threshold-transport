@@ -221,7 +221,7 @@ POLICY_ROWS = {
     "Naive transfer": tuple((f"{E2['ssl'][c]['naive_transfer']['fpr']*100:.1f}",) for c in E2_CORPORA),
     "C1 z-norm": tuple((f"{CMS['ssl'][c]['C1_znorm']['fpr']*100:.1f}",) for c in E2_CORPORA),
     "C2 temp./shift": tuple((f"{CMS['ssl'][c]['C2_tempshift']['fpr']*100:.1f}",) for c in E2_CORPORA),
-    "C5 AS-norm": tuple((f"{CMS['ssl'][c]['C5_asnorm']['fpr']*100:.1f}",) for c in E2_CORPORA),
+    "C5 neighbour norm": tuple((f"{CMS['ssl'][c]['C5_asnorm']['fpr']*100:.1f}",) for c in E2_CORPORA),
     "Cohort z-norm": tuple((f"{M10['ssl'][c]['500']['znorm']['fpr_mean']*100:.1f}",) for c in E2_CORPORA),
     "Gaussian q.": tuple((f"{PAR['ssl'][c]['500']['parametric']['fpr_mean']*100:.1f}",) for c in E2_CORPORA),
     "Conformal q.": tuple((f"{E2['ssl'][c]['quantile']['500']['fpr_mean']*100:.1f}",) for c in E2_CORPORA),
@@ -231,19 +231,28 @@ FPR_ROWS = {
     "SSL-AASIST": tuple((f"{E2['ssl'][c]['quantile']['500']['fpr_mean']*100:.2f}",) for c in E2_CORPORA),
     "XLS-R+SLS$^\\dagger$": tuple((f"{SLS[c]['quantile']['fpr_mean']*100:.2f}",) for c in SLS_CORPORA),
 }
+COMPETITOR_FNR_ROWS = {
+    "Cohort z-norm": tuple((f"{M10['ssl'][c]['500']['znorm']['fnr_mean']*100:.1f}",) for c in E2_CORPORA),
+    "Gaussian q.": tuple((f"{(E2['ssl'][c]['oracle']['fnr'] + PAR['ssl'][c]['500']['parametric']['fnr_minus_oracle_pts'] / 100)*100:.1f}",)
+                         for c in E2_CORPORA),
+}
 EER_ROWS = {
     "AASIST": tuple((f"{EER['cells'][f'aasist/{c}']['eer']*100:.1f}",) for c in E2_CORPORA),
     "SSL-AASIST": tuple((f"{EER['cells'][f'ssl/{c}']['eer']*100:.1f}",) for c in E2_CORPORA),
     "XLS-R+SLS$^\\dagger$": tuple((f"{EER['cells'][f'sls/{c}']['eer']*100:.1f}",) for c in SLS_CORPORA),
 }
-TABLE1_BLOCKS = (("FNR", "delta"), ("EER",), ("realized FPR",), ("quantile FPR",))
+TABLE1_BLOCKS = (("FNR", "delta"), ("EER",), ("realized FPR",), ("quantile FPR",), ("competitor FNR",))
 # Every table line, in document order per row name: the detector rows appear
 # twice (FNR block, then EER block); each policy row once (lower block).
 TABLE1_LINES = {row: [(TABLE1_ROWS[row], TABLE1_BLOCKS[0]), (FPR_ROWS[row], TABLE1_BLOCKS[3]),
                       (EER_ROWS[row], TABLE1_BLOCKS[1])] for row in TABLE1_ROWS}
 TABLE1_LINES.update({row: [(cells_, TABLE1_BLOCKS[2])] for row, cells_ in POLICY_ROWS.items()})
+# The two labeled competitors appear twice as row labels: their realized-FPR
+# line (policy block) and then their mean-FNR line (competitor block), in that order.
+for row, cells_ in COMPETITOR_FNR_ROWS.items():
+    TABLE1_LINES[row].append((cells_, TABLE1_BLOCKS[4]))
 TABLE1 = {}
-for block, rows in ((TABLE1_ROWS, 0), (EER_ROWS, 1), (POLICY_ROWS, 2), (FPR_ROWS, 3)):
+for block, rows in ((TABLE1_ROWS, 0), (EER_ROWS, 1), (POLICY_ROWS, 2), (FPR_ROWS, 3), (COMPETITOR_FNR_ROWS, 4)):
     for row, cells_ in block.items():
         for column, values in zip(("21LA", "21DF", "ITW", "BRSpeech"), cells_):
             for value, quantity in zip(values, TABLE1_BLOCKS[rows]):
@@ -385,6 +394,8 @@ ARTIFACT_DERIVED = {
     f"{N_SPOOF:,}": "spoofed trials per 21LA condition, hidden phase excluded",
     str(N_SPK): "speakers per 21LA condition",
     f"{E2['ssl']['asv21la']['n_bona']:,}": "full 21LA bona fide, hidden phase excluded (EXP-002; equals SLS n_bona)",
+    f"{E2['ssl']['brspeech_test']['n_bona']:,}": "BRSpeech-DF public test release bona fide (EXP-002)",
+    f"{E2['ssl']['brspeech_test']['n_spoof']:,}": "BRSpeech-DF public test release spoofs (EXP-002)",
     f"{E2['ssl']['asv21df_full']['n_bona']:,}": "full 21DF bona fide, hidden phase excluded (EXP-002; equals SLS n_bona)",
     # speaker diagnostic
     str(SPK["cells"]["aasist/pstn"]["permutation"]["median_calibration_speakers"]): "median calibration speakers",
@@ -593,6 +604,19 @@ def _table1_occurrence_bindings(tex):
         lines = list(re.finditer(rf"(?m)^{re.escape(row)}\s*&[^\n]*\\\\\s*$", tex))
         if len(lines) != len(blocks):
             raise AssertionError(f"Table 1 row {row}: expected {len(blocks)} line(s), found {len(lines)}")
+        if len(blocks) > 1:
+            # Each block is anchored on its header: the line for block k must
+            # come after that block's \multicolumn header and before the next.
+            headers = {"FNR": None, "quantile FPR": "Realized FPR (\\%) at the conformal quantile",
+                       "EER": "EER (\\%) on the same trials", "realized FPR": "Realized FPR (\\%) per policy",
+                       "competitor FNR": "Mean FNR (\\%) of the two labeled competitors"}
+            hpos = sorted((tex.find(h), name) for name, h in headers.items() if h and tex.find(h) >= 0)
+            for match, (_, quantities) in zip(lines, blocks):
+                want = quantities[0]
+                before = [name for pos, name in hpos if pos < match.start()]
+                got = before[-1] if before else "FNR"
+                if got != want:
+                    raise AssertionError(f"Table 1 row {row}: line under the {got!r} header where the {want!r} block was expected")
         for match, (expected_cells, quantities) in zip(lines, blocks):
             line = match.group(0)
             ampersands = [i for i, char in enumerate(line) if char == "&"]

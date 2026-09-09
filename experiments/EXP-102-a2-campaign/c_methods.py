@@ -112,7 +112,19 @@ def asnorm(rng, s, emb, cohort_emb, cohort_s):
 
 
 def rates(t, bona_s, spoof_s):
-    return round(float(np.mean(bona_s < t)), 4), round(float(np.mean(spoof_s >= t)), 4)
+    return float(np.mean(bona_s < t)), float(np.mean(spoof_s >= t))
+
+
+def write_c5_scores(model, corpus, utts, s5, cohort_utts):
+    """Per-trial C5-transformed scores and the cohort utterances that produced them,
+    so the C5 row can be recomputed without the embedding arrays."""
+    out = Path(__file__).parent / "scores"
+    out.mkdir(exist_ok=True)
+    with gzip.open(out / f"c5_{model}_{corpus}.csv.gz", "wt", newline="") as f:
+        w = csv.writer(f)
+        w.writerow(["utt_id", "c5_score"])
+        w.writerows((u, repr(float(v))) for u, v in zip(utts, s5))
+    (out / f"c5_cohort_{model}_{corpus}.txt").write_text("\n".join(cohort_utts) + "\n")
 
 
 def main():
@@ -133,6 +145,7 @@ def main():
             sub = rng.choice(len(d_s), min(COHORT_SUB, len(d_s)), replace=False)
             d_asn = asnorm(rng, d_s, d_emb, d_emb[sub], d_s[sub])
             t_c5 = float(np.quantile(d_asn[d_bona], ALPHA))
+            write_c5_scores(model, "asv19_dev", d_utts, d_asn, [d_utts[i] for i in sub])
         else:
             print(f"{model}: embeddings not found under {EMB}; C5 skipped", flush=True)
 
@@ -150,6 +163,7 @@ def main():
                 sub = rng.choice(len(s), min(COHORT_SUB, len(s)), replace=False)
                 s5 = asnorm(rng, s, emb, emb[sub], s[sub])
                 cell["C5_asnorm"] = dict(zip(("fpr", "fnr"), rates(t_c5, s5[bona], s5[~bona])))
+                write_c5_scores(model, corpus, utts, s5, [utts[i] for i in sub])
             results[model][corpus] = cell
             print(f"{model}/{corpus}: " + " ".join(
                 f"{k}: fpr={v['fpr']} fnr={v['fnr']}" for k, v in cell.items()), flush=True)

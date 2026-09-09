@@ -178,3 +178,10 @@ Speaker halves remain disjoint, and a recording and its processed version fall i
 same half. Rerunning `analyze.py` from the released CSV tables (scores rounded to six
 decimals) reproduces all 332 factor-of-two misses and every cell value within
 1.9e-4.
+
+## Addendum, 2026-09-09 (audit round 7): score tables at round-trip precision
+
+`export_scores.py` now writes scores with `repr(float)` instead of six decimals, so
+`analyze.py` run from the released tables reproduces `results_a5.json` exactly rather
+than to within 2e-4 (the six-decimal export moved the usable-pair median cost by
+4e-5 pp, below printed precision).

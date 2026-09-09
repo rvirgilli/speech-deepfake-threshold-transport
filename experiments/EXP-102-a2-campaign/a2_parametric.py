@@ -61,10 +61,10 @@ def main():
                         acc[p].append(float(np.mean(held < t)))
                         fnr[p].append(float(np.mean(spoof >= t)))
                 results[model][corpus][N] = {
-                    p: {"fpr_mean": round(float(np.mean(acc[p])), 4),
-                        "fpr_ci": [round(float(np.percentile(acc[p], 2.5)), 4),
-                                   round(float(np.percentile(acc[p], 97.5)), 4)],
-                        "fnr_minus_oracle_pts": round(100 * (float(np.mean(fnr[p])) - fnr_o), 2)}
+                    p: {"fpr_mean": float(np.mean(acc[p])),
+                        "fpr_ci": [float(np.percentile(acc[p], 2.5)),
+                                   float(np.percentile(acc[p], 97.5))],
+                        "fnr_minus_oracle_pts": 100 * (float(np.mean(fnr[p])) - fnr_o)}
                     for p in acc}
             n5 = results[model][corpus].get(500)
             if n5:

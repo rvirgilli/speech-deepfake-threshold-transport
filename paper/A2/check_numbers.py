@@ -361,6 +361,13 @@ check("evaluation population is the full 21LA and 21DF sets for every detector",
       f"{_pop['asv21df_full'].pop():,} bona fide; {WORDS[_undec]} 21DF spoof files were undecodable for our two "
       "detectors and excluded)", _undec,
       "EXP-002 results.json / results_sls_complete.json n_bona; SLS n_spoof - E2 n_spoof; EXP-001 skipped.txt")
+check("official-score agreement is named as per-trial Pearson r", "\\textbf{Setup.}",
+      "our scores correlate with the official ones at per-trial Pearson $r{=}0.994$", chars=1200)
+check("BRSpeech-DF public test release counts", "\\textbf{Setup.}",
+      f"BRSpeech-DF \\cite{{brspeechdf}} in its public test release ({E2['ssl']['brspeech_test']['n_bona']:,} bona fide, "
+      f"{E2['ssl']['brspeech_test']['n_spoof']:,} spoofs; scored trial IDs in our release)",
+      (E2['ssl']['brspeech_test']['n_bona'], E2['ssl']['brspeech_test']['n_spoof']), "EXP-002 results.json", chars=1400)
+assert E2["aasist"]["brspeech_test"]["n_bona"] == E2["ssl"]["brspeech_test"]["n_bona"] == SLS["brspeech_test"]["n_bona"]
 check("the protocol correction is disclosed as post-hoc", "The 2021 keys carry",
       "A first version of this study did so; as a post-hoc protocol correction, every result "
       "below excludes it and keeps the two untrimmed phases", chars=1600)
@@ -411,8 +418,9 @@ check("C2 quartile pseudo-labels, init, Newton steps and stabilization (c_method
       f"$10^{{{int(_stab.split('e')[1])}}}I$ on the Hessian), whose endpoint on these separable pseudo-labels defines the transform",
       (_qq, _init, _newton, _stab, _damp.group(1)), "c_methods.py fit_temp_shift (damped, AMENDMENT-4)", chars=2600)
 check("C5 cohort constants (c_methods.py)", "\\section{Threshold policies}",
-      f"C5 is AS-norm over the {script_constant(E102 / 'c_methods.py', 'K_COHORT')} nearest of at most "
-      f"{script_constant(E102 / 'c_methods.py', 'COHORT_SUB'):,} cohort embeddings, without self-exclusion",
+      "C5 is a cosine-neighbour normalization of the detector score adapted from AS-norm, standardizing each score by the "
+      f"scores of its {script_constant(E102 / 'c_methods.py', 'K_COHORT')} nearest neighbours among at most "
+      f"{script_constant(E102 / 'c_methods.py', 'COHORT_SUB'):,} unlabeled cohort embeddings, without self-exclusion",
       None, "c_methods.py K_COHORT / COHORT_SUB", chars=2600)
 check("C-method protocol: source-quantile threshold applied to transformed target scores", "\\section{Threshold policies}",
       "the 5\\% quantile of transformed source bona fide is taken, and that threshold is applied to transformed target scores",
@@ -480,11 +488,21 @@ check("the lower block is described", "\\caption{Upper block:",
       "Lower block: mean realized FPR of each policy of \\S\\ref{sec:method} for SSL-AASIST at the same $N$ and $B$ "
       "from separate runs (naive transfer and C1/C2/C5 are deterministic)")
 check("the release URL states the C5 embedding gap", "\\caption{Upper block:",
-      "Score tables, code and results (C5 also needs cohort embeddings, not included): "
+      "C5 transformed scores and cohort IDs are included; embeddings are omitted")
+_c5files = [E102 / "scores" / f"c5_{m}_{c}.csv.gz" for m in ("ssl", "aasist") for c in E2_CORPORA] + \
+           [E102 / "scores" / f"c5_cohort_{m}_{c}.txt" for m in ("ssl", "aasist") for c in E2_CORPORA]
+_missing = [p.name for p in _c5files if not p.is_file()]
+if _missing:
+    failures.append(f"C5 release files missing from EXP-102 scores/: {_missing}")
+else:
+    print(f"  ok  {len(_c5files)} C5 transformed-score and cohort-ID files present")
+check("Table 1 caption resolves to the release (URL)", "\\caption{Upper block:",
       "\\protect\\url{https://github.com/rvirgilli/speech-deepfake-threshold-transport")
 check("Table 1 footnote states the BRSpeech SLS provenance", "\\label{tab:fnr}",
       "$^\\dagger$Official author-released scores for 21LA, 21DF and ITW; BRSpeech scored by us with the released checkpoint.",
-      chars=1400)
+      chars=2200)
+check("Table 1 competitor-FNR block header", "\\label{tab:fnr}",
+      "\\emph{Mean FNR (\\%) of the two labeled competitors, same runs}", chars=2200)
 par = {(d, c): PAR[d][c]["500"]["parametric"]["fpr_mean"] for d in PAR for c in PAR[d]
        if isinstance(PAR[d][c], dict) and "500" in PAR[d][c]}
 assert len(par) == 8
@@ -932,6 +950,9 @@ RETIRED = [
     (r"up to 50\.8 pp for XLS-R\+SLS", "the old z-norm phrasing (now 10/12 cells, largest 50.8)"),
     (r"changes no count reported below", "the over-strong eval-only claim (rates do change)"),
     (r"EER, an oracle operating point", "the EER-as-operating-point phrasing"),
+    (r"C5 AS-norm &|C5 is AS-norm over the 100 nearest", "the C5 row/sentence under its old name"),
+    (r"our scores agree at per-trial", "the unnamed agreement statistic"),
+    (r"C5 also needs cohort embeddings, not included", "the pre-release C5 caveat"),
     (r"on the channels and corpora tested here|Of the 72 cells within our own|thresholds set on 1,000 cohorts|"
      r"Without target labels, an importance-weighted quantile|in the run shown, in cells where that reference misses at most 50",
      "abstract phrasings replaced in the fifth delta"),
