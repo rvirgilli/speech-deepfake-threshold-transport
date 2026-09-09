@@ -352,12 +352,12 @@
     "bytes": 157
   },
   "paper/A2/main.pdf": {
-    "sha256": "9454374129b84fd36ff191011ee2e1041a599484f7de3a670b49889edd486f78",
-    "bytes": 234323
+    "sha256": "3014850c4c593bfd997163c38f72a473f8a11f10bb23a34a5425864a8482de9b",
+    "bytes": 234160
   },
   "paper/A2/main.tex": {
-    "sha256": "1f3bc033bae611e1c50ba029411d8b5a0df8168f62f943cf32840cba594923e4",
-    "bytes": 27649
+    "sha256": "4152a06e421dcdb3327843d54a9ace05ff00f4becfc26acb7192b4b263a09cd9",
+    "bytes": 27546
   },
   "paper/A2/refs.bib": {
     "sha256": "234e15f708ab80986f6573e0300313f8329fc24ddcf09595b1ce169b4732f773",
@@ -372,12 +372,12 @@
     "bytes": 18044
   },
   "paper/A2/check_numbers.py": {
-    "sha256": "d6c9836e04b2e1fa101b468736573e5efe9668d2b643f3176f7b5475afd863d7",
-    "bytes": 72810
+    "sha256": "6795eaf044eb1616fda367db3bf8186ded00add3344e4e88b29ef0f42205fb52",
+    "bytes": 73220
   },
   "paper/A2/number_census.py": {
-    "sha256": "d57ae833c3bded9118c8840277c79e900f34f8a46143435f3fc4927608e50448",
-    "bytes": 40632
+    "sha256": "d0f03e3cb9c84113983f6bb42386c2ad2c0b32c20382cb4363cf9c2ab8520aaf",
+    "bytes": 40748
   },
   "paper/A2/PRIOR-ART-SWEEP-INTERSPEECH-2026.md": {
     "sha256": "391658fa0678f30314878544762db364ebff8ed56afa0de2e1385badc1baf066",

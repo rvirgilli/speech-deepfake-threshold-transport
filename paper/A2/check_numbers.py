@@ -417,10 +417,7 @@ check("C5 cohort constants (c_methods.py)", "\\section{Threshold policies}",
 check("C-method protocol: source-quantile threshold applied to transformed target scores", "\\section{Threshold policies}",
       "the 5\\% quantile of transformed source bona fide is taken, and that threshold is applied to transformed target scores",
       chars=2600)
-check("Table 1 rows are declared unpaired means from separate runs", "\\section{Threshold policies}",
-      f"The labeled policies use $N{{=}}{script_constant(E102 / 'drift_map.py', 'N_CAL')}$ and $B{{=}}{B}$, but "
-      "Table~\\ref{tab:fnr} combines separate Monte Carlo runs: each baseline was paired with a quantile reference "
-      "within its own run, and the displayed rows are unpaired means", chars=3400)
+# The unpaired-means disclosure lives in Setup ("paired draws B, scoped to a run; Table 1 declared unpaired").
 check("C4 is declared not evaluated", "\\section{Threshold policies}",
       "applying the frozen classifier head to transformed embeddings and is not evaluated", chars=3200)
 check("Gaussian quantile constant", "\\section{Threshold policies}",
@@ -451,7 +448,7 @@ check("held-out spread envelope", "\\textbf{FPR control and FNR cost.}",
       f"realized FPR lies within {sp_lo*100:.1f}--{sp_hi*100:.1f}\\% on every cell", (sp_lo, sp_hi),
       "results_table1_eer_spread.json quantile_N500_fpr_pct_2.5_97.5")
 check("FNR premium on usable cells", "\\textbf{FPR control and FNR cost.}",
-      f"FNR premium over the oracle threshold is $\\le${premium:.1f} points", premium,
+      f"the quantile's mean FNR premium over the oracle threshold is $\\le${premium:.1f} points", premium,
       "max fnr_minus_oracle_pts over cells with oracle FNR <= 0.5")
 
 ssl_naive = [E2["ssl"][c]["naive_transfer"]["fpr"] for c in E2_CORPORA]
@@ -466,7 +463,7 @@ naive_miss = [abs(f - ALPHA) * 100 for f in ssl_naive]
 unlab = [abs(CMS["ssl"][c][m]["fpr"] - ALPHA) * 100 for c in E2_CORPORA
          for m in ("C1_znorm", "C2_tempshift", "C5_asnorm")]
 check("naive and unlabeled worst miss", "\\textbf{Matched-resource policy comparison.}",
-      f"Naive transfer and the unlabeled corrections miss the target by up to {max(naive_miss + unlab):.0f} pp",
+      f"Naive transfer and the unlabeled corrections, as implemented, miss the target by up to {max(naive_miss + unlab):.0f} pp",
       (max(naive_miss), max(unlab)), "EXP-002 naive_transfer + results_cmethods.json, |fpr-0.05|")
 c5 = min(CMS[d][c]["C5_asnorm"]["fnr"] for d in CMS for c in CMS[d])
 assert c5 >= 0.99
@@ -648,6 +645,8 @@ check("A5 deployment-half pooled EER and counts", PILOT,
       f"On this deployment half ({A5EER['ssl']['n_bona']:,} bona fide, {A5EER['ssl']['n_spoof']:,} spoofs) the pooled EER is "
       f"{A5EER['aasist']['eer']*100:.1f}\\% for AASIST and {A5EER['ssl']['eer']*100:.1f}\\% for SSL-AASIST, not a full-protocol value",
       A5EER, "a5_eer.json")
+_obar = script_constant(EXP / "EXP-103-a5-replicate/analyze.py", "OVERLAP_BAR")
+assert _obar == 0.5 and f"max(vals) <= {_obar}" in (EXP / "EXP-103-a5-replicate/a5_usable_cost.py").read_text()
 _uc = sorted(100 * v["fnr_price"] for k, v in _usable)
 _med = (_uc[len(_uc) // 2 - 1] + _uc[len(_uc) // 2]) / 2 if len(_uc) % 2 == 0 else _uc[len(_uc) // 2]
 _over10 = sum(1 for c in _uc if c > 10)
@@ -656,12 +655,13 @@ assert (A5COST["ssl"]["n_pairs"], A5COST["ssl"]["positive_cost"], A5COST["ssl"][
 assert abs(A5COST["ssl"]["cost_median_pp"] - _med) < 1e-6 and sorted(A5COST["ssl"]["usable_destinations"]) == sorted(set(k.split("->")[1] for k, v in _usable))
 assert A5COST["aasist"]["n_pairs"] == 0
 check("usable-pair spoof-side cost: median and count above 10 points (section 4)", PILOT,
-      f"median $+{_med:.1f}$ points, {_over10} pairs above $+10$ (Fig.~\\ref{{fig:drift}}, filled triangles)",
+      f"across all {len(_usable)} pairs the median cost is $+{_med:.1f}$ points and {_over10} exceed $+10$ "
+      f"(Fig.~\\ref{{fig:drift}}, filled triangles)",
       (_med, _over10), "results_a5.json ssl/twin_free usable pairs; a5_usable_cost.json")
 check("usable-pair spoof-side cost (abstract)", "The failure persists on ASVspoof~5",
-      f"across two detectors, and on the {len(_usable)} pairs with a measurable spoof side the transported threshold "
-      f"misses a median {_med:.1f} points more spoofs than the deployment-calibrated one", (len(_usable), _med),
-      "a5_usable_cost.json")
+      f"across two detectors, and on the {len(_usable)} SSL-AASIST pairs whose destinations keep oracle FNR at or below "
+      f"{round(_obar * 100)}\\% for every source, the transported threshold misses a median {_med:.1f} points more spoofs "
+      "than the deployment-calibrated one", (len(_usable), _obar, _med), "a5_usable_cost.json; analyze.py OVERLAP_BAR")
 def _diag(det):
     cs = A5DIAG[det]["cells"]
     fprs = [v["fpr"] for v in cs.values()]
@@ -671,7 +671,8 @@ def _diag(det):
 _ds, _da = _diag("ssl"), _diag("aasist")
 check("same-condition speaker-split control", PILOT,
       f"realizes {_ds[0]*100:.1f}--{_ds[1]*100:.1f}\\% FPR (SSL-AASIST) and {_da[0]*100:.1f}--{_da[1]*100:.1f}\\% (AASIST) "
-      f"over the {WORDS[12]} conditions with no $2\\times$ miss, so the failures above follow the codec change, not the speaker split",
+      f"over the {WORDS[12]} conditions with no $2\\times$ miss, so the speaker split alone produces no $2\\times$ miss "
+      "in these same-condition controls",
       (_ds, _da), "a5_diagonal.json (recomputed from its cells)")
 check("the flagship's non-replication is stated", PILOT,
       "The flagship AASIST cell does not replicate; the spoof-side axis here rests on one detector")
@@ -876,6 +877,9 @@ RETIRED = [
     (r"THRESHOLDS FAIL CONSERVATIVELY:", "the unhedged title (now 'CAN FAIL')"),
     (r"\\caption\{Drift map", "the old drift-map caption (figure is now the joint FPR/cost scatter)"),
     (r"AASIST pays the larger spoof-side cost", "the detector-comparison sentence (cut)"),
+    (r"with a measurable spoof side", "the vague usable-pair description (now the oracle-FNR rule)"),
+    (r"follow the codec change, not the speaker split", "the over-read of the same-condition control"),
+    (r"displayed rows are unpaired means", "the section-3 pairing sentence (moved to Setup)"),
     (r"under seven 21LA channel conditions, so", "the long dependence-unit wording (shortened)"),
     (r"two unlabeled drift monitors fail their tests", "the abstract's unspecific monitor clause"),
     (r"(?i)manifest-bound", "release wording superseded by the URL in the Table 1 caption"),
