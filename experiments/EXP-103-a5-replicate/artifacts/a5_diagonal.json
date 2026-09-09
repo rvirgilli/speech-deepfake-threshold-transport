@@ -1,0 +1,264 @@
+{
+  "ssl": {
+    "cells": {
+      "-": {
+        "fpr": 0.04561651424091978,
+        "log2_fpr_ratio": -0.13237188671766284,
+        "fnr": 0.08361501145912911,
+        "fnr_oracle": 0.08043035395976572,
+        "fnr_price": 0.0031846574993633914,
+        "oracle_overlap_dominated": false,
+        "n_dep_bona": 19135,
+        "n_dep_spoof": 78540
+      },
+      "C01": {
+        "fpr": 0.052026387009472264,
+        "log2_fpr_ratio": 0.0573154274473674,
+        "fnr": 0.6233837460375798,
+        "fnr_oracle": 0.6292093536086737,
+        "fnr_price": -0.005825607571093849,
+        "oracle_overlap_dominated": true,
+        "n_dep_bona": 1478,
+        "n_dep_spoof": 21767
+      },
+      "C02": {
+        "fpr": 0.04266841072596468,
+        "log2_fpr_ratio": -0.22875971953628285,
+        "fnr": 0.36569188420424825,
+        "fnr_oracle": 0.32155801257053723,
+        "fnr_price": 0.04413387163371102,
+        "oracle_overlap_dominated": false,
+        "n_dep_bona": 1529,
+        "n_dep_spoof": 21797
+      },
+      "C03": {
+        "fpr": 0.05058962868117797,
+        "log2_fpr_ratio": 0.01691355517323743,
+        "fnr": 0.5992869135130229,
+        "fnr_oracle": 0.5997368182230692,
+        "fnr_price": -0.000449904710046356,
+        "oracle_overlap_dominated": true,
+        "n_dep_bona": 1562,
+        "n_dep_spoof": 22038
+      },
+      "C04": {
+        "fpr": 0.05801608751608751,
+        "log2_fpr_ratio": 0.21452491158510076,
+        "fnr": 0.7105952945467809,
+        "fnr_oracle": 0.7327649097209556,
+        "fnr_price": -0.022169615174174706,
+        "oracle_overlap_dominated": true,
+        "n_dep_bona": 1554,
+        "n_dep_spoof": 21932
+      },
+      "C05": {
+        "fpr": 0.04117139175257731,
+        "log2_fpr_ratio": -0.2802858767211586,
+        "fnr": 0.07327321453112831,
+        "fnr_oracle": 0.06523432131568098,
+        "fnr_price": 0.008038893215447332,
+        "oracle_overlap_dominated": false,
+        "n_dep_bona": 1552,
+        "n_dep_spoof": 21829
+      },
+      "C06": {
+        "fpr": 0.031524547803617575,
+        "log2_fpr_ratio": -0.6654524185815238,
+        "fnr": 0.17666737751239536,
+        "fnr_oracle": 0.13371008156954736,
+        "fnr_price": 0.042957295942848,
+        "oracle_overlap_dominated": false,
+        "n_dep_bona": 1161,
+        "n_dep_spoof": 18757
+      },
+      "C07": {
+        "fpr": 0.053227906976744184,
+        "log2_fpr_ratio": 0.09025474295899773,
+        "fnr": 0.7943847531572905,
+        "fnr_oracle": 0.7990355912743973,
+        "fnr_price": -0.004650838117106759,
+        "oracle_overlap_dominated": true,
+        "n_dep_bona": 1505,
+        "n_dep_spoof": 21775
+      },
+      "C08": {
+        "fpr": 0.060059322033898306,
+        "log2_fpr_ratio": 0.26446009456225716,
+        "fnr": 0.7617357951929276,
+        "fnr_oracle": 0.7927986002394327,
+        "fnr_price": -0.03106280504650516,
+        "oracle_overlap_dominated": true,
+        "n_dep_bona": 1180,
+        "n_dep_spoof": 21718
+      },
+      "C09": {
+        "fpr": 0.04385178875638841,
+        "log2_fpr_ratio": -0.18929240210704568,
+        "fnr": 0.45690169256972535,
+        "fnr_oracle": 0.4236214605067064,
+        "fnr_price": 0.033280232063018944,
+        "oracle_overlap_dominated": false,
+        "n_dep_bona": 1174,
+        "n_dep_spoof": 18788
+      },
+      "C10": {
+        "fpr": 0.04576933073424301,
+        "log2_fpr_ratio": -0.12754689871999164,
+        "fnr": 0.7307679390713893,
+        "fnr_oracle": 0.710772618829143,
+        "fnr_price": 0.01999532024224626,
+        "oracle_overlap_dominated": true,
+        "n_dep_bona": 1539,
+        "n_dep_spoof": 21796
+      },
+      "C11": {
+        "fpr": 0.051349572649572656,
+        "log2_fpr_ratio": 0.03842417505615135,
+        "fnr": 0.10436640095839285,
+        "fnr_oracle": 0.10427129889876975,
+        "fnr_price": 9.510205962309781e-05,
+        "oracle_overlap_dominated": false,
+        "n_dep_bona": 1170,
+        "n_dep_spoof": 21703
+      }
+    },
+    "n": 12,
+    "miss_2x": 0,
+    "max_abs_log2": 0.6654524185815238,
+    "fpr_range": [
+      0.031524547803617575,
+      0.060059322033898306
+    ]
+  },
+  "aasist": {
+    "cells": {
+      "-": {
+        "fpr": 0.05655307029004442,
+        "log2_fpr_ratio": 0.17767725597635398,
+        "fnr": 0.632151209574739,
+        "fnr_oracle": 0.6468169085816144,
+        "fnr_price": -0.014665699006875421,
+        "oracle_overlap_dominated": true,
+        "n_dep_bona": 19135,
+        "n_dep_spoof": 78540
+      },
+      "C01": {
+        "fpr": 0.05058389715832205,
+        "log2_fpr_ratio": 0.01675009660952295,
+        "fnr": 0.7476763449258053,
+        "fnr_oracle": 0.7487481049294804,
+        "fnr_price": -0.0010717600036751485,
+        "oracle_overlap_dominated": true,
+        "n_dep_bona": 1478,
+        "n_dep_spoof": 21767
+      },
+      "C02": {
+        "fpr": 0.06497907128842381,
+        "log2_fpr_ratio": 0.37804702924848255,
+        "fnr": 0.7365621415791165,
+        "fnr_oracle": 0.766206358673212,
+        "fnr_price": -0.029644217094095482,
+        "oracle_overlap_dominated": true,
+        "n_dep_bona": 1529,
+        "n_dep_spoof": 21797
+      },
+      "C03": {
+        "fpr": 0.0501651728553137,
+        "log2_fpr_ratio": 0.004758026536552622,
+        "fnr": 0.7976578183138215,
+        "fnr_oracle": 0.7973046555948816,
+        "fnr_price": 0.00035316271893992557,
+        "oracle_overlap_dominated": true,
+        "n_dep_bona": 1562,
+        "n_dep_spoof": 22038
+      },
+      "C04": {
+        "fpr": 0.0580984555984556,
+        "log2_fpr_ratio": 0.21657171882741208,
+        "fnr": 0.7871216943279226,
+        "fnr_oracle": 0.7980576326828379,
+        "fnr_price": -0.010935938354915353,
+        "oracle_overlap_dominated": true,
+        "n_dep_bona": 1554,
+        "n_dep_spoof": 21932
+      },
+      "C05": {
+        "fpr": 0.06632216494845361,
+        "log2_fpr_ratio": 0.4075630064791638,
+        "fnr": 0.6194251683540244,
+        "fnr_oracle": 0.6497778184983279,
+        "fnr_price": -0.03035265014430355,
+        "oracle_overlap_dominated": true,
+        "n_dep_bona": 1552,
+        "n_dep_spoof": 21829
+      },
+      "C06": {
+        "fpr": 0.047285099052540906,
+        "log2_fpr_ratio": -0.0805424760141068,
+        "fnr": 0.7635326544756624,
+        "fnr_oracle": 0.7479874180306019,
+        "fnr_price": 0.015545236445060562,
+        "oracle_overlap_dominated": true,
+        "n_dep_bona": 1161,
+        "n_dep_spoof": 18757
+      },
+      "C07": {
+        "fpr": 0.03800132890365449,
+        "log2_fpr_ratio": -0.3958782245103617,
+        "fnr": 0.8058026636050517,
+        "fnr_oracle": 0.7798392652123995,
+        "fnr_price": 0.02596339839265216,
+        "oracle_overlap_dominated": true,
+        "n_dep_bona": 1505,
+        "n_dep_spoof": 21775
+      },
+      "C08": {
+        "fpr": 0.05556610169491526,
+        "log2_fpr_ratio": 0.1522769349873182,
+        "fnr": 0.8049945667188507,
+        "fnr_oracle": 0.8154065751910857,
+        "fnr_price": -0.010412008472235001,
+        "oracle_overlap_dominated": true,
+        "n_dep_bona": 1180,
+        "n_dep_spoof": 21718
+      },
+      "C09": {
+        "fpr": 0.04526490630323679,
+        "log2_fpr_ratio": -0.14353512681540295,
+        "fnr": 0.8124530019161166,
+        "fnr_oracle": 0.7989142005535448,
+        "fnr_price": 0.013538801362571795,
+        "oracle_overlap_dominated": true,
+        "n_dep_bona": 1174,
+        "n_dep_spoof": 18788
+      },
+      "C10": {
+        "fpr": 0.0726569200779727,
+        "log2_fpr_ratio": 0.5391721164150136,
+        "fnr": 0.8152934483391447,
+        "fnr_oracle": 0.8602954670581758,
+        "fnr_price": -0.04500201871903109,
+        "oracle_overlap_dominated": true,
+        "n_dep_bona": 1539,
+        "n_dep_spoof": 21796
+      },
+      "C11": {
+        "fpr": 0.05163760683760684,
+        "log2_fpr_ratio": 0.046494045116349816,
+        "fnr": 0.7054045523660323,
+        "fnr_oracle": 0.704418743952449,
+        "fnr_price": 0.0009858084135833112,
+        "oracle_overlap_dominated": true,
+        "n_dep_bona": 1170,
+        "n_dep_spoof": 21703
+      }
+    },
+    "n": 12,
+    "miss_2x": 0,
+    "max_abs_log2": 0.5391721164150136,
+    "fpr_range": [
+      0.03800132890365449,
+      0.0726569200779727
+    ]
+  }
+}

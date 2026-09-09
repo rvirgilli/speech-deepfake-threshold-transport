@@ -1,0 +1,30 @@
+{
+  "ssl": {
+    "usable_destinations": [
+      "-",
+      "C02",
+      "C05",
+      "C06",
+      "C09",
+      "C11"
+    ],
+    "n_pairs": 66,
+    "positive_cost": 51,
+    "conservative_2x": 49,
+    "cost_median_pp": 41.50701821392653,
+    "cost_over_10pp": 47,
+    "cost_iqr_pp": [
+      4.562752299851695,
+      70.16382416603005
+    ]
+  },
+  "aasist": {
+    "usable_destinations": [],
+    "n_pairs": 0,
+    "positive_cost": 0,
+    "conservative_2x": 0,
+    "cost_median_pp": null,
+    "cost_over_10pp": 0,
+    "cost_iqr_pp": null
+  }
+}

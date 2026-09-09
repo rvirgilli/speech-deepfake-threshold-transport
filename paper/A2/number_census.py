@@ -39,6 +39,7 @@ import json
 import math
 import os
 import re
+import statistics as stats
 import sys
 from collections import Counter
 from pathlib import Path
@@ -62,6 +63,7 @@ M10 = json.load(open(EXP / "EXP-010-a2-matched-baseline/results.json"))
 A5 = json.load(open(EXP / "EXP-103-a5-replicate/artifacts/results_a5.json"))
 PRE = json.load(open(EXP / "EXP-103-a5-replicate/artifacts/precheck.json"))
 A5EER = json.load(open(EXP / "EXP-103-a5-replicate/artifacts/a5_eer.json"))
+A5DIAG = json.load(open(EXP / "EXP-103-a5-replicate/artifacts/a5_diagonal.json"))
 DRIFT_MAP = (E102 / "drift_map.py").read_text()
 CORS = json.load(open(EXP / "EXP-109-a2-cors-transport/results_cellA.json"))
 CMETH = (E102 / "c_methods.py").read_text()
@@ -344,6 +346,11 @@ ARTIFACT_DERIVED = {
     str(len(A5_USABLE)): "A5 SSL-AASIST pairs on usable destinations",
     str(sum(1 for v in A5_USABLE if v["log2_fpr_ratio"] < -SEV)): "usable A5 pairs missing conservatively by >2x",
     str(sum(1 for v in A5_USABLE if v["fnr_price"] > 0)): "usable A5 pairs with positive spoof-side cost",
+    f"{stats.median(100 * v['fnr_price'] for v in A5_USABLE):.1f}": "median spoof-side cost over usable A5 pairs (pp)",
+    str(sum(1 for v in A5_USABLE if 100 * v["fnr_price"] > 10)): "usable A5 pairs with cost above 10 pp",
+    str(len(A5["ssl/twin_free"])): "ASVspoof 5 SSL-AASIST pairs (figure caption)",
+    **{f"{x*100:.1f}": f"A5 same-condition control FPR {w}, {d} (a5_diagonal.json)" for d in ("ssl", "aasist")
+       for w, x in zip(("min", "max"), A5DIAG[d]["fpr_range"])},
     str(script_constant(E102 / "c_methods.py", "K_COHORT")): "C5 cohort neighbours, c_methods.py K_COHORT",
     f"{script_constant(E102 / 'c_methods.py', 'COHORT_SUB'):,}": "C5 cohort subsample, c_methods.py COHORT_SUB",
     re.search(r"for _ in range\((\d+)\):", CMETH).group(1): "C2 Newton steps, c_methods.py",
@@ -411,7 +418,7 @@ DECLARED_CONTEXT_RULES = (
     ("15", re.compile(r"15 equal-width bins"), "histogram bins, drift_map.py density_ratio_weights"),
     ("5", re.compile(r"FPR\}<5/n"), "resolution-limited rule numerator, drift_map.py"),
     ("95", re.compile(r"central 95\\% interval"), "confidence level"),
-    ("10", re.compile(r"\[0\.1,10\]|10\^\{-6\}"), "clip bound / exponent base"),
+    ("10", re.compile(r"\[0\.1,10\]|10\^\{-6\}|above \$\+10\$"), "clip bound / exponent base / cost threshold in a5_usable_cost.py"),
     ("0.2", re.compile(r"FPR~\$\\le\$~0\.2"), "monitor acceptance FPR"),
     ("3", re.compile(r"\$3/n\$"), "severity floor numerator (bound in check_numbers.py to drift_map.py)"),
 )
@@ -494,11 +501,12 @@ POSITION_BINDINGS = (
      rf"\$\\pm5\$-percentage-point FPR tolerance, {len(hidden)} fall below half the target", 1),
     ("108-cell decomposition", rf"The measurement covers {len(cells)} deployment cells: two detectors", 1),
     ("42+12 decomposition", r"42 ordered pairs of seven 21LA channel conditions .* 12 ordered pairs of four corpora", 1),
-    ("hidden count over the tolerance, both sites", rf"{len(hidden)} of the {len(in_tol)} cells inside", 2),
+    ("hidden count over the tolerance (section 4; caption site cut)", rf"{len(hidden)} of the {len(in_tol)} cells inside", 1),
     ("sensitivity range, both sites",
-     rf"{sum(1 for v in in_tol if abs(v['log2_fpr_ratio']) > 0.585)} (?:of {len(in_tol)} )?at \$1\.5\\times\$", 2),
+     rf"{sum(1 for v in in_tol if abs(v['log2_fpr_ratio']) > 0.585)} (?:of {len(in_tol)} )?at \$1\.5\\times\$", 1),
     ("sensitivity range at 4x, both sites",
-     rf"{sum(1 for v in in_tol if abs(v['log2_fpr_ratio']) > 2.0)} (?:of {len(in_tol)} )?at \$4\\times\$", 2),
+     rf"{sum(1 for v in in_tol if abs(v['log2_fpr_ratio']) > 2.0)} (?:of {len(in_tol)} )?at \$4\\times\$", 1),
+    ("usable-pair median cost, both sites", rf"median (?:\$\+)?{stats.median(100 * v['fnr_price'] for v in A5_USABLE):.1f}(?:\$)? points", 2),
     ("flagship transported FNR (abstract; caption sentence cut)", rf"{FLAG['vanilla_fnr_mean']*100:.0f}\\% of spoofs", 1),
     ("flagship oracle FNR (abstract)", rf"against {FLAG['fnr_oracle']*100:.2f}\\%", 1),
     ("flagship FPR, abstract and Drift paragraph", rf"{FLAG['vanilla_fpr_mean']*100:.2f}\\% FPR", 2),

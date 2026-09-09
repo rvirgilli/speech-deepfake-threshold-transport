@@ -140,3 +140,24 @@ Spearman $-0.90$). Reading 2b is therefore withdrawn from the manuscript, which
 no longer prints a cost map. Readings 1 and 2a (the ASVspoof 5 replication) do
 not depend on 21LA and are unchanged. The values above this addendum are
 superseded and kept for the record.
+
+## Addendum, 2026-09-09: usable-pair cost summary and same-condition control
+
+Two descriptive additions requested after the external review, both computed
+from the twin-free arm with the estimators of `analyze.py`:
+
+- `a5_usable_cost.py` → `artifacts/a5_usable_cost.json`. On the 66 SSL-AASIST
+  pairs whose destination has oracle FNR ≤ 50% for every source, the spoof-side
+  cost of the transported threshold (mean FNR minus deployment-oracle FNR) has
+  median +41.5 pp, IQR 4.6–70.2 pp; 47 pairs exceed +10 pp, 51 are positive,
+  49 miss the FPR target conservatively by more than 2×. AASIST has no usable
+  destination, so no cost is summarised for it.
+- `a5_diagonal.py` → `artifacts/a5_diagonal.json`. Same-condition control:
+  calibrate on speaker half 0 and deploy on speaker half 1 of the same
+  condition (N = 500, B = 1000). Over the 12 conditions, no cell misses target
+  by more than 2×; realized FPR spans 3.2–6.0% (SSL-AASIST, max |log2| 0.67)
+  and 3.8–7.3% (AASIST, max |log2| 0.54). The off-diagonal failures of Reading
+  2a therefore follow the codec change, not the speaker split.
+
+Both are descriptive; the dependence unit is the ordered condition pair, and
+pairs sharing a destination are not independent.

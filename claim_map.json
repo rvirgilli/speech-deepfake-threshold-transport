@@ -31,6 +31,39 @@
       "rule": "abs(log2_fpr_ratio)>1 over ssl/twin_free + aasist/twin_free",
       "recomputed": 187
     },
+    "a5_usable_pairs_spoof_side_cost": {
+      "path": "experiments/EXP-103-a5-replicate/artifacts/a5_usable_cost.json",
+      "rule": "ssl/twin_free pairs whose destination has oracle FNR <= 0.5 for every source; cost = 100*fnr_price",
+      "recomputed": {
+        "n_pairs": 66,
+        "positive_cost": 51,
+        "conservative_2x": 49,
+        "cost_median_pp": 41.50701821392653,
+        "cost_over_10pp": 47
+      }
+    },
+    "a5_same_condition_control": {
+      "path": "experiments/EXP-103-a5-replicate/artifacts/a5_diagonal.json",
+      "rule": "calibrate speaker half 0, deploy half 1, same condition; twin-free arm, N=500, B=1000",
+      "recomputed": {
+        "ssl": {
+          "n": 12,
+          "miss_2x": 0,
+          "fpr_range": [
+            0.031524547803617575,
+            0.060059322033898306
+          ]
+        },
+        "aasist": {
+          "n": 12,
+          "miss_2x": 0,
+          "fpr_range": [
+            0.03800132890365449,
+            0.0726569200779727
+          ]
+        }
+      }
+    },
     "quantile_full_grid": {
       "paths": [
         "experiments/EXP-002-a2-calibration/results.json",

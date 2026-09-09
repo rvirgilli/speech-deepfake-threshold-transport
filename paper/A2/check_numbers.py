@@ -52,6 +52,8 @@ SPK = json.load(open(E102 / "artifacts/speaker_clustering.json"))
 A5 = json.load(open(EXP / "EXP-103-a5-replicate/artifacts/results_a5.json"))
 PRE = json.load(open(EXP / "EXP-103-a5-replicate/artifacts/precheck.json"))
 CORS = json.load(open(EXP / "EXP-109-a2-cors-transport/results_cellA.json"))
+A5COST = json.load(open(EXP / "EXP-103-a5-replicate/artifacts/a5_usable_cost.json"))
+A5DIAG = json.load(open(EXP / "EXP-103-a5-replicate/artifacts/a5_diagonal.json"))
 PHASE = json.load(open(E102 / "results_phase_sensitivity.json"))
 
 # The tolerance is the paper's own +-5 pp band on realized FPR; the severity
@@ -190,11 +192,15 @@ check("sensitivity range (experiments)", "Over the 108 cells",
 check("within-corpus share of the in-tolerance cells", "Over the 108 cells",
       f"{n_within_tol} of those {len(in_tol)} cells are within-corpus",
       f"{n_within_tol}/{len(in_tol)}", "results_drift.json")
-FIG = "\\caption{Drift map:"
-check("hidden-cell count and sensitivity range (figure caption)", FIG,
-      f"{len(hidden)} of the {len(in_tol)} cells inside the $\\pm$5\\,pp tolerance are off "
-      f"target ({n15} at $1.5\\times$, {n4} at $4\\times$; no interval, \\S4), every one "
-      "conservative", f"{len(hidden)}/{len(in_tol)}; {n15}/{n4}", "results_drift.json")
+FIG = "\\caption{Transported FPR against spoof-side cost."
+check("figure caption: cell populations", FIG,
+      f"Circles and squares are the {len(cells)} 21LA and cross-corpus cells; triangles are the "
+      f"{len(A5['ssl/twin_free'])} ASVspoof~5 SSL-AASIST pairs", (len(cells), len(A5["ssl/twin_free"])),
+      "results_drift.json within+cross; results_a5.json ssl/twin_free")
+check("figure caption: usable-destination rule and the 2x bar", FIG,
+      "filled where the destination is usable (oracle FNR $\\le$50\\% for every source) and hollow where it is "
+      "overlap-dominated")
+check("figure caption: the 2x bar is drawn", FIG, "dotted lines mark the $2\\times$ bar")
 
 # The two sets of similar size must each name itself: 84 within-corpus cells and
 # 72 in-tolerance cells are different sets overlapping on n_within_tol.
@@ -296,7 +302,7 @@ check("severity floor stated in the Drift paragraph", "\\textbf{Drift} is detect
       f"Its severity is the $\\log_2$ ratio of $\\max(\\mathrm{{FPR}},{float(_floor):g}/n)$ to $\\alpha$, "
       "with $n$ the deployment bona-fide count", _floor, "drift_map.py log2_fpr_ratio")
 check("severity floor stated in the figure caption", FIG,
-      f"Severity is $\\log_2(\\max(\\mathrm{{FPR}},{float(_floor):g}/n)/5\\%)$")
+      f"severity $\\log_2(\\max(\\mathrm{{FPR}},{float(_floor):g}/n)/5\\%)$ (\\S4")
 check("the drift cell estimand names B and N", "\\textbf{Drift} is detector-conditioned",
       f"mean deployment FPR over {script_constant(E102 / 'drift_map.py', 'B')} thresholds, each set from "
       f"{script_constant(E102 / 'drift_map.py', 'N_CAL')} source bona-fide recordings", None, "drift_map.py B / N_CAL")
@@ -312,6 +318,9 @@ if len(_gen) != 1:
     failures.append(f"paper/figures.py: expected exactly one function writing {_figfile}, found {len(_gen)}")
 elif "subplots(1, 1" not in _gen[0]:
     failures.append(f"paper/figures.py: the function writing {_figfile} is not single-panel (no subplots(1, 1))")
+elif not all(s in _gen[0] for s in ("results_drift.json", "results_a5.json", '"log2_fpr_ratio"', '100 * v["fnr_price"]', '"ssl/twin_free"')):
+    failures.append(f"paper/figures.py: the function writing {_figfile} does not plot log2_fpr_ratio against 100*fnr_price "
+                    "from results_drift.json and results_a5.json ssl/twin_free")
 else:
     print(f"  ok  figure file {_figfile} exists and its generator is single-panel")
 
@@ -332,8 +341,8 @@ check("per-condition bona-fide / speaker / spoof counts", "Each 21LA condition i
       f"{n_bona:,} bona-fide recordings of {n_spk} speakers and {n_spoof:,} spoofs",
       (n_bona, n_spk, n_spoof), "results_drift.json n_dep_*; speaker_clustering.json n_speakers")
 check("dependence unit is disclosed for the within-corpus cells", "Over the 108 cells",
-      f"same {n_bona:,} recordings from the same {n_spk} speakers under seven 21LA channel "
-      "conditions, so they are not independent observations and no significance claim is made",
+      f"reordering the same {n_bona:,} recordings of {n_spk} speakers, so they are not independent observations "
+      "and no significance claim is made",
       (n_bona, n_spk), "results_drift.json")
 check("the replicate names the reordered set", "\\textbf{Replication on recording-disjoint data.}",
       f"reorders one {n_bona:,}-recording set", n_bona, "results_drift.json")
@@ -639,6 +648,31 @@ check("A5 deployment-half pooled EER and counts", PILOT,
       f"On this deployment half ({A5EER['ssl']['n_bona']:,} bona fide, {A5EER['ssl']['n_spoof']:,} spoofs) the pooled EER is "
       f"{A5EER['aasist']['eer']*100:.1f}\\% for AASIST and {A5EER['ssl']['eer']*100:.1f}\\% for SSL-AASIST, not a full-protocol value",
       A5EER, "a5_eer.json")
+_uc = sorted(100 * v["fnr_price"] for k, v in _usable)
+_med = (_uc[len(_uc) // 2 - 1] + _uc[len(_uc) // 2]) / 2 if len(_uc) % 2 == 0 else _uc[len(_uc) // 2]
+_over10 = sum(1 for c in _uc if c > 10)
+assert (A5COST["ssl"]["n_pairs"], A5COST["ssl"]["positive_cost"], A5COST["ssl"]["conservative_2x"], A5COST["ssl"]["cost_over_10pp"]) == (
+    len(_usable), sum(1 for k, v in _usable if v["fnr_price"] > 0), sum(1 for k, v in _usable if v["log2_fpr_ratio"] < -SEV_BAR), _over10)
+assert abs(A5COST["ssl"]["cost_median_pp"] - _med) < 1e-6 and sorted(A5COST["ssl"]["usable_destinations"]) == sorted(set(k.split("->")[1] for k, v in _usable))
+assert A5COST["aasist"]["n_pairs"] == 0
+check("usable-pair spoof-side cost: median and count above 10 points (section 4)", PILOT,
+      f"median $+{_med:.1f}$ points, {_over10} pairs above $+10$ (Fig.~\\ref{{fig:drift}}, filled triangles)",
+      (_med, _over10), "results_a5.json ssl/twin_free usable pairs; a5_usable_cost.json")
+check("usable-pair spoof-side cost (abstract)", "The failure persists on ASVspoof~5",
+      f"across two detectors, and on the {len(_usable)} pairs with a measurable spoof side the transported threshold "
+      f"misses a median {_med:.1f} points more spoofs than the deployment-calibrated one", (len(_usable), _med),
+      "a5_usable_cost.json")
+def _diag(det):
+    cs = A5DIAG[det]["cells"]
+    fprs = [v["fpr"] for v in cs.values()]
+    assert len(cs) == A5DIAG[det]["n"] == 12 and A5DIAG[det]["miss_2x"] == sum(1 for v in cs.values() if abs(v["log2_fpr_ratio"]) > SEV_BAR) == 0
+    assert [min(fprs), max(fprs)] == A5DIAG[det]["fpr_range"]
+    return min(fprs), max(fprs)
+_ds, _da = _diag("ssl"), _diag("aasist")
+check("same-condition speaker-split control", PILOT,
+      f"realizes {_ds[0]*100:.1f}--{_ds[1]*100:.1f}\\% FPR (SSL-AASIST) and {_da[0]*100:.1f}--{_da[1]*100:.1f}\\% (AASIST) "
+      f"over the {WORDS[12]} conditions with no $2\\times$ miss, so the failures above follow the codec change, not the speaker split",
+      (_ds, _da), "a5_diagonal.json (recomputed from its cells)")
 check("the flagship's non-replication is stated", PILOT,
       "The flagship AASIST cell does not replicate; the spoof-side axis here rests on one detector")
 
@@ -721,8 +755,6 @@ check("Table 1 caption: per-condition 21LA EER ranges", "\\caption{Upper block:"
 check("Table 1 caption resolves to the release", "\\caption{Upper block:",
       "\\url{https://github.com/rvirgilli/speech-deepfake-threshold-transport")
 check("Table 1 EER block header", "\\label{tab:fnr}", "\\emph{EER (\\%) on the same trials}")
-check("the 2x bar is disclosed as post-hoc in the figure caption", FIG,
-      "post-hoc $2\\times$ two-sided bar")
 
 # --- SCOPE WORDS AND DISQUALIFICATIONS -----------------------------------------
 # Every item below is something a previous round RESTORED after it had silently
@@ -762,8 +794,6 @@ for why, needle in SCOPE_CRITICAL:
 
 # --- statements that must EXIST (the half that catches silent omissions) ----
 PRESENCE = [
-    ("the paper disclaims both the rule and the audit practice as prior art",
-     r"We claim neither the threshold rule nor\s+the practice of auditing both error rates"),
     ("the direct 2026 quantile prior art is cited", r"zhao26ca"),
     ("the quantitative delta from the closest threshold-transfer audit is explicit",
      r"Relative to that audit \(one detector, two target corpora\), we add a 108-cell fixed-FPR map.{0,120}264-pair"),
@@ -774,7 +804,8 @@ PRESENCE = [
     ("spoof-side cost is oracle-referenced, not calibration-referenced",
      r"against the oracle\s*\n?\s*threshold for that deployment"),
     ("limitations section exists", r"\\textbf\{Limitations\.\}"),
-    ("detector-conditioning is scoped, not claimed", r"\$n\{=\}2\$ cannot separate why they lose control by different amounts"),
+    ("speaker identity is cited as a documented source of detector variation",
+     r"speaker identity is itself a documented source of detector variation \\cite\{dao26speaker\}"),
     ("the prior-art delta to TRACE and the industry report is positioned",
      r"our question is finite-sample reset from target bona fide alone"),
     ("the bona-fide resource-shift neighbour is cited", r"under bona-fide resource shifts \\cite\{pham26\}"),
@@ -843,6 +874,9 @@ RETIRED = [
     (r"54/108|54\\slash108", "the weight-localisation cell count (cut)"),
     (r"quadrupl", "the fold-ratio title, which one cell cannot support"),
     (r"THRESHOLDS FAIL CONSERVATIVELY:", "the unhedged title (now 'CAN FAIL')"),
+    (r"\\caption\{Drift map", "the old drift-map caption (figure is now the joint FPR/cost scatter)"),
+    (r"AASIST pays the larger spoof-side cost", "the detector-comparison sentence (cut)"),
+    (r"under seven 21LA channel conditions, so", "the long dependence-unit wording (shortened)"),
     (r"two unlabeled drift monitors fail their tests", "the abstract's unspecific monitor clause"),
     (r"(?i)manifest-bound", "release wording superseded by the URL in the Table 1 caption"),
     (r"pre-registered", "the text now says pre-specified"),
@@ -866,7 +900,7 @@ RETIRED = [
     (r"TPR 0\.89|FPR 0\.16|Spearman 0\.70", "the in-sample monitor operating point (cut; the pass is stated, not its numbers)"),
     (r"covers the eight cells", "the sweep-coverage sentence (cut)"),
     (r"We treat unlabeled drift monitoring as open", "the open-problem sentence (cut for space)"),
-    (r"\\cite\{[^}]*\b(leroux25|rtcfake26|leong26|mcp25|falsesafety26|cdts26|bashari25|brummer06|barber23|radar26|schaefer26reality|tong20)\b",
+    (r"\\cite\{[^}]*\b(leroux25|rtcfake26|leong26|mcp25|falsesafety26|cdts26|bashari25|brummer06|barber23|radar26|schaefer26reality|tong20|pascu24|driftmon26)\b",
      "a citation dropped on 2026-09-09 for the page budget"),
     (r"7--8\\,pp|0\.6--1\.4\\,pp", "the ITW budget-sweep offsets (sentence cut)"),
     (r"17--93 pp|3--95 pp|0\.68 pp on ITW|2--18 pp", "prose ranges now carried by Table 1's policy block"),
