@@ -149,3 +149,27 @@ condition labels come from `keys/LA/CM/trial_metadata.txt` (the condition column
 historical field name is `codec`). The canonical multi-seed
 means reproduce exactly. Null percentiles can move by about 0.1 point across
 NumPy RNG versions; both affected cells still exceed all 200 null draws.
+
+
+## Addendum, 2026-09-09: trial-phase correction
+
+The tables above were computed on all three ASVspoof 2021 phases. After the
+hidden (VAD-trimmed) phase was excluded (`AMENDMENT-3-trial-phase-protocol.md`),
+`speaker_clustering_audit.py` was rerun and `artifacts/speaker_clustering.json`
+regenerated. Under the corrected protocol every one of the six cells exceeds its
+size-preserving permutation null (200 permutations; null medians 3.4--3.5 pp,
+95th percentiles 4.0--4.1 pp; zero exceedances), with a median of 15
+calibration speakers:
+
+| cell | 90% width (pp), mean over 10 seeds | SD over seeds |
+|---|---|---|
+| ssl/none | 9.30 | 0.41 |
+| ssl/pstn | 6.68 | 0.31 |
+| ssl/gsm | 7.08 | 0.23 |
+| aasist/none | 6.00 | 0.25 |
+| aasist/pstn | 10.08 | 0.30 |
+| aasist/gsm | 6.75 | 0.47 |
+
+The earlier reading "two of six cells move" does not survive the correction;
+the speaker-clustering inflation is present on every tested cell. The analysis
+remains post-hoc and is reported as such.

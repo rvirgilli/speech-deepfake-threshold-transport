@@ -1,24 +1,13 @@
 {
  "n_cells": 108,
- "n_old_rule_pass": 84,
- "point": 34,
+ "n_old_rule_pass": 72,
+ "point": 41,
  "ci95": [
-  33.0,
-  35.0
+  41.0,
+  41.0
  ],
- "p01": 33.0,
- "p05": 33.0,
- "boundary_cells": [
-  {
-   "cell": "ssl/alaw->none",
-   "p_miss": 0.1675,
-   "severity": 0.989377914075431
-  },
-  {
-   "cell": "ssl/ulaw->g722",
-   "p_miss": 0.9175,
-   "severity": 1.0169611283577407
-  }
- ],
+ "p01": 41.0,
+ "p05": 41.0,
+ "boundary_cells": [],
  "caveat": "Resamples calibration-cohort draws only. The deployment set is fixed and the 21LA channel conditions share source recordings, so this is a lower bound on the true uncertainty."
 }

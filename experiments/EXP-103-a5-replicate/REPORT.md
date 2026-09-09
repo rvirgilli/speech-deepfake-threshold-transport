@@ -127,3 +127,16 @@ correction factor is claimed and none should be quoted.
   a correction factor.
 - **Claiming the flagship cell replicates.** It cannot — it is an AASIST cell and
   AASIST is overlap-dominated on this corpus.
+
+
+## Addendum, 2026-09-09: trial-phase correction supersedes Reading 2b
+
+The 21LA training cells of the cost map included the ASVspoof 2021 hidden
+(VAD-trimmed) phase (`../EXP-102-a2-campaign/AMENDMENT-3-trial-phase-protocol.md`).
+With that phase excluded and the map refitted (`cost_map_sensitivity.py`,
+`artifacts/cost_map_sensitivity.json`), the held-out $R^2$ on the 66 viable A5
+SSL-AASIST cells is **$-0.81$** (delete-one-condition range $-1.31$ to $-0.67$;
+Spearman $-0.90$). Reading 2b is therefore withdrawn from the manuscript, which
+no longer prints a cost map. Readings 1 and 2a (the ASVspoof 5 replication) do
+not depend on 21LA and are unchanged. The values above this addendum are
+superseded and kept for the record.

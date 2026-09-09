@@ -4,8 +4,8 @@
   "ssl"
  ],
  "coverage": {
-  "aasist->ssl": 0.76,
-  "ssl->aasist": 0.37735849056603776
+  "aasist->ssl": 0.5208333333333334,
+  "ssl->aasist": 0.6382978723404256
  },
  "coverage_bar": 0.95
 }

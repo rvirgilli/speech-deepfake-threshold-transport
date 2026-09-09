@@ -1,0 +1,37 @@
+section model      n  old-pass  graceful   miss   of which cons.  priced
+within  ssl       42        31        17     25               14       0
+within  aasist    42        27        10     32               17      11
+cross   ssl       12         7         2     10                5       5
+cross   aasist    12         7         2     10                5       5
+
+MISS x PRICE cross-tab (all cells):
+  miss=False priced=False:  31
+  miss=False priced=True :   0
+  miss=True  priced=False:  56
+  miss=True  priced=True :  21
+
+Worst cells by spoof-side price (oracle-referenced), all sections:
+  ssl/brspeech_test->asv21la_nocodec         FPR 0.0000  log2  -5.30  FNR 0.001->0.735 (price +0.735, diag -0.249)  old rule: graceful [resolution-limited]
+  aasist/pstn->none                          FPR 0.0002  log2  -5.30  FNR 0.004->0.699 (price +0.695, diag +0.393)  old rule: graceful [resolution-limited]
+  aasist/pstn->g722                          FPR 0.0042  log2  -3.56  FNR 0.007->0.701 (price +0.694, diag +0.392)  old rule: graceful
+  aasist/pstn->opus                          FPR 0.0035  log2  -3.84  FNR 0.048->0.680 (price +0.632, diag +0.374)  old rule: graceful
+  aasist/pstn->alaw                          FPR 0.0016  log2  -4.99  FNR 0.005->0.576 (price +0.571, diag +0.270)  old rule: graceful [resolution-limited]
+  aasist/pstn->ulaw                          FPR 0.0009  log2  -5.30  FNR 0.003->0.574 (price +0.570, diag +0.266)  old rule: graceful [resolution-limited]
+  aasist/itw->asv21la_nocodec                FPR 0.0008  log2  -5.30  FNR 0.004->0.527 (price +0.523, diag -0.425)  old rule: graceful [resolution-limited]
+  ssl/brspeech_test->itw                     FPR 0.0013  log2  -5.22  FNR 0.181->0.693 (price +0.512, diag -0.291)  old rule: graceful
+  aasist/gsm->none                           FPR 0.0009  log2  -5.30  FNR 0.004->0.441 (price +0.437, diag +0.294)  old rule: graceful [resolution-limited]
+  ssl/brspeech_test->asv21df_100k            FPR 0.0000  log2  -5.84  FNR 0.069->0.504 (price +0.435, diag -0.481)  old rule: graceful [resolution-limited]
+
+Cells the old rule called graceful that miss target by >2x:
+  41 of 72 old-rule passes (108 cells total)
+
+Sensitivity of the counts to the two post-hoc bars:
+  severity>0.585 (1.5x): hidden  54 of 72 old-rule passes
+  severity>1.000 (2.0x): hidden  41 of 72 old-rule passes
+  severity>1.585 (3.0x): hidden  31 of 72 old-rule passes
+  severity>2.000 (4.0x): hidden  29 of 72 old-rule passes
+  price>0.05:  23 cells
+  price>0.10:  21 cells
+  price>0.20:  18 cells
+
+Resolution-limited cells (FPR below 5/n_dep_bona): 13 — their severity rests on a handful of utterances; do not print as point values.

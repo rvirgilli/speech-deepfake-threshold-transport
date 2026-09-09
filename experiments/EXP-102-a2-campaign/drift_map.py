@@ -33,6 +33,10 @@ from pathlib import Path
 import numpy as np
 
 EXP001 = Path.home() / "projects/academic/icassp2027/experiments/EXP-001-scoring-campaign/scores"
+import sys
+sys.path.insert(0, str(EXP001.parent / "code"))
+from protocol import drop_hidden  # noqa: E402
+
 LA_KEY = Path.home() / "data/corpora/anti-spoofing/keys/LA/CM/trial_metadata.txt"
 ALPHA = 0.05
 N_CAL = 500
@@ -48,7 +52,7 @@ CROSS = ["asv21la_nocodec", "asv21df_100k", "itw", "brspeech_test"]
 
 def load_scores(model, corpus):
     with gzip.open(EXP001 / f"{model}_{corpus}.csv.gz", "rt") as f:
-        rows = list(csv.DictReader(f))
+        rows = drop_hidden(list(csv.DictReader(f)))
     return {r["utt_id"]: (float(r["score"]), r["label"] == "bonafide") for r in rows}
 
 

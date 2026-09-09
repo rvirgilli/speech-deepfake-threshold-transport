@@ -1,0 +1,41 @@
+{
+  "all_phases": {
+    "n_cells": 108,
+    "miss_2x": 58,
+    "within_miss_2x": 42,
+    "in_band": 84,
+    "hidden_in_band": 34,
+    "flagship_aasist_pstn_g722": {
+      "fpr": 0.0046,
+      "fnr": 0.7371,
+      "fnr_oracle": 0.1877,
+      "log2": -3.4321
+    }
+  },
+  "eval+progress": {
+    "n_cells": 108,
+    "miss_2x": 77,
+    "within_miss_2x": 57,
+    "in_band": 72,
+    "hidden_in_band": 41,
+    "flagship_aasist_pstn_g722": {
+      "fpr": 0.0042,
+      "fnr": 0.6997,
+      "fnr_oracle": 0.0066,
+      "log2": -3.5591
+    }
+  },
+  "eval_only": {
+    "n_cells": 108,
+    "miss_2x": 77,
+    "within_miss_2x": 57,
+    "in_band": 72,
+    "hidden_in_band": 41,
+    "flagship_aasist_pstn_g722": {
+      "fpr": 0.0052,
+      "fnr": 0.7056,
+      "fnr_oracle": 0.0064,
+      "log2": -3.2779
+    }
+  }
+}

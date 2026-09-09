@@ -8,18 +8,23 @@
       "empirical_design": "fixed score pool; cohort sampled without replacement; evaluation on complement",
       "interpretation": "the Beta law is a population reference, not the exact finite-pool empirical law"
     },
-    "flagship_74_19_0.47": {
+    "flagship_cell": {
       "path": "experiments/EXP-102-a2-campaign/results_drift.json",
       "key": "within.aasist/pstn->g722",
       "values": {
-        "vanilla_fnr_mean": 0.7366,
-        "fnr_oracle": 0.1877,
-        "vanilla_fpr_mean": 0.0047
+        "vanilla_fnr_mean": 0.7009,
+        "fnr_oracle": 0.0066,
+        "vanilla_fpr_mean": 0.0042,
+        "fnr_price": 0.6943
       }
     },
-    "grid_58_and_hidden_34": {
+    "grid_counts": {
       "path": "experiments/EXP-102-a2-campaign/results_drift.json",
-      "rule": "58: abs(log2_fpr_ratio)>1 over within+cross; 34 additionally excursion<=0.05"
+      "rule": "miss: abs(log2_fpr_ratio)>1 over within+cross; in_band: abs(vanilla_fpr_mean-0.05)<=0.05; hidden: both",
+      "miss": 77,
+      "in_band": 72,
+      "hidden": 41,
+      "protocol": "ASVspoof 2021 eval+progress phases; hidden (VAD-trimmed) excluded, see AMENDMENT-3"
     },
     "a5_recording_speaker_disjoint_187_of_264": {
       "path": "experiments/EXP-103-a5-replicate/artifacts/results_a5.json",
@@ -28,20 +33,20 @@
     },
     "quantile_full_grid": {
       "paths": [
-        "experiments/EXP-102-a2-campaign/results_parametric.json",
         "experiments/EXP-002-a2-calibration/results.json",
-        "experiments/EXP-102-a2-campaign/results_sls_complete.json"
+        "experiments/EXP-102-a2-campaign/results_sls_complete.json",
+        "experiments/EXP-102-a2-campaign/results_table1_eer_spread.json"
       ],
-      "paper_scope": "mean realized FPR 4.94--5.03% at N=500; viable FNR premium <=0.8 pp"
+      "paper_scope": "Table 1: mean realized FPR over the 12 cells at N=500; FNR premium on cells with a usable operating point; EER on the same trials"
     },
     "score_weighting_heuristic": {
       "path": "experiments/EXP-102-a2-campaign/results_drift.json",
       "implementation": "experiments/EXP-102-a2-campaign/drift_map.py::density_ratio_weights + weighted_quantile",
       "definition": "clipped 15-bin deployment/calibration mixture-score density ratio applied to the bona-fide cohort; no test-point weight",
       "not": "Tibshirani et al. covariate-shift conformal construction",
-      "within_2pp": 33,
-      "unweighted_within_2pp": 26,
-      "improves": 70
+      "within_2pp": 17,
+      "unweighted_within_2pp": 20,
+      "improves": 74
     },
     "transmission_scope": {
       "path": "paper/A2/main.tex",
@@ -56,22 +61,25 @@
     "speaker_clustering_post_hoc": {
       "path": "experiments/EXP-102-a2-campaign/artifacts/speaker_clustering.json",
       "key": "cells.aasist/pstn",
-      "mean_width_pp": 7.02894819861887,
-      "sd_width_pp": 0.16642123415389112,
+      "mean_width_pp": 10.084480361923085,
+      "sd_width_pp": 0.3011989579164085,
       "status": "post_hoc_sensitivity_not_preregistered"
     },
     "cost_map_exploratory_only": {
       "path": "experiments/EXP-103-a5-replicate/artifacts/cost_map_sensitivity.json",
-      "heldout_r2": 0.5915555808467492,
+      "heldout_r2": -0.8142385198737199,
       "delete_one_a5_range": [
-        0.451159729336744,
-        0.6404361052040249
+        -1.3051517312537904,
+        -0.6707649189742928
       ],
       "inference": null,
       "status": "descriptive_sensitivity_no_interval_or_p_value"
     }
   },
   "retired": [
+    "all-phase ASVspoof 2021 results (hidden VAD-trimmed phase included): commit 3cfc9cf; see AMENDMENT-3",
+    "exploratory A5 cost map (held-out R2 0.59 under the all-phase protocol; -0.81 corrected)",
+    "adaptive oracle-label ceiling (99/108 under the all-phase protocol; support-bound under the corrected one)",
     "Fisher interval [0.12,0.87] and p=.002 for held-out R2",
     "actDCF blind-spot interpretation",
     "causal attribution of 71% versus 50% to disjointness",

@@ -21,6 +21,10 @@ from pathlib import Path
 import numpy as np
 
 SCORES = Path.home() / "projects/academic/icassp2027/experiments/EXP-001-scoring-campaign/scores"
+import sys
+sys.path.insert(0, str(SCORES.parent / "code"))
+from protocol import drop_hidden  # noqa: E402
+
 EMB = Path.home() / "exp-artifacts/icassp2027/EXP-001/emb"
 ALPHA = 0.05
 K_COHORT = 100
@@ -31,7 +35,7 @@ TARGETS = ["asv21la", "asv21df_100k", "itw", "brspeech_test"]
 
 def load(model, corpus):
     with gzip.open(SCORES / f"{model}_{corpus}.csv.gz", "rt") as f:
-        rows = list(csv.DictReader(f))
+        rows = drop_hidden(list(csv.DictReader(f)))
     utts = [r["utt_id"] for r in rows]
     s = np.array([float(r["score"]) for r in rows])
     bona = np.array([r["label"] == "bonafide" for r in rows])

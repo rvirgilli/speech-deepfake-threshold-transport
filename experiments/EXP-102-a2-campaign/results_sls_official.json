@@ -1,56 +1,56 @@
 {
   "asv21la": {
-    "n_bona": 14816,
-    "n_spoof": 133360,
+    "n_bona": 16492,
+    "n_spoof": 148148,
     "pooled_eer_check": null,
     "oracle": {
-      "fnr": 0.0147
+      "fnr": 0.0144
     },
     "same_sample_quantile_identity": 0.05,
     "quantile_N100": {
-      "fpr_mean": 0.0489,
+      "fpr_mean": 0.0487,
       "fpr_ci": [
-        0.0166,
-        0.0988
+        0.0176,
+        0.0924
       ],
-      "fnr_mean": 0.0197,
-      "fnr_minus_oracle_pts": 0.5
+      "fnr_mean": 0.0183,
+      "fnr_minus_oracle_pts": 0.39
     },
     "quantile_N500": {
-      "fpr_mean": 0.0498,
+      "fpr_mean": 0.05,
       "fpr_ci": [
-        0.0323,
-        0.0715
+        0.0324,
+        0.0712
       ],
-      "fnr_mean": 0.0157,
-      "fnr_minus_oracle_pts": 0.1
+      "fnr_mean": 0.0149,
+      "fnr_minus_oracle_pts": 0.05
     }
   },
   "asv21df_full": {
-    "n_bona": 14869,
-    "n_spoof": 519059,
+    "n_bona": 20637,
+    "n_spoof": 572616,
     "pooled_eer_check": null,
     "oracle": {
-      "fnr": 0.0071
+      "fnr": 0.0063
     },
     "same_sample_quantile_identity": 0.05,
     "quantile_N100": {
-      "fpr_mean": 0.0483,
+      "fpr_mean": 0.0495,
       "fpr_ci": [
-        0.0158,
-        0.0961
+        0.0164,
+        0.0995
       ],
-      "fnr_mean": 0.0095,
-      "fnr_minus_oracle_pts": 0.24
+      "fnr_mean": 0.0086,
+      "fnr_minus_oracle_pts": 0.23
     },
     "quantile_N500": {
-      "fpr_mean": 0.0501,
+      "fpr_mean": 0.0504,
       "fpr_ci": [
-        0.0324,
-        0.0695
+        0.0334,
+        0.0699
       ],
-      "fnr_mean": 0.0075,
-      "fnr_minus_oracle_pts": 0.04
+      "fnr_mean": 0.0066,
+      "fnr_minus_oracle_pts": 0.03
     }
   },
   "itw": {

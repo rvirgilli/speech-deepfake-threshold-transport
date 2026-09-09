@@ -16,7 +16,8 @@ each to be accounted for:
 
 A new number in the paper fails until someone classifies it. That is the point:
 the author must say what each number is, rather than the checker guessing which
-ones matter.
+ones matter. A retired value is REMOVED from the declarations rather than kept,
+so its return is unaccounted.
 
 Measured coverage, 2026-08-15, mutating every numeral in main.tex one at a time:
 
@@ -29,46 +30,91 @@ file also carries position-aware bindings for every load-bearing repeated claim;
 `check_numbers.py` supplies the larger sentence-level mutation suite. A numeral
 occurrence can belong to only one provenance class.
 
-Run from paper/A2/. Exit 1 on any unaccounted numeral.
+Run from paper/A2/. Exit 1 on any unaccounted numeral. A2_TEX overrides the
+manuscript path for mutation testing.
 """
 
+import ast
 import json
 import math
+import os
 import re
-import statistics as stats
 import sys
 from collections import Counter
 from pathlib import Path
 
 HERE = Path(__file__).parent
 EXP = HERE.parent.parent / "experiments"
-TEX = (HERE / "main.tex").read_text()
-ALPHA, SEV = 0.05, 1.0
+E102 = EXP / "EXP-102-a2-campaign"
+TEX = Path(os.environ.get("A2_TEX", HERE / "main.tex")).read_text()
+ALPHA, SEV, TOL = 0.05, 1.0, 0.05
 
-D = json.load(open(EXP / "EXP-102-a2-campaign/results_drift.json"))
-NSW = json.load(open(EXP / "EXP-102-a2-campaign/results_nsweep.json"))["contamination"]
-CMS = json.load(open(EXP / "EXP-102-a2-campaign/results_cmethods.json"))
-SLS = json.load(open(EXP / "EXP-102-a2-campaign/results_sls_complete.json"))
-# Contamination sweep at the reported operating point, and the asymmetric-norm
-# collapse. Both were declared; both are results.
-_cont = {k: c["N500_c0.05"]["fpr_mean"] for k, c in NSW.items()}
-_below = sorted(x for x in _cont.values() if x < ALPHA)
-_c5 = [d[c]["C5_asnorm"]["fnr"] for d in CMS.values() for c in d]
-FLAG = D["within"]["aasist/pstn->g722"]
+D = json.load(open(E102 / "results_drift.json"))
+NSW = json.load(open(E102 / "results_nsweep.json"))
+CMS = json.load(open(E102 / "results_cmethods.json"))
+SLS = json.load(open(E102 / "results_sls_complete.json"))
+DIS = json.load(open(E102 / "results_dissociation.json"))
+EER = json.load(open(E102 / "results_table1_eer_spread.json"))
+PAR = json.load(open(E102 / "results_parametric.json"))
+SPK = json.load(open(E102 / "artifacts/speaker_clustering.json"))
+E2 = json.load(open(EXP / "EXP-002-a2-calibration/results.json"))
+M10 = json.load(open(EXP / "EXP-010-a2-matched-baseline/results.json"))
 A5 = json.load(open(EXP / "EXP-103-a5-replicate/artifacts/results_a5.json"))
 PRE = json.load(open(EXP / "EXP-103-a5-replicate/artifacts/precheck.json"))
-COST = json.load(open(EXP / "EXP-103-a5-replicate/artifacts/cost_map_sensitivity.json"))
-BND = json.load(open(EXP / "EXP-403-a2-detector-families/artifacts/bound_transfer.json"))
-SPK = json.load(open(EXP / "EXP-102-a2-campaign/artifacts/speaker_clustering.json"))
+DRIFT_MAP = (E102 / "drift_map.py").read_text()
+CORS = json.load(open(EXP / "EXP-109-a2-cors-transport/results_cellA.json"))
+PHASE = json.load(open(E102 / "results_phase_sensitivity.json"))
+
+
+def script_constant(path, name):
+    m = re.search(rf"^{name}\s*=\s*([^#\n]+)", path.read_text(), re.M)
+    return ast.literal_eval(m.group(1).strip())
+
 
 cells = {k: v for s in ("within", "cross") for k, v in D[s].items()}
-band = [v for v in cells.values() if v["excursion"] <= 0.05]
-hidden = [v for v in band if abs(v["log2_fpr_ratio"]) > SEV]
-viable = [v for v in hidden if v["fnr_oracle"] <= 0.50]
-miss2 = [v for v in cells.values() if abs(v["log2_fpr_ratio"]) > SEV]
 within = D["within"]
-cross_b = sorted((v["vanilla_fnr_mean"] - v["fnr_oracle"]) / (ALPHA - v["vanilla_fpr_mean"])
-                 for v in viable if ALPHA - v["vanilla_fpr_mean"] > 0)
+in_tol = [v for v in cells.values() if abs(v["vanilla_fpr_mean"] - ALPHA) <= TOL]
+hidden = [v for v in in_tol if abs(v["log2_fpr_ratio"]) > SEV]
+miss2 = [v for v in cells.values() if abs(v["log2_fpr_ratio"]) > SEV]
+n_within_tol = sum(1 for k, v in cells.items() if k in within and abs(v["vanilla_fpr_mean"] - ALPHA) <= TOL)
+FLAG = max((kv for kv in cells.items() if not kv[1]["resolution_limited"]),
+           key=lambda kv: kv[1]["fnr_price"])[1]
+PSTN_MIN_PRICE = min(v["fnr_price"] for k, v in within.items() if k.startswith("aasist/pstn->"))
+AUC = DIS["aasist"]["cond_auc"]
+AUC_OTHERS = [AUC[c] for c in ("alaw", "ulaw", "gsm", "g722", "opus", "none")]
+MON = D["monitor_eval"]["ssl/w1_mixture"]
+OP = MON["achieves_tpr80_fpr20"]
+BENIGN = [v for k, v in cells.items() if k.startswith("ssl/") and abs(v["log2_fpr_ratio"]) <= SEV]
+E2_CORPORA = ("asv21la", "asv21df_100k", "itw", "brspeech_test")
+SLS_CORPORA = ("asv21la", "asv21df_full", "itw", "brspeech_test")
+
+_cont = {k: c["N500_c0.05"]["fpr_mean"] for k, c in NSW["contamination"].items()}
+_below = sorted(x for x in _cont.values() if x < ALPHA)
+_c5 = [d[c]["C5_asnorm"]["fnr"] for d in CMS.values() for c in d]
+
+
+def spearman(x, y):
+    def rank(v):
+        order = sorted(range(len(v)), key=lambda i: v[i])
+        r = [0.0] * len(v)
+        i = 0
+        while i < len(v):
+            j = i
+            while j + 1 < len(v) and v[order[j + 1]] == v[order[i]]:
+                j += 1
+            for k in range(i, j + 1):
+                r[order[k]] = (i + j) / 2 + 1
+            i = j + 1
+        return r
+    rx, ry = rank(x), rank(y)
+    mx, my = sum(rx) / len(rx), sum(ry) / len(ry)
+    num = sum((a - mx) * (b - my) for a, b in zip(rx, ry))
+    return num / math.sqrt(sum((a - mx) ** 2 for a in rx) * sum((b - my) ** 2 for b in ry))
+
+
+RHO = {d: spearman([abs(v["log2_fpr_ratio"]) for k, v in cells.items() if k.startswith(d + "/")],
+                   [v["w1_bona_oracle"] for k, v in cells.items() if k.startswith(d + "/")])
+       for d in ("ssl", "aasist")}
 
 
 def a5n(arm, bar=SEV):
@@ -81,8 +127,8 @@ def a5n(arm, bar=SEV):
 
 
 tf_n, tf_t = a5n("twin_free")
-cr_n, cr_t = a5n("crossed")
 la_n = sum(1 for v in within.values() if abs(v["log2_fpr_ratio"]) > SEV)
+A5_CONDS = {k.split("->")[1] for k in A5["ssl/twin_free"]}
 
 
 def beta_cdf(x, a, b):
@@ -111,17 +157,30 @@ def beta_summary(N):
     )
 
 
-P100, _, _ = beta_summary(100)
-P500, Q500_LO, Q500_HI = beta_summary(500)
-SPK_FLAG = SPK["cells"]["aasist/pstn"]
+def normal_quantile(p):
+    lo, hi = 0.0, 5.0
+    for _ in range(60):
+        mid = (lo + hi) / 2
+        lo, hi = (mid, hi) if 0.5 * (1 + math.erf(mid / math.sqrt(2))) < p else (lo, mid)
+    return lo
 
-# Table 1: 3 detectors x 4 corpora of FNR-at-pinned-FPR and its oracle delta.
-# The delta-check found all 24 of these mutate freely under the enumeration
-# checker.  Keep the expected values as a row/column matrix: a set of values is
-# insufficient because, for example, a wrong 0.4 copied into the SLS/21DF cell
-# is still a genuine value elsewhere in the table.
-E2 = json.load(open(EXP / "EXP-002-a2-calibration/results.json"))
-SLS = json.load(open(EXP / "EXP-102-a2-campaign/results_sls_complete.json"))
+
+P100, _, _ = beta_summary(100)
+P450, _, _ = beta_summary(450)
+P500, Q500_LO, Q500_HI = beta_summary(500)
+SPK_W = [v["seed_sweep"]["mean_width_pp"] for v in SPK["cells"].values()]
+SPK_NULL = [v["permutation"]["null_median_pp"] for v in SPK["cells"].values()]
+CORS_N = {d: sum(1 for v in c.values() if abs(v["log2_fpr_ratio"]) > SEV) for d, c in CORS["cells"].items()}
+EC = EER["eer_by_condition_21la"]
+def _ec_range(det):
+    v = [x * 100 for x in EC[f"{det}/asv21la"].values()]
+    return f"{min(v):.1f}", f"{max(v):.1f}"
+
+# Table 1: 3 detectors x 4 corpora of FNR-at-pinned-FPR with its oracle delta,
+# and an EER block on the same trials. The delta-check found all 24 upper-block
+# values mutate freely under the enumeration checker. Keep the expected values
+# as a row/column matrix: a set of values is insufficient because, for example,
+# a wrong 0.4 copied into the SLS/21DF cell is still a genuine value elsewhere.
 
 
 def _table_pair(entry):
@@ -129,188 +188,200 @@ def _table_pair(entry):
             f"{abs(entry['fnr_minus_oracle_pts']):.1f}")
 
 
-_E2_CORPORA = ("asv21la", "asv21df_100k", "itw", "brspeech_test")
-_SLS_CORPORA = ("asv21la", "asv21df_full", "itw", "brspeech_test")
 TABLE1_ROWS = {
     "AASIST": tuple(_table_pair(E2["aasist"][corpus]["quantile"]["500"])
-                    for corpus in _E2_CORPORA),
+                    for corpus in E2_CORPORA),
     "SSL-AASIST": tuple(_table_pair(E2["ssl"][corpus]["quantile"]["500"])
-                        for corpus in _E2_CORPORA),
+                        for corpus in E2_CORPORA),
     "XLS-R+SLS$^\\dagger$": tuple(_table_pair(SLS[corpus]["quantile"])
-                                     for corpus in _SLS_CORPORA),
+                                     for corpus in SLS_CORPORA),
 }
+EER_ROWS = {
+    "AASIST": tuple((f"{EER['cells'][f'aasist/{c}']['eer']*100:.1f}",) for c in E2_CORPORA),
+    "SSL-AASIST": tuple((f"{EER['cells'][f'ssl/{c}']['eer']*100:.1f}",) for c in E2_CORPORA),
+    "XLS-R+SLS$^\\dagger$": tuple((f"{EER['cells'][f'sls/{c}']['eer']*100:.1f}",) for c in SLS_CORPORA),
+}
+TABLE1_BLOCKS = (("FNR", "delta"), ("EER",))
 TABLE1 = {}
-for row, pairs in TABLE1_ROWS.items():
-    for column, (fnr, delta) in zip(("21LA", "21DF", "ITW", "BRSpeech"), pairs):
-        for value, quantity in ((fnr, "FNR"), (delta, "delta")):
-            reason = f"Table 1 {quantity}, {row}/{column}"
-            TABLE1[value] = f"{TABLE1[value]}; {reason}" if value in TABLE1 else reason
+for block, rows in ((TABLE1_ROWS, 0), (EER_ROWS, 1)):
+    for row, cells_ in block.items():
+        for column, values in zip(("21LA", "21DF", "ITW", "BRSpeech"), cells_):
+            for value, quantity in zip(values, TABLE1_BLOCKS[rows]):
+                reason = f"Table 1 {quantity}, {row}/{column}"
+                TABLE1[value] = f"{TABLE1[value]}; {reason}" if value in TABLE1 else reason
 
-_ssl_naive = [e["naive_transfer"]["fpr"] for e in E2["ssl"].values()
-              if isinstance(e, dict) and "naive_transfer" in e]
+_ssl_naive = [E2["ssl"][c]["naive_transfer"]["fpr"] for c in E2_CORPORA]
 INTRO_SSL_LO = f"{min(_ssl_naive)*100:.0f}"
 INTRO_SSL_HI = f"{max(_ssl_naive)*100:.1f}"
-INTRO_SLS_HI = f"{max(e['naive_transfer']['fpr'] for e in SLS.values())*100:.1f}"
-_premiums = [abs(e["quantile"]["500"]["fnr_minus_oracle_pts"])
-             for model in ("ssl", "aasist") for e in E2[model].values()
-             if isinstance(e, dict) and isinstance(e.get("quantile", {}).get("500"), dict)]
-_premiums += [abs(e["quantile"]["fnr_minus_oracle_pts"]) for e in SLS.values()]
-MAX_FNR_PREMIUM = f"{max(_premiums):.1f}"
+INTRO_SLS_HI = f"{max(SLS[c]['naive_transfer']['fpr'] for c in SLS_CORPORA)*100:.1f}"
+_q = [E2[d][c]["quantile"]["500"] for d in ("aasist", "ssl") for c in E2_CORPORA]
+_q += [SLS[c]["quantile"] for c in SLS_CORPORA]
+_oracle = [E2[d][c]["oracle"]["fnr"] for d in ("aasist", "ssl") for c in E2_CORPORA]
+_oracle += [SLS[c]["oracle"]["fnr"] for c in SLS_CORPORA]
+FPR_LO, FPR_HI = min(e["fpr_mean"] for e in _q), max(e["fpr_mean"] for e in _q)
+MAX_FNR_PREMIUM = f"{math.ceil(max(e['fnr_minus_oracle_pts'] for e, o in zip(_q, _oracle) if o <= 0.5) * 10 - 1e-9) / 10:.1f}"
+SPREAD_LO = min(v["quantile_N500_fpr_pct_2.5_97.5"][0] for v in EER["cells"].values())
+SPREAD_HI = max(v["quantile_N500_fpr_pct_2.5_97.5"][1] for v in EER["cells"].values())
+_z = [e["znorm"]["fpr_mean"] for N, e in NSW["n_sweep"]["ssl/itw"].items() if isinstance(e, dict)]
+_g = [e["parametric"]["fpr_mean"] for N, e in PAR["ssl"]["itw"].items() if isinstance(e, dict)]
+_naive_miss = [abs(f - ALPHA) * 100 for f in _ssl_naive]
+_best = [min(abs(CMS["ssl"][c][m]["fpr"] - ALPHA) for m in ("C1_znorm", "C2_tempshift")) * 100
+         for c in E2_CORPORA]
+_par500 = {(d, c): PAR[d][c]["500"]["parametric"]["fpr_mean"] for d in PAR for c in PAR[d]
+           if isinstance(PAR[d][c], dict) and "500" in PAR[d][c]}
+_zdev = [abs(M10[d][c]["500"]["znorm"]["fpr_mean"] - ALPHA) * 100 for d in ("ssl", "aasist")
+         for c in E2_CORPORA]
+_beyond = [x for x in _zdev if x > 2]
+DF = EER["cells"]["ssl/asv21df_100k"]
+N_BONA = {v["n_dep_bona"] for v in within.values()}.pop()
+N_SPOOF = {v["n_dep_spoof"] for v in within.values()}.pop()
+N_SPK = {v["n_speakers"] for v in SPK["cells"].values()}.pop()
+N_CAL = script_constant(E102 / "drift_map.py", "N_CAL")
+B_WEIGHTED = script_constant(E102 / "drift_map.py", "B_WEIGHTED")
+CONTAM = max(script_constant(E102 / "n_sweep.py", "CONTAM"))
+CONTAM_N = max(script_constant(E102 / "n_sweep.py", "CONTAM_NS"))
+BINS = int(re.search(r"def density_ratio_weights\(.*bins=(\d+)\)", DRIFT_MAP).group(1))
+CLIP = re.search(r"np\.clip\(q / np\.maximum\(p, 1e-8\), ([\d.]+), ([\d.]+)\)", DRIFT_MAP).groups()
+ACC = re.search(r"if tpr >= ([\d.]+) and fpr <= ([\d.]+):", DRIFT_MAP).groups()
 
 # value -> what it is. Every value in this mapping is recomputed from a loaded
 # result artifact above; analytic quantities live in ANALYTIC_DERIVED below.
 ARTIFACT_DERIVED = {
     str(len(cells)): "total deployment cells",
     str(len(miss2)): "cells missing target by >2x",
-    str(sum(1 for v in miss2 if v["log2_fpr_ratio"] < 0)): "conservative of those",
-    str(sum(1 for v in miss2 if v["log2_fpr_ratio"] > 0)): "liberal of those",
-    str(len(hidden)): "band-passing cells missing by >2x",
-    str(len(viable)): "of those, not overlap-dominated (spoof-side subset)",
-    str(len(band)): "cells passing the +-5pp band",
+    str(sum(1 for v in miss2 if v["log2_fpr_ratio"] < 0)): "conservative of those (below target)",
+    str(sum(1 for v in miss2 if v["log2_fpr_ratio"] > 0)): "liberal of those (above target)",
+    str(round(FLAG["vanilla_fpr_mean"] * FLAG["n_dep_bona"])): "flagship false alarms out of n_dep_bona",
+    str(min(CORS_N.values())): "released-score detectors, min cells off by >2x (EXP-109)",
+    str(max(CORS_N.values())): "released-score detectors, max cells off by >2x (EXP-109)",
+    str(sum(CORS_N.values())): "released-score detectors, pooled cells off by >2x (EXP-109)",
+    str(42 * len(CORS_N)): "released-score detectors, pooled channel pairs (EXP-109)",
+    **{v: f"per-condition 21LA EER {which}, {det} (Table 1 caption)" for det in ("aasist", "ssl", "sls")
+       for which, v in zip(("min", "max"), _ec_range(det))},
+    f"{min(SPK_W):.1f}": "speaker-disjoint width, min over six cells (pp)",
+    f"{max(SPK_W):.1f}": "speaker-disjoint width, max over six cells (pp)",
+    f"{min(SPK_NULL):.1f}": "speaker-permutation null median, min over six cells (pp)",
+    f"{max(SPK_NULL):.1f}": "speaker-permutation null median, max over six cells (pp)",
+    str(len(hidden)): "in-tolerance cells missing by >2x",
+    str(len(in_tol)): "cells inside the +-5 pp tolerance on realized FPR",
+    str(sum(1 for v in in_tol if abs(v["log2_fpr_ratio"]) > 0.585)): "in-tolerance cells off by >1.5x",
+    str(sum(1 for v in in_tol if abs(v["log2_fpr_ratio"]) > 2.0)): "in-tolerance cells off by >4x",
+    str(n_within_tol): "in-tolerance cells that are within-corpus",
     str(len(within)): "within-corpus cells",
+    str(la_n): "within-corpus cells missing by >2x",
     # 42 = the ordered 21LA condition pairs per detector, i.e. within-corpus
     # cells divided by the two detectors that carry them.
     str(len(within) // 2): "ordered 21LA condition pairs per detector",
     str(tf_n): "A5 twin-free pairs missing by >2x",
     str(tf_t): "A5 twin-free pairs",
-    str(cr_n): "A5 crossed pairs missing by >2x",
-    str(cr_t): "A5 crossed pairs",
     str(round(100 * tf_n / tf_t)): "A5 twin-free miss rate (%)",
-    str(round(100 * cr_n / cr_t)): "A5 crossed miss rate (%)",
     str(round(100 * la_n / len(within))): "21LA within-corpus miss rate (%)",
+    str(len(A5_CONDS) - 1): "A5 organizer-applied codecs (conditions minus the source)",
     f"{PRE['aasist']['oracle_fnr_at_5pct_fpr']*100:.1f}": "AASIST oracle FNR on A5 (%)",
     f"{PRE['ssl']['oracle_fnr_at_5pct_fpr']*100:.1f}": "SSL oracle FNR on A5 (%)",
-    f"{COST['primary']['heldout_r2']:.2f}": "descriptive held-out 21LA-to-A5 R2",
-    f"{COST['delete_one_a5_condition_fixed_primary_line']['range'][0]:.2f}":
-        "delete-one-A5 held-out R2 minimum",
-    f"{COST['delete_one_a5_condition_fixed_primary_line']['range'][1]:.2f}":
-        "delete-one-A5 held-out R2 maximum",
-    f"{stats.median(cross_b):.1f}": "actDCF crossover median over viable cells",
-    f"{cross_b[0]:.1f}": "actDCF crossover minimum",
-    f"{cross_b[-1]:.1f}": "actDCF crossover maximum",
-    str(next(b for b in range(1, 100)
-             if not any((v["vanilla_fnr_mean"] + b * v["vanilla_fpr_mean"])
-                        > (v["fnr_oracle"] + b * ALPHA) for v in viable))):
-        "smallest beta at which no viable cell is worse than oracle",
-    str(round(min(BND["coverage"].values()) * 100)): "envelope coverage, min (%)",
-    str(round(max(BND["coverage"].values()) * 100)): "envelope coverage, max (%)",
-    f"{SPK_FLAG['seed_sweep']['mean_width_pp']:.2f}": "speaker-disjoint AASIST/PSTN width mean (pp)",
-    f"{SPK_FLAG['seed_sweep']['sd_width_pp']:.2f}": "speaker-disjoint AASIST/PSTN width SD (pp)",
-    f"{SPK_FLAG['permutation']['null_median_pp']:.1f}": "speaker-permutation null median (pp)",
+    # The flagship: named cell = argmax fnr_price among non-resolution-limited cells.
+    f"{FLAG['vanilla_fnr_mean']*100:.0f}": "flagship missed-spoof rate (%)",
+    f"{FLAG['fnr_oracle']*100:.2f}": "flagship oracle missed-spoof rate (%)",
+    f"{FLAG['vanilla_fpr_mean']*100:.2f}": "flagship realized FPR (%)",
+    f"{FLAG['fnr_price']:.2f}": "flagship spoof-side price",
+    f"{math.floor(PSTN_MIN_PRICE * 100 + 1e-9) / 100:.2f}": "floor of the min price over AASIST cells calibrated on PSTN",
+    f"{FLAG['cal_fnr_at_threshold']*100:.0f}": "AASIST FNR on PSTN spoofs at the transported PSTN threshold (%)",
+    f"{AUC['pstn']:.3f}": "AASIST AUC on PSTN, results_dissociation.json",
+    f"{min(AUC_OTHERS):.3f}": "AASIST AUC, min over the other six 21LA conditions",
+    f"{max(AUC_OTHERS):.3f}": "AASIST AUC, max over the other six 21LA conditions",
+    f"{RHO['ssl']:.2f}": "Fig. 1 Spearman |log2| vs oracle W1, SSL-AASIST",
+    f"{RHO['aasist']:.2f}": "Fig. 1 Spearman |log2| vs oracle W1, AASIST",
+    f"{D['severity_vs_w1_transfer']['fit_ssl_test_aasist']['r2_transfer']:.2f}": "held-out R2, fit SSL test AASIST",
+    f"{D['severity_vs_w1_transfer']['fit_aasist_test_ssl']['r2_transfer']:.2f}": "held-out R2, fit AASIST test SSL",
+    # monitors: the corrected reading's one in-sample pass and the re-mix probe
+    f"{OP['tpr']:.2f}": "mixture-W1 monitor TPR, corrected reading",
+    f"{OP['fpr']:.2f}": "mixture-W1 monitor FPR, corrected reading",
+    f"{MON['spearman_vs_target']:.2f}": "mixture-W1 monitor Spearman, corrected reading",
+    str(len(BENIGN)): "SSL benign cells (|log2| <= 1)",
+    str(sum(1 for v in BENIGN if v["monitors"]["w1_mixture_prev_half"] >= OP["threshold"])):
+        "benign cells over threshold after halving spoof share",
+    str(sum(1 for v in BENIGN if v["monitors"]["w1_mixture_prev_x15"] >= OP["threshold"])):
+        "benign cells over threshold after x1.5 spoof share",
     # score-weighting heuristic contest, recomputed from the same drift map
     str(sum(1 for v in cells.values() if abs(v["weighted_fpr_mean"] - ALPHA) <= 0.02)):
         "cells where score weighting lands within 2pp",
     str(sum(1 for v in cells.values() if abs(v["vanilla_fpr_mean"] - ALPHA) <= 0.02)):
         "cells where unweighted CP lands within 2pp",
-    str(sum(1 for v in cells.values()
-            if abs(v["weighted_fpr_mean"] - ALPHA) < abs(v["vanilla_fpr_mean"] - ALPHA))):
-        "cells where weighting improves on unweighted",
-    str(sum(1 for v in cells.values() if v["weighted_fpr_mean"] < ALPHA)):
-        "cells where score weighting lands conservative",
-    f"{max(v['fnr_price'] for k, v in cells.items() if not v['resolution_limited']):.2f}":
-        "largest quotable spoof-side price",
-    # The flagship triple. These were DECLARED, which is why 74->84 and
-    # 0.47->0.87 passed the census on its first build: declaration asserts a
-    # numeral is accounted for, not that it is the right one.
-    f"{FLAG['vanilla_fnr_mean']*100:.0f}": "flagship missed-spoof rate (%)",
-    f"{FLAG['fnr_oracle']*100:.0f}": "flagship oracle missed-spoof rate (%)",
-    f"{FLAG['vanilla_fpr_mean']*100:.2f}": "flagship realized FPR (%)",
-    f"{FLAG['fnr_price']:.2f}": "flagship spoof-side price",
-    str(len(_below)): "contamination cells below target",
+    # contamination sweep at the reported operating point
+    str(round(CONTAM * CONTAM_N)): "contaminating spoofs in the cohort (rate x N, n_sweep.py)",
     f"{min(_below)*100:.2f}": "contamination sweep, lowest realized FPR below target (%)",
     f"{max(_below)*100:.2f}": "contamination sweep, highest realized FPR below target (%)",
     f"{max(_cont.values())*100:.2f}": "contamination sweep, the one cell above target (%)",
     str(round(min(_c5) * 100)): "C5 asymmetric-norm degenerate FNR (%)",
-    f"{SLS['itw']['quantile']['fnr_mean']*100:.1f}": "Table 1 FNR, sls/itw (%)",
-    f"{SLS['brspeech_test']['quantile']['fnr_mean']*100:.1f}": "Table 1 FNR, sls/brspeech_test (%)",
+    # calibration grid
+    f"{FPR_LO*100:.2f}": "quantile mean realized FPR, min over 12 cells (%)",
+    f"{FPR_HI*100:.2f}": "quantile mean realized FPR, max over 12 cells (%)",
+    str(len(_q)): "detector-corpus cells in Table 1",
+    MAX_FNR_PREMIUM: "ceiling of the max FNR premium over usable cells (pt)",
+    f"{SPREAD_LO*100:.1f}": "held-out 2.5th percentile of realized FPR, min over cells (%)",
+    f"{SPREAD_HI*100:.1f}": "held-out 97.5th percentile of realized FPR, max over cells (%)",
+    f"{(min(_g)-ALPHA)*100:.1f}": "Gaussian quantile ITW offset, min over budgets (pp)",
+    f"{(max(_g)-ALPHA)*100:.1f}": "Gaussian quantile ITW offset, max over budgets (pp)",
+    f"{min(_naive_miss):.0f}": "naive transfer miss, min over SSL corpora (pp)",
+    f"{max(_naive_miss):.0f}": "naive transfer miss, max over SSL corpora (pp)",
+    f"{min(_best):.0f}": "best unlabeled correction miss, min (pp)",
+    f"{max(_best):.0f}": "best unlabeled correction miss, max (pp)",
+    f"{max(abs(f-ALPHA)*100 for f in _par500.values()):.1f}": "Gaussian quantile worst miss at N=500 (pp)",
+    f"{(_par500[('ssl', 'itw')]-ALPHA)*100:.2f}": "Gaussian quantile miss on ITW at N=500 (pp)",
+    f"{min(_beyond):.0f}": "cohort z-norm miss, min over cells beyond 2 pp (pp)",
+    f"{max(_beyond):.0f}": "cohort z-norm miss, max over cells beyond 2 pp (pp)",
+    str(len(_beyond)): "cohort z-norm cells beyond 2 pp",
+    f"{max(abs(SLS[c]['znorm']['fpr_mean']-ALPHA)*100 for c in SLS_CORPORA):.1f}":
+        "cohort z-norm worst miss, XLS-R+SLS (pp)",
     INTRO_SLS_HI: "largest XLS-R+SLS naive-transfer FPR (%)",
+    # setup counts
+    f"{N_BONA:,}": "bona-fide recordings per 21LA condition, hidden phase excluded",
+    f"{N_SPOOF:,}": "spoofed trials per 21LA condition, hidden phase excluded",
+    str(N_SPK): "speakers per 21LA condition",
+    f"{DF['n_bona'] + DF['n_spoof']:,}": "21DF 100k-sample trials after the exclusion",
+    f"{DF['n_bona']:,}": "21DF 100k-sample bona fide after the exclusion",
+    f"{SLS['asv21la']['n_bona']:,}": "full 21LA bona fide, hidden phase excluded",
+    f"{SLS['asv21df_full']['n_bona']:,}": "full 21DF bona fide, hidden phase excluded",
+    # speaker diagnostic
+    str(SPK["cells"]["aasist/pstn"]["permutation"]["median_calibration_speakers"]): "median calibration speakers",
+    str(SPK["draws_per_width"]): "draws per speaker-disjoint width",
     **TABLE1,
 }
 
 ANALYTIC_DERIVED = {
     f"{P100*100:.1f}": "iid Beta reference: P(3% <= FPR <= 7%), N=100",
     f"{P500*100:.1f}": "iid Beta reference: P(3% <= FPR <= 7%), N=500",
+    f"{P450*100:.1f}": "iid Beta reference: P(3% <= FPR <= 7%), N=450 (operational prescription)",
     f"{Q500_LO*100:.2f}": "iid Beta reference: N=500 central 95% lower endpoint",
     f"{Q500_HI*100:.2f}": "iid Beta reference: N=500 central 95% upper endpoint",
+    f"{normal_quantile(1 - ALPHA):.3f}": "one-sided normal quantile at 5%",
 }
 
 # Non-derived numerals, each with the reason it is not an artifact value.
 DECLARED_RAW = {
-    "1": "index/unit", "2": "index, section refs, 2x bar", "3": "index/count",
-    "4": "section number", "5": "alpha=5%, section number", "6": "count in prose",
+    "1": "index/unit", "2": "index, section refs, 2x bar, 2 pp", "3": "index/count",
+    "4": "section number", "5": "alpha=5%, section number, 5/n", "6": "count in prose",
     "7": "section number", "8": "count of cells in Table 1", "9": "count",
-    "10": "order of magnitude", "0": "zero", "11": "count of conditions",
-    "12": "conditions in the A5 grid", "13": "beta bound (derived, see above)",
-    "19": "flagship oracle FNR (%), Fig. 1 caption and abstract",
-    "20": "count", "21": "corpus name ASVspoof 21", "24": "liberal cells (derived)",
-    "25": "count", "30": "N-sweep endpoint", "32": "viable cells (derived)",
-    "44": "censored severity ratio for the dissociating cell",
-    "46": "corpus/section", "47": "flagship realized FPR 0.47%",
-    "50": "50/50 speaker split, 50% overlap bar", "58": "cells missing by >2x (derived)",
-    "64": "count", "66": "viable cells for the price fit / crossed miss rate",
-    "67": "speakers in the within-corpus set", "68": "within-corpus band-passing cells",
-    "71": "A5 twin-free miss rate (derived)", "74": "flagship missed-spoof rate (%)",
-    "80": "twin-free share of sources (%)", "84": "within-corpus cells (derived)",
-    "90": "percentile", "95": "confidence level", "99": "C5 degenerate FNR (%)",
-    "100": "N endpoint", "108": "total cells (derived)", "132": "A5 pairs per detector",
-    "145": "A5 crossed pairs missing (derived)", "187": "A5 twin-free missing (derived)",
-    "220": "A5 crossed pairs (derived)", "264": "A5 twin-free pairs (derived)",
+    "10": "order of magnitude", "0": "zero", "12": "conditions in the A5 grid",
+    "19": "corpus name 19LA", "20": "count", "21": "corpus name ASVspoof 21",
+    "30": "N-sweep endpoint", "46": "corpus/section",
+    "50": "50/50 speaker split, 50% overlap bar, +-50% re-mix",
+    "80": "twin-free share of sources (%)", "90": "percentile", "95": "confidence level",
+    "97.5": "percentile", "2.5": "percentile", "100": "N endpoint, 100k",
     "300": "N-sweep point", "500": "calibration cohort size N",
-    "636": "part of 2,636", "737": "A5 speakers", "994": "part of r=0.994",
-    "0.5": "pre-registered R2 bar", "0.6": "Gaussian offset, ITW",
-    "0.8": "FNR premium bound (pt)",
-    "0.13": "provenance re-draw bound (pt)", "0.29": "blown fraction",
-    "0.39": "blown fraction", "0.47": "flagship realized FPR (%)",
-    "0.59": "held-out R2", "0.65": "envelope/localisation rho",
-    "0.90": "Spearman for the price fit",
-    "0.977": "AUC before", "0.982": "AUC after",
-    "0.994": "per-trial correlation with official scores",
-    "0.07": "localisation rho, direction", "0.08": "interval lower",
-    "0.70": "interval upper",     "0.02": "p-value / offset",
-    "1.6": "Gaussian offset upper",
-    "1.5": "sensitivity bar", "2.9": "actDCF crossover min (derived)",
-    "3.5": "N-sweep endpoint 3x10^3", "4.9": "contamination lower (%)",
-    "4.94": "conformal realized FPR lower (%)", "5.03": "conformal realized FPR upper (%)",
-    "5.11": "contamination upper (%)", "6.4": "Gaussian miss (pp)",
-    "6.8": "Gaussian miss at N=100 (pp)", "7.3": "actDCF crossover median (derived)",
-    "0.99": "contamination lower (%) AND severity-price rank correlation", "12.1": "actDCF crossover max (derived)",
-    "31": "prevalence re-mix count", "17": "prevalence re-mix count",
-    "0.0": "zero", "43.1": "naive transfer (%)", "30.4": "naive transfer (%)",
-    "98.5": "naive transfer (%)", "95.7": "naive transfer (%)",
-    "8.2": "unlabeled correction (%)", "20.6": "unlabeled correction (%)",
-    "0.19": "prevalence monitor FPR", "0.64": "monitor Spearman",
-    "0.92": "monitor TPR AND AUC", "0.17": "localisation rho",
-    "2636": "recordings in the within-corpus set", "2,636": "recordings",
-    "0.98": "within-sign rho AND severity-price rank correlation", "0.91": "within-sign rho", "0.95": "within-sign rho",
-    "0.96": "within-sign rho", "38": "envelope coverage min (derived)",
-    "76": "envelope coverage max (derived)", "0.48": "held-out R2 for the W1 fit",
-    "0.52": "W1 correlation", "0.88": "W1 correlation", "0.54": "severity-competence rho",
-    "0.0106": "SSL price-W1 correlation", "3.3": "reserved", "15": "count",
-    "16": "count", "22": "sensitivity bar count", "60": "sensitivity bar count",
-    "18": "count", "35": "count", "40": "count",
-    # remaining: sources named so a reader can trace each one
-    "0.66": "Gaussian miss on ITW (pp), results_parametric.json",
-    "50.8": "cohort z-norm worst miss, XLS-R+SLS, results_cmethods.json",
-    "80.5": "twin-free share of A5 bona-fide sources (%)",
-    "19.5": "crossed share of A5 bona-fide sources (%)",
-    "0.31": "monitor/correlation value quoted in section 4",
-    "11.2": "Table 1 FNR, sls/itw, results_sls_complete.json",
-    "91.5": "Table 1 FNR, sls/brspeech_test, results_sls_complete.json",
-    "0.93": "within-sign severity-price rank correlation",
-    "1.645": "one-sided normal quantile at 5%, an equation constant",
-    "2021": "corpus year, ASVspoof 2021",
-    "611": "611k full DF eval trials",
-    "4.99": "contamination upper bound below target (%)",
-    "5.0": "conformal realized FPR at target (%)",
-    "4.5": "quoted in prose; see section 4",
-    "1000": "B=1000 paired calibration draws",
-    "2019": "corpus year, ASVspoof 2019",
-    "2027": "venue year",
-    "600": "RTCFake corpus duration quoted from the cited paper",
+    "737": "A5 speakers", "994": "part of r=0.994", "0.994": "per-trial correlation with official scores",
+    "0.5": "beta-bound and overlap cutoff in prose", "0.8": "monitor acceptance TPR",
+    "0.2": "monitor acceptance FPR", "0.1": "weight clip lower bound", "1.5": "sensitivity bar",
+    "0.0": "zero delta in Table 1", "80.5": "twin-free share of A5 bona-fide sources (%)",
+    "1000": "B=1000 paired calibration draws", "2019": "corpus year, ASVspoof 2019",
+    "2021": "corpus year, ASVspoof 2021", "2027": "venue year", "66": "language count from cited LRLspoof work",
+    "15": "histogram bins in the heuristic", "200": "B_WEIGHTED draws / permutations",
+    "11": "A5 codecs", "450": "N chosen for the operational prescription",
+    "3": "index/count; spoof-side cost bound in points (asserted in check_numbers.py)",
 }
 
 # A value may recur in derived and non-derived semantic contexts (for example
-# 19 is both the flagship oracle FNR and the model name 19LA). Such occurrences
+# 19 is both the SSL benign cell count and the model name 19LA). Such occurrences
 # are resolved by explicit context rules below, never by overlapping value sets.
 DECLARED = {
     value: reason for value, reason in DECLARED_RAW.items()
@@ -318,11 +389,17 @@ DECLARED = {
 }
 
 DECLARED_CONTEXT_RULES = (
-    ("0.99", re.compile(r"ROC-AUC 0\.99"), "value quoted from cited CDTS work"),
     ("19", re.compile(r"19LA"), "detector training-corpus name"),
-    ("50", re.compile(r"(?:exceeds\s+|split\s+|\$\\pm\$?|\$[-+])50(?:/50)?\\%|50/50"),
-     "design percentage or overlap criterion"),
+    ("50", re.compile(r"(?:exceeds\s+|split\s+|\$\\pm\$?|\$[-+])50(?:/50)?\\%|50/50|\\pm\$50"),
+     "design percentage, overlap criterion or re-mix magnitude"),
     ("66", re.compile(r"(?:across|covering) 66"), "language count from cited LRLspoof work"),
+    ("12", re.compile(r"\+\$ 12 ordered pairs"), "cross-corpus ordered pairs, by construction"),
+    ("15", re.compile(r"15 equal-width bins"), "histogram bins, drift_map.py density_ratio_weights"),
+    ("5", re.compile(r"FPR\}<5/n"), "resolution-limited rule numerator, drift_map.py"),
+    ("95", re.compile(r"central 95\\% interval"), "confidence level"),
+    ("10", re.compile(r"10\^4|\[0\.1,10\]"), "order of magnitude / clip bound"),
+    ("0.2", re.compile(r"FPR~\$\\le\$~0\.2"), "monitor acceptance FPR"),
+    ("30", re.compile(r"N\{=\}30\$"), "N-sweep endpoint"),
 )
 
 # Repeated values require occurrence-specific sources. These rules take
@@ -333,39 +410,54 @@ ARTIFACT_CONTEXT_RULES = (
      "EXP-002 SSL naive-transfer FPR minimum, rounded for prose"),
     (INTRO_SSL_HI, re.compile(rf"{re.escape(INTRO_SSL_LO)}--{re.escape(INTRO_SSL_HI)}\\% FPR across"),
      "EXP-002 SSL naive-transfer FPR maximum"),
-    (INTRO_SLS_HI, re.compile(rf"{re.escape(INTRO_SLS_HI)}\\% for XLS-R\+SLS"),
+    (INTRO_SLS_HI, re.compile(rf"reaches {re.escape(INTRO_SLS_HI)}\\%"),
      "EXP-102 XLS-R+SLS naive-transfer FPR maximum"),
-    (MAX_FNR_PREMIUM, re.compile(r"FNR premium (?:is at most|over the oracle threshold is .*?)\s*0\.8 points"),
-     "maximum matched-grid viable-cell FNR premium"),
-    ("7", re.compile(r"z-norm remains 7--8\\,pp high"),
-     "N-sweep z-norm offset lower rounded endpoint"),
-    ("0.17", re.compile(r"corrected values are \$-0\.17"),
-     "corrected SSL entropy-monitor Spearman in results_drift.json"),
-    ("0.64", re.compile(r"Spearman\s+0\.64"),
-     "pre-registered SSL mixture-W1 monitor Spearman"),
-    ("50", re.compile(r"against 50\\% on\s+the grid above"),
+    (MAX_FNR_PREMIUM, re.compile(rf"(?:at most a {re.escape(MAX_FNR_PREMIUM)}-point FNR premium|\$\\le\${re.escape(MAX_FNR_PREMIUM)} points)"),
+     "maximum usable-cell FNR premium over the oracle, both sites"),
+    ("7", re.compile(r"z-norm remains 7--8\\,pp high"), "N-sweep z-norm ITW offset, lower endpoint"),
+    ("8", re.compile(r"z-norm remains 7--8\\,pp high"), "N-sweep z-norm ITW offset, upper endpoint"),
+    ("5.0", re.compile(r"realizes 5\.0\\% FPR on all four corpora"),
+     "EXP-002 SSL quantile/500 fpr_mean, all four round to 5.0"),
+    (str(round(100 * la_n / len(within))), re.compile(r"against 68\\% on\s+the grid above"),
      "within-21LA >2x miss rate over both detectors"),
-    ("66", re.compile(r"on 66 viable\s+A5 SSL-AASIST cells"),
-     "viable A5 SSL-AASIST cost-map cell count"),
-    ("99", re.compile(r"labels buy \(99\\slash108 within"),
-     "oracle-label adaptive ceiling cells within 2pp"),
-    ("84", re.compile(r"(?:34 of the 84|84 cells passing|60 of 84|22 of 84|68 of those 84|84 band-passing)"),
-     "additive-band-passing cell count"),
+    ("0", re.compile(r"collapses to 0\\% on BRSpeech"), "Gaussian quantile FPR on BRSpeech, results_parametric.json"),
+    (str(B_WEIGHTED), re.compile(r"200 draws"), "B_WEIGHTED in drift_map.py"),
+    (str(SPK["permutations"]), re.compile(r"200 permutations"), "speaker_clustering.json permutations"),
+    (str(N_CAL), re.compile(r"(?:the 500 cohort|at least 500 recordings|N\{=\}500)"),
+     "N_CAL in drift_map.py"),
+    (str(len(_beyond)), re.compile(r"6/8 cells beyond"), "EXP-010 z-norm cells beyond 2 pp"),
+    ("8", re.compile(r"6/8 cells beyond"), "EXP-010 z-norm cells at N=500"),
+    (str(len(A5_CONDS) - 1), re.compile(r"11 organizer-applied codecs"), "A5 conditions minus the source"),
+    (str(round(FLAG["vanilla_fpr_mean"] * FLAG["n_dep_bona"])), re.compile(r"FPR is 10 of 2,356"),
+     "flagship false alarms, vanilla_fpr_mean x n_dep_bona"),
+    (str(min(CORS_N.values())), re.compile(r"on 25--33 of the 42"), "EXP-109 min per-detector miss count"),
+    (str(max(CORS_N.values())), re.compile(r"on 25--33 of the 42"), "EXP-109 max per-detector miss count"),
+    (_ec_range("ssl")[0], re.compile(r"0\.2--1\.0 \(SSL-AASIST\)"), "per-condition EER min, SSL-AASIST"),
+    (_ec_range("sls")[0], re.compile(r"0\.5--3\.5 \(XLS-R\+SLS\)"), "per-condition EER min, XLS-R+SLS"),
+    (_ec_range("sls")[1], re.compile(r"0\.5--3\.5 \(XLS-R\+SLS\)"), "per-condition EER max, XLS-R+SLS"),
+    (f"{max(SPK_NULL):.1f}", re.compile(r"against 3\.4--3\.5 under"), "speaker-permutation null median, max"),
+    (f"{min(SPK_NULL):.1f}", re.compile(r"against 3\.4--3\.5 under"), "speaker-permutation null median, min"),
 )
 
 CLASSIFICATION_PROBES = (
     ("post-citation SLS FPR is not skipped", INTRO_SLS_HI,
-     re.compile(r"for XLS-R\+SLS"), "ARTIFACT_DERIVED"),
+     re.compile(r"reaches 99\.5"), "ARTIFACT_DERIVED"),
     ("intro 98.5 binds naive transfer, not Table 1", INTRO_SSL_HI,
-     re.compile(r"30--98\.5\\% FPR across"), "ARTIFACT_DERIVED"),
-    ("cited ROC-AUC is declared, not borrowed from contamination", "0.99",
-     re.compile(r"ROC-AUC 0\.99"), "DECLARED"),
+     re.compile(r"22--98\.5\\% FPR across"), "ARTIFACT_DERIVED"),
     ("overlap gate is declared, not borrowed from grid rate", "50",
      re.compile(r"exceeds 50\\%"), "DECLARED"),
-    ("grid rate is artifact-derived", "50",
-     re.compile(r"against 50\\% on"), "ARTIFACT_DERIVED"),
-    ("monitor 0.17 is distinct from speaker MC SD", "0.17",
-     re.compile(r"corrected values are \$-0\.17"), "ARTIFACT_DERIVED"),
+    ("re-mix magnitude is declared", "50",
+     re.compile(r"\\pm\$50\\%"), "DECLARED"),
+    ("grid rate is artifact-derived", "68",
+     re.compile(r"against 68\\% on"), "ARTIFACT_DERIVED"),
+    ("the SSL benign cell count is artifact-derived, 19LA is not", "19",
+     re.compile(r"19\\slash19"), "ARTIFACT_DERIVED"),
+    ("heuristic draws bind to B_WEIGHTED", "200",
+     re.compile(r"200 draws"), "ARTIFACT_DERIVED"),
+    ("permutations bind to the speaker artifact", "200",
+     re.compile(r"200 permutations"), "ARTIFACT_DERIVED"),
+    ("the confidence level is declared, not borrowed from a 95 pp miss", "95",
+     re.compile(r"central 95\\% interval"), "DECLARED"),
 )
 
 
@@ -379,16 +471,34 @@ def _flat(text):
 # artifact bindings.
 POSITION_BINDINGS = (
     ("abstract grid census",
-     rf"Across {len(cells)} deployment cells, {len(miss2)} miss target .{{0,80}} {len(hidden)} are conservative failures", 1),
+     rf"Across {len(cells)} deployment cells built from .{{0,120}}, {len(miss2)} realize an FPR "
+     rf"more than \$2\\times\$ off target \({sum(1 for v in miss2 if v['log2_fpr_ratio'] > 0)} above, "
+     rf"{sum(1 for v in miss2 if v['log2_fpr_ratio'] < 0)} below\)\. Of the {len(in_tol)} cells inside our own "
+     rf"\$\\pm5\$-point tolerance on realized FPR, {len(hidden)} are among them", 1),
     ("108-cell decomposition", rf"The measurement covers {len(cells)} deployment cells: two detectors", 1),
     ("42+12 decomposition", r"42 ordered pairs of seven 21LA channel conditions .* 12 ordered pairs of four corpora", 1),
-    ("flagship transported FNR, both sites", rf"{FLAG['vanilla_fnr_mean']*100:.0f}\\%", 2),
-    ("flagship oracle FNR, both sites", rf"{FLAG['fnr_oracle']*100:.0f}\\%", 2),
-    ("flagship FPR, both sites", rf"{FLAG['vanilla_fpr_mean']*100:.2f}\\%", 2),
+    ("hidden count over the tolerance, both sites", rf"{len(hidden)} of the {len(in_tol)} cells inside", 2),
+    ("sensitivity range, both sites",
+     rf"{sum(1 for v in in_tol if abs(v['log2_fpr_ratio']) > 0.585)} (?:of {len(in_tol)} )?at \$1\.5\\times\$", 2),
+    ("sensitivity range at 4x, both sites",
+     rf"{sum(1 for v in in_tol if abs(v['log2_fpr_ratio']) > 2.0)} (?:of {len(in_tol)} )?at \$4\\times\$", 2),
+    ("flagship transported FNR, both sites", rf"{FLAG['vanilla_fnr_mean']*100:.0f}\\% of spoofs", 2),
+    ("flagship oracle FNR, both sites", rf"against {FLAG['fnr_oracle']*100:.2f}\\%", 2),
+    ("flagship FPR, three sites", rf"{FLAG['vanilla_fpr_mean']*100:.2f}\\% FPR", 3),
+    ("released-score detectors, EXP-109",
+     rf"on {min(CORS_N.values())}--{max(CORS_N.values())} of the 42 channel pairs each \({sum(CORS_N.values())} of {42 * len(CORS_N)}\)", 1),
+    ("speaker six-cell ranges",
+     rf"to {min(SPK_W):.1f}--{max(SPK_W):.1f} points \(means over ten seeds of {SPK['draws_per_width']} draws\), against {min(SPK_NULL):.1f}--{max(SPK_NULL):.1f} under", 1),
+    ("N=450 prescription", rf"N\{{=\}}450\$ gives {P450*100:.1f}\\% probability", 1),
     ("A5 primary numerator/denominator, both sites", rf"{tf_n} of {tf_t}", 2),
-    ("A5 primary percentage, both sites", rf"{round(100*tf_n/tf_t)}\\%", 2),
-    ("A5 crossed numerator/denominator", rf"{cr_n} of {cr_t}", 1),
-    ("A5 crossed percentage", rf"{round(100*cr_n/cr_t)}\\%", 1),
+    ("A5 primary percentage, both sites", rf"\({round(100*tf_n/tf_t)}\\%\)", 2),
+    ("mean realized FPR range, both sites", rf"{FPR_LO*100:.2f}--{FPR_HI*100:.2f}\\%", 2),
+    ("per-condition recording count, four sites", rf"{N_BONA:,}(?:-recording| recordings| bona-fide recordings| bona fide)", 4),
+    ("speaker count, both sites", rf"{N_SPK} speakers", 2),
+    ("naive-transfer miss range is not borrowed from the unlabeled-correction range",
+     rf"Naive transfer misses target by {min(_naive_miss):.0f}--{max(_naive_miss):.0f} pp", 1),
+    ("calibration-condition AUC against the other six",
+     rf"AUC {AUC['pstn']:.3f} against {min(AUC_OTHERS):.3f}--{max(AUC_OTHERS):.3f} elsewhere", 1),
     ("iid Beta N=100 reference", rf"{P100*100:.1f}\\% probability", 1),
     ("iid Beta N=500 reference", rf"{P500*100:.1f}\\%", 1),
     ("iid Beta N=500 interval", rf"{Q500_LO*100:.2f}--{Q500_HI*100:.2f}\\% central 95\\% interval", 1),
@@ -404,7 +514,7 @@ def numeral_occurrences(tex):
 
     tex = re.sub(r"(?<!\\)%[^\n]*", blank, tex)
     tex = re.sub(
-        r"\\(?:cite|ref|label|includegraphics|setlength|documentclass|usepackage)"
+        r"\\(?:cite|ref|label|includegraphics|setlength|documentclass|usepackage|url)"
         r"(?:\[[^\]]*\])?\{[^{}]*\}",
         blank,
         tex,
@@ -421,33 +531,34 @@ def numerals(tex):
 
 
 def _table1_occurrence_bindings(tex):
-    """Bind each Table 1 numeral to its artifact row, corpus and quantity."""
+    """Bind each Table 1 numeral to its artifact row, corpus, block and quantity."""
     bindings = {}
     columns = ("21LA", "21DF", "ITW", "BRSpeech")
-    for row, expected_cells in TABLE1_ROWS.items():
-        match = re.search(rf"(?m)^{re.escape(row)}\s*&[^\n]*\\\\\s*$", tex)
-        if not match:
-            raise AssertionError(f"Table 1 row not found: {row}")
-        line = match.group(0)
-        ampersands = [i for i, char in enumerate(line) if char == "&"]
-        if len(ampersands) != 4:
-            raise AssertionError(f"Table 1 row {row} has {len(ampersands)} data separators")
-        for index, (column, expected) in enumerate(zip(columns, expected_cells)):
-            cell_start = ampersands[index] + 1
-            cell_end = ampersands[index + 1] if index + 1 < len(ampersands) else line.rfind("\\\\")
-            cell = line[cell_start:cell_end]
-            found = list(re.finditer(r"(?<![\\A-Za-z0-9._])(\d+(?:[.,]\d+)?)", cell))
-            if len(found) != 2:
-                raise AssertionError(
-                    f"Table 1 {row}/{column} has {len(found)} numerals; expected FNR and delta"
-                )
-            for quantity, numeral, wanted in zip(("FNR", "delta"), found, expected):
-                start = match.start() + cell_start + numeral.start(1)
-                bindings[start] = {
-                    "end": match.start() + cell_start + numeral.end(1),
-                    "expected": wanted,
-                    "reason": f"Table 1 {quantity}, {row}/{column}",
-                }
+    for row in TABLE1_ROWS:
+        lines = list(re.finditer(rf"(?m)^{re.escape(row)}\s*&[^\n]*\\\\\s*$", tex))
+        if len(lines) != 2:
+            raise AssertionError(f"Table 1 row {row}: expected an FNR line and an EER line, found {len(lines)}")
+        for match, expected_cells, quantities in zip(lines, (TABLE1_ROWS[row], EER_ROWS[row]), TABLE1_BLOCKS):
+            line = match.group(0)
+            ampersands = [i for i, char in enumerate(line) if char == "&"]
+            if len(ampersands) != 4:
+                raise AssertionError(f"Table 1 row {row} has {len(ampersands)} data separators")
+            for index, (column, expected) in enumerate(zip(columns, expected_cells)):
+                cell_start = ampersands[index] + 1
+                cell_end = ampersands[index + 1] if index + 1 < len(ampersands) else line.rfind("\\\\")
+                cell = line[cell_start:cell_end]
+                found = list(re.finditer(r"(?<![\\A-Za-z0-9._])(\d+(?:[.,]\d+)?)", cell))
+                if len(found) != len(quantities):
+                    raise AssertionError(
+                        f"Table 1 {row}/{column} has {len(found)} numerals; expected {quantities}"
+                    )
+                for quantity, numeral, wanted in zip(quantities, found, expected):
+                    start = match.start() + cell_start + numeral.start(1)
+                    bindings[start] = {
+                        "end": match.start() + cell_start + numeral.end(1),
+                        "expected": wanted,
+                        "reason": f"Table 1 {quantity}, {row}/{column}",
+                    }
     return bindings
 
 

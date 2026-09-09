@@ -25,6 +25,10 @@ import numpy as np
 
 HERE = Path(__file__).resolve().parent
 SCORES = HERE.parent / "EXP-001-scoring-campaign" / "scores"
+import sys
+sys.path.insert(0, str(SCORES.parent / "code"))
+from protocol import drop_hidden  # noqa: E402
+
 KEY = Path.home() / "data/corpora/anti-spoofing/keys/LA/CM/trial_metadata.txt"
 OUT = HERE / "artifacts" / "speaker_clustering.json"
 
@@ -57,7 +61,7 @@ def metadata() -> dict[str, tuple[str, str, str]]:
 def scores(detector: str) -> dict[str, float]:
     path = SCORES / f"{detector}_asv21la.csv.gz"
     with gzip.open(path, "rt") as f:
-        return {row["utt_id"]: float(row["score"]) for row in csv.DictReader(f)}
+        return {row["utt_id"]: float(row["score"]) for row in drop_hidden(list(csv.DictReader(f)))}
 
 
 def grouped_bona(

@@ -27,7 +27,7 @@ def eval_labels_21(key_path, phase_col=7):
     lab = {}
     for line in key_path.read_text().splitlines():
         p = line.split()
-        if p[phase_col] == "eval":
+        if p[phase_col] != "hidden":  # eval + progress; see EXP-001/code/protocol.py
             lab[p[1]] = p[5] == "bonafide"
     return lab
 
