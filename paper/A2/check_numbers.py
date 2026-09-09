@@ -244,7 +244,7 @@ above = [v for v in cells.values() if v["fnr_price"] > _F["fnr_price"]]
 assert above and all(v["resolution_limited"] for v in above), "a higher price is quotable"
 print("\nflagship cell, every site:")
 check("worst spoof-side price (value and cell)", "Their spoof-side cost",
-      f"reaches $+{_F['fnr_price']:.2f}$ ({det.upper()}, {CODEC_TEX[src]}$\\to${CODEC_TEX[dst]}",
+      f"reaches $+{_F['fnr_price']*100:.1f}$ percentage points ({det.upper()}, {CODEC_TEX[src]}$\\to${CODEC_TEX[dst]}",
       quotable[0], "argmax fnr_price among non-resolution-limited cells")
 check("flagship FPR as a count of bona fide", "Their spoof-side cost",
       f"whose {_F['vanilla_fpr_mean']*100:.2f}\\% FPR is about {round(_F['vanilla_fpr_mean'] * _F['n_dep_bona'])} "
@@ -273,8 +273,10 @@ assert len(pstn_cells) == 6
 # "at least" is a lower bound, so the printed value is the floor of the minimum.
 PSTN_ANCHOR = f"Every {det.upper()} cell calibrated on {CODEC_TEX[src]} pays at least"
 check("every cell calibrated on the flagship source pays a floor price", PSTN_ANCHOR,
-      f"pays at least $+{floor_to(min(v['fnr_price'] for v in pstn_cells.values()), 2):.2f}$",
+      f"pays at least $+{math.floor(min(v['fnr_price'] for v in pstn_cells.values()) * 100 + 1e-9)}$ points",
       min(v['fnr_price'] for v in pstn_cells.values()), "min fnr_price over the six cells")
+check("positive-cost cells pass the tolerance (identity stated as empirical)", "\\textbf{Drift} is detector-conditioned",
+      "every cell with positive spoof-side cost passes it, which is why the additive test cannot reveal this cost", chars=3600)
 check("the same threshold's FNR on the calibration condition", PSTN_ANCHOR,
       f"the same threshold misses {_F['cal_fnr_at_threshold']*100:.0f}\\% of {CODEC_TEX[src]} spoofs",
       _F["cal_fnr_at_threshold"], "cal_fnr_at_threshold")
@@ -373,8 +375,9 @@ check("the cross-corpus 21LA node is the untransmitted condition", "For cross-co
       "Table~\\ref{tab:fnr} instead pools all seven conditions", _node, "results_drift.json cross cells ->asv21la_nocodec")
 B = script_constant(E102 / "drift_map.py", "B")
 assert B == script_constant(E102 / "n_sweep.py", "B") == EER["B"]
-check("paired draws B", "\\textbf{Setup.}", f"paired cohort draws ($B{{=}}{B}$)", B,
-      "drift_map.py / n_sweep.py B", chars=3000)
+check("paired draws B, scoped to a run; Table 1 declared unpaired", "\\textbf{Setup.}",
+      f"Within each Monte Carlo run, labeled policies share paired cohort draws ($B{{=}}{B}$); Table~\\ref{{tab:fnr}} "
+      "combines unpaired means from separate runs", B, "drift_map.py / n_sweep.py B", chars=3000)
 check("spoof-positive convention (section 3)", "\\section{Threshold policies}",
       "We treat spoof as the positive class")
 # 1.645 is the one-sided normal 95% quantile: solve Phi(z) = 0.95 by bisection.
@@ -385,12 +388,16 @@ for _ in range(60):
 _newton = int(re.search(r"for _ in range\((\d+)\):", CMETH).group(1))
 _stab = re.search(r"\+ (1e-\d+) \* np\.eye\(2\)", CMETH).group(1)
 _qq = re.search(r"np\.quantile\(s, ([\d.]+)\), np\.quantile\(s, ([\d.]+)\)", CMETH).groups()
+_damp = re.search(r"for _ in range\((\d+)\):\n\s+candidate = loss\(.*?scale \*= 0\.5", CMETH, re.S)
+assert _damp is not None and "if candidate < current" in CMETH, "c_methods.py no longer backtracks each Newton step"
+assert "def _self_check" in CMETH
 _init = re.search(r"w, b = ([\d.]+), ([\d.]+)", CMETH).groups()
 assert _qq == ("0.25", "0.75") and (float(_init[0]), float(_init[1])) == (1.0, 0.0), (_qq, _init)
 check("C2 quartile pseudo-labels, init, Newton steps and stabilization (c_methods.py)", "\\section{Threshold policies}",
-      f"C2 pseudo-labels the top and bottom score quartiles and fits a logistic transform by {_newton} Newton steps "
-      f"from $w{{=}}{float(_init[0]):g}$, $b{{=}}{float(_init[1]):g}$ with $10^{{{int(_stab.split('e')[1])}}}I$ on the Hessian",
-      (_qq, _init, _newton, _stab), "c_methods.py fit_temp_shift", chars=2600)
+      f"C2 pseudo-labels the top and bottom score quartiles and fits a logistic transform by {_newton} damped Newton "
+      f"steps from $w{{=}}{float(_init[0]):g}$, $b{{=}}{float(_init[1]):g}$ (each step halved until the loss decreases; "
+      f"$10^{{{int(_stab.split('e')[1])}}}I$ on the Hessian), whose endpoint on these separable pseudo-labels defines the transform",
+      (_qq, _init, _newton, _stab, _damp.group(1)), "c_methods.py fit_temp_shift (damped, AMENDMENT-4)", chars=2600)
 check("C5 cohort constants (c_methods.py)", "\\section{Threshold policies}",
       f"C5 is AS-norm over the {script_constant(E102 / 'c_methods.py', 'K_COHORT')} nearest of at most "
       f"{script_constant(E102 / 'c_methods.py', 'COHORT_SUB'):,} cohort embeddings, without self-exclusion",
@@ -419,7 +426,7 @@ fpr_lo, fpr_hi = min(e["fpr_mean"] for e in q), max(e["fpr_mean"] for e in q)
 premium = ceil_to(max(e["fnr_minus_oracle_pts"] for e, o in zip(q, oracles) if o <= 0.5), 1)
 check("mean realized FPR range (abstract)", "A target-channel bona-fide order statistic restores \\emph{marginal expected}",
       f"mean realized FPR is {fpr_lo*100:.2f}--{fpr_hi*100:.2f}\\% over twelve detector--corpus "
-      f"cells, with mean FNR at most {premium:.1f} points above a threshold fitted on all deployment bona fide "
+      f"cells, with mean false-negative rate (FNR) at most {premium:.1f} points above a threshold fitted on all deployment bona fide "
       "in the run shown, in cells where that reference misses at most 50\\% of spoofs",
       (fpr_lo, fpr_hi, premium), "EXP-002 results.json + results_sls_complete.json")
 check("mean realized FPR range (experiments)", "\\textbf{FPR control and FNR cost.}",
@@ -440,8 +447,6 @@ sls_naive = [SLS[c]["naive_transfer"]["fpr"] for c in SLS_CORPORA]
 check("intro naive-transfer FPR range (SSL-AASIST)", "A threshold set to 5\\% FPR on ASVspoof~2019~LA dev",
       f"realizes {min(ssl_naive)*100:.0f}--{max(ssl_naive)*100:.1f}\\% FPR across",
       (min(ssl_naive), max(ssl_naive)), "EXP-002 results.json naive_transfer")
-check("intro naive-transfer FPR (XLS-R+SLS)", "A threshold set to 5\\% FPR on ASVspoof~2019~LA dev",
-      f"it reaches {max(sls_naive)*100:.1f}\\%", max(sls_naive), "results_sls_complete.json")
 check("the quantile's realized-FPR range on the four SSL corpora", "\\textbf{Matched-resource policy comparison.}",
       f"realizes {min(_q5.values())*100:.1f}--{max(_q5.values())*100:.1f}\\% FPR on all four corpora", _q5,
       "EXP-002 results.json quantile/500 fpr_mean")
@@ -457,7 +462,10 @@ check("C5 degeneracy level (Table 1 caption)", "\\caption{Upper block:",
       f"C5 reaches its FPR only at FNR ${{\\approx}}{c5*100:.0f}\\%", c5, "results_cmethods.json C5_asnorm min fnr")
 check("the lower block is described", "\\caption{Upper block:",
       "Lower block: mean realized FPR of each policy of \\S\\ref{sec:method} for SSL-AASIST at the same $N$ and $B$ "
-      "from separate runs (naive transfer and C2/C5 are deterministic)")
+      "from separate runs (naive transfer and C1/C2/C5 are deterministic)")
+check("the release URL states the C5 embedding gap", "\\caption{Upper block:",
+      "Code, score tables and results (recomputing C5 additionally needs the cohort embeddings, not included): "
+      "\\protect\\url{https://github.com/rvirgilli/speech-deepfake-threshold-transport")
 check("Table 1 footnote states the BRSpeech SLS provenance", "\\label{tab:fnr}",
       "$^\\dagger$Official author-released scores for 21LA, 21DF and ITW; BRSpeech scored by us with the released checkpoint.",
       chars=1400)
@@ -520,10 +528,11 @@ _eclip = re.search(r"p = np\.clip\(p, (1e-\d+), 1 - 1e-\d+\)", dm).group(1)
 check("entropy monitor clip constant", MON,
       f"$p_i=\\mathrm{{clip}}(\\sigma((s_i-\\mu)/\\varsigma),10^{{{int(_eclip.split('e')[1])}}},1-10^{{{int(_eclip.split('e')[1])}}})$",
       _eclip, "drift_map.py entropy clip")
-check("abstract names both monitors as failing, each on its own criterion",
-      "A label-free importance-weighted quantile does not reliably restore near-target FPR",
-      "a mixture-distance drift monitor fails under attack-prevalence shifts, and an entropy monitor fails its "
-      "detection criterion under either drift definition")
+check("abstract names the heuristic as label-free and both monitors as failing",
+      "An importance-weighted quantile without target labels does not reliably restore near-target FPR",
+      "and two unlabeled drift monitors fail their tests")
+check("abstract opening is scoped to the tested channels and corpora", "A speech-deepfake detector's threshold",
+      "often loses that operating point on the channels and corpora tested here")
 pre = drift["monitor_eval_PREREGISTERED"]
 cor = drift["monitor_eval"]
 assert all(v["achieves_tpr80_fpr20"] is None for v in pre.values()), "a pre-specified pass exists"
@@ -566,7 +575,7 @@ check("replicate miss count and rate", "Over both detectors the transported thre
       f"{_n_tf}/{_tot_tf}", "results_a5.json")
 check("the grid it is contrasted against, at the SAME scope",
       "Over both detectors the transported threshold",
-      f"against {round(100*n_within_miss/len(within))}\\% on\nthe grid above",
+      f"compared with {n_within_miss} of {len(within)} within-21LA pairs ({round(100*n_within_miss/len(within))}\\%)",
       f"{n_within_miss}/{len(within)} pooled over both detectors", "results_drift.json")
 check("abstract carries the pooled A5 count and denominator",
       "The failure persists on ASVspoof~5", f"{_n_tf} of {_tot_tf} ordered pairs",
@@ -588,6 +597,9 @@ CORS_ANCHOR = "On three further detectors with released 21LA scores"
 check("released-score detectors: per-detector miss range and pooled count", CORS_ANCHOR,
       f"on {min(_cors_n.values())}--{max(_cors_n.values())} of the 42 channel pairs each "
       f"({sum(_cors_n.values())} of {42 * len(_cors_n)})", _cors_n, "EXP-109 results_cellA.json |log2_fpr_ratio|>1")
+check("released-score detectors: the FPR-axis failure count of detectors", CORS_ANCHOR,
+      f"the FPR-axis failure appears on all {WORDS[2 + len(_cors_n)]} tested detectors, the spoof-side magnitude does not",
+      2 + len(_cors_n), "two reproduction-scored + EXP-109 released-score detectors")
 check("released-score detectors: spoof-side cost bound on the flagship pair", CORS_ANCHOR,
       f"stays below {math.ceil(_cors_price * 100)} points", _cors_price, "max fnr_price of pstn->g722 over the three")
 assert _cors_price * 100 < math.ceil(_cors_price * 100) and _cors_price * 100 > math.ceil(_cors_price * 100) - 1
@@ -747,7 +759,6 @@ PRESENCE = [
     ("the paper disclaims both the rule and the audit practice as prior art",
      r"We claim neither the threshold rule nor\s+the practice of auditing both error rates"),
     ("the direct 2026 quantile prior art is cited", r"zhao26ca"),
-    ("the direct 2026 fixed-threshold audit is cited", r"schaefer26reality"),
     ("the quantitative delta from the closest threshold-transfer audit is explicit",
      r"Relative to that audit \(one detector, two target corpora\), we add a 108-cell fixed-FPR map.{0,120}264-pair"),
     ("the 2x severity bar is disclosed as post-hoc in the main text",
@@ -761,8 +772,10 @@ PRESENCE = [
     ("the prior-art delta to TRACE and the industry report is positioned",
      r"our question is finite-sample reset from target bona fide alone"),
     ("the bona-fide resource-shift neighbour is cited", r"under bona-fide resource shifts \\cite\{pham26\}"),
-    ("the tandem/standalone scope of t-DCF is stated",
-     r"our standalone setting evaluates no tandem ASV system"),
+    ("the DCF/tandem scope is stated and the 5% target justified",
+     r"tandem evaluation uses t-DCF \\cite\{tdcf\}; we report EER and both class-conditional errors at a prescribed 5\\% bona-fide rejection target"),
+    ("the speaker-sensitivity and two-class-calibration neighbours are cited",
+     r"label-free speaker sensitivity \\cite\{darross26\}, and calibration from labeled examples of both classes \\cite\{negroni26\}"),
     ("the speaker-unit failure is disclosed",
      r"speaker-disjoint diagnostic on 21LA, which calibrates.{0,200}widened"),
     ("the flag-definition change is disclosed as post-hoc",
@@ -845,7 +858,7 @@ RETIRED = [
     (r"TPR 0\.89|FPR 0\.16|Spearman 0\.70", "the in-sample monitor operating point (cut; the pass is stated, not its numbers)"),
     (r"covers the eight cells", "the sweep-coverage sentence (cut)"),
     (r"We treat unlabeled drift monitoring as open", "the open-problem sentence (cut for space)"),
-    (r"\\cite\{[^}]*\b(leroux25|rtcfake26|leong26|mcp25|negroni26|falsesafety26|cdts26|bashari25|brummer06|barber23|radar26)\b",
+    (r"\\cite\{[^}]*\b(leroux25|rtcfake26|leong26|mcp25|falsesafety26|cdts26|bashari25|brummer06|barber23|radar26|schaefer26reality|tong20)\b",
      "a citation dropped on 2026-09-09 for the page budget"),
     (r"7--8\\,pp|0\.6--1\.4\\,pp", "the ITW budget-sweep offsets (sentence cut)"),
     (r"17--93 pp|3--95 pp|0\.68 pp on ITW|2--18 pp", "prose ranges now carried by Table 1's policy block"),
@@ -857,6 +870,12 @@ RETIRED = [
     (r"deployable operating point on neither", "the heuristic claim beyond what was measured"),
     (r"N\{=\}450|\b95\.4\\%", "the N=450 prescription (cut)"),
     (r"Best of C1/C2", "the policy row now reports C2 alone"),
+    (r"C2 temp\./shift & 0\.3 & 1\.4", "the diverged undamped-Newton C2 values (AMENDMENT-4)"),
+    (r"seven unlabeled corrections|Reality Check", "related-work clauses cut in round 4"),
+    (r"rarely holds it on another", "the unscoped abstract opening"),
+    (r"reaches 99\.5\\%", "the intro XLS-R+SLS naive clause (cut)"),
+    (r"ship a designated bona-fide calibration split", "the prescription clause (cut)"),
+    (r"reaches \$\+0\.69\$|at least \$\+0\.40\$", "the price in fractions (now percentage points)"),
     (r"(?<![-\d.])5\.0\\% FPR on all four", "the 5.0-on-all-four claim (BRSpeech is 4.93)"),
     (r"An additive band has only", "superseded band description"),
 ]

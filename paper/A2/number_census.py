@@ -205,6 +205,7 @@ TABLE1_ROWS = {
 _pol = lambda d: {c: d[c] for c in E2_CORPORA}
 POLICY_ROWS = {
     "Naive transfer": tuple((f"{E2['ssl'][c]['naive_transfer']['fpr']*100:.1f}",) for c in E2_CORPORA),
+    "C1 z-norm": tuple((f"{CMS['ssl'][c]['C1_znorm']['fpr']*100:.1f}",) for c in E2_CORPORA),
     "C2 temp./shift": tuple((f"{CMS['ssl'][c]['C2_tempshift']['fpr']*100:.1f}",) for c in E2_CORPORA),
     "C5 AS-norm": tuple((f"{CMS['ssl'][c]['C5_asnorm']['fpr']*100:.1f}",) for c in E2_CORPORA),
     "Cohort z-norm": tuple((f"{M10['ssl'][c]['500']['znorm']['fpr_mean']*100:.1f}",) for c in E2_CORPORA),
@@ -232,7 +233,6 @@ for block, rows in ((TABLE1_ROWS, 0), (EER_ROWS, 1), (POLICY_ROWS, 2)):
 _ssl_naive = [E2["ssl"][c]["naive_transfer"]["fpr"] for c in E2_CORPORA]
 INTRO_SSL_LO = f"{min(_ssl_naive)*100:.0f}"
 INTRO_SSL_HI = f"{max(_ssl_naive)*100:.1f}"
-INTRO_SLS_HI = f"{max(SLS[c]['naive_transfer']['fpr'] for c in SLS_CORPORA)*100:.1f}"
 _q = [E2[d][c]["quantile"]["500"] for d in ("aasist", "ssl") for c in E2_CORPORA]
 _q += [SLS[c]["quantile"] for c in SLS_CORPORA]
 _oracle = [E2[d][c]["oracle"]["fnr"] for d in ("aasist", "ssl") for c in E2_CORPORA]
@@ -300,8 +300,8 @@ ARTIFACT_DERIVED = {
     f"{FLAG['vanilla_fnr_mean']*100:.0f}": "flagship missed-spoof rate (%)",
     f"{FLAG['fnr_oracle']*100:.2f}": "flagship oracle missed-spoof rate (%)",
     f"{FLAG['vanilla_fpr_mean']*100:.2f}": "flagship realized FPR (%)",
-    f"{FLAG['fnr_price']:.2f}": "flagship spoof-side price",
-    f"{math.floor(PSTN_MIN_PRICE * 100 + 1e-9) / 100:.2f}": "floor of the min price over AASIST cells calibrated on PSTN",
+    f"{FLAG['fnr_price']*100:.1f}": "flagship spoof-side price (percentage points)",
+    str(math.floor(PSTN_MIN_PRICE * 100 + 1e-9)): "floor of the min price over AASIST cells calibrated on PSTN (points)",
     f"{FLAG['cal_fnr_at_threshold']*100:.0f}": "AASIST FNR on PSTN spoofs at the transported PSTN threshold (%)",
     f"{AUC['pstn']:.3f}": "AASIST AUC on PSTN, results_dissociation.json",
     f"{min(AUC_OTHERS):.3f}": "AASIST AUC, min over the other six 21LA conditions",
@@ -350,7 +350,6 @@ ARTIFACT_DERIVED = {
     str(len(_beyond)): "cohort z-norm cells beyond 2 pp",
     f"{max(abs(SLS[c]['znorm']['fpr_mean']-ALPHA)*100 for c in SLS_CORPORA):.1f}":
         "cohort z-norm worst miss, XLS-R+SLS (pp)",
-    INTRO_SLS_HI: "largest XLS-R+SLS naive-transfer FPR (%)",
     # setup counts
     f"{N_BONA:,}": "bona-fide recordings per 21LA condition, hidden phase excluded",
     f"{N_SPOOF:,}": "spoofed trials per 21LA condition, hidden phase excluded",
@@ -425,8 +424,6 @@ ARTIFACT_CONTEXT_RULES = (
      "EXP-002 SSL naive-transfer FPR minimum, rounded for prose"),
     (INTRO_SSL_HI, re.compile(rf"{re.escape(INTRO_SSL_LO)}--{re.escape(INTRO_SSL_HI)}\\% FPR across"),
      "EXP-002 SSL naive-transfer FPR maximum"),
-    (INTRO_SLS_HI, re.compile(rf"reaches {re.escape(INTRO_SLS_HI)}\\%"),
-     "EXP-102 XLS-R+SLS naive-transfer FPR maximum"),
     (MAX_FNR_PREMIUM, re.compile(rf"(?:at most a {re.escape(MAX_FNR_PREMIUM)}-point FNR premium|\$\\le\${re.escape(MAX_FNR_PREMIUM)} points)"),
      "maximum usable-cell FNR premium over the oracle, both sites"),
     ("7", re.compile(r"z-norm remains 7--8\\,pp high"), "N-sweep z-norm ITW offset, lower endpoint"),
@@ -435,7 +432,7 @@ ARTIFACT_CONTEXT_RULES = (
      "EXP-002 SSL quantile/500 fpr_mean, max over corpora"),
     ("4.9", re.compile(r"realizes 4\.9--5\.0\\% FPR on all four corpora"),
      "EXP-002 SSL quantile/500 fpr_mean, min over corpora"),
-    (str(round(100 * la_n / len(within))), re.compile(r"against 68\\% on\s+the grid above"),
+    (str(round(100 * la_n / len(within))), re.compile(r"within-21LA pairs \(68\\%\)"),
      "within-21LA >2x miss rate over both detectors"),
     ("0", re.compile(r"collapses to 0\\% on BRSpeech"), "Gaussian quantile FPR on BRSpeech, results_parametric.json"),
     (str(B_WEIGHTED), re.compile(r"200 draws"), "B_WEIGHTED in drift_map.py"),
@@ -462,8 +459,6 @@ ARTIFACT_CONTEXT_RULES = (
 )
 
 CLASSIFICATION_PROBES = (
-    ("post-citation SLS FPR is not skipped", INTRO_SLS_HI,
-     re.compile(r"reaches 99\.5"), "ARTIFACT_DERIVED"),
     ("intro 98.5 binds naive transfer, not Table 1", INTRO_SSL_HI,
      re.compile(r"22--98\.5\\% FPR across"), "ARTIFACT_DERIVED"),
     ("overlap gate is declared, not borrowed from grid rate", "50",
@@ -471,7 +466,7 @@ CLASSIFICATION_PROBES = (
     ("prevalence factors bind to drift_map.py, not the 0.5 premium/cutoff", "0.5",
      re.compile(r"odds by 0\.5 and 1\.5"), "ARTIFACT_DERIVED"),
     ("grid rate is artifact-derived", "68",
-     re.compile(r"against 68\\% on"), "ARTIFACT_DERIVED"),
+     re.compile(r"within-21LA pairs \(68\\%\)"), "ARTIFACT_DERIVED"),
     ("the SSL benign cell count is artifact-derived, 19LA is not", "19",
      re.compile(r"19\\slash19"), "ARTIFACT_DERIVED"),
     ("heuristic draws bind to B_WEIGHTED", "200",

@@ -52,11 +52,22 @@ def load_emb(model, corpus, utts):
 
 
 def fit_temp_shift(s):
-    """Quartile pseudo-labels, 1-D logistic fit by Newton; returns (T, b)."""
+    """Quartile pseudo-labels, 1-D logistic fit by damped Newton; returns (T, b).
+
+    Each Newton step is backtracked (halved, up to 30 times) until the mean
+    logistic loss decreases, so the iteration cannot diverge on separable
+    pseudo-labels; the endpoint after 50 accepted steps defines the transform.
+    """
     q1, q3 = np.quantile(s, 0.25), np.quantile(s, 0.75)
     x = np.concatenate([s[s >= q3], s[s <= q1]])
     y = np.concatenate([np.ones((s >= q3).sum()), np.zeros((s <= q1).sum())])
+
+    def loss(w, b):
+        z = w * x + b
+        return float(np.mean(np.logaddexp(0.0, z) - y * z))
+
     w, b = 1.0, 0.0
+    current = loss(w, b)
     for _ in range(50):
         z = np.clip(w * x + b, -30, 30)
         p = 1 / (1 + np.exp(-z))
@@ -65,9 +76,27 @@ def fit_temp_shift(s):
         H = np.array([[np.sum(r * x * x), np.sum(r * x)],
                       [np.sum(r * x), np.sum(r)]]) + 1e-6 * np.eye(2)
         step = np.linalg.solve(H, g)
-        w, b = w - step[0], b - step[1]
+        scale = 1.0
+        for _ in range(30):
+            candidate = loss(w - scale * step[0], b - scale * step[1])
+            if candidate < current:
+                w, b, current = w - scale * step[0], b - scale * step[1], candidate
+                break
+            scale *= 0.5
     T = 1.0 / max(w, 1e-6)
     return T, b * T  # s' = (s + b*T)/T == w*s + b
+
+
+def _self_check():
+    """The damped fit must lower the loss on a separable pseudo-label set."""
+    rng = np.random.default_rng(0)
+    s = np.concatenate([rng.normal(-6.2, 0.05, 2000), rng.normal(-5.9, 0.05, 2000)])
+    T, b = fit_temp_shift(s)
+    q1, q3 = np.quantile(s, 0.25), np.quantile(s, 0.75)
+    x = np.concatenate([s[s >= q3], s[s <= q1]])
+    y = np.concatenate([np.ones((s >= q3).sum()), np.zeros((s <= q1).sum())])
+    z = (x + b) / T
+    assert np.mean(np.logaddexp(0.0, z) - y * z) < 0.1
 
 
 def asnorm(rng, s, emb, cohort_emb, cohort_s):
@@ -123,4 +152,5 @@ def main():
 
 
 if __name__ == "__main__":
+    _self_check()
     main()
