@@ -62,6 +62,10 @@ within = drift["within"]
 in_tol = [v for v in cells.values() if abs(v["vanilla_fpr_mean"] - ALPHA) <= TOL]
 hidden = [v for v in in_tol if abs(v["log2_fpr_ratio"]) > SEV_BAR]
 E2_CORPORA = ("asv21la", "asv21df_full", "itw", "brspeech_test")
+_q5 = {c: E2["ssl"][c]["quantile"]["500"]["fpr_mean"] for c in E2_CORPORA}
+_q5_lo, _q5_hi = min(_q5.values()) * 100, max(_q5.values()) * 100
+_q5_lit = (f"realizes {_q5_lo:.1f}\\% FPR on all four corpora" if round(_q5_lo, 1) == round(_q5_hi, 1)
+           else f"realizes {_q5_lo:.1f}--{_q5_hi:.1f}\\% FPR on all four corpora")
 SLS_CORPORA = ("asv21la", "asv21df_full", "itw", "brspeech_test")
 
 failures = []
@@ -421,10 +425,6 @@ check("intro naive-transfer FPR range (SSL-AASIST)", "A threshold set to 5\\% FP
       (min(ssl_naive), max(ssl_naive)), "EXP-002 results.json naive_transfer")
 check("intro naive-transfer FPR (XLS-R+SLS)", "A threshold set to 5\\% FPR on ASVspoof~2019~LA dev",
       f"it reaches {max(sls_naive)*100:.1f}\\%", max(sls_naive), "results_sls_complete.json")
-_q5 = {c: E2["ssl"][c]["quantile"]["500"]["fpr_mean"] for c in E2_CORPORA}
-_q5_lo, _q5_hi = min(_q5.values()) * 100, max(_q5.values()) * 100
-_q5_lit = (f"realizes {_q5_lo:.1f}\\% FPR on all four corpora" if round(_q5_lo, 1) == round(_q5_hi, 1)
-           else f"realizes {_q5_lo:.1f}--{_q5_hi:.1f}\\% FPR on all four corpora")
 check("the quantile's realized FPR range on the four SSL corpora", "\\textbf{Matched-resource policy comparison.}",
       _q5_lit, _q5, "EXP-002 results.json quantile/500")
 naive_miss = [abs(f - ALPHA) * 100 for f in ssl_naive]
