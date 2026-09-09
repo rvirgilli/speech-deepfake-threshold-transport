@@ -61,6 +61,7 @@ E2 = json.load(open(EXP / "EXP-002-a2-calibration/results.json"))
 M10 = json.load(open(EXP / "EXP-010-a2-matched-baseline/results.json"))
 A5 = json.load(open(EXP / "EXP-103-a5-replicate/artifacts/results_a5.json"))
 PRE = json.load(open(EXP / "EXP-103-a5-replicate/artifacts/precheck.json"))
+A5EER = json.load(open(EXP / "EXP-103-a5-replicate/artifacts/a5_eer.json"))
 DRIFT_MAP = (E102 / "drift_map.py").read_text()
 CORS = json.load(open(EXP / "EXP-109-a2-cors-transport/results_cellA.json"))
 CMETH = (E102 / "c_methods.py").read_text()
@@ -172,7 +173,6 @@ def normal_quantile(p):
 
 
 P100, _, _ = beta_summary(100)
-P450, _, _ = beta_summary(450)
 P500, Q500_LO, Q500_HI = beta_summary(500)
 SPK_W = [v["seed_sweep"]["mean_width_pp"] for v in SPK["cells"].values()]
 SPK_NULL = [v["permutation"]["null_median_pp"] for v in SPK["cells"].values()]
@@ -205,8 +205,7 @@ TABLE1_ROWS = {
 _pol = lambda d: {c: d[c] for c in E2_CORPORA}
 POLICY_ROWS = {
     "Naive transfer": tuple((f"{E2['ssl'][c]['naive_transfer']['fpr']*100:.1f}",) for c in E2_CORPORA),
-    "Best of C1/C2": tuple((f"{min((CMS['ssl'][c][m]['fpr'] for m in ('C1_znorm', 'C2_tempshift')), key=lambda f: abs(f - ALPHA))*100:.1f}",)
-                           for c in E2_CORPORA),
+    "C2 temp./shift": tuple((f"{CMS['ssl'][c]['C2_tempshift']['fpr']*100:.1f}",) for c in E2_CORPORA),
     "C5 AS-norm": tuple((f"{CMS['ssl'][c]['C5_asnorm']['fpr']*100:.1f}",) for c in E2_CORPORA),
     "Cohort z-norm": tuple((f"{M10['ssl'][c]['500']['znorm']['fpr_mean']*100:.1f}",) for c in E2_CORPORA),
     "Gaussian q.": tuple((f"{PAR['ssl'][c]['500']['parametric']['fpr_mean']*100:.1f}",) for c in E2_CORPORA),
@@ -337,6 +336,11 @@ ARTIFACT_DERIVED = {
     f"{max(_naive_miss + _unlab):.0f}": "naive/unlabeled worst miss over SSL corpora (pp)",
     f"{max(abs(f-ALPHA)*100 for f in _par500.values()):.1f}": "Gaussian quantile worst miss at N=500 (pp)",
     f"{PRE['ssl']['n_bona']:,}": "A5 pilot recordings per class (precheck.json)",
+    f"{A5EER['ssl']['n_bona']:,}": "A5 deployment-half bona fide (a5_eer.json)",
+    f"{A5EER['ssl']['n_spoof']:,}": "A5 deployment-half spoofs (a5_eer.json)",
+    f"{A5EER['aasist']['eer']*100:.1f}": "A5 deployment-half pooled EER, AASIST (%)",
+    f"{A5EER['ssl']['eer']*100:.1f}": "A5 deployment-half pooled EER, SSL-AASIST (%)",
+    f"{min(E2['ssl'][c]['quantile']['500']['fpr_mean'] for c in E2_CORPORA)*100:.1f}": "SSL quantile realized FPR, min over corpora (%)",
     str(len(A5_USABLE)): "A5 SSL-AASIST pairs on usable destinations",
     str(sum(1 for v in A5_USABLE if v["log2_fpr_ratio"] < -SEV)): "usable A5 pairs missing conservatively by >2x",
     str(sum(1 for v in A5_USABLE if v["fnr_price"] > 0)): "usable A5 pairs with positive spoof-side cost",
@@ -362,7 +366,6 @@ ARTIFACT_DERIVED = {
 ANALYTIC_DERIVED = {
     f"{P100*100:.1f}": "iid Beta reference: P(3% <= FPR <= 7%), N=100",
     f"{P500*100:.1f}": "iid Beta reference: P(3% <= FPR <= 7%), N=500",
-    f"{P450*100:.1f}": "iid Beta reference: P(3% <= FPR <= 7%), N=450 (operational prescription)",
     f"{Q500_LO*100:.2f}": "iid Beta reference: N=500 central 95% lower endpoint",
     f"{Q500_HI*100:.2f}": "iid Beta reference: N=500 central 95% upper endpoint",
     f"{normal_quantile(1 - ALPHA):.3f}": "one-sided normal quantile at 5%",
@@ -387,7 +390,7 @@ DECLARED_RAW = {
     "1000": "B=1000 paired calibration draws", "2019": "corpus year, ASVspoof 2019",
     "2021": "corpus year, ASVspoof 2021", "2027": "venue year", "66": "language count from cited LRLspoof work",
     "15": "histogram bins in the heuristic", "200": "B_WEIGHTED draws / permutations",
-    "11": "A5 codecs", "450": "N chosen for the operational prescription", "1.6": "table column separation (pt)",
+    "11": "A5 codecs", "1.6": "table column separation (pt)",
     "6": "count in prose; exponent of the 1e-6 stabilizers (c_methods.py, drift_map.py)",
     "3": "index/count; spoof-side cost bound in points (asserted in check_numbers.py)",
 }
@@ -428,8 +431,10 @@ ARTIFACT_CONTEXT_RULES = (
      "maximum usable-cell FNR premium over the oracle, both sites"),
     ("7", re.compile(r"z-norm remains 7--8\\,pp high"), "N-sweep z-norm ITW offset, lower endpoint"),
     ("8", re.compile(r"z-norm remains 7--8\\,pp high"), "N-sweep z-norm ITW offset, upper endpoint"),
-    ("5.0", re.compile(r"realizes 5\.0\\% FPR on all four corpora"),
-     "EXP-002 SSL quantile/500 fpr_mean, all four round to 5.0"),
+    ("5.0", re.compile(r"realizes 4\.9--5\.0\\% FPR on all four corpora"),
+     "EXP-002 SSL quantile/500 fpr_mean, max over corpora"),
+    ("4.9", re.compile(r"realizes 4\.9--5\.0\\% FPR on all four corpora"),
+     "EXP-002 SSL quantile/500 fpr_mean, min over corpora"),
     (str(round(100 * la_n / len(within))), re.compile(r"against 68\\% on\s+the grid above"),
      "within-21LA >2x miss rate over both detectors"),
     ("0", re.compile(r"collapses to 0\\% on BRSpeech"), "Gaussian quantile FPR on BRSpeech, results_parametric.json"),
@@ -445,7 +450,7 @@ ARTIFACT_CONTEXT_RULES = (
     ("50", re.compile(r"50 Newton steps"), "C2 Newton steps, c_methods.py"),
     ("100", re.compile(r"the 100 nearest"), "C5 cohort neighbours, c_methods.py K_COHORT"),
     ("66", re.compile(r"\(66 ordered pairs\)"), "A5 SSL-AASIST pairs on usable destinations"),
-    (str(round(FLAG["vanilla_fpr_mean"] * FLAG["n_dep_bona"])), re.compile(r"FPR is 10 of 2,356"),
+    (str(round(FLAG["vanilla_fpr_mean"] * FLAG["n_dep_bona"])), re.compile(r"about 10 false alarms per draw"),
      "flagship false alarms, vanilla_fpr_mean x n_dep_bona"),
     (str(min(CORS_N.values())), re.compile(r"on 25--33 of the 42"), "EXP-109 min per-detector miss count"),
     (str(max(CORS_N.values())), re.compile(r"on 25--33 of the 42"), "EXP-109 max per-detector miss count"),
@@ -490,8 +495,8 @@ POSITION_BINDINGS = (
     ("abstract grid census",
      rf"Across {len(cells)} detector, source and target combinations built from .{{0,120}}, {len(miss2)} realize an FPR "
      rf"more than \$2\\times\$ off target \({sum(1 for v in miss2 if v['log2_fpr_ratio'] > 0)} above, "
-     rf"{sum(1 for v in miss2 if v['log2_fpr_ratio'] < 0)} below\)\. Of the {len(in_tol)} cells inside our own "
-     rf"\$\\pm5\$-point tolerance on realized FPR, {len(hidden)} are among them", 1),
+     rf"{sum(1 for v in miss2 if v['log2_fpr_ratio'] < 0)} below\)\. Of the {len(in_tol)} cells within our own "
+     rf"\$\\pm5\$-percentage-point FPR tolerance, {len(hidden)} fall below half the target", 1),
     ("108-cell decomposition", rf"The measurement covers {len(cells)} deployment cells: two detectors", 1),
     ("42+12 decomposition", r"42 ordered pairs of seven 21LA channel conditions .* 12 ordered pairs of four corpora", 1),
     ("hidden count over the tolerance, both sites", rf"{len(hidden)} of the {len(in_tol)} cells inside", 2),
@@ -499,14 +504,14 @@ POSITION_BINDINGS = (
      rf"{sum(1 for v in in_tol if abs(v['log2_fpr_ratio']) > 0.585)} (?:of {len(in_tol)} )?at \$1\.5\\times\$", 2),
     ("sensitivity range at 4x, both sites",
      rf"{sum(1 for v in in_tol if abs(v['log2_fpr_ratio']) > 2.0)} (?:of {len(in_tol)} )?at \$4\\times\$", 2),
-    ("flagship transported FNR, both sites", rf"{FLAG['vanilla_fnr_mean']*100:.0f}\\% of spoofs", 2),
-    ("flagship oracle FNR, both sites", rf"against {FLAG['fnr_oracle']*100:.2f}\\%", 2),
-    ("flagship FPR, three sites", rf"{FLAG['vanilla_fpr_mean']*100:.2f}\\% FPR", 3),
+    ("flagship transported FNR (abstract; caption sentence cut)", rf"{FLAG['vanilla_fnr_mean']*100:.0f}\\% of spoofs", 1),
+    ("flagship oracle FNR (abstract)", rf"against {FLAG['fnr_oracle']*100:.2f}\\%", 1),
+    ("flagship FPR, abstract and Drift paragraph", rf"{FLAG['vanilla_fpr_mean']*100:.2f}\\% FPR", 2),
+    ("flagship false-alarm count", rf"about {round(FLAG['vanilla_fpr_mean'] * FLAG['n_dep_bona'])} false alarms per draw among {N_BONA:,} bona fide", 1),
     ("released-score detectors, EXP-109",
      rf"on {min(CORS_N.values())}--{max(CORS_N.values())} of the 42 channel pairs each \({sum(CORS_N.values())} of {42 * len(CORS_N)}\)", 1),
     ("speaker six-cell ranges",
-     rf"to {min(SPK_W):.1f}--{max(SPK_W):.1f} points \(means over ten seeds of {SPK['draws_per_width']} draws\), against {min(SPK_NULL):.1f}--{max(SPK_NULL):.1f} under", 1),
-    ("N=450 prescription", rf"N\{{=\}}450\$ gives {P450*100:.1f}\\% probability", 1),
+     rf"to {min(SPK_W):.1f}--{max(SPK_W):.1f} points \(means over ten seeds of {SPK['draws_per_width']} draws\), against a median of {min(SPK_NULL):.1f}--{max(SPK_NULL):.1f} under", 1),
     ("A5 primary numerator/denominator, both sites", rf"{tf_n} of {tf_t}", 2),
     ("A5 primary percentage, both sites", rf"\({round(100*tf_n/tf_t)}\\%\)", 2),
     ("mean realized FPR range, both sites", rf"{FPR_LO*100:.2f}--{FPR_HI*100:.2f}\\%", 2),
@@ -517,7 +522,7 @@ POSITION_BINDINGS = (
     ("A5 usable-destination counts",
      rf"\({len(A5_USABLE)} ordered pairs\), where {sum(1 for v in A5_USABLE if v['log2_fpr_ratio'] < -SEV)} miss the FPR target conservatively by more than \$2\\times\$ and {sum(1 for v in A5_USABLE if v['fnr_price'] > 0)} pay", 1),
     ("calibration-condition AUC against the other six",
-     rf"AUC {AUC['pstn']:.3f} against {min(AUC_OTHERS):.3f}--{max(AUC_OTHERS):.3f} elsewhere", 1),
+     rf"AUC {AUC['pstn']:.3f} against {min(AUC_OTHERS):.3f}--{max(AUC_OTHERS):.3f}\)", 1),
     ("iid Beta N=100 reference", rf"{P100*100:.1f}\\% probability", 1),
     ("iid Beta N=500 reference", rf"{P500*100:.1f}\\%", 1),
     ("iid Beta N=500 interval", rf"{Q500_LO*100:.2f}--{Q500_HI*100:.2f}\\% central 95\\% interval", 1),

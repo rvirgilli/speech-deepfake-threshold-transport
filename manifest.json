@@ -263,6 +263,10 @@
     "sha256": "966fc763e688081826787267b4cda43d282ec308b2f27b878de7002ce21ef16a",
     "bytes": 5769
   },
+  "experiments/EXP-103-a5-replicate/artifacts/a5_eer.json": {
+    "sha256": "4fe19295c54d969ff52a2bfa1dc4bfb547d22d17bc8db543d7aaaa122494fb51",
+    "bytes": 162
+  },
   "experiments/EXP-103-a5-replicate/artifacts/cost_map_sensitivity.json": {
     "sha256": "9d8c9bd48d22d9d8305650e3f414bc76201a73534fea0705d7df81a56fd9a961",
     "bytes": 1948
@@ -286,6 +290,10 @@
   "experiments/EXP-103-a5-replicate/export_scores.py": {
     "sha256": "5a5e01f42240f49538d7cc6eed19ef4aa179d3e127bbab75402294bbe642f753",
     "bytes": 1301
+  },
+  "experiments/EXP-103-a5-replicate/a5_eer.py": {
+    "sha256": "4a836a7cb9949dd871d646d4574aeb41e5178408ac195a733212ac435870683c",
+    "bytes": 1803
   },
   "experiments/EXP-109-a2-cors-transport/PREREG.md": {
     "sha256": "a7a8dbec56e126a0867dc9eee6d36d3b78fb30bbb110d121667c01fbb0f17a71",
@@ -324,16 +332,16 @@
     "bytes": 157
   },
   "paper/A2/main.pdf": {
-    "sha256": "01bc42a21cee4703c91fdf5c4417aad386be06c5105bb0704a0cf5cda0205a5f",
-    "bytes": 225529
+    "sha256": "cdfca997ce39bc1f06f5d04a4403431a81b0804663854d0125c664c4aded16e1",
+    "bytes": 227191
   },
   "paper/A2/main.tex": {
-    "sha256": "baec64eee5f12a3088394495bf4a31a2592d74a03aced8ace66646b0b13aec79",
-    "bytes": 27438
+    "sha256": "24ebc47fcd56bae710446a2a972718a6b0802ef753f0ea8020fa0b12fe3538ea",
+    "bytes": 27612
   },
   "paper/A2/refs.bib": {
-    "sha256": "3cda9b0aaf3924e3dffc73ec9c4a79f98f84bf215a5a1d4765df711874b6fa24",
-    "bytes": 13486
+    "sha256": "912cabeedf265b58e8faa379bbcda8b7264e583e359fc4d71145d718e59eb5d5",
+    "bytes": 13596
   },
   "paper/A2/spconf.sty": {
     "sha256": "dc5d632639040cb183f2ab62780f314845aa021be73048c8a9ec9c2072d64a86",
@@ -344,12 +352,12 @@
     "bytes": 18044
   },
   "paper/A2/check_numbers.py": {
-    "sha256": "5bf36d51b07e14f4f869a3ef0c6c28fbeedd022598ecd106b1d87439782b98f6",
-    "bytes": 63229
+    "sha256": "1f4e87bce511599c76a6e18e521cb2eb0e631b8a3fd885b82e7a9306e43240c0",
+    "bytes": 66603
   },
   "paper/A2/number_census.py": {
-    "sha256": "0c9d0d762bfe4fc7ea9cbf6b7ee4d241fabc72ba02c462d695d6055c8b51f3e6",
-    "bytes": 39546
+    "sha256": "ee7f23ca7dbf69cd1f69dcbd0520e70d763f43864abb10e1f15017bece0a401a",
+    "bytes": 40092
   },
   "paper/A2/PRIOR-ART-SWEEP-INTERSPEECH-2026.md": {
     "sha256": "391658fa0678f30314878544762db364ebff8ed56afa0de2e1385badc1baf066",
