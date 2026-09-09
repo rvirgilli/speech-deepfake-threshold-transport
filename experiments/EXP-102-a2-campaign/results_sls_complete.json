@@ -1,0 +1,110 @@
+{
+  "asv21la": {
+    "n_bona": 14816,
+    "n_spoof": 133360,
+    "naive_transfer": {
+      "fpr": 0.447,
+      "fnr": 0.0002
+    },
+    "oracle": {
+      "fnr": 0.0147
+    },
+    "same_sample_quantile_identity": 0.05,
+    "quantile": {
+      "fpr_mean": 0.0498,
+      "fnr_mean": 0.0157,
+      "fnr_minus_oracle_pts": 0.1
+    },
+    "znorm": {
+      "fpr_mean": 0.1764,
+      "fnr_mean": 0.0029,
+      "fnr_minus_oracle_pts": -1.18
+    },
+    "parametric": {
+      "fpr_mean": 0.0951,
+      "fnr_mean": 0.0068,
+      "fnr_minus_oracle_pts": -0.79
+    }
+  },
+  "asv21df_full": {
+    "n_bona": 14869,
+    "n_spoof": 519059,
+    "naive_transfer": {
+      "fpr": 0.5836,
+      "fnr": 0.0
+    },
+    "oracle": {
+      "fnr": 0.0071
+    },
+    "same_sample_quantile_identity": 0.05,
+    "quantile": {
+      "fpr_mean": 0.0502,
+      "fnr_mean": 0.0075,
+      "fnr_minus_oracle_pts": 0.04
+    },
+    "znorm": {
+      "fpr_mean": 0.2422,
+      "fnr_mean": 0.0007,
+      "fnr_minus_oracle_pts": -0.64
+    },
+    "parametric": {
+      "fpr_mean": 0.1011,
+      "fnr_mean": 0.0027,
+      "fnr_minus_oracle_pts": -0.44
+    }
+  },
+  "itw": {
+    "n_bona": 19963,
+    "n_spoof": 11816,
+    "naive_transfer": {
+      "fpr": 0.9913,
+      "fnr": 0.0004
+    },
+    "oracle": {
+      "fnr": 0.1081
+    },
+    "same_sample_quantile_identity": 0.05,
+    "quantile": {
+      "fpr_mean": 0.0495,
+      "fnr_mean": 0.1124,
+      "fnr_minus_oracle_pts": 0.43
+    },
+    "znorm": {
+      "fpr_mean": 0.4271,
+      "fnr_mean": 0.0051,
+      "fnr_minus_oracle_pts": -10.3
+    },
+    "parametric": {
+      "fpr_mean": 0.0937,
+      "fnr_mean": 0.0556,
+      "fnr_minus_oracle_pts": -5.25
+    }
+  },
+  "brspeech_test": {
+    "n_bona": 1320,
+    "n_spoof": 6587,
+    "naive_transfer": {
+      "fpr": 0.9947,
+      "fnr": 0.0006
+    },
+    "oracle": {
+      "fnr": 0.9112
+    },
+    "same_sample_quantile_identity": 0.05,
+    "quantile": {
+      "fpr_mean": 0.0498,
+      "fnr_mean": 0.9152,
+      "fnr_minus_oracle_pts": 0.4
+    },
+    "znorm": {
+      "fpr_mean": 0.5581,
+      "fnr_mean": 0.0811,
+      "fnr_minus_oracle_pts": -83.01
+    },
+    "parametric": {
+      "fpr_mean": 0.0,
+      "fnr_mean": 1.0,
+      "fnr_minus_oracle_pts": 8.88
+    }
+  }
+}

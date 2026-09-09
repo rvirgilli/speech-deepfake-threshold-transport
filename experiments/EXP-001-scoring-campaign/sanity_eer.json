@@ -1,0 +1,50 @@
+{
+  "aasist_asv19_dev": {
+    "n": 24844,
+    "eer": 0.511
+  },
+  "aasist_asv19_eval": {
+    "n": 71237,
+    "eer": 0.83
+  },
+  "aasist_asv21df_100k": {
+    "n": 87336,
+    "eer": 17.299
+  },
+  "aasist_asv21la": {
+    "n": 148176,
+    "eer": 8.153
+  },
+  "aasist_brspeech_test": {
+    "n": 7907,
+    "eer": 36.058
+  },
+  "aasist_itw": {
+    "n": 31779,
+    "eer": 43.016
+  },
+  "ssl_asv19_dev": {
+    "n": 24844,
+    "eer": 0.08
+  },
+  "ssl_asv19_eval": {
+    "n": 71237,
+    "eer": 0.221
+  },
+  "ssl_asv21df_100k": {
+    "n": 87336,
+    "eer": 6.649
+  },
+  "ssl_asv21la": {
+    "n": 148176,
+    "eer": 0.838
+  },
+  "ssl_brspeech_test": {
+    "n": 7907,
+    "eer": 34.693
+  },
+  "ssl_itw": {
+    "n": 31779,
+    "eer": 11.196
+  }
+}

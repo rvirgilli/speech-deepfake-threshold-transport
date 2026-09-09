@@ -1,0 +1,80 @@
+{
+  "scientific_object": "fixed-score threshold-transport measurement and target-channel calibration sensitivity",
+  "claims": {
+    "finite_sample_validity_split": {
+      "marginal_rank_validity": "exchangeability without ties",
+      "conditional_fpr_beta_law": "iid continuous sampling from a fixed score distribution",
+      "law": "Beta(k, N+1-k)",
+      "empirical_design": "fixed score pool; cohort sampled without replacement; evaluation on complement",
+      "interpretation": "the Beta law is a population reference, not the exact finite-pool empirical law"
+    },
+    "flagship_74_19_0.47": {
+      "path": "experiments/EXP-102-a2-campaign/results_drift.json",
+      "key": "within.aasist/pstn->g722",
+      "values": {
+        "vanilla_fnr_mean": 0.7366,
+        "fnr_oracle": 0.1877,
+        "vanilla_fpr_mean": 0.0047
+      }
+    },
+    "grid_58_and_hidden_34": {
+      "path": "experiments/EXP-102-a2-campaign/results_drift.json",
+      "rule": "58: abs(log2_fpr_ratio)>1 over within+cross; 34 additionally excursion<=0.05"
+    },
+    "a5_recording_speaker_disjoint_187_of_264": {
+      "path": "experiments/EXP-103-a5-replicate/artifacts/results_a5.json",
+      "rule": "abs(log2_fpr_ratio)>1 over ssl/twin_free + aasist/twin_free",
+      "recomputed": 187
+    },
+    "quantile_full_grid": {
+      "paths": [
+        "experiments/EXP-102-a2-campaign/results_parametric.json",
+        "experiments/EXP-002-a2-calibration/results.json",
+        "experiments/EXP-102-a2-campaign/results_sls_complete.json"
+      ],
+      "paper_scope": "mean realized FPR 4.94--5.03% at N=500; viable FNR premium <=0.8 pp"
+    },
+    "score_weighting_heuristic": {
+      "path": "experiments/EXP-102-a2-campaign/results_drift.json",
+      "implementation": "experiments/EXP-102-a2-campaign/drift_map.py::density_ratio_weights + weighted_quantile",
+      "definition": "clipped 15-bin deployment/calibration mixture-score density ratio applied to the bona-fide cohort; no test-point weight",
+      "not": "Tibshirani et al. covariate-shift conformal construction",
+      "within_2pp": 33,
+      "unweighted_within_2pp": 26,
+      "improves": 70
+    },
+    "transmission_scope": {
+      "path": "paper/A2/main.tex",
+      "21LA": "six real transmissions (five Asterisk PBX VoIP, one PSTN carrier) plus untransmitted source",
+      "21DF": "compression-only and untransmitted"
+    },
+    "numeric_claim_coverage": {
+      "position_guard": "paper/A2/check_numbers.py",
+      "occurrence_census": "paper/A2/number_census.py",
+      "contract": "artifact-derived, analytic-derived and declared occurrences are disjoint; repeated load-bearing claims are position-bound"
+    },
+    "speaker_clustering_post_hoc": {
+      "path": "experiments/EXP-102-a2-campaign/artifacts/speaker_clustering.json",
+      "key": "cells.aasist/pstn",
+      "mean_width_pp": 7.02894819861887,
+      "sd_width_pp": 0.16642123415389112,
+      "status": "post_hoc_sensitivity_not_preregistered"
+    },
+    "cost_map_exploratory_only": {
+      "path": "experiments/EXP-103-a5-replicate/artifacts/cost_map_sensitivity.json",
+      "heldout_r2": 0.5915555808467492,
+      "delete_one_a5_range": [
+        0.451159729336744,
+        0.6404361052040249
+      ],
+      "inference": null,
+      "status": "descriptive_sensitivity_no_interval_or_p_value"
+    }
+  },
+  "retired": [
+    "Fisher interval [0.12,0.87] and p=.002 for held-out R2",
+    "actDCF blind-spot interpretation",
+    "causal attribution of 71% versus 50% to disjointness",
+    "100--500 as a per-deployment FPR guarantee"
+  ]
+}

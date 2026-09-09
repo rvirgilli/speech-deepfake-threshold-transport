@@ -1,0 +1,118 @@
+{
+  "ssl": {
+    "asv21la": {
+      "C1_znorm": {
+        "fpr": 0.2128,
+        "fnr": 0.0011
+      },
+      "C2_tempshift": {
+        "fpr": 0.0817,
+        "fnr": 0.0793
+      },
+      "C5_asnorm": {
+        "fpr": 0.0108,
+        "fnr": 0.9957
+      }
+    },
+    "asv21df_100k": {
+      "C1_znorm": {
+        "fpr": 0.306,
+        "fnr": 0.0034
+      },
+      "C2_tempshift": {
+        "fpr": 0.206,
+        "fnr": 0.0227
+      },
+      "C5_asnorm": {
+        "fpr": 0.0479,
+        "fnr": 0.993
+      }
+    },
+    "itw": {
+      "C1_znorm": {
+        "fpr": 1.0,
+        "fnr": 0.0
+      },
+      "C2_tempshift": {
+        "fpr": 1.0,
+        "fnr": 0.0
+      },
+      "C5_asnorm": {
+        "fpr": 0.0001,
+        "fnr": 0.9958
+      }
+    },
+    "brspeech_test": {
+      "C1_znorm": {
+        "fpr": 1.0,
+        "fnr": 0.0006
+      },
+      "C2_tempshift": {
+        "fpr": 1.0,
+        "fnr": 0.0
+      },
+      "C5_asnorm": {
+        "fpr": 0.003,
+        "fnr": 0.9979
+      }
+    }
+  },
+  "aasist": {
+    "asv21la": {
+      "C1_znorm": {
+        "fpr": 0.4097,
+        "fnr": 0.0013
+      },
+      "C2_tempshift": {
+        "fpr": 0.0894,
+        "fnr": 0.2074
+      },
+      "C5_asnorm": {
+        "fpr": 0.0059,
+        "fnr": 0.9923
+      }
+    },
+    "asv21df_100k": {
+      "C1_znorm": {
+        "fpr": 0.3855,
+        "fnr": 0.0166
+      },
+      "C2_tempshift": {
+        "fpr": 0.157,
+        "fnr": 0.1883
+      },
+      "C5_asnorm": {
+        "fpr": 0.0013,
+        "fnr": 0.9934
+      }
+    },
+    "itw": {
+      "C1_znorm": {
+        "fpr": 0.9927,
+        "fnr": 0.0004
+      },
+      "C2_tempshift": {
+        "fpr": 1.0,
+        "fnr": 0.0
+      },
+      "C5_asnorm": {
+        "fpr": 0.0037,
+        "fnr": 0.9948
+      }
+    },
+    "brspeech_test": {
+      "C1_znorm": {
+        "fpr": 0.9803,
+        "fnr": 0.0043
+      },
+      "C2_tempshift": {
+        "fpr": 1.0,
+        "fnr": 0.0
+      },
+      "C5_asnorm": {
+        "fpr": 0.0008,
+        "fnr": 0.9977
+      }
+    }
+  }
+}

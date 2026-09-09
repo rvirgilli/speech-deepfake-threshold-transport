@@ -1,0 +1,768 @@
+{
+  "status": "post_hoc_sensitivity_not_preregistered",
+  "estimand": "90% realized-FPR interval width under speaker-disjoint same-condition calibration",
+  "alpha": 0.05,
+  "nominal_N_utterances": 500,
+  "draws_per_width": 400,
+  "permutations": 200,
+  "seed_sweep": [
+    100,
+    101,
+    102,
+    103,
+    104,
+    105,
+    106,
+    107,
+    108,
+    109
+  ],
+  "inputs": {
+    "metadata": {
+      "path": "~/data/corpora/anti-spoofing/keys/LA/CM/trial_metadata.txt",
+      "sha256": "6cc64a94d74c3c749a4ad8f5e377d0f46ed221477cfe3585996d8b550548bba8"
+    },
+    "ssl": {
+      "path": "experiments/EXP-001-scoring-campaign/scores/ssl_asv21la.csv.gz",
+      "sha256": "bcccb48717418599502b8c58c1abcb9ff76727f2aa0a56873186771486f59939"
+    },
+    "aasist": {
+      "path": "experiments/EXP-001-scoring-campaign/scores/aasist_asv21la.csv.gz",
+      "sha256": "96f84cf189948b7bd40d0c51b7c48809d09cb3f4851ceceebf8746f1e60a1b2a"
+    }
+  },
+  "cells": {
+    "ssl/none": {
+      "n_utterances": 2636,
+      "n_speakers": 67,
+      "seed_sweep": {
+        "widths_pp": [
+          3.7054317511749146,
+          3.438629079047954,
+          3.447585184968849,
+          3.3912381361369883,
+          3.460841812275553,
+          3.35902315747473,
+          3.2119563104425617,
+          3.3063370228973223,
+          3.4844184270708887,
+          3.665410438856954
+        ],
+        "mean_width_pp": 3.447087132034672,
+        "sd_width_pp": 0.14213834194826702
+      },
+      "permutation": {
+        "observed_width_pp": 3.480091187638884,
+        "null_median_pp": 3.4323202660045826,
+        "null_p95_pp": 3.944216940533677,
+        "null_exceedances": 87,
+        "permutation_p_plus_one": 0.43781094527363185,
+        "median_calibration_speakers": 13
+      }
+    },
+    "ssl/pstn": {
+      "n_utterances": 2636,
+      "n_speakers": 67,
+      "seed_sweep": {
+        "widths_pp": [
+          3.846701438105318,
+          3.650845050135268,
+          3.632170835142083,
+          3.681545985290614,
+          3.9634742798041773,
+          3.6024247012743817,
+          3.8434847062502318,
+          3.6019383201476325,
+          3.695107976407694,
+          3.942775841974369
+        ],
+        "mean_width_pp": 3.7460469134531764,
+        "sd_width_pp": 0.13258330033644677
+      },
+      "permutation": {
+        "observed_width_pp": 3.8474240628014593,
+        "null_median_pp": 3.4031855021891975,
+        "null_p95_pp": 4.066563557548707,
+        "null_exceedances": 24,
+        "permutation_p_plus_one": 0.12437810945273632,
+        "median_calibration_speakers": 13
+      }
+    },
+    "ssl/gsm": {
+      "n_utterances": 2636,
+      "n_speakers": 67,
+      "seed_sweep": {
+        "widths_pp": [
+          3.5478691695900344,
+          3.647617740219458,
+          3.6786985600153908,
+          3.379873102800115,
+          3.733592620968219,
+          3.3992936155667244,
+          3.4640067422462923,
+          3.415319216253735,
+          3.5197618805695043,
+          3.566462604902322
+        ],
+        "mean_width_pp": 3.535249525313179,
+        "sd_width_pp": 0.11662000643509529
+      },
+      "permutation": {
+        "observed_width_pp": 3.4001653732416095,
+        "null_median_pp": 3.4536638439042378,
+        "null_p95_pp": 3.9656104552671483,
+        "null_exceedances": 115,
+        "permutation_p_plus_one": 0.5771144278606966,
+        "median_calibration_speakers": 13
+      }
+    },
+    "aasist/none": {
+      "n_utterances": 2636,
+      "n_speakers": 67,
+      "seed_sweep": {
+        "widths_pp": [
+          3.4609297237740337,
+          3.703250441739085,
+          3.283196289994307,
+          3.374158412173521,
+          3.609895492799854,
+          3.518891910250595,
+          3.6943570276751907,
+          3.7882141241440883,
+          3.425601826316546,
+          3.484885326771775
+        ],
+        "mean_width_pp": 3.5343380575638994,
+        "sd_width_pp": 0.15261902281352716
+      },
+      "permutation": {
+        "observed_width_pp": 3.2421967641612452,
+        "null_median_pp": 3.4351253836392344,
+        "null_p95_pp": 4.074276736518749,
+        "null_exceedances": 138,
+        "permutation_p_plus_one": 0.6915422885572139,
+        "median_calibration_speakers": 13
+      }
+    },
+    "aasist/pstn": {
+      "n_utterances": 2636,
+      "n_speakers": 67,
+      "seed_sweep": {
+        "widths_pp": [
+          7.1002786448657345,
+          6.949707562627011,
+          7.249960767874053,
+          6.97322732711297,
+          6.884298536870325,
+          7.320306156083606,
+          7.158089164118472,
+          6.947551695714228,
+          6.746653552859591,
+          6.95940857806271
+        ],
+        "mean_width_pp": 7.02894819861887,
+        "sd_width_pp": 0.16642123415389112
+      },
+      "permutation": {
+        "observed_width_pp": 6.977822307122447,
+        "null_median_pp": 3.3504082208039785,
+        "null_p95_pp": 4.053968160613452,
+        "null_exceedances": 0,
+        "permutation_p_plus_one": 0.004975124378109453,
+        "median_calibration_speakers": 13
+      },
+      "leave_one_speaker_out": {
+        "full_pool_width_pp": 7.0617722869332615,
+        "minimum": {
+          "speaker": "LA_0032",
+          "width_pp": 4.885052178678991
+        },
+        "median_width_pp": 6.987359368379492,
+        "maximum": {
+          "speaker": "LA_0003",
+          "width_pp": 7.257346794564137
+        },
+        "all_drops": [
+          {
+            "speaker": "LA_0032",
+            "width_pp": 4.885052178678991
+          },
+          {
+            "speaker": "LA_0030",
+            "width_pp": 6.657324529042733
+          },
+          {
+            "speaker": "LA_0051",
+            "width_pp": 6.7749384140362245
+          },
+          {
+            "speaker": "LA_0052",
+            "width_pp": 6.814786606909426
+          },
+          {
+            "speaker": "LA_0050",
+            "width_pp": 6.820565035724384
+          },
+          {
+            "speaker": "LA_0049",
+            "width_pp": 6.8220858694004125
+          },
+          {
+            "speaker": "LA_0048",
+            "width_pp": 6.849199503944038
+          },
+          {
+            "speaker": "LA_0056",
+            "width_pp": 6.850668599843254
+          },
+          {
+            "speaker": "LA_0059",
+            "width_pp": 6.853554975348453
+          },
+          {
+            "speaker": "LA_0055",
+            "width_pp": 6.863690368756556
+          },
+          {
+            "speaker": "LA_0054",
+            "width_pp": 6.876918772224668
+          },
+          {
+            "speaker": "LA_0057",
+            "width_pp": 6.883140641885113
+          },
+          {
+            "speaker": "LA_0053",
+            "width_pp": 6.884831152643381
+          },
+          {
+            "speaker": "LA_0058",
+            "width_pp": 6.884835530975739
+          },
+          {
+            "speaker": "LA_0045",
+            "width_pp": 6.893350778318521
+          },
+          {
+            "speaker": "LA_0067",
+            "width_pp": 6.903076093785935
+          },
+          {
+            "speaker": "LA_0066",
+            "width_pp": 6.906386223529772
+          },
+          {
+            "speaker": "LA_0068",
+            "width_pp": 6.911885788803167
+          },
+          {
+            "speaker": "LA_0039",
+            "width_pp": 6.9173602792609055
+          },
+          {
+            "speaker": "LA_0038",
+            "width_pp": 6.918671596817596
+          },
+          {
+            "speaker": "LA_0063",
+            "width_pp": 6.918931282782275
+          },
+          {
+            "speaker": "LA_0061",
+            "width_pp": 6.920437912629973
+          },
+          {
+            "speaker": "LA_0041",
+            "width_pp": 6.92281711016372
+          },
+          {
+            "speaker": "LA_0035",
+            "width_pp": 6.937882003326518
+          },
+          {
+            "speaker": "LA_0042",
+            "width_pp": 6.942275083055577
+          },
+          {
+            "speaker": "LA_0065",
+            "width_pp": 6.948771986335879
+          },
+          {
+            "speaker": "LA_0040",
+            "width_pp": 6.95125080158973
+          },
+          {
+            "speaker": "LA_0031",
+            "width_pp": 6.955132626860646
+          },
+          {
+            "speaker": "LA_0034",
+            "width_pp": 6.964134720389242
+          },
+          {
+            "speaker": "LA_0046",
+            "width_pp": 6.973642276049018
+          },
+          {
+            "speaker": "LA_0047",
+            "width_pp": 6.974771878427781
+          },
+          {
+            "speaker": "LA_0060",
+            "width_pp": 6.983512040287769
+          },
+          {
+            "speaker": "LA_0037",
+            "width_pp": 6.985138399912861
+          },
+          {
+            "speaker": "LA_0036",
+            "width_pp": 6.987359368379492
+          },
+          {
+            "speaker": "LA_0044",
+            "width_pp": 6.99222869450026
+          },
+          {
+            "speaker": "LA_0043",
+            "width_pp": 7.011382445343348
+          },
+          {
+            "speaker": "LA_0064",
+            "width_pp": 7.015154714457713
+          },
+          {
+            "speaker": "LA_0033",
+            "width_pp": 7.021719901092197
+          },
+          {
+            "speaker": "LA_0004",
+            "width_pp": 7.022075679411481
+          },
+          {
+            "speaker": "LA_0005",
+            "width_pp": 7.032042482412116
+          },
+          {
+            "speaker": "LA_0025",
+            "width_pp": 7.0325917526002275
+          },
+          {
+            "speaker": "LA_0019",
+            "width_pp": 7.060378240452425
+          },
+          {
+            "speaker": "LA_0020",
+            "width_pp": 7.06291456609336
+          },
+          {
+            "speaker": "LA_0009",
+            "width_pp": 7.063653212248892
+          },
+          {
+            "speaker": "LA_0024",
+            "width_pp": 7.066607126685421
+          },
+          {
+            "speaker": "LA_0026",
+            "width_pp": 7.067109031668828
+          },
+          {
+            "speaker": "LA_0002",
+            "width_pp": 7.078032781955363
+          },
+          {
+            "speaker": "LA_0006",
+            "width_pp": 7.081371913211244
+          },
+          {
+            "speaker": "LA_0022",
+            "width_pp": 7.093886249607694
+          },
+          {
+            "speaker": "LA_0015",
+            "width_pp": 7.095687518493907
+          },
+          {
+            "speaker": "LA_0017",
+            "width_pp": 7.096138113973723
+          },
+          {
+            "speaker": "LA_0008",
+            "width_pp": 7.100792752073855
+          },
+          {
+            "speaker": "LA_0007",
+            "width_pp": 7.104219620532339
+          },
+          {
+            "speaker": "LA_0016",
+            "width_pp": 7.10657038213995
+          },
+          {
+            "speaker": "LA_0018",
+            "width_pp": 7.119120198908256
+          },
+          {
+            "speaker": "LA_0027",
+            "width_pp": 7.126613943375176
+          },
+          {
+            "speaker": "LA_0023",
+            "width_pp": 7.130544287739452
+          },
+          {
+            "speaker": "LA_0011",
+            "width_pp": 7.1371314886386115
+          },
+          {
+            "speaker": "LA_0010",
+            "width_pp": 7.138946496947371
+          },
+          {
+            "speaker": "LA_0013",
+            "width_pp": 7.150406397290344
+          },
+          {
+            "speaker": "LA_0021",
+            "width_pp": 7.152974364328779
+          },
+          {
+            "speaker": "LA_0014",
+            "width_pp": 7.154506436952046
+          },
+          {
+            "speaker": "LA_0012",
+            "width_pp": 7.157560168592163
+          },
+          {
+            "speaker": "LA_0001",
+            "width_pp": 7.167554644191946
+          },
+          {
+            "speaker": "LA_0029",
+            "width_pp": 7.181150652214461
+          },
+          {
+            "speaker": "LA_0028",
+            "width_pp": 7.240239412573233
+          },
+          {
+            "speaker": "LA_0003",
+            "width_pp": 7.257346794564137
+          }
+        ]
+      }
+    },
+    "aasist/gsm": {
+      "n_utterances": 2636,
+      "n_speakers": 67,
+      "seed_sweep": {
+        "widths_pp": [
+          5.860206904239602,
+          5.859859571355195,
+          5.188018198417216,
+          5.625256061119075,
+          6.0785388826592,
+          5.88476181153661,
+          5.664149233073547,
+          5.597563616267072,
+          5.822297403201314,
+          5.601675417507253
+        ],
+        "mean_width_pp": 5.718232709937608,
+        "sd_width_pp": 0.23009574537470714
+      },
+      "permutation": {
+        "observed_width_pp": 5.837087098708101,
+        "null_median_pp": 3.4381054953471337,
+        "null_p95_pp": 4.013908370943757,
+        "null_exceedances": 0,
+        "permutation_p_plus_one": 0.004975124378109453,
+        "median_calibration_speakers": 13
+      },
+      "leave_one_speaker_out": {
+        "full_pool_width_pp": 5.537086987843034,
+        "minimum": {
+          "speaker": "LA_0021",
+          "width_pp": 5.18102368513101
+        },
+        "median_width_pp": 5.532889108434541,
+        "maximum": {
+          "speaker": "LA_0045",
+          "width_pp": 5.9132598468909805
+        },
+        "all_drops": [
+          {
+            "speaker": "LA_0021",
+            "width_pp": 5.18102368513101
+          },
+          {
+            "speaker": "LA_0018",
+            "width_pp": 5.190559922609321
+          },
+          {
+            "speaker": "LA_0020",
+            "width_pp": 5.2903627443997845
+          },
+          {
+            "speaker": "LA_0058",
+            "width_pp": 5.3145094252061025
+          },
+          {
+            "speaker": "LA_0053",
+            "width_pp": 5.326544235658437
+          },
+          {
+            "speaker": "LA_0047",
+            "width_pp": 5.3281277317190625
+          },
+          {
+            "speaker": "LA_0048",
+            "width_pp": 5.340394708383023
+          },
+          {
+            "speaker": "LA_0054",
+            "width_pp": 5.3419403946102175
+          },
+          {
+            "speaker": "LA_0059",
+            "width_pp": 5.343387675705033
+          },
+          {
+            "speaker": "LA_0060",
+            "width_pp": 5.343387675705033
+          },
+          {
+            "speaker": "LA_0024",
+            "width_pp": 5.370055377708611
+          },
+          {
+            "speaker": "LA_0003",
+            "width_pp": 5.373114936082086
+          },
+          {
+            "speaker": "LA_0063",
+            "width_pp": 5.373589338065597
+          },
+          {
+            "speaker": "LA_0068",
+            "width_pp": 5.375512262512403
+          },
+          {
+            "speaker": "LA_0055",
+            "width_pp": 5.377378741635648
+          },
+          {
+            "speaker": "LA_0067",
+            "width_pp": 5.380646333724602
+          },
+          {
+            "speaker": "LA_0031",
+            "width_pp": 5.388946684797801
+          },
+          {
+            "speaker": "LA_0056",
+            "width_pp": 5.393301980202978
+          },
+          {
+            "speaker": "LA_0030",
+            "width_pp": 5.404336877758333
+          },
+          {
+            "speaker": "LA_0022",
+            "width_pp": 5.426720311018767
+          },
+          {
+            "speaker": "LA_0006",
+            "width_pp": 5.430949795093661
+          },
+          {
+            "speaker": "LA_0023",
+            "width_pp": 5.455125474670114
+          },
+          {
+            "speaker": "LA_0065",
+            "width_pp": 5.455400279936331
+          },
+          {
+            "speaker": "LA_0064",
+            "width_pp": 5.467571852620016
+          },
+          {
+            "speaker": "LA_0025",
+            "width_pp": 5.4719363534886
+          },
+          {
+            "speaker": "LA_0041",
+            "width_pp": 5.475257585969064
+          },
+          {
+            "speaker": "LA_0005",
+            "width_pp": 5.475986911181562
+          },
+          {
+            "speaker": "LA_0036",
+            "width_pp": 5.4790198275076065
+          },
+          {
+            "speaker": "LA_0033",
+            "width_pp": 5.482958444539301
+          },
+          {
+            "speaker": "LA_0057",
+            "width_pp": 5.507019982484142
+          },
+          {
+            "speaker": "LA_0066",
+            "width_pp": 5.50711420073944
+          },
+          {
+            "speaker": "LA_0040",
+            "width_pp": 5.511452769371051
+          },
+          {
+            "speaker": "LA_0050",
+            "width_pp": 5.5119694028081945
+          },
+          {
+            "speaker": "LA_0007",
+            "width_pp": 5.532889108434541
+          },
+          {
+            "speaker": "LA_0029",
+            "width_pp": 5.539022404337268
+          },
+          {
+            "speaker": "LA_0038",
+            "width_pp": 5.548527490250813
+          },
+          {
+            "speaker": "LA_0037",
+            "width_pp": 5.549139014032507
+          },
+          {
+            "speaker": "LA_0042",
+            "width_pp": 5.552576417319035
+          },
+          {
+            "speaker": "LA_0049",
+            "width_pp": 5.563102906538845
+          },
+          {
+            "speaker": "LA_0008",
+            "width_pp": 5.581791004888771
+          },
+          {
+            "speaker": "LA_0004",
+            "width_pp": 5.582181744975221
+          },
+          {
+            "speaker": "LA_0015",
+            "width_pp": 5.583893635732274
+          },
+          {
+            "speaker": "LA_0002",
+            "width_pp": 5.6026125338838515
+          },
+          {
+            "speaker": "LA_0001",
+            "width_pp": 5.604197283710331
+          },
+          {
+            "speaker": "LA_0061",
+            "width_pp": 5.605775647913456
+          },
+          {
+            "speaker": "LA_0044",
+            "width_pp": 5.607112135258301
+          },
+          {
+            "speaker": "LA_0039",
+            "width_pp": 5.608437822252913
+          },
+          {
+            "speaker": "LA_0019",
+            "width_pp": 5.614920601350599
+          },
+          {
+            "speaker": "LA_0051",
+            "width_pp": 5.616864554460836
+          },
+          {
+            "speaker": "LA_0009",
+            "width_pp": 5.620201240700522
+          },
+          {
+            "speaker": "LA_0028",
+            "width_pp": 5.624851483860447
+          },
+          {
+            "speaker": "LA_0035",
+            "width_pp": 5.629729024628912
+          },
+          {
+            "speaker": "LA_0034",
+            "width_pp": 5.630526022012861
+          },
+          {
+            "speaker": "LA_0032",
+            "width_pp": 5.635809633513995
+          },
+          {
+            "speaker": "LA_0014",
+            "width_pp": 5.637664183811388
+          },
+          {
+            "speaker": "LA_0027",
+            "width_pp": 5.643293881200979
+          },
+          {
+            "speaker": "LA_0043",
+            "width_pp": 5.649258081881918
+          },
+          {
+            "speaker": "LA_0010",
+            "width_pp": 5.649889769908981
+          },
+          {
+            "speaker": "LA_0052",
+            "width_pp": 5.653615520787106
+          },
+          {
+            "speaker": "LA_0026",
+            "width_pp": 5.696517963090877
+          },
+          {
+            "speaker": "LA_0017",
+            "width_pp": 5.6995861971513495
+          },
+          {
+            "speaker": "LA_0012",
+            "width_pp": 5.732840381066726
+          },
+          {
+            "speaker": "LA_0013",
+            "width_pp": 5.743559635245097
+          },
+          {
+            "speaker": "LA_0016",
+            "width_pp": 5.748615044150598
+          },
+          {
+            "speaker": "LA_0046",
+            "width_pp": 5.804939576974181
+          },
+          {
+            "speaker": "LA_0011",
+            "width_pp": 5.809188521912175
+          },
+          {
+            "speaker": "LA_0045",
+            "width_pp": 5.9132598468909805
+          }
+        ]
+      }
+    }
+  }
+}

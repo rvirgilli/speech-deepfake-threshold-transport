@@ -1,0 +1,1710 @@
+{
+  "n_sweep": {
+    "ssl/asv21la": {
+      "30": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 1,
+          "mean": 0.0323,
+          "band95": [
+            0.0008,
+            0.1167
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.033,
+          "fpr_ci": [
+            0.0008,
+            0.1184
+          ],
+          "fpr_mad_from_target": 0.0309,
+          "fnr_minus_oracle_pts": 18.18
+        },
+        "znorm": {
+          "fpr_mean": 0.1293,
+          "fpr_ci": [
+            0.1092,
+            0.1687
+          ],
+          "fpr_mad_from_target": 0.0793,
+          "fnr_minus_oracle_pts": -14.77
+        }
+      },
+      "100": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 5,
+          "mean": 0.0495,
+          "band95": [
+            0.0164,
+            0.0995
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.0487,
+          "fpr_ci": [
+            0.0173,
+            0.0948
+          ],
+          "fpr_mad_from_target": 0.0164,
+          "fnr_minus_oracle_pts": 2.41
+        },
+        "znorm": {
+          "fpr_mean": 0.1253,
+          "fpr_ci": [
+            0.1119,
+            0.1399
+          ],
+          "fpr_mad_from_target": 0.0753,
+          "fnr_minus_oracle_pts": -14.86
+        }
+      },
+      "300": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 15,
+          "mean": 0.0498,
+          "band95": [
+            0.0282,
+            0.077
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.0493,
+          "fpr_ci": [
+            0.0275,
+            0.0765
+          ],
+          "fpr_mad_from_target": 0.0101,
+          "fnr_minus_oracle_pts": 1.1
+        },
+        "znorm": {
+          "fpr_mean": 0.125,
+          "fpr_ci": [
+            0.1164,
+            0.1346
+          ],
+          "fpr_mad_from_target": 0.075,
+          "fnr_minus_oracle_pts": -14.9
+        }
+      },
+      "1000": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 50,
+          "mean": 0.05,
+          "band95": [
+            0.0373,
+            0.0643
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.0497,
+          "fpr_ci": [
+            0.0368,
+            0.0643
+          ],
+          "fpr_mad_from_target": 0.0056,
+          "fnr_minus_oracle_pts": 0.48
+        },
+        "znorm": {
+          "fpr_mean": 0.1246,
+          "fpr_ci": [
+            0.1192,
+            0.1301
+          ],
+          "fpr_mad_from_target": 0.0746,
+          "fnr_minus_oracle_pts": -14.91
+        }
+      },
+      "3000": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 150,
+          "mean": 0.05,
+          "band95": [
+            0.0425,
+            0.0581
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.0499,
+          "fpr_ci": [
+            0.0414,
+            0.0593
+          ],
+          "fpr_mad_from_target": 0.0035,
+          "fnr_minus_oracle_pts": 0.24
+        },
+        "znorm": {
+          "fpr_mean": 0.1246,
+          "fpr_ci": [
+            0.1206,
+            0.129
+          ],
+          "fpr_mad_from_target": 0.0746,
+          "fnr_minus_oracle_pts": -14.91
+        }
+      },
+      "10000": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 500,
+          "mean": 0.05,
+          "band95": [
+            0.0458,
+            0.0544
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.0499,
+          "fpr_ci": [
+            0.0438,
+            0.0563
+          ],
+          "fpr_mad_from_target": 0.0025,
+          "fnr_minus_oracle_pts": 0.12
+        },
+        "znorm": {
+          "fpr_mean": 0.1246,
+          "fpr_ci": [
+            0.119,
+            0.1304
+          ],
+          "fpr_mad_from_target": 0.0746,
+          "fnr_minus_oracle_pts": -14.91
+        }
+      }
+    },
+    "ssl/asv21df_100k": {
+      "30": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 1,
+          "mean": 0.0323,
+          "band95": [
+            0.0008,
+            0.1167
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.0303,
+          "fpr_ci": [
+            0.0008,
+            0.1141
+          ],
+          "fpr_mad_from_target": 0.0314,
+          "fnr_minus_oracle_pts": 5.66
+        },
+        "znorm": {
+          "fpr_mean": 0.2142,
+          "fpr_ci": [
+            0.1081,
+            0.3064
+          ],
+          "fpr_mad_from_target": 0.1642,
+          "fnr_minus_oracle_pts": -8.01
+        }
+      },
+      "100": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 5,
+          "mean": 0.0495,
+          "band95": [
+            0.0164,
+            0.0995
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.05,
+          "fpr_ci": [
+            0.017,
+            0.0965
+          ],
+          "fpr_mad_from_target": 0.0161,
+          "fnr_minus_oracle_pts": 0.5
+        },
+        "znorm": {
+          "fpr_mean": 0.214,
+          "fpr_ci": [
+            0.1644,
+            0.2746
+          ],
+          "fpr_mad_from_target": 0.164,
+          "fnr_minus_oracle_pts": -8.22
+        }
+      },
+      "300": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 15,
+          "mean": 0.0498,
+          "band95": [
+            0.0282,
+            0.077
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.0495,
+          "fpr_ci": [
+            0.0268,
+            0.0771
+          ],
+          "fpr_mad_from_target": 0.0104,
+          "fnr_minus_oracle_pts": 0.23
+        },
+        "znorm": {
+          "fpr_mean": 0.2113,
+          "fpr_ci": [
+            0.1832,
+            0.2487
+          ],
+          "fpr_mad_from_target": 0.1613,
+          "fnr_minus_oracle_pts": -8.24
+        }
+      },
+      "1000": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 50,
+          "mean": 0.05,
+          "band95": [
+            0.0373,
+            0.0643
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.05,
+          "fpr_ci": [
+            0.0347,
+            0.0672
+          ],
+          "fpr_mad_from_target": 0.0064,
+          "fnr_minus_oracle_pts": 0.08
+        },
+        "znorm": {
+          "fpr_mean": 0.21,
+          "fpr_ci": [
+            0.1907,
+            0.2301
+          ],
+          "fpr_mad_from_target": 0.16,
+          "fnr_minus_oracle_pts": -8.25
+        }
+      },
+      "3000": "insufficient bona fide",
+      "10000": "insufficient bona fide"
+    },
+    "ssl/itw": {
+      "30": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 1,
+          "mean": 0.0323,
+          "band95": [
+            0.0008,
+            0.1167
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.0328,
+          "fpr_ci": [
+            0.001,
+            0.1244
+          ],
+          "fpr_mad_from_target": 0.032,
+          "fnr_minus_oracle_pts": 11.05
+        },
+        "znorm": {
+          "fpr_mean": 0.1299,
+          "fpr_ci": [
+            0.0634,
+            0.2357
+          ],
+          "fpr_mad_from_target": 0.0799,
+          "fnr_minus_oracle_pts": -7.58
+        }
+      },
+      "100": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 5,
+          "mean": 0.0495,
+          "band95": [
+            0.0164,
+            0.0995
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.0496,
+          "fpr_ci": [
+            0.0158,
+            0.1032
+          ],
+          "fpr_mad_from_target": 0.0178,
+          "fnr_minus_oracle_pts": 1.05
+        },
+        "znorm": {
+          "fpr_mean": 0.1225,
+          "fpr_ci": [
+            0.084,
+            0.1737
+          ],
+          "fpr_mad_from_target": 0.0725,
+          "fnr_minus_oracle_pts": -7.51
+        }
+      },
+      "300": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 15,
+          "mean": 0.0498,
+          "band95": [
+            0.0282,
+            0.077
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.0497,
+          "fpr_ci": [
+            0.0291,
+            0.0769
+          ],
+          "fpr_mad_from_target": 0.0099,
+          "fnr_minus_oracle_pts": 0.37
+        },
+        "znorm": {
+          "fpr_mean": 0.12,
+          "fpr_ci": [
+            0.0948,
+            0.1477
+          ],
+          "fpr_mad_from_target": 0.07,
+          "fnr_minus_oracle_pts": -7.46
+        }
+      },
+      "1000": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 50,
+          "mean": 0.05,
+          "band95": [
+            0.0373,
+            0.0643
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.0503,
+          "fpr_ci": [
+            0.0373,
+            0.0639
+          ],
+          "fpr_mad_from_target": 0.0057,
+          "fnr_minus_oracle_pts": 0.08
+        },
+        "znorm": {
+          "fpr_mean": 0.1192,
+          "fpr_ci": [
+            0.1066,
+            0.1333
+          ],
+          "fpr_mad_from_target": 0.0692,
+          "fnr_minus_oracle_pts": -7.46
+        }
+      },
+      "3000": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 150,
+          "mean": 0.05,
+          "band95": [
+            0.0425,
+            0.0581
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.0499,
+          "fpr_ci": [
+            0.0419,
+            0.0587
+          ],
+          "fpr_mad_from_target": 0.0034,
+          "fnr_minus_oracle_pts": 0.08
+        },
+        "znorm": {
+          "fpr_mean": 0.1186,
+          "fpr_ci": [
+            0.1098,
+            0.1277
+          ],
+          "fpr_mad_from_target": 0.0686,
+          "fnr_minus_oracle_pts": -7.46
+        }
+      },
+      "10000": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 500,
+          "mean": 0.05,
+          "band95": [
+            0.0458,
+            0.0544
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.0502,
+          "fpr_ci": [
+            0.044,
+            0.0562
+          ],
+          "fpr_mad_from_target": 0.0024,
+          "fnr_minus_oracle_pts": 0.03
+        },
+        "znorm": {
+          "fpr_mean": 0.1185,
+          "fpr_ci": [
+            0.1109,
+            0.1264
+          ],
+          "fpr_mad_from_target": 0.0685,
+          "fnr_minus_oracle_pts": -7.48
+        }
+      }
+    },
+    "ssl/brspeech_test": {
+      "30": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 1,
+          "mean": 0.0323,
+          "band95": [
+            0.0008,
+            0.1167
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.0317,
+          "fpr_ci": [
+            0.0008,
+            0.1109
+          ],
+          "fpr_mad_from_target": 0.0304,
+          "fnr_minus_oracle_pts": 0.54
+        },
+        "znorm": {
+          "fpr_mean": 0.1862,
+          "fpr_ci": [
+            0.0,
+            0.3101
+          ],
+          "fpr_mad_from_target": 0.1586,
+          "fnr_minus_oracle_pts": -24.34
+        }
+      },
+      "100": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 5,
+          "mean": 0.0495,
+          "band95": [
+            0.0164,
+            0.0995
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.0509,
+          "fpr_ci": [
+            0.0172,
+            0.1033
+          ],
+          "fpr_mad_from_target": 0.0173,
+          "fnr_minus_oracle_pts": -0.04
+        },
+        "znorm": {
+          "fpr_mean": 0.2073,
+          "fpr_ci": [
+            0.0,
+            0.2943
+          ],
+          "fpr_mad_from_target": 0.1659,
+          "fnr_minus_oracle_pts": -24.29
+        }
+      },
+      "300": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 15,
+          "mean": 0.0498,
+          "band95": [
+            0.0282,
+            0.077
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.0498,
+          "fpr_ci": [
+            0.0245,
+            0.0785
+          ],
+          "fpr_mad_from_target": 0.011,
+          "fnr_minus_oracle_pts": 0.01
+        },
+        "znorm": {
+          "fpr_mean": 0.2285,
+          "fpr_ci": [
+            0.1206,
+            0.2824
+          ],
+          "fpr_mad_from_target": 0.1789,
+          "fnr_minus_oracle_pts": -25.27
+        }
+      },
+      "1000": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 50,
+          "mean": 0.05,
+          "band95": [
+            0.0373,
+            0.0643
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.0497,
+          "fpr_ci": [
+            0.025,
+            0.0781
+          ],
+          "fpr_mad_from_target": 0.0111,
+          "fnr_minus_oracle_pts": -0.04
+        },
+        "znorm": {
+          "fpr_mean": 0.2355,
+          "fpr_ci": [
+            0.1812,
+            0.2906
+          ],
+          "fpr_mad_from_target": 0.1855,
+          "fnr_minus_oracle_pts": -25.82
+        }
+      },
+      "3000": "insufficient bona fide",
+      "10000": "insufficient bona fide"
+    },
+    "aasist/asv21la": {
+      "30": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 1,
+          "mean": 0.0323,
+          "band95": [
+            0.0008,
+            0.1167
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.033,
+          "fpr_ci": [
+            0.0004,
+            0.112
+          ],
+          "fpr_mad_from_target": 0.0302,
+          "fnr_minus_oracle_pts": 16.07
+        },
+        "znorm": {
+          "fpr_mean": 0.0949,
+          "fpr_ci": [
+            0.0214,
+            0.2142
+          ],
+          "fpr_mad_from_target": 0.0521,
+          "fnr_minus_oracle_pts": -12.02
+        }
+      },
+      "100": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 5,
+          "mean": 0.0495,
+          "band95": [
+            0.0164,
+            0.0995
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.0503,
+          "fpr_ci": [
+            0.0161,
+            0.099
+          ],
+          "fpr_mad_from_target": 0.0172,
+          "fnr_minus_oracle_pts": 1.82
+        },
+        "znorm": {
+          "fpr_mean": 0.0873,
+          "fpr_ci": [
+            0.0376,
+            0.1429
+          ],
+          "fpr_mad_from_target": 0.0389,
+          "fnr_minus_oracle_pts": -12.71
+        }
+      },
+      "300": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 15,
+          "mean": 0.0498,
+          "band95": [
+            0.0282,
+            0.077
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.0498,
+          "fpr_ci": [
+            0.0282,
+            0.0754
+          ],
+          "fpr_mad_from_target": 0.0097,
+          "fnr_minus_oracle_pts": 0.83
+        },
+        "znorm": {
+          "fpr_mean": 0.0854,
+          "fpr_ci": [
+            0.0553,
+            0.12
+          ],
+          "fpr_mad_from_target": 0.0355,
+          "fnr_minus_oracle_pts": -13.05
+        }
+      },
+      "1000": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 50,
+          "mean": 0.05,
+          "band95": [
+            0.0373,
+            0.0643
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.0499,
+          "fpr_ci": [
+            0.0379,
+            0.0634
+          ],
+          "fpr_mad_from_target": 0.0053,
+          "fnr_minus_oracle_pts": 0.35
+        },
+        "znorm": {
+          "fpr_mean": 0.0845,
+          "fpr_ci": [
+            0.0666,
+            0.1025
+          ],
+          "fpr_mad_from_target": 0.0345,
+          "fnr_minus_oracle_pts": -13.11
+        }
+      },
+      "3000": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 150,
+          "mean": 0.05,
+          "band95": [
+            0.0425,
+            0.0581
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.0501,
+          "fpr_ci": [
+            0.0421,
+            0.0588
+          ],
+          "fpr_mad_from_target": 0.0034,
+          "fnr_minus_oracle_pts": 0.16
+        },
+        "znorm": {
+          "fpr_mean": 0.0845,
+          "fpr_ci": [
+            0.0737,
+            0.0957
+          ],
+          "fpr_mad_from_target": 0.0345,
+          "fnr_minus_oracle_pts": -13.2
+        }
+      },
+      "10000": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 500,
+          "mean": 0.05,
+          "band95": [
+            0.0458,
+            0.0544
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.0499,
+          "fpr_ci": [
+            0.0437,
+            0.0564
+          ],
+          "fpr_mad_from_target": 0.0026,
+          "fnr_minus_oracle_pts": 0.12
+        },
+        "znorm": {
+          "fpr_mean": 0.0842,
+          "fpr_ci": [
+            0.0765,
+            0.0919
+          ],
+          "fpr_mad_from_target": 0.0342,
+          "fnr_minus_oracle_pts": -13.16
+        }
+      }
+    },
+    "aasist/asv21df_100k": {
+      "30": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 1,
+          "mean": 0.0323,
+          "band95": [
+            0.0008,
+            0.1167
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.0318,
+          "fpr_ci": [
+            0.0008,
+            0.1085
+          ],
+          "fpr_mad_from_target": 0.0311,
+          "fnr_minus_oracle_pts": 15.65
+        },
+        "znorm": {
+          "fpr_mean": 0.0933,
+          "fpr_ci": [
+            0.0162,
+            0.2195
+          ],
+          "fpr_mad_from_target": 0.052,
+          "fnr_minus_oracle_pts": -9.21
+        }
+      },
+      "100": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 5,
+          "mean": 0.0495,
+          "band95": [
+            0.0164,
+            0.0995
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.0495,
+          "fpr_ci": [
+            0.0154,
+            0.0973
+          ],
+          "fpr_mad_from_target": 0.0169,
+          "fnr_minus_oracle_pts": 2.03
+        },
+        "znorm": {
+          "fpr_mean": 0.0835,
+          "fpr_ci": [
+            0.0324,
+            0.149
+          ],
+          "fpr_mad_from_target": 0.0364,
+          "fnr_minus_oracle_pts": -9.18
+        }
+      },
+      "300": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 15,
+          "mean": 0.0498,
+          "band95": [
+            0.0282,
+            0.077
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.0492,
+          "fpr_ci": [
+            0.0279,
+            0.0768
+          ],
+          "fpr_mad_from_target": 0.0102,
+          "fnr_minus_oracle_pts": 0.91
+        },
+        "znorm": {
+          "fpr_mean": 0.0805,
+          "fpr_ci": [
+            0.0457,
+            0.114
+          ],
+          "fpr_mad_from_target": 0.031,
+          "fnr_minus_oracle_pts": -9.2
+        }
+      },
+      "1000": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 50,
+          "mean": 0.05,
+          "band95": [
+            0.0373,
+            0.0643
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.0498,
+          "fpr_ci": [
+            0.0343,
+            0.0665
+          ],
+          "fpr_mad_from_target": 0.0065,
+          "fnr_minus_oracle_pts": 0.2
+        },
+        "znorm": {
+          "fpr_mean": 0.0806,
+          "fpr_ci": [
+            0.061,
+            0.1023
+          ],
+          "fpr_mad_from_target": 0.0306,
+          "fnr_minus_oracle_pts": -9.45
+        }
+      },
+      "3000": "insufficient bona fide",
+      "10000": "insufficient bona fide"
+    },
+    "aasist/itw": {
+      "30": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 1,
+          "mean": 0.0323,
+          "band95": [
+            0.0008,
+            0.1167
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.0311,
+          "fpr_ci": [
+            0.0007,
+            0.1084
+          ],
+          "fpr_mad_from_target": 0.0312,
+          "fnr_minus_oracle_pts": 1.65
+        },
+        "znorm": {
+          "fpr_mean": 0.0652,
+          "fpr_ci": [
+            0.0089,
+            0.1637
+          ],
+          "fpr_mad_from_target": 0.0327,
+          "fnr_minus_oracle_pts": -1.65
+        }
+      },
+      "100": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 5,
+          "mean": 0.0495,
+          "band95": [
+            0.0164,
+            0.0995
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.0484,
+          "fpr_ci": [
+            0.017,
+            0.0949
+          ],
+          "fpr_mad_from_target": 0.0163,
+          "fnr_minus_oracle_pts": 0.09
+        },
+        "znorm": {
+          "fpr_mean": 0.0546,
+          "fpr_ci": [
+            0.0222,
+            0.0992
+          ],
+          "fpr_mad_from_target": 0.0159,
+          "fnr_minus_oracle_pts": -0.49
+        }
+      },
+      "300": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 15,
+          "mean": 0.0498,
+          "band95": [
+            0.0282,
+            0.077
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.0504,
+          "fpr_ci": [
+            0.0288,
+            0.0811
+          ],
+          "fpr_mad_from_target": 0.0103,
+          "fnr_minus_oracle_pts": -0.08
+        },
+        "znorm": {
+          "fpr_mean": 0.0534,
+          "fpr_ci": [
+            0.0332,
+            0.0798
+          ],
+          "fpr_mad_from_target": 0.0098,
+          "fnr_minus_oracle_pts": -0.37
+        }
+      },
+      "1000": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 50,
+          "mean": 0.05,
+          "band95": [
+            0.0373,
+            0.0643
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.05,
+          "fpr_ci": [
+            0.0371,
+            0.0647
+          ],
+          "fpr_mad_from_target": 0.0055,
+          "fnr_minus_oracle_pts": -0.03
+        },
+        "znorm": {
+          "fpr_mean": 0.0519,
+          "fpr_ci": [
+            0.0405,
+            0.0667
+          ],
+          "fpr_mad_from_target": 0.0053,
+          "fnr_minus_oracle_pts": -0.22
+        }
+      },
+      "3000": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 150,
+          "mean": 0.05,
+          "band95": [
+            0.0425,
+            0.0581
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.0501,
+          "fpr_ci": [
+            0.0419,
+            0.0587
+          ],
+          "fpr_mad_from_target": 0.0034,
+          "fnr_minus_oracle_pts": -0.02
+        },
+        "znorm": {
+          "fpr_mean": 0.0516,
+          "fpr_ci": [
+            0.0444,
+            0.0596
+          ],
+          "fpr_mad_from_target": 0.0033,
+          "fnr_minus_oracle_pts": -0.17
+        }
+      },
+      "10000": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 500,
+          "mean": 0.05,
+          "band95": [
+            0.0458,
+            0.0544
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.0499,
+          "fpr_ci": [
+            0.0438,
+            0.056
+          ],
+          "fpr_mad_from_target": 0.0024,
+          "fnr_minus_oracle_pts": 0.0
+        },
+        "znorm": {
+          "fpr_mean": 0.0513,
+          "fpr_ci": [
+            0.0458,
+            0.0569
+          ],
+          "fpr_mad_from_target": 0.0024,
+          "fnr_minus_oracle_pts": -0.14
+        }
+      }
+    },
+    "aasist/brspeech_test": {
+      "30": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 1,
+          "mean": 0.0323,
+          "band95": [
+            0.0008,
+            0.1167
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.0312,
+          "fpr_ci": [
+            0.0,
+            0.1109
+          ],
+          "fpr_mad_from_target": 0.0312,
+          "fnr_minus_oracle_pts": 5.53
+        },
+        "znorm": {
+          "fpr_mean": 0.0682,
+          "fpr_ci": [
+            0.0101,
+            0.1838
+          ],
+          "fpr_mad_from_target": 0.0361,
+          "fnr_minus_oracle_pts": -3.5
+        }
+      },
+      "100": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 5,
+          "mean": 0.0495,
+          "band95": [
+            0.0164,
+            0.0995
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.0501,
+          "fpr_ci": [
+            0.0148,
+            0.1025
+          ],
+          "fpr_mad_from_target": 0.0176,
+          "fnr_minus_oracle_pts": -0.23
+        },
+        "znorm": {
+          "fpr_mean": 0.0606,
+          "fpr_ci": [
+            0.0189,
+            0.1213
+          ],
+          "fpr_mad_from_target": 0.0209,
+          "fnr_minus_oracle_pts": -2.56
+        }
+      },
+      "300": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 15,
+          "mean": 0.0498,
+          "band95": [
+            0.0282,
+            0.077
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.0498,
+          "fpr_ci": [
+            0.0245,
+            0.0814
+          ],
+          "fpr_mad_from_target": 0.0118,
+          "fnr_minus_oracle_pts": -0.27
+        },
+        "znorm": {
+          "fpr_mean": 0.057,
+          "fpr_ci": [
+            0.0314,
+            0.0873
+          ],
+          "fpr_mad_from_target": 0.0132,
+          "fnr_minus_oracle_pts": -1.91
+        }
+      },
+      "1000": {
+        "iid_beta_reference": {
+          "kind": "iid_continuous_population_reference",
+          "assumptions": "iid continuous sampling from a fixed score distribution",
+          "not_exact_for": "finite-pool draws without replacement evaluated on the complement",
+          "k": 50,
+          "mean": 0.05,
+          "band95": [
+            0.0373,
+            0.0643
+          ]
+        },
+        "empirical_design": "fixed pool; cohort sampled without replacement; evaluation on complement",
+        "quantile": {
+          "fpr_mean": 0.0501,
+          "fpr_ci": [
+            0.025,
+            0.0813
+          ],
+          "fpr_mad_from_target": 0.0113,
+          "fnr_minus_oracle_pts": -0.01
+        },
+        "znorm": {
+          "fpr_mean": 0.0563,
+          "fpr_ci": [
+            0.0312,
+            0.0845
+          ],
+          "fpr_mad_from_target": 0.012,
+          "fnr_minus_oracle_pts": -1.69
+        }
+      },
+      "3000": "insufficient bona fide",
+      "10000": "insufficient bona fide"
+    }
+  },
+  "contamination": {
+    "ssl/asv21la": {
+      "N100_c0.01": {
+        "fpr_mean": 0.0417,
+        "fpr_ci": [
+          0.0114,
+          0.0885
+        ],
+        "fnr_mean": 0.2076
+      },
+      "N100_c0.02": {
+        "fpr_mean": 0.034,
+        "fpr_ci": [
+          0.009,
+          0.0779
+        ],
+        "fnr_mean": 0.2457
+      },
+      "N100_c0.05": {
+        "fpr_mean": 0.0177,
+        "fpr_ci": [
+          0.0036,
+          0.0459
+        ],
+        "fnr_mean": 0.3848
+      },
+      "N500_c0.01": {
+        "fpr_mean": 0.042,
+        "fpr_ci": [
+          0.0254,
+          0.0614
+        ],
+        "fnr_mean": 0.1862
+      },
+      "N500_c0.02": {
+        "fpr_mean": 0.035,
+        "fpr_ci": [
+          0.0218,
+          0.0533
+        ],
+        "fnr_mean": 0.216
+      },
+      "N500_c0.05": {
+        "fpr_mean": 0.0178,
+        "fpr_ci": [
+          0.0096,
+          0.0284
+        ],
+        "fnr_mean": 0.3453
+      }
+    },
+    "ssl/asv21df_100k": {
+      "N100_c0.01": {
+        "fpr_mean": 0.0406,
+        "fpr_ci": [
+          0.0113,
+          0.0877
+        ],
+        "fnr_mean": 0.121
+      },
+      "N100_c0.02": {
+        "fpr_mean": 0.033,
+        "fpr_ci": [
+          0.0069,
+          0.0736
+        ],
+        "fnr_mean": 0.1338
+      },
+      "N100_c0.05": {
+        "fpr_mean": 0.0094,
+        "fpr_ci": [
+          0.0,
+          0.0393
+        ],
+        "fnr_mean": 0.2419
+      },
+      "N500_c0.01": {
+        "fpr_mean": 0.0416,
+        "fpr_ci": [
+          0.025,
+          0.0623
+        ],
+        "fnr_mean": 0.1127
+      },
+      "N500_c0.02": {
+        "fpr_mean": 0.0329,
+        "fpr_ci": [
+          0.0191,
+          0.0517
+        ],
+        "fnr_mean": 0.1238
+      },
+      "N500_c0.05": {
+        "fpr_mean": 0.0099,
+        "fpr_ci": [
+          0.0021,
+          0.0215
+        ],
+        "fnr_mean": 0.1985
+      }
+    },
+    "ssl/itw": {
+      "N100_c0.01": {
+        "fpr_mean": 0.0426,
+        "fpr_ci": [
+          0.012,
+          0.088
+        ],
+        "fnr_mean": 0.2062
+      },
+      "N100_c0.02": {
+        "fpr_mean": 0.0354,
+        "fpr_ci": [
+          0.0095,
+          0.0791
+        ],
+        "fnr_mean": 0.2243
+      },
+      "N100_c0.05": {
+        "fpr_mean": 0.0148,
+        "fpr_ci": [
+          0.0019,
+          0.0451
+        ],
+        "fnr_mean": 0.3414
+      },
+      "N500_c0.01": {
+        "fpr_mean": 0.0423,
+        "fpr_ci": [
+          0.0264,
+          0.0621
+        ],
+        "fnr_mean": 0.1974
+      },
+      "N500_c0.02": {
+        "fpr_mean": 0.0352,
+        "fpr_ci": [
+          0.0204,
+          0.0531
+        ],
+        "fnr_mean": 0.214
+      },
+      "N500_c0.05": {
+        "fpr_mean": 0.0153,
+        "fpr_ci": [
+          0.007,
+          0.0281
+        ],
+        "fnr_mean": 0.2943
+      }
+    },
+    "ssl/brspeech_test": {
+      "N100_c0.01": {
+        "fpr_mean": 0.0494,
+        "fpr_ci": [
+          0.0155,
+          0.1024
+        ],
+        "fnr_mean": 0.9849
+      },
+      "N100_c0.02": {
+        "fpr_mean": 0.0496,
+        "fpr_ci": [
+          0.0131,
+          0.0999
+        ],
+        "fnr_mean": 0.9848
+      },
+      "N100_c0.05": {
+        "fpr_mean": 0.0519,
+        "fpr_ci": [
+          0.0155,
+          0.1045
+        ],
+        "fnr_mean": 0.9837
+      },
+      "N500_c0.01": {
+        "fpr_mean": 0.0502,
+        "fpr_ci": [
+          0.0279,
+          0.0764
+        ],
+        "fnr_mean": 0.9844
+      },
+      "N500_c0.02": {
+        "fpr_mean": 0.05,
+        "fpr_ci": [
+          0.0289,
+          0.0747
+        ],
+        "fnr_mean": 0.9844
+      },
+      "N500_c0.05": {
+        "fpr_mean": 0.0511,
+        "fpr_ci": [
+          0.0284,
+          0.0781
+        ],
+        "fnr_mean": 0.9839
+      }
+    },
+    "aasist/asv21la": {
+      "N100_c0.01": {
+        "fpr_mean": 0.0432,
+        "fpr_ci": [
+          0.0144,
+          0.089
+        ],
+        "fnr_mean": 0.4101
+      },
+      "N100_c0.02": {
+        "fpr_mean": 0.0383,
+        "fpr_ci": [
+          0.0109,
+          0.0809
+        ],
+        "fnr_mean": 0.4391
+      },
+      "N100_c0.05": {
+        "fpr_mean": 0.0261,
+        "fpr_ci": [
+          0.0052,
+          0.0624
+        ],
+        "fnr_mean": 0.5229
+      },
+      "N500_c0.01": {
+        "fpr_mean": 0.0443,
+        "fpr_ci": [
+          0.0287,
+          0.0634
+        ],
+        "fnr_mean": 0.3904
+      },
+      "N500_c0.02": {
+        "fpr_mean": 0.0391,
+        "fpr_ci": [
+          0.0241,
+          0.0566
+        ],
+        "fnr_mean": 0.4202
+      },
+      "N500_c0.05": {
+        "fpr_mean": 0.0264,
+        "fpr_ci": [
+          0.015,
+          0.0398
+        ],
+        "fnr_mean": 0.5058
+      }
+    },
+    "aasist/asv21df_100k": {
+      "N100_c0.01": {
+        "fpr_mean": 0.0437,
+        "fpr_ci": [
+          0.0146,
+          0.0896
+        ],
+        "fnr_mean": 0.4754
+      },
+      "N100_c0.02": {
+        "fpr_mean": 0.0391,
+        "fpr_ci": [
+          0.0099,
+          0.0838
+        ],
+        "fnr_mean": 0.501
+      },
+      "N100_c0.05": {
+        "fpr_mean": 0.028,
+        "fpr_ci": [
+          0.0069,
+          0.0615
+        ],
+        "fnr_mean": 0.5682
+      },
+      "N500_c0.01": {
+        "fpr_mean": 0.0449,
+        "fpr_ci": [
+          0.0271,
+          0.0681
+        ],
+        "fnr_mean": 0.4551
+      },
+      "N500_c0.02": {
+        "fpr_mean": 0.04,
+        "fpr_ci": [
+          0.0249,
+          0.0579
+        ],
+        "fnr_mean": 0.4773
+      },
+      "N500_c0.05": {
+        "fpr_mean": 0.0281,
+        "fpr_ci": [
+          0.0159,
+          0.0435
+        ],
+        "fnr_mean": 0.5466
+      }
+    },
+    "aasist/itw": {
+      "N100_c0.01": {
+        "fpr_mean": 0.0494,
+        "fpr_ci": [
+          0.0168,
+          0.1021
+        ],
+        "fnr_mean": 0.9519
+      },
+      "N100_c0.02": {
+        "fpr_mean": 0.0492,
+        "fpr_ci": [
+          0.016,
+          0.0942
+        ],
+        "fnr_mean": 0.9521
+      },
+      "N100_c0.05": {
+        "fpr_mean": 0.049,
+        "fpr_ci": [
+          0.0156,
+          0.1021
+        ],
+        "fnr_mean": 0.9523
+      },
+      "N500_c0.01": {
+        "fpr_mean": 0.0503,
+        "fpr_ci": [
+          0.0316,
+          0.0711
+        ],
+        "fnr_mean": 0.9514
+      },
+      "N500_c0.02": {
+        "fpr_mean": 0.0492,
+        "fpr_ci": [
+          0.0326,
+          0.0694
+        ],
+        "fnr_mean": 0.9524
+      },
+      "N500_c0.05": {
+        "fpr_mean": 0.0499,
+        "fpr_ci": [
+          0.0324,
+          0.0705
+        ],
+        "fnr_mean": 0.9517
+      }
+    },
+    "aasist/brspeech_test": {
+      "N100_c0.01": {
+        "fpr_mean": 0.0478,
+        "fpr_ci": [
+          0.0156,
+          0.1073
+        ],
+        "fnr_mean": 0.8454
+      },
+      "N100_c0.02": {
+        "fpr_mean": 0.0473,
+        "fpr_ci": [
+          0.0147,
+          0.0982
+        ],
+        "fnr_mean": 0.8466
+      },
+      "N100_c0.05": {
+        "fpr_mean": 0.0444,
+        "fpr_ci": [
+          0.0131,
+          0.0955
+        ],
+        "fnr_mean": 0.8539
+      },
+      "N500_c0.01": {
+        "fpr_mean": 0.0487,
+        "fpr_ci": [
+          0.0279,
+          0.0752
+        ],
+        "fnr_mean": 0.8429
+      },
+      "N500_c0.02": {
+        "fpr_mean": 0.0481,
+        "fpr_ci": [
+          0.0277,
+          0.0711
+        ],
+        "fnr_mean": 0.8446
+      },
+      "N500_c0.05": {
+        "fpr_mean": 0.0444,
+        "fpr_ci": [
+          0.0237,
+          0.0675
+        ],
+        "fnr_mean": 0.8519
+      }
+    }
+  }
+}

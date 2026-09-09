@@ -1,0 +1,886 @@
+{
+  "ssl": {
+    "asv21la": {
+      "30": {
+        "quantile": {
+          "fpr_mean": 0.033,
+          "fpr_ci": [
+            0.0008,
+            0.1184
+          ],
+          "fnr_minus_oracle_pts": 18.18
+        },
+        "parametric": {
+          "fpr_mean": 0.1161,
+          "fpr_ci": [
+            0.0808,
+            0.1539
+          ],
+          "fnr_minus_oracle_pts": -13.72
+        }
+      },
+      "100": {
+        "quantile": {
+          "fpr_mean": 0.0487,
+          "fpr_ci": [
+            0.0173,
+            0.0948
+          ],
+          "fnr_minus_oracle_pts": 2.41
+        },
+        "parametric": {
+          "fpr_mean": 0.1133,
+          "fpr_ci": [
+            0.1025,
+            0.1279
+          ],
+          "fnr_minus_oracle_pts": -14.12
+        }
+      },
+      "300": {
+        "quantile": {
+          "fpr_mean": 0.0493,
+          "fpr_ci": [
+            0.0275,
+            0.0765
+          ],
+          "fnr_minus_oracle_pts": 1.1
+        },
+        "parametric": {
+          "fpr_mean": 0.1125,
+          "fpr_ci": [
+            0.1086,
+            0.121
+          ],
+          "fnr_minus_oracle_pts": -14.22
+        }
+      },
+      "500": {
+        "quantile": {
+          "fpr_mean": 0.0496,
+          "fpr_ci": [
+            0.0323,
+            0.0699
+          ],
+          "fnr_minus_oracle_pts": 0.72
+        },
+        "parametric": {
+          "fpr_mean": 0.112,
+          "fpr_ci": [
+            0.109,
+            0.1173
+          ],
+          "fnr_minus_oracle_pts": -14.2
+        }
+      },
+      "1000": {
+        "quantile": {
+          "fpr_mean": 0.0499,
+          "fpr_ci": [
+            0.0374,
+            0.064
+          ],
+          "fnr_minus_oracle_pts": 0.42
+        },
+        "parametric": {
+          "fpr_mean": 0.112,
+          "fpr_ci": [
+            0.1093,
+            0.1161
+          ],
+          "fnr_minus_oracle_pts": -14.24
+        }
+      },
+      "3000": {
+        "quantile": {
+          "fpr_mean": 0.0501,
+          "fpr_ci": [
+            0.0423,
+            0.0587
+          ],
+          "fnr_minus_oracle_pts": 0.19
+        },
+        "parametric": {
+          "fpr_mean": 0.1119,
+          "fpr_ci": [
+            0.1091,
+            0.115
+          ],
+          "fnr_minus_oracle_pts": -14.25
+        }
+      },
+      "10000": {
+        "quantile": {
+          "fpr_mean": 0.0499,
+          "fpr_ci": [
+            0.0438,
+            0.0566
+          ],
+          "fnr_minus_oracle_pts": 0.12
+        },
+        "parametric": {
+          "fpr_mean": 0.1119,
+          "fpr_ci": [
+            0.1067,
+            0.1173
+          ],
+          "fnr_minus_oracle_pts": -14.25
+        }
+      }
+    },
+    "asv21df_100k": {
+      "30": {
+        "quantile": {
+          "fpr_mean": 0.032,
+          "fpr_ci": [
+            0.0005,
+            0.1041
+          ],
+          "fnr_minus_oracle_pts": 5.37
+        },
+        "parametric": {
+          "fpr_mean": 0.1189,
+          "fpr_ci": [
+            0.0,
+            0.2522
+          ],
+          "fnr_minus_oracle_pts": 1.88
+        }
+      },
+      "100": {
+        "quantile": {
+          "fpr_mean": 0.0497,
+          "fpr_ci": [
+            0.0173,
+            0.1006
+          ],
+          "fnr_minus_oracle_pts": 0.57
+        },
+        "parametric": {
+          "fpr_mean": 0.1185,
+          "fpr_ci": [
+            0.0231,
+            0.1974
+          ],
+          "fnr_minus_oracle_pts": -3.73
+        }
+      },
+      "300": {
+        "quantile": {
+          "fpr_mean": 0.0499,
+          "fpr_ci": [
+            0.0279,
+            0.0759
+          ],
+          "fnr_minus_oracle_pts": 0.21
+        },
+        "parametric": {
+          "fpr_mean": 0.1166,
+          "fpr_ci": [
+            0.0739,
+            0.1664
+          ],
+          "fnr_minus_oracle_pts": -4.34
+        }
+      },
+      "500": {
+        "quantile": {
+          "fpr_mean": 0.0494,
+          "fpr_ci": [
+            0.0306,
+            0.0726
+          ],
+          "fnr_minus_oracle_pts": 0.17
+        },
+        "parametric": {
+          "fpr_mean": 0.1144,
+          "fpr_ci": [
+            0.0828,
+            0.1541
+          ],
+          "fnr_minus_oracle_pts": -4.31
+        }
+      },
+      "1000": {
+        "quantile": {
+          "fpr_mean": 0.0499,
+          "fpr_ci": [
+            0.0354,
+            0.0676
+          ],
+          "fnr_minus_oracle_pts": 0.09
+        },
+        "parametric": {
+          "fpr_mean": 0.1149,
+          "fpr_ci": [
+            0.0913,
+            0.1465
+          ],
+          "fnr_minus_oracle_pts": -4.4
+        }
+      }
+    },
+    "itw": {
+      "30": {
+        "quantile": {
+          "fpr_mean": 0.0339,
+          "fpr_ci": [
+            0.001,
+            0.1171
+          ],
+          "fnr_minus_oracle_pts": 10.43
+        },
+        "parametric": {
+          "fpr_mean": 0.0657,
+          "fpr_ci": [
+            0.0192,
+            0.1412
+          ],
+          "fnr_minus_oracle_pts": -0.87
+        }
+      },
+      "100": {
+        "quantile": {
+          "fpr_mean": 0.049,
+          "fpr_ci": [
+            0.0163,
+            0.0997
+          ],
+          "fnr_minus_oracle_pts": 1.09
+        },
+        "parametric": {
+          "fpr_mean": 0.0584,
+          "fpr_ci": [
+            0.0355,
+            0.0897
+          ],
+          "fnr_minus_oracle_pts": -0.99
+        }
+      },
+      "300": {
+        "quantile": {
+          "fpr_mean": 0.05,
+          "fpr_ci": [
+            0.0274,
+            0.0789
+          ],
+          "fnr_minus_oracle_pts": 0.36
+        },
+        "parametric": {
+          "fpr_mean": 0.057,
+          "fpr_ci": [
+            0.0434,
+            0.0729
+          ],
+          "fnr_minus_oracle_pts": -0.93
+        }
+      },
+      "500": {
+        "quantile": {
+          "fpr_mean": 0.0498,
+          "fpr_ci": [
+            0.0317,
+            0.0721
+          ],
+          "fnr_minus_oracle_pts": 0.27
+        },
+        "parametric": {
+          "fpr_mean": 0.0566,
+          "fpr_ci": [
+            0.046,
+            0.0691
+          ],
+          "fnr_minus_oracle_pts": -0.91
+        }
+      },
+      "1000": {
+        "quantile": {
+          "fpr_mean": 0.0499,
+          "fpr_ci": [
+            0.0364,
+            0.0646
+          ],
+          "fnr_minus_oracle_pts": 0.13
+        },
+        "parametric": {
+          "fpr_mean": 0.0566,
+          "fpr_ci": [
+            0.0481,
+            0.0648
+          ],
+          "fnr_minus_oracle_pts": -0.92
+        }
+      },
+      "3000": {
+        "quantile": {
+          "fpr_mean": 0.05,
+          "fpr_ci": [
+            0.0422,
+            0.0588
+          ],
+          "fnr_minus_oracle_pts": 0.06
+        },
+        "parametric": {
+          "fpr_mean": 0.0565,
+          "fpr_ci": [
+            0.0518,
+            0.0614
+          ],
+          "fnr_minus_oracle_pts": -0.91
+        }
+      },
+      "10000": {
+        "quantile": {
+          "fpr_mean": 0.0498,
+          "fpr_ci": [
+            0.044,
+            0.0559
+          ],
+          "fnr_minus_oracle_pts": 0.06
+        },
+        "parametric": {
+          "fpr_mean": 0.0562,
+          "fpr_ci": [
+            0.0518,
+            0.0605
+          ],
+          "fnr_minus_oracle_pts": -0.91
+        }
+      }
+    },
+    "brspeech_test": {
+      "30": {
+        "quantile": {
+          "fpr_mean": 0.0312,
+          "fpr_ci": [
+            0.0008,
+            0.1155
+          ],
+          "fnr_minus_oracle_pts": 0.57
+        },
+        "parametric": {
+          "fpr_mean": 0.014,
+          "fpr_ci": [
+            0.0,
+            0.2465
+          ],
+          "fnr_minus_oracle_pts": -0.09
+        }
+      },
+      "100": {
+        "quantile": {
+          "fpr_mean": 0.0486,
+          "fpr_ci": [
+            0.0139,
+            0.0992
+          ],
+          "fnr_minus_oracle_pts": 0.06
+        },
+        "parametric": {
+          "fpr_mean": 0.0004,
+          "fpr_ci": [
+            0.0,
+            0.0
+          ],
+          "fnr_minus_oracle_pts": 1.52
+        }
+      },
+      "300": {
+        "quantile": {
+          "fpr_mean": 0.0499,
+          "fpr_ci": [
+            0.0265,
+            0.0794
+          ],
+          "fnr_minus_oracle_pts": 0.02
+        },
+        "parametric": {
+          "fpr_mean": 0.0,
+          "fpr_ci": [
+            0.0,
+            0.0
+          ],
+          "fnr_minus_oracle_pts": 1.53
+        }
+      },
+      "500": {
+        "quantile": {
+          "fpr_mean": 0.0503,
+          "fpr_ci": [
+            0.0293,
+            0.0768
+          ],
+          "fnr_minus_oracle_pts": -0.03
+        },
+        "parametric": {
+          "fpr_mean": 0.0,
+          "fpr_ci": [
+            0.0,
+            0.0
+          ],
+          "fnr_minus_oracle_pts": 1.53
+        }
+      },
+      "1000": {
+        "quantile": {
+          "fpr_mean": 0.0493,
+          "fpr_ci": [
+            0.0219,
+            0.0781
+          ],
+          "fnr_minus_oracle_pts": -0.03
+        },
+        "parametric": {
+          "fpr_mean": 0.0,
+          "fpr_ci": [
+            0.0,
+            0.0
+          ],
+          "fnr_minus_oracle_pts": 1.53
+        }
+      }
+    }
+  },
+  "aasist": {
+    "asv21la": {
+      "30": {
+        "quantile": {
+          "fpr_mean": 0.033,
+          "fpr_ci": [
+            0.0004,
+            0.112
+          ],
+          "fnr_minus_oracle_pts": 16.07
+        },
+        "parametric": {
+          "fpr_mean": 0.1058,
+          "fpr_ci": [
+            0.0272,
+            0.2218
+          ],
+          "fnr_minus_oracle_pts": -15.25
+        }
+      },
+      "100": {
+        "quantile": {
+          "fpr_mean": 0.0503,
+          "fpr_ci": [
+            0.0161,
+            0.099
+          ],
+          "fnr_minus_oracle_pts": 1.82
+        },
+        "parametric": {
+          "fpr_mean": 0.0991,
+          "fpr_ci": [
+            0.0468,
+            0.153
+          ],
+          "fnr_minus_oracle_pts": -16.26
+        }
+      },
+      "300": {
+        "quantile": {
+          "fpr_mean": 0.0498,
+          "fpr_ci": [
+            0.0282,
+            0.0754
+          ],
+          "fnr_minus_oracle_pts": 0.83
+        },
+        "parametric": {
+          "fpr_mean": 0.0977,
+          "fpr_ci": [
+            0.067,
+            0.1328
+          ],
+          "fnr_minus_oracle_pts": -16.76
+        }
+      },
+      "500": {
+        "quantile": {
+          "fpr_mean": 0.0496,
+          "fpr_ci": [
+            0.0329,
+            0.0679
+          ],
+          "fnr_minus_oracle_pts": 0.67
+        },
+        "parametric": {
+          "fpr_mean": 0.0969,
+          "fpr_ci": [
+            0.0715,
+            0.1212
+          ],
+          "fnr_minus_oracle_pts": -16.71
+        }
+      },
+      "1000": {
+        "quantile": {
+          "fpr_mean": 0.0499,
+          "fpr_ci": [
+            0.0371,
+            0.0636
+          ],
+          "fnr_minus_oracle_pts": 0.35
+        },
+        "parametric": {
+          "fpr_mean": 0.0974,
+          "fpr_ci": [
+            0.077,
+            0.1159
+          ],
+          "fnr_minus_oracle_pts": -16.96
+        }
+      },
+      "3000": {
+        "quantile": {
+          "fpr_mean": 0.05,
+          "fpr_ci": [
+            0.0418,
+            0.0586
+          ],
+          "fnr_minus_oracle_pts": 0.2
+        },
+        "parametric": {
+          "fpr_mean": 0.0971,
+          "fpr_ci": [
+            0.0854,
+            0.1082
+          ],
+          "fnr_minus_oracle_pts": -16.96
+        }
+      },
+      "10000": {
+        "quantile": {
+          "fpr_mean": 0.05,
+          "fpr_ci": [
+            0.0438,
+            0.0567
+          ],
+          "fnr_minus_oracle_pts": 0.1
+        },
+        "parametric": {
+          "fpr_mean": 0.0971,
+          "fpr_ci": [
+            0.0892,
+            0.1061
+          ],
+          "fnr_minus_oracle_pts": -17.0
+        }
+      }
+    },
+    "asv21df_100k": {
+      "30": {
+        "quantile": {
+          "fpr_mean": 0.032,
+          "fpr_ci": [
+            0.0005,
+            0.1103
+          ],
+          "fnr_minus_oracle_pts": 15.34
+        },
+        "parametric": {
+          "fpr_mean": 0.1044,
+          "fpr_ci": [
+            0.021,
+            0.2245
+          ],
+          "fnr_minus_oracle_pts": -12.21
+        }
+      },
+      "100": {
+        "quantile": {
+          "fpr_mean": 0.0504,
+          "fpr_ci": [
+            0.017,
+            0.102
+          ],
+          "fnr_minus_oracle_pts": 1.59
+        },
+        "parametric": {
+          "fpr_mean": 0.0977,
+          "fpr_ci": [
+            0.0431,
+            0.1693
+          ],
+          "fnr_minus_oracle_pts": -12.82
+        }
+      },
+      "300": {
+        "quantile": {
+          "fpr_mean": 0.0497,
+          "fpr_ci": [
+            0.0279,
+            0.0788
+          ],
+          "fnr_minus_oracle_pts": 0.72
+        },
+        "parametric": {
+          "fpr_mean": 0.0941,
+          "fpr_ci": [
+            0.0596,
+            0.1315
+          ],
+          "fnr_minus_oracle_pts": -12.75
+        }
+      },
+      "500": {
+        "quantile": {
+          "fpr_mean": 0.05,
+          "fpr_ci": [
+            0.0312,
+            0.0713
+          ],
+          "fnr_minus_oracle_pts": 0.35
+        },
+        "parametric": {
+          "fpr_mean": 0.0935,
+          "fpr_ci": [
+            0.0676,
+            0.1211
+          ],
+          "fnr_minus_oracle_pts": -12.73
+        }
+      },
+      "1000": {
+        "quantile": {
+          "fpr_mean": 0.0501,
+          "fpr_ci": [
+            0.0358,
+            0.0665
+          ],
+          "fnr_minus_oracle_pts": 0.11
+        },
+        "parametric": {
+          "fpr_mean": 0.0937,
+          "fpr_ci": [
+            0.0734,
+            0.1147
+          ],
+          "fnr_minus_oracle_pts": -12.82
+        }
+      }
+    },
+    "itw": {
+      "30": {
+        "quantile": {
+          "fpr_mean": 0.0319,
+          "fpr_ci": [
+            0.0009,
+            0.1129
+          ],
+          "fnr_minus_oracle_pts": 1.58
+        },
+        "parametric": {
+          "fpr_mean": 0.0752,
+          "fpr_ci": [
+            0.0164,
+            0.1686
+          ],
+          "fnr_minus_oracle_pts": -2.63
+        }
+      },
+      "100": {
+        "quantile": {
+          "fpr_mean": 0.0493,
+          "fpr_ci": [
+            0.0158,
+            0.0986
+          ],
+          "fnr_minus_oracle_pts": -0.0
+        },
+        "parametric": {
+          "fpr_mean": 0.0663,
+          "fpr_ci": [
+            0.0307,
+            0.1176
+          ],
+          "fnr_minus_oracle_pts": -1.61
+        }
+      },
+      "300": {
+        "quantile": {
+          "fpr_mean": 0.0498,
+          "fpr_ci": [
+            0.0275,
+            0.0761
+          ],
+          "fnr_minus_oracle_pts": -0.03
+        },
+        "parametric": {
+          "fpr_mean": 0.0634,
+          "fpr_ci": [
+            0.0412,
+            0.0903
+          ],
+          "fnr_minus_oracle_pts": -1.32
+        }
+      },
+      "500": {
+        "quantile": {
+          "fpr_mean": 0.05,
+          "fpr_ci": [
+            0.0314,
+            0.0726
+          ],
+          "fnr_minus_oracle_pts": -0.04
+        },
+        "parametric": {
+          "fpr_mean": 0.0635,
+          "fpr_ci": [
+            0.0441,
+            0.0868
+          ],
+          "fnr_minus_oracle_pts": -1.34
+        }
+      },
+      "1000": {
+        "quantile": {
+          "fpr_mean": 0.05,
+          "fpr_ci": [
+            0.0364,
+            0.065
+          ],
+          "fnr_minus_oracle_pts": -0.03
+        },
+        "parametric": {
+          "fpr_mean": 0.0629,
+          "fpr_ci": [
+            0.0492,
+            0.0783
+          ],
+          "fnr_minus_oracle_pts": -1.3
+        }
+      },
+      "3000": {
+        "quantile": {
+          "fpr_mean": 0.0501,
+          "fpr_ci": [
+            0.0422,
+            0.059
+          ],
+          "fnr_minus_oracle_pts": -0.02
+        },
+        "parametric": {
+          "fpr_mean": 0.0627,
+          "fpr_ci": [
+            0.0541,
+            0.0708
+          ],
+          "fnr_minus_oracle_pts": -1.29
+        }
+      },
+      "10000": {
+        "quantile": {
+          "fpr_mean": 0.05,
+          "fpr_ci": [
+            0.0442,
+            0.0563
+          ],
+          "fnr_minus_oracle_pts": -0.0
+        },
+        "parametric": {
+          "fpr_mean": 0.0625,
+          "fpr_ci": [
+            0.0565,
+            0.0686
+          ],
+          "fnr_minus_oracle_pts": -1.29
+        }
+      }
+    },
+    "brspeech_test": {
+      "30": {
+        "quantile": {
+          "fpr_mean": 0.035,
+          "fpr_ci": [
+            0.0008,
+            0.1178
+          ],
+          "fnr_minus_oracle_pts": 4.52
+        },
+        "parametric": {
+          "fpr_mean": 0.0847,
+          "fpr_ci": [
+            0.0124,
+            0.1946
+          ],
+          "fnr_minus_oracle_pts": -6.95
+        }
+      },
+      "100": {
+        "quantile": {
+          "fpr_mean": 0.0492,
+          "fpr_ci": [
+            0.0148,
+            0.1
+          ],
+          "fnr_minus_oracle_pts": -0.08
+        },
+        "parametric": {
+          "fpr_mean": 0.0712,
+          "fpr_ci": [
+            0.0262,
+            0.1328
+          ],
+          "fnr_minus_oracle_pts": -4.87
+        }
+      },
+      "300": {
+        "quantile": {
+          "fpr_mean": 0.05,
+          "fpr_ci": [
+            0.0265,
+            0.0794
+          ],
+          "fnr_minus_oracle_pts": -0.28
+        },
+        "parametric": {
+          "fpr_mean": 0.0679,
+          "fpr_ci": [
+            0.0402,
+            0.101
+          ],
+          "fnr_minus_oracle_pts": -4.42
+        }
+      },
+      "500": {
+        "quantile": {
+          "fpr_mean": 0.0502,
+          "fpr_ci": [
+            0.0293,
+            0.0781
+          ],
+          "fnr_minus_oracle_pts": -0.28
+        },
+        "parametric": {
+          "fpr_mean": 0.0677,
+          "fpr_ci": [
+            0.0451,
+            0.0939
+          ],
+          "fnr_minus_oracle_pts": -4.39
+        }
+      },
+      "1000": {
+        "quantile": {
+          "fpr_mean": 0.0501,
+          "fpr_ci": [
+            0.025,
+            0.0781
+          ],
+          "fnr_minus_oracle_pts": -0.03
+        },
+        "parametric": {
+          "fpr_mean": 0.0675,
+          "fpr_ci": [
+            0.0405,
+            0.0969
+          ],
+          "fnr_minus_oracle_pts": -4.25
+        }
+      }
+    }
+  }
+}

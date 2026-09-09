@@ -1,0 +1,11 @@
+{
+ "detectors": [
+  "aasist",
+  "ssl"
+ ],
+ "coverage": {
+  "aasist->ssl": 0.76,
+  "ssl->aasist": 0.37735849056603776
+ },
+ "coverage_bar": 0.95
+}

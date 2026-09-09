@@ -1,0 +1,211 @@
+% A2 — ICASSP 2027 paper spec (execution-methodology Step 1).
+% Scope guard: an experiment runs only if it fills a cell of this paper.
+% Claim margins (Step 4), all below pilot-observed values:
+%   pinned FPR within +-2pp at N>=100 (pilot EXP-002: exactly 5.0% at N>=100);
+%   FNR within 2 pts of oracle on usable cells (pilot: <=0.7 pts at N=500);
+%   matched-resource cohort norm off by >2pp on the majority of cells
+%   (pilot EXP-010: 6/8 cells for z-norm, 8/8 for robust).
+% The drift map is complete; the numerical claims below are bound to results_drift.json.
+\documentclass{article}
+\usepackage{spconf,amsmath,graphicx,booktabs}
+
+% Retitled a third time, on external review (Phase 9). The criterion framing is
+% retired STRUCTURALLY, not by a disclaimer: the reviewer showed the additive
+% band ranks conservative severity at rho=0.9999, so the ratio scale buys a bar
+% and not information, and at eps=2pp zero cells hide. The lead is now the
+% operational finding, which was sentence four.
+\title{A CHANNEL CHANGE QUADRUPLES MISSED SPOOFS WHILE THE FALSE-ALARM RATE READS BETTER THAN TARGET}
+%
+\name{\shortstack{Rafaello Virgilli, Lucas Alcantara Souza, Alexandre Costa Ferro Filho,\\
+Daniel Tunnermann, Gustavo dos Reis Oliveira, and Arlindo Galv\~ao Filho}}
+\address{Universidade Federal de Goi\'as, Brazil\\
+rafaello.virgilli@discente.ufg.br}
+
+% Camera-ready float spacing: the class defaults leave ~13pt above and below
+% every float, which at three floats costs more than a text line. These are the
+% standard LaTeX float-separation parameters, not a rule change.
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\floatsep}{8pt plus 2pt minus 2pt}
+\setlength{\intextsep}{8pt plus 2pt minus 2pt}
+\setlength{\dbltextfloatsep}{8pt plus 2pt minus 2pt}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We calibrate a speech-deepfake detector at 5\% FPR on speech carried over a real PSTN connection and deploy it on the same recordings retransmitted over G.722 VoIP. The transported threshold realizes \textbf{0.47\% FPR} while missing \textbf{74\% of spoofs, versus 19\% at the deployment-calibrated threshold}. Across 108 deployment cells, 58 miss target by more than $2\times$; 34 are conservative failures that pass an additive $\pm5$-point audit. The failure persists on ASVspoof~5 when calibration and deployment share neither recordings nor speakers: 187 of 264 ordered pairs (71\%) miss by more than $2\times$ across two detectors. Spoof-side cost there is measurable for SSL-AASIST only, because AASIST fails our viability gate. A target-channel bona-fide order statistic restores \emph{marginal expected} FPR control: at $N{=}500$, mean realized FPR is 4.94--5.03\%, with at most a 0.8-point FNR premium on viable cells. This is not a per-deployment guarantee. Exchangeability gives marginal rank validity. The conditional-FPR Beta law requires iid continuous sampling from a fixed distribution; speaker clustering widens dispersion on the flagship channel. The tested label-free corrections do not restore control, and no tested unlabeled monitor survives an attack-prevalence shift. Threshold transport can therefore fail quietly. Target-channel calibration restores marginal control, but its sampling unit and dispersion must be reported.
+\end{abstract}
+
+\begin{keywords}
+Anti-spoofing, audio deepfake detection, threshold calibration, conformal prediction, domain shift
+\end{keywords}
+
+\section{Introduction}
+\label{sec:intro}
+% MINIMUM interesting claim (pilot-exceeded, margins in header comment):
+%  (i) naive transfer fails catastrophically (30-98.5% FPR) on the field's
+%      standard corpora -- our own measurement, same checkpoints;
+% (ii) the bona-fide quantile pins FPR within +-2pp from N=100, FNR cost
+%      <=2 pts of oracle on viable corpora (ITW decisive);
+% (iii) the same N labels spent on cohort normalization do NOT control FPR
+%      (majority of cells off by >2pp) -- the win is distribution-freeness,
+%      not labels;
+%  (iv) failure regimes are characterized honestly (BRSpeech overlap cell;
+%      drift map measured, outcome not pre-claimed).
+
+Audio anti-spoofing studies usually report performance at the EER threshold, an oracle operating point selected with labels from both evaluation classes. A deployed service has no such oracle: it must choose a threshold in advance and accept the resulting false-positive rate. This difference can hide severe deployment failures. A threshold set to 5\% FPR on ASVspoof~2019~LA dev \cite{asvspoof19} realizes 30--98.5\% FPR across 21LA/21DF \cite{asvspoof21}, In-the-Wild \cite{itw}, and BRSpeech-DF \cite{brspeechdf} for a strong open-source detector \cite{tak22}; for XLS-R+SLS \cite{zhang24sls}, it reaches 99.5\%. These results agree with the transfer failures in \cite{eerhides26} and the bona-fide-driven cross-testing errors in \cite{kwok25}. Channel is a major source of variation: \cite{delgado26} finds that presentation can matter more than model scale, and a recent challenge targets this problem directly \cite{radar26}. Language introduces a complementary resource asymmetry. LRLspoof \cite{lrlspoof26} transfers an EER threshold across 66 languages but, without target-domain bona fide, can report only spoof rejection. Our deployment regime assumes the converse resource: target bona fide is available, but target spoof labels are not. We therefore evaluate the FPR side.
+
+We study the deployment behavior of a standard statistical repair. Given $N$ labeled target-domain \emph{bona-fide} recordings, but no costly spoof labels, the $\lfloor(N{+}1)\alpha\rfloor$-th order statistic has marginal rank validity under exchangeability without ties. Under iid continuous sampling from a fixed score distribution, the conditional FPR across calibration draws additionally follows an exact finite-sample Beta law \cite{tong18,vovk}. Conservative Neyman--Pearson variants instead provide high-probability upper bounds \cite{tong18,tong20}. Neither the statistic nor bona-fide-only audio calibration is new \cite{zhao26ca,mcp25}. Our contribution is empirical: we measure transport across channels and corpora, quantify its operational cost, replicate the failure on disjoint data, and compare finite-sample policies at matched labeling budgets. We ask whether target-channel calibration leaves a \emph{usable} operating point, what alternative policies buy with the same labels, and where the sampling assumptions fail in practice.
+
+The failure is operationally quiet: on the cells that matter the transported
+threshold collapses \emph{conservative}, so observable FPR reads on target or
+better while missed spoofs multiply. Spoof-side cost needs the unavailable
+class; low FPR alone cannot distinguish control from collapse.
+
+We make three contributions (details in §§4--5). (1)~The measurement covers 108 deployment cells: two detectors $\times$ (42 ordered pairs of seven 21LA channel conditions $+$ 12 ordered pairs of four corpora). We report both the loss of false-alarm control and the spoof-side cost relative to each deployment's oracle. (2)~We re-audit the bona-fide quantile against parametric and unlabeled alternatives at matched resource. (3)~We report negative results: the tested label-free heuristics do not restore control, and no tested unlabeled drift monitor survives an attack-prevalence shift. We claim neither the threshold rule nor the practice of auditing both error rates at a fixed operating point; both are prior art \cite{tong18,vovk,tdcf,asvspoof5}. Our two detectors lose control by different amounts, but they differ in both front-end and static accuracy, so $n{=}2$ cannot separate the explanations.
+
+\section{Related work}
+\label{sec:related}
+% Provenance-first paragraph (Gate-2 evidence): the method is old, cite it as such.
+Order-statistic calibration is established: Neyman--Pearson methods control type-I error through class-0 order statistics \cite{tong18,tong20}, negative-only conformal calibration provides marginal guarantees \cite{vovk}, and related FPR bounds have been studied for generated \emph{text} \cite{mcp25}. In audio, CA-SOADD calibrates a bona-fide-only $\alpha$-quantile \cite{zhao26ca}, Reality Check fixes thresholds before evaluation \cite{schaefer26reality}, \cite{eerhides26} audits threshold transfer and seven unlabeled corrections, and \cite{kwok25} documents bona-fide-driven cross-testing errors. Relative to that audit's one detector and two target corpora, we add a 108-cell fixed-FPR map that includes real 21LA transmissions, a finite-$N$ target-bona-fide comparison, and a 264-pair recording- and speaker-disjoint replication. We do not claim the first quantile rule or the first threshold audit. An industry report describes the same failure without reproducible figures \cite{firc26}. Existing real-channel benchmarks still use oracle-selected metrics: 21LA reports minimum t-DCF, while RTCFake reports EER over 600 hours transmitted through seven consumer platforms \cite{rtcfake26}.
+
+Calibration is also well established in speech evaluation. Challenges audit fixed-cost operating points through t-DCF/a-DCF \cite{tdcf}; speaker recognition has long used $C_{\mathrm{llr}}$ and application-independent calibration measures \cite{brummer06}; and anti-spoofing has introduced per-artifact evidence scores \cite{negroni26}. These methods use both classes, which are unavailable in our setting. Le~Roux et al.\ \cite{leroux25} calibrate a POI-conditional detector from $N\in\{3..50\}$ recordings using heuristic rules. We instead study general countermeasure scores, specify a finite-sample estimand, and compare policies at the same labeling budget.
+
+Prior work detects deployment drift and then retrains the model \cite{driftmon26}; we hold the detector fixed and ask whether its threshold remains controlled. Distributional distance alone does not certify an FPR band, and none of our monitors survives an attack-prevalence shift. In a separate pre-registered test, adding 5\% spoofs to the calibration cohort pushes realized FPR below target on seven of eight cells (0.99--4.99\%); the eighth, overlap-dominated cell is nearly unchanged at 5.11\%. Non-exchangeable conformal theory does not determine the direction of error \cite{barber23}. Covariate-shift weighting \cite{tibshirani19}, outcome-adaptive conformal inference \cite{gibbs21}, and contamination-robust methods \cite{bashari25} motivate distinct remedies, but we test only the score-weighting heuristic and oracle-label adaptive ceiling defined in \S\ref{sec:exp}. The negative result is therefore not attributed to those constructions. Closest to our negative findings, \cite{falsesafety26} finds distribution-free risk control overruns under group shift. We establish the corresponding speech anti-spoofing case and add attack-prevalence stress. ASVspoof~5 \cite{asvspoof5} audits a preset threshold in-domain, but its cross-dataset tables remain EER-only. % Scoop re-run 2026-08-14: ICASSP 2026 swept (4,589-paper Crossref TOC + 795 abstracts)
+% and Odyssey 2026 -- zero conformal/FPR-band/operating-point papers in audio; clear.
+% Interspeech 2026 sweep closed 2026-08-28: all 1,416 rows (1,384 numbered papers) in
+% the official program were screened; 77 title/session hits and the closest available
+% preprints were read. No competing fixed-FPR, target-bona-fide calibration study was
+% found. LRLspoof is the one threshold-transport neighbor and is cited above. Audit log:
+% PRIOR-ART-SWEEP-INTERSPEECH-2026.md.
+
+\section{Threshold policies}
+\label{sec:method}
+A detector emits score $s$ (higher = bona fide), and deployment flags spoof when $s<t$. We compare policies by resource class. With \textbf{no target data}, the source dev threshold $t$ at the target FPR is transferred unchanged. With \textbf{unlabeled target data}, we fit the corrections of \cite{eerhides26} to target statistics; we reimplement C1 z-norm, C2 temperature/shift, and C5 AS-norm. With \textbf{$N$ labeled target bona-fide recordings}, we test three policies: (a) cohort z-norm standardizes scores by the cohort mean and standard deviation, then applies the source threshold in standardized units; (b) the Gaussian parametric quantile sets $t=\bar s_N - 1.645\,\hat\sigma_N$; and (c) the \emph{conformal quantile} sets $t$ to the $k$-th smallest cohort score, where $k=\lfloor(N{+}1)\alpha\rfloor$. Exchangeability without ties gives the last policy's marginal rank guarantee. Under iid continuous sampling from a fixed score distribution, its conditional FPR across calibration draws additionally follows $\mathrm{Beta}(k, N{+}1{-}k)$ \cite{tong18,vovk}. The \textbf{target-bona-fide oracle} sets the threshold realizing $\alpha$ on deployment bona fide; spoof labels measure its FNR but do not select it. All labeled policies consume identical paired cohort draws.
+\textbf{Definitions.} A detector--corpus cell is \emph{overlap-dominated} when its oracle FNR at the target FPR exceeds 50\%. Such cells are italicised in Table~\ref{tab:fnr} and excluded from ``viable'' claims. Mean-control claims average calibration draws. The Beta$(k,N{+}1{-}k)$ dispersion is an iid-continuous population reference, not the exact law of finite-pool draws without replacement. We report their held-out empirical spread separately over $B{=}1000$ draws. C4 (CORAL) of \cite{eerhides26} requires embeddings through the frozen head, which is a different resource class, so C2 substitutes.
+
+\section{Experiments}
+\label{sec:exp}
+\textbf{Setup.} We evaluate AASIST \cite{jung22}, SSL-AASIST \cite{tak22}, and XLS-R+SLS \cite{zhang24sls}. The first two use released 19LA-trained checkpoints; where official XLS-R+SLS scores are available, our scores agree at per-trial $r{=}0.994$. The corpora are ASVspoof 2021 LA and DF \cite{asvspoof21}, In-the-Wild \cite{itw}, BRSpeech-DF \cite{brspeechdf}, and ASVspoof~5 eval \cite{asvspoof5} for replication. We subsample DF to 100k trials for the reproduction-scored detectors and use the full 611k trials for official scores. Six of the seven 21LA conditions are real transmissions: five through an Asterisk PBX over VoIP and one over a PSTN carrier \cite{asvspoof21}. By contrast, 21DF is compression-only and untransmitted. All thresholds target $\alpha{=}5\%$. Labeled policies use the same paired cohort draws ($B{=}1000$), and FPR is measured on held-out data. Budget sweeps cover $N{=}30$--$10^4$; full-grid comparisons use $N{=}500$.
+
+\textbf{FPR control and FNR cost.} At $N{=}500$, the conformal quantile's mean realized FPR is 4.94--5.03\% across the 12 matched detector--corpus cells (Table~\ref{tab:fnr}). The budget sweep covers all eight cells. On ITW with SSL-AASIST, the empirical spread approaches the iid Beta reference; cohort z-norm remains 7--8\,pp high at every budget, and the Gaussian quantile remains 0.6--1.6\,pp high. On every viable cell, the quantile's FNR premium over the oracle threshold is $\le$0.8 points.
+
+\textbf{Matched-resource policy comparison.} With SSL-AASIST, $N{=}500$, and 1000 paired draws, the conformal quantile realizes 5.0\% FPR on all four corpora, as expected from marginal rank validity. The informative comparison is how the alternatives behave with the same resources. Naive transfer misses target by 25--95 pp, and the best unlabeled correction misses by 3--95 pp. C5 AS-norm is excluded as degenerate because it controls FPR only by driving FNR to ${\approx}99\%$. The Gaussian parametric quantile is the fair competitor at the same $N$ because it also targets a target-domain FPR. It misses by up to 6.4 pp (0.66 pp on ITW) and collapses to 0\% on BRSpeech. Cohort z-norm does not target a target-domain FPR, so its larger errors (3--18 pp, 6/8 cells beyond $\pm$2 pp, and up to 50.8 pp for XLS-R+SLS) are a category difference rather than a direct contest. At $N{=}100$, its miss reaches 6.8 pp. Across the unlabeled corrections of \cite{eerhides26}, the miss is 3--95 pp.
+
+\textbf{Drift} is detector-conditioned (Fig.~\ref{fig:drift}). We measure severity as $\log_2(\mathrm{FPR}/\alpha)$. An additive band has only $\alpha$ points below target and therefore cannot distinguish a collapsed threshold from a controlled one, although the rankings are otherwise unchanged. On the ratio scale, 34 of the 84 cells passing our
+pre-registered $\pm$5\,pp test (a different 84 from the within-corpus set above,
+overlapping it on 68) miss target by over $2\times$, necessarily
+conservatively, since that band excludes a liberal $2\times$ miss by construction.
+The $2\times$ bar is post-hoc, and the count depends on that choice: it ranges from 60
+of 84 at $1.5\times$ to 22 of 84 at $4\times$. We therefore attach no interval.
+68 of those 84 band-passing cells are within-corpus, where calibration and
+deployment are the same 2,636 source recordings from the same 67 speakers under seven
+21LA channel conditions, so they are not independent observations and no significance claim
+is made of them. The replicate below tests whether the finding survives this dependence. Their spoof-side cost is measured against the oracle
+threshold for that deployment, not against the calibration condition, and reaches
+$+0.55$ (AASIST, PSTN$\to$G.722; two cells score marginally higher but rest on too
+few deployment utterances to quote). Per calibration draw a positive spoof-side cost places the threshold below
+oracle and so inside the $\pm$5\,pp band; empirically every positive-price cell
+passes it, which is why the additive test cannot reveal this cost. AASIST is the more fragile detector on both
+axes.
+\textbf{Replication on recording-disjoint data.} Because the grid above reorders one 2,636-recording set, we repeat the experiment on ASVspoof~5 eval \cite{asvspoof5}, where calibration and deployment share neither recording nor speaker. The grid contains 11 organizer-applied codecs plus the unprocessed source and 737 speakers. It is
+restricted to the 80.5\% of bona-fide sources appearing under one condition and
+split 50/50 by speaker. \textbf{Over both detectors the transported threshold
+misses target by over $2\times$ on 187 of 264 pairs (71\%), against 50\% on
+the grid above}: the effect persists without shared recordings or speakers; the
+numerical rate difference is confounded by corpus, codecs and attacks. The 19.5\% of sources that \emph{do} recur under every
+condition reproduce this corpus's twin structure and give 145 of 220 (66\%), so twinning
+does not inflate severity in this corpus. This is descriptive evidence from one corpus, not a correction factor. \textbf{The spoof-side replication is narrower.} AASIST is
+overlap-dominated on this corpus (oracle FNR 63.9\% against SSL-AASIST's
+7.9\%), so our own viability rule excludes it, and the flagship cell above is an
+AASIST cell. The mechanism replicates; that cell does not; the spoof-side axis
+here rests on one detector. \textbf{Exploratory cost-map sensitivity.} A fixed
+severity$\to$price line fitted on 21LA gives held-out $R^2\,0.59$ on 66 viable
+A5 SSL-AASIST cells (Spearman $-0.90$); deleting one A5 condition at a time gives
+$R^2=0.45$--$0.64$. We report these points descriptively, not as established
+inference: directed cells reuse 12 conditions and one detector, and no valid
+crossed-condition interval is available. Detector transfer also
+failed for the tested pair: an envelope fitted on one covers only 38--76\% of
+the other's held-out cells against a 95\% requirement.
+
+\textbf{Monitoring} was a pre-registered co-primary negative-result analysis. The entropy
+monitor fails outright: its pre-registered Spearman correlations are $-0.07$\slash$+0.07$ and the corrected values are $-0.17$\slash$-0.31$. CDTS's entropy statistic reaches ROC-AUC 0.99 in the visual domain \cite{cdts26}, and its v2 reports that miscalibration tracks competence at $r\!\approx\!-0.98$. Our severity--competence $\rho$ of 0.52/0.54 has the same direction and is distinct from Fig.~\ref{fig:drift}'s $W_1$ correlation; we therefore claim no general dissociation. The
+mixture-$W_1$ monitor met its pre-registered criteria on SSL-AASIST (Spearman
+0.64; TPR 0.92 at FPR 0.19), but that reading inherits the additive target:
+under the two-sided criterion it retains no operating point on either detector,
+its threshold was selected in-sample, and re-mixing deployment spoof share by
+$\pm$50\% pushes every benign cell over it in the $-50\%$ direction
+(30\slash31 and 17\slash19 at $+50\%$). We report both readings and
+treat unlabeled drift monitoring as open. \textbf{Label-free heuristic.} We test an importance-weighted quantile that applies a clipped 15-bin ratio of deployment to calibration \emph{mixture-score} densities to the bona-fide cohort. It holds 33\slash108 cells within 2\,pp of target, compared with 26\slash108 unweighted. It improves 70 cells but restores a deployable operating point on neither detector. This is a heuristic rather than the construction of \cite{tibshirani19}, which requires a target\slash source bona-fide covariate ratio and includes the test-point weight; our negative result is limited to the heuristic. It also differs from the degeneracy in \cite{leong26}, where a high-dimensional
+logistic ratio clips every weight to zero; ours is one-dimensional and none
+reaches zero. Weight localisation is present and predicts the miss's \emph{size}
+($\rho{=}{-}0.65$) but not its \emph{direction} ($\rho{=}{-}0.07$), and the
+conservative tendency localisation is predicted to induce does not appear
+(54\slash108 cells). Adaptive conformal \cite{gibbs21} needs to know whether each flagged item was bona fide. A deployment with no target labels sees only the mixture flag rate, and recovering the false-alarm rate from it needs both the attack prevalence and the spoof-side detection rate. Mixture-proportion estimation cannot supply the first, because it requires the bona-fide score density in the deployment channel, which is the quantity this section shows moves. We therefore report it \emph{with} oracle labels, as the ceiling labels buy (99\slash108 within 2\,pp), and test no label-free form of it.
+
+\begin{table}[t]
+\caption{FNR (\%) at the quantile threshold targeting mean FPR${\approx}5\%$ vs
+oracle-threshold FNR ($\Delta$). $N{=}500$, first calibration run; an independent re-draw moves no entry by more
+than 0.13 points. The manifest-bound supplement contains the exact PDF, source, guards, code and result JSONs.}
+\label{tab:fnr}
+\centering\small\setlength{\tabcolsep}{3pt}
+\begin{tabular}{lcccc}
+\toprule
+System & 21LA & 21DF & ITW & BRSpeech \\
+\midrule
+AASIST & 36.4 (+0.8) & 43.5 (+0.4) & \emph{95.2 (0.0)} & \emph{84.0 ($-$0.2)} \\
+SSL-AASIST & 15.9 (+0.7) & 10.5 (+0.1) & 18.4 (+0.3) & \emph{98.5 (0.0)} \\
+XLS-R+SLS$^\dagger$ & 1.6 (+0.1) & 0.8 (+0.0) & 11.2 (+0.4) & \emph{91.5 (+0.4)} \\
+\bottomrule
+\end{tabular}\\[2pt]
+{\scriptsize $^\dagger$Official author-released scores (21DF full eval); italics = overlap-dominated cells where FPR control holds but no usable operating point exists.}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figs/drift.pdf}
+% REWRITTEN 2026-08-14 after the Gate-8 correctness audit. The previous caption
+% plotted and quoted |FPR-5%|, which saturates at 5 pp on the conservative side,
+% and attributed a Spearman of 0.64 to this panel -- that number is the cell-9
+% mixture-$W_1$ monitor's, not this panel's oracle-$W_1$ statistic. Counts below
+% depend on post-hoc bars and are reported as such; see the EXP-102 addendum.
+\caption{Drift map. Left: signed $\log_2(\mathrm{FPR}/5\%)$ per deployment cell
+(within-21LA channel pairs vs cross-corpus; colour/marker = detector). Under a
+post-hoc $2\times$ two-sided bar, 34 of the 84 band-passing cells are off
+target (60 at $1.5\times$, 22 at $4\times$; no interval, \S4), every one
+conservative. The costliest on the spoof side are among them: AASIST
+PSTN$\to$G.722 misses 74\% of spoofs against 19\% for that deployment's oracle
+while reading 0.47\% FPR. A resolution-limited SSL GSM$\to$none cell combines
+an AUC rise, 0.977$\to$0.982, with a rule-of-three-censored 44$\times$ FPR miss:
+an existence proof, not a rate. Right: the miss correlates with oracle
+bona-fide $W_1$ ($\rho$ 0.52/0.88) but
+does not transfer across detectors (held-out $R^2$ 0.48/$-0.02$), so no
+predictive law is claimed from it. Cells are not independent replications;
+within-corpus slices reuse recordings and speakers (\S4).}
+\label{fig:drift}
+\end{figure}
+
+\section{Discussion}
+% D9 skeleton — filled during the prose loop.
+\textbf{Calibration and detection are distinct.} Target-channel calibration controls the \emph{marginal mean}, not every realized threshold. Under iid continuous sampling from a fixed distribution, a single $N{=}100$ draw has only 65.5\% probability of landing within $\pm2$ FPR points; at $N{=}500$, the probability is 96.2\%, with a 3.26--7.06\% central 95\% interval. Calibration also cannot repair poor discrimination: on overlap-dominated cells, no threshold yields a deployable operating point \cite{eerhides26}. \textbf{Operational implications.} Report FNR at controlled FPR alongside EER, choose $N$ from the dispersion required by the deployment, ship a designated bona-fide calibration split, and recalibrate after a channel change. \textbf{Limitations.} The Beta dispersion law assumes iid continuous recordings from a fixed deployment speaker mixture. A post-hoc speaker-disjoint diagnostic on 21LA widened the estimated 90\% FPR interval for AASIST/PSTN to 7.03 points (MC SD 0.17), compared with a speaker-permutation null near 3.4; deployment to new speakers therefore requires speaker-level validation. Conclusions rest on three detectors, the drift map on the two
+reproduction-scored ones and the ASVspoof~5 replicate on those two; our language-shift regime rests on one corpus ($n{=}1$), \cite{lrlspoof26}
+covering 66 but on the spoof side only; and bona-fide labeling is assumed cheap
+relative to spoof labeling, which holds where a deployment can verify its own
+recordings' provenance. The within-corpus slices are repeated views of one sample; the recording- and speaker-disjoint replicate tests the transport finding without that dependence. Price and severity are two readouts of threshold displacement. Their strong within-grid rank association does not make spoof-side cost identifiable from bona-fide scores alone.
+
+\section{Conclusion}
+Threshold transport is easy to mis-audit: conservative collapse can make FPR
+look better while missed spoofs quadruple. A bona-fide order statistic from the
+target channel restores marginal expected control, but dispersion depends on sample
+size and sampling unit, and cannot repair class overlap. Recording- and speaker-disjoint data confirm
+transport failure; the label-free heuristic tested does not restore control.
+
+% \small on the bibliography only (9pt at this class size, within ICASSP's
+% minimum): the reference list spilled 3 lines onto a sixth page.
+{\small
+\bibliographystyle{IEEEbib}
+
+\bibliography{refs}
+}
+
+\end{document}

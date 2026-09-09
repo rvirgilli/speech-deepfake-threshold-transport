@@ -1,0 +1,19 @@
+{
+ "ssl": {
+  "oracle_fnr_at_5pct_fpr": 0.07933333333333334,
+  "threshold": -5.2191874265670775,
+  "bona_median": -2.9706289768218994,
+  "spoof_median": -6.109325170516968,
+  "n_bona": 1500,
+  "n_spoof": 1500
+ },
+ "aasist": {
+  "oracle_fnr_at_5pct_fpr": 0.6386666666666667,
+  "threshold": -4.315548086166382,
+  "bona_median": -1.5915811657905579,
+  "spoof_median": -3.633939027786255,
+  "n_bona": 1500,
+  "n_spoof": 1500
+ },
+ "verdict": "VIABLE"
+}

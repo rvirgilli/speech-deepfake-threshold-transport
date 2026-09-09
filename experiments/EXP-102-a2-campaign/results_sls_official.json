@@ -1,0 +1,83 @@
+{
+  "asv21la": {
+    "n_bona": 14816,
+    "n_spoof": 133360,
+    "pooled_eer_check": null,
+    "oracle": {
+      "fnr": 0.0147
+    },
+    "same_sample_quantile_identity": 0.05,
+    "quantile_N100": {
+      "fpr_mean": 0.0489,
+      "fpr_ci": [
+        0.0166,
+        0.0988
+      ],
+      "fnr_mean": 0.0197,
+      "fnr_minus_oracle_pts": 0.5
+    },
+    "quantile_N500": {
+      "fpr_mean": 0.0498,
+      "fpr_ci": [
+        0.0323,
+        0.0715
+      ],
+      "fnr_mean": 0.0157,
+      "fnr_minus_oracle_pts": 0.1
+    }
+  },
+  "asv21df_full": {
+    "n_bona": 14869,
+    "n_spoof": 519059,
+    "pooled_eer_check": null,
+    "oracle": {
+      "fnr": 0.0071
+    },
+    "same_sample_quantile_identity": 0.05,
+    "quantile_N100": {
+      "fpr_mean": 0.0483,
+      "fpr_ci": [
+        0.0158,
+        0.0961
+      ],
+      "fnr_mean": 0.0095,
+      "fnr_minus_oracle_pts": 0.24
+    },
+    "quantile_N500": {
+      "fpr_mean": 0.0501,
+      "fpr_ci": [
+        0.0324,
+        0.0695
+      ],
+      "fnr_mean": 0.0075,
+      "fnr_minus_oracle_pts": 0.04
+    }
+  },
+  "itw": {
+    "n_bona": 19963,
+    "n_spoof": 11816,
+    "pooled_eer_check": null,
+    "oracle": {
+      "fnr": 0.1081
+    },
+    "same_sample_quantile_identity": 0.05,
+    "quantile_N100": {
+      "fpr_mean": 0.0499,
+      "fpr_ci": [
+        0.0173,
+        0.0963
+      ],
+      "fnr_mean": 0.1236,
+      "fnr_minus_oracle_pts": 1.55
+    },
+    "quantile_N500": {
+      "fpr_mean": 0.0499,
+      "fpr_ci": [
+        0.0335,
+        0.0705
+      ],
+      "fnr_mean": 0.1115,
+      "fnr_minus_oracle_pts": 0.34
+    }
+  }
+}

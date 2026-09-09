@@ -1,0 +1,2 @@
+ssl /home/rv/exp-artifacts/icassp2027/EXP-001/manifests/asv21df_100k.csv DF_E_4459808
+aasist /home/rv/exp-artifacts/icassp2027/EXP-001/manifests/asv21df_100k.csv DF_E_4459808
