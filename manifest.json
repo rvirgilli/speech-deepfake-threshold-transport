@@ -184,8 +184,8 @@
     "bytes": 731
   },
   "experiments/EXP-001-scoring-campaign/skipped.txt": {
-    "sha256": "9fe718bf98fd0517d58b35ae677106a3c8409b535cba1652bfc2286c9a0bd03f",
-    "bytes": 175
+    "sha256": "f3f8435cc4e31e4a624da47a2b13a57b2517922e31f3c8024026ef587b679c2a",
+    "bytes": 347
   },
   "experiments/EXP-001-scoring-campaign/scores/aasist_asv19_dev.csv.gz": {
     "sha256": "831288ed5070af0984fe5ceb5604b6c98957320f1dce939e4b1eba2b3bb6d98e",
@@ -267,6 +267,18 @@
     "sha256": "3b2d3eb55a5fe9ac2eb8269dbc99de384a573c31e6443a29de696341ce5c444c",
     "bytes": 136109
   },
+  "experiments/EXP-103-a5-replicate/artifacts/scores_aasist_asv5_eval.csv.gz": {
+    "sha256": "ca0900ac1e2945b38d0d28c625462b26d63cf90e12bfdf6bd44992ae9b786b6d",
+    "bytes": 5668492
+  },
+  "experiments/EXP-103-a5-replicate/artifacts/scores_ssl_asv5_eval.csv.gz": {
+    "sha256": "465007b40c8f64441d4245455182a7e7ce2c9075620ff89b8b84837fb4364a58",
+    "bytes": 5391915
+  },
+  "experiments/EXP-103-a5-replicate/export_scores.py": {
+    "sha256": "5a5e01f42240f49538d7cc6eed19ef4aa179d3e127bbab75402294bbe642f753",
+    "bytes": 1301
+  },
   "experiments/EXP-109-a2-cors-transport/PREREG.md": {
     "sha256": "a7a8dbec56e126a0867dc9eee6d36d3b78fb30bbb110d121667c01fbb0f17a71",
     "bytes": 6951
@@ -304,16 +316,16 @@
     "bytes": 157
   },
   "paper/A2/main.pdf": {
-    "sha256": "2186892ddb0edcdac27e45c14ebe795f70a98da7dd0bfd3a77248f3e6f0ef239",
-    "bytes": 207728
+    "sha256": "c9d90274221f012b5e5cda16d57256705572536b5289237ab07cd9006445ffcd",
+    "bytes": 225412
   },
   "paper/A2/main.tex": {
-    "sha256": "fe22cb66e65f70c6baad1d7bb407eaadfab94bfbaf103849586c427cad56626a",
-    "bytes": 27299
+    "sha256": "8512426168feeb47d58b72070702611663bc83144f306f1ae737aaf5cf88338b",
+    "bytes": 27609
   },
   "paper/A2/refs.bib": {
-    "sha256": "a0bb732c04cfbbea5b7ab570907970f2c501bf9b304017e11218cc597e0a16f4",
-    "bytes": 12713
+    "sha256": "3cda9b0aaf3924e3dffc73ec9c4a79f98f84bf215a5a1d4765df711874b6fa24",
+    "bytes": 13486
   },
   "paper/A2/spconf.sty": {
     "sha256": "dc5d632639040cb183f2ab62780f314845aa021be73048c8a9ec9c2072d64a86",
@@ -324,20 +336,20 @@
     "bytes": 18044
   },
   "paper/A2/check_numbers.py": {
-    "sha256": "959e409756267a432a2e62b06794405a20afbba0ae9a7055cbd046566f6a0e61",
-    "bytes": 56728
+    "sha256": "b3e455a1ca0b0889878c9390aff8ce92fb5f3b0bc14caf3ca14657963400489b",
+    "bytes": 62393
   },
   "paper/A2/number_census.py": {
-    "sha256": "2c79c10598a647132f3dee2b01ac86b942e05495b4910cfd558ec0018f3febca",
-    "bytes": 37754
+    "sha256": "5f3bc389eb6241d0d5265843a124ef33755baa630fa336fa367174fe6d1d2651",
+    "bytes": 39677
   },
   "paper/A2/PRIOR-ART-SWEEP-INTERSPEECH-2026.md": {
     "sha256": "391658fa0678f30314878544762db364ebff8ed56afa0de2e1385badc1baf066",
     "bytes": 5324
   },
   "paper/A2/figs/drift.pdf": {
-    "sha256": "c0f0173b374dabcac3ae1cf557fc06fd4be354239e59aac720fb7919fe917b62",
-    "bytes": 27397
+    "sha256": "b4707cf49de4c9828148e22f43e34a9f49b0ffc7c682448b78c986eea5776920",
+    "bytes": 19141
   },
   "claim_map.json": {
     "sha256": "46efccb850f70e56268dd29ac30f25bd20200d0b52d01104e3a98e4643da4a76",

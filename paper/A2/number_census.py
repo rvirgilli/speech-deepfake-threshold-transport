@@ -63,6 +63,7 @@ A5 = json.load(open(EXP / "EXP-103-a5-replicate/artifacts/results_a5.json"))
 PRE = json.load(open(EXP / "EXP-103-a5-replicate/artifacts/precheck.json"))
 DRIFT_MAP = (E102 / "drift_map.py").read_text()
 CORS = json.load(open(EXP / "EXP-109-a2-cors-transport/results_cellA.json"))
+CMETH = (E102 / "c_methods.py").read_text()
 PHASE = json.load(open(E102 / "results_phase_sensitivity.json"))
 
 
@@ -129,6 +130,11 @@ def a5n(arm, bar=SEV):
 tf_n, tf_t = a5n("twin_free")
 la_n = sum(1 for v in within.values() if abs(v["log2_fpr_ratio"]) > SEV)
 A5_CONDS = {k.split("->")[1] for k in A5["ssl/twin_free"]}
+_a5_over = set()
+for k, v in A5["ssl/twin_free"].items():
+    if v["fnr_oracle"] > 0.5:
+        _a5_over.add(k.split("->")[1])
+A5_USABLE = [v for k, v in A5["ssl/twin_free"].items() if k.split("->")[1] not in _a5_over]
 
 
 def beta_cdf(x, a, b):
@@ -196,14 +202,28 @@ TABLE1_ROWS = {
     "XLS-R+SLS$^\\dagger$": tuple(_table_pair(SLS[corpus]["quantile"])
                                      for corpus in SLS_CORPORA),
 }
+_pol = lambda d: {c: d[c] for c in E2_CORPORA}
+POLICY_ROWS = {
+    "Naive transfer": tuple((f"{E2['ssl'][c]['naive_transfer']['fpr']*100:.1f}",) for c in E2_CORPORA),
+    "Best of C1/C2": tuple((f"{min((CMS['ssl'][c][m]['fpr'] for m in ('C1_znorm', 'C2_tempshift')), key=lambda f: abs(f - ALPHA))*100:.1f}",)
+                           for c in E2_CORPORA),
+    "C5 AS-norm": tuple((f"{CMS['ssl'][c]['C5_asnorm']['fpr']*100:.1f}",) for c in E2_CORPORA),
+    "Cohort z-norm": tuple((f"{M10['ssl'][c]['500']['znorm']['fpr_mean']*100:.1f}",) for c in E2_CORPORA),
+    "Gaussian q.": tuple((f"{PAR['ssl'][c]['500']['parametric']['fpr_mean']*100:.1f}",) for c in E2_CORPORA),
+    "Conformal q.": tuple((f"{E2['ssl'][c]['quantile']['500']['fpr_mean']*100:.1f}",) for c in E2_CORPORA),
+}
 EER_ROWS = {
     "AASIST": tuple((f"{EER['cells'][f'aasist/{c}']['eer']*100:.1f}",) for c in E2_CORPORA),
     "SSL-AASIST": tuple((f"{EER['cells'][f'ssl/{c}']['eer']*100:.1f}",) for c in E2_CORPORA),
     "XLS-R+SLS$^\\dagger$": tuple((f"{EER['cells'][f'sls/{c}']['eer']*100:.1f}",) for c in SLS_CORPORA),
 }
-TABLE1_BLOCKS = (("FNR", "delta"), ("EER",))
+TABLE1_BLOCKS = (("FNR", "delta"), ("EER",), ("realized FPR",))
+# Every table line, in document order per row name: the detector rows appear
+# twice (FNR block, then EER block); each policy row once (lower block).
+TABLE1_LINES = {row: [(TABLE1_ROWS[row], TABLE1_BLOCKS[0]), (EER_ROWS[row], TABLE1_BLOCKS[1])] for row in TABLE1_ROWS}
+TABLE1_LINES.update({row: [(cells_, TABLE1_BLOCKS[2])] for row, cells_ in POLICY_ROWS.items()})
 TABLE1 = {}
-for block, rows in ((TABLE1_ROWS, 0), (EER_ROWS, 1)):
+for block, rows in ((TABLE1_ROWS, 0), (EER_ROWS, 1), (POLICY_ROWS, 2)):
     for row, cells_ in block.items():
         for column, values in zip(("21LA", "21DF", "ITW", "BRSpeech"), cells_):
             for value, quantity in zip(values, TABLE1_BLOCKS[rows]):
@@ -223,10 +243,9 @@ MAX_FNR_PREMIUM = f"{math.ceil(max(e['fnr_minus_oracle_pts'] for e, o in zip(_q,
 SPREAD_LO = min(v["quantile_N500_fpr_pct_2.5_97.5"][0] for v in EER["cells"].values())
 SPREAD_HI = max(v["quantile_N500_fpr_pct_2.5_97.5"][1] for v in EER["cells"].values())
 _z = [e["znorm"]["fpr_mean"] for N, e in NSW["n_sweep"]["ssl/itw"].items() if isinstance(e, dict)]
-_g = [e["parametric"]["fpr_mean"] for N, e in PAR["ssl"]["itw"].items() if isinstance(e, dict)]
 _naive_miss = [abs(f - ALPHA) * 100 for f in _ssl_naive]
-_best = [min(abs(CMS["ssl"][c][m]["fpr"] - ALPHA) for m in ("C1_znorm", "C2_tempshift")) * 100
-         for c in E2_CORPORA]
+_unlab = [abs(CMS["ssl"][c][m]["fpr"] - ALPHA) * 100 for c in E2_CORPORA
+          for m in ("C1_znorm", "C2_tempshift", "C5_asnorm")]
 _par500 = {(d, c): PAR[d][c]["500"]["parametric"]["fpr_mean"] for d in PAR for c in PAR[d]
            if isinstance(PAR[d][c], dict) and "500" in PAR[d][c]}
 _zdev = [abs(M10[d][c]["500"]["znorm"]["fpr_mean"] - ALPHA) * 100 for d in ("ssl", "aasist")
@@ -289,10 +308,6 @@ ARTIFACT_DERIVED = {
     f"{AUC['pstn']:.3f}": "AASIST AUC on PSTN, results_dissociation.json",
     f"{min(AUC_OTHERS):.3f}": "AASIST AUC, min over the other six 21LA conditions",
     f"{max(AUC_OTHERS):.3f}": "AASIST AUC, max over the other six 21LA conditions",
-    f"{RHO['ssl']:.2f}": "Fig. 1 Spearman |log2| vs oracle W1, SSL-AASIST",
-    f"{RHO['aasist']:.2f}": "Fig. 1 Spearman |log2| vs oracle W1, AASIST",
-    f"{D['severity_vs_w1_transfer']['fit_ssl_test_aasist']['r2_transfer']:.2f}": "held-out R2, fit SSL test AASIST",
-    f"{D['severity_vs_w1_transfer']['fit_aasist_test_ssl']['r2_transfer']:.2f}": "held-out R2, fit AASIST test SSL",
     # monitors: the corrected reading's one in-sample pass and the re-mix probe
     f"{OP['tpr']:.2f}": "mixture-W1 monitor TPR, corrected reading",
     f"{OP['fpr']:.2f}": "mixture-W1 monitor FPR, corrected reading",
@@ -320,16 +335,15 @@ ARTIFACT_DERIVED = {
     MAX_FNR_PREMIUM: "ceiling of the max FNR premium over usable cells (pt)",
     f"{SPREAD_LO*100:.1f}": "held-out 2.5th percentile of realized FPR, min over cells (%)",
     f"{SPREAD_HI*100:.1f}": "held-out 97.5th percentile of realized FPR, max over cells (%)",
-    f"{(min(_g)-ALPHA)*100:.1f}": "Gaussian quantile ITW offset, min over budgets (pp)",
-    f"{(max(_g)-ALPHA)*100:.1f}": "Gaussian quantile ITW offset, max over budgets (pp)",
-    f"{min(_naive_miss):.0f}": "naive transfer miss, min over SSL corpora (pp)",
-    f"{max(_naive_miss):.0f}": "naive transfer miss, max over SSL corpora (pp)",
-    f"{min(_best):.0f}": "best unlabeled correction miss, min (pp)",
-    f"{max(_best):.0f}": "best unlabeled correction miss, max (pp)",
+    f"{max(_naive_miss + _unlab):.0f}": "naive/unlabeled worst miss over SSL corpora (pp)",
     f"{max(abs(f-ALPHA)*100 for f in _par500.values()):.1f}": "Gaussian quantile worst miss at N=500 (pp)",
-    f"{(_par500[('ssl', 'itw')]-ALPHA)*100:.2f}": "Gaussian quantile miss on ITW at N=500 (pp)",
-    f"{min(_beyond):.0f}": "cohort z-norm miss, min over cells beyond 2 pp (pp)",
-    f"{max(_beyond):.0f}": "cohort z-norm miss, max over cells beyond 2 pp (pp)",
+    f"{PRE['ssl']['n_bona']:,}": "A5 pilot recordings per class (precheck.json)",
+    str(len(A5_USABLE)): "A5 SSL-AASIST pairs on usable destinations",
+    str(sum(1 for v in A5_USABLE if v["log2_fpr_ratio"] < -SEV)): "usable A5 pairs missing conservatively by >2x",
+    str(sum(1 for v in A5_USABLE if v["fnr_price"] > 0)): "usable A5 pairs with positive spoof-side cost",
+    str(script_constant(E102 / "c_methods.py", "K_COHORT")): "C5 cohort neighbours, c_methods.py K_COHORT",
+    f"{script_constant(E102 / 'c_methods.py', 'COHORT_SUB'):,}": "C5 cohort subsample, c_methods.py COHORT_SUB",
+    re.search(r"for _ in range\((\d+)\):", CMETH).group(1): "C2 Newton steps, c_methods.py",
     str(len(_beyond)): "cohort z-norm cells beyond 2 pp",
     f"{max(abs(SLS[c]['znorm']['fpr_mean']-ALPHA)*100 for c in SLS_CORPORA):.1f}":
         "cohort z-norm worst miss, XLS-R+SLS (pp)",
@@ -364,11 +378,11 @@ DECLARED_RAW = {
     "7": "section number", "8": "count of cells in Table 1", "9": "count",
     "10": "order of magnitude", "0": "zero", "12": "conditions in the A5 grid",
     "19": "corpus name 19LA", "20": "count", "21": "corpus name ASVspoof 21",
-    "30": "N-sweep endpoint", "46": "corpus/section",
+    "46": "corpus/section",
     "50": "50/50 speaker split, 50% overlap bar, +-50% re-mix",
     "80": "twin-free share of sources (%)", "90": "percentile", "95": "confidence level",
     "97.5": "percentile", "2.5": "percentile", "100": "N endpoint, 100k",
-    "300": "N-sweep point", "500": "calibration cohort size N",
+    "500": "calibration cohort size N",
     "737": "A5 speakers", "994": "part of r=0.994", "0.994": "per-trial correlation with official scores",
     "0.5": "beta-bound and overlap cutoff in prose", "0.8": "monitor acceptance TPR",
     "0.2": "monitor acceptance FPR", "0.1": "weight clip lower bound", "1.5": "sensitivity bar",
@@ -376,7 +390,8 @@ DECLARED_RAW = {
     "1000": "B=1000 paired calibration draws", "2019": "corpus year, ASVspoof 2019",
     "2021": "corpus year, ASVspoof 2021", "2027": "venue year", "66": "language count from cited LRLspoof work",
     "15": "histogram bins in the heuristic", "200": "B_WEIGHTED draws / permutations",
-    "11": "A5 codecs", "450": "N chosen for the operational prescription",
+    "11": "A5 codecs", "450": "N chosen for the operational prescription", "1.6": "table column separation (pt)",
+    "6": "count in prose; exponent of the 1e-6 stabilizers (c_methods.py, drift_map.py)",
     "3": "index/count; spoof-side cost bound in points (asserted in check_numbers.py)",
 }
 
@@ -397,9 +412,9 @@ DECLARED_CONTEXT_RULES = (
     ("15", re.compile(r"15 equal-width bins"), "histogram bins, drift_map.py density_ratio_weights"),
     ("5", re.compile(r"FPR\}<5/n"), "resolution-limited rule numerator, drift_map.py"),
     ("95", re.compile(r"central 95\\% interval"), "confidence level"),
-    ("10", re.compile(r"10\^4|\[0\.1,10\]"), "order of magnitude / clip bound"),
+    ("10", re.compile(r"\[0\.1,10\]|10\^\{-6\}"), "clip bound / exponent base"),
     ("0.2", re.compile(r"FPR~\$\\le\$~0\.2"), "monitor acceptance FPR"),
-    ("30", re.compile(r"N\{=\}30\$"), "N-sweep endpoint"),
+    ("3", re.compile(r"\$3/n\$"), "severity floor numerator (bound in check_numbers.py to drift_map.py)"),
 )
 
 # Repeated values require occurrence-specific sources. These rules take
@@ -428,6 +443,11 @@ ARTIFACT_CONTEXT_RULES = (
     (str(len(_beyond)), re.compile(r"6/8 cells beyond"), "EXP-010 z-norm cells beyond 2 pp"),
     ("8", re.compile(r"6/8 cells beyond"), "EXP-010 z-norm cells at N=500"),
     (str(len(A5_CONDS) - 1), re.compile(r"11 organizer-applied codecs"), "A5 conditions minus the source"),
+    ("0.5", re.compile(r"odds by 0\.5 and 1\.5"), "prevalence factor, drift_map.py"),
+    ("1.5", re.compile(r"odds by 0\.5 and 1\.5"), "prevalence factor, drift_map.py"),
+    ("50", re.compile(r"50 Newton steps"), "C2 Newton steps, c_methods.py"),
+    ("100", re.compile(r"the 100 nearest"), "C5 cohort neighbours, c_methods.py K_COHORT"),
+    ("66", re.compile(r"\(66 ordered pairs\)"), "A5 SSL-AASIST pairs on usable destinations"),
     (str(round(FLAG["vanilla_fpr_mean"] * FLAG["n_dep_bona"])), re.compile(r"FPR is 10 of 2,356"),
      "flagship false alarms, vanilla_fpr_mean x n_dep_bona"),
     (str(min(CORS_N.values())), re.compile(r"on 25--33 of the 42"), "EXP-109 min per-detector miss count"),
@@ -446,8 +466,8 @@ CLASSIFICATION_PROBES = (
      re.compile(r"22--98\.5\\% FPR across"), "ARTIFACT_DERIVED"),
     ("overlap gate is declared, not borrowed from grid rate", "50",
      re.compile(r"exceeds 50\\%"), "DECLARED"),
-    ("re-mix magnitude is declared", "50",
-     re.compile(r"\\pm\$50\\%"), "DECLARED"),
+    ("prevalence factors bind to drift_map.py, not the 0.5 premium/cutoff", "0.5",
+     re.compile(r"odds by 0\.5 and 1\.5"), "ARTIFACT_DERIVED"),
     ("grid rate is artifact-derived", "68",
      re.compile(r"against 68\\% on"), "ARTIFACT_DERIVED"),
     ("the SSL benign cell count is artifact-derived, 19LA is not", "19",
@@ -471,7 +491,7 @@ def _flat(text):
 # artifact bindings.
 POSITION_BINDINGS = (
     ("abstract grid census",
-     rf"Across {len(cells)} deployment cells built from .{{0,120}}, {len(miss2)} realize an FPR "
+     rf"Across {len(cells)} detector, source and target combinations built from .{{0,120}}, {len(miss2)} realize an FPR "
      rf"more than \$2\\times\$ off target \({sum(1 for v in miss2 if v['log2_fpr_ratio'] > 0)} above, "
      rf"{sum(1 for v in miss2 if v['log2_fpr_ratio'] < 0)} below\)\. Of the {len(in_tol)} cells inside our own "
      rf"\$\\pm5\$-point tolerance on realized FPR, {len(hidden)} are among them", 1),
@@ -493,10 +513,12 @@ POSITION_BINDINGS = (
     ("A5 primary numerator/denominator, both sites", rf"{tf_n} of {tf_t}", 2),
     ("A5 primary percentage, both sites", rf"\({round(100*tf_n/tf_t)}\\%\)", 2),
     ("mean realized FPR range, both sites", rf"{FPR_LO*100:.2f}--{FPR_HI*100:.2f}\\%", 2),
-    ("per-condition recording count, four sites", rf"{N_BONA:,}(?:-recording| recordings| bona-fide recordings| bona fide)", 4),
+    ("per-condition recording count, five sites", rf"{N_BONA:,}(?:-recording| recordings| bona-fide recordings| bona fide| bona-fide and)", 5),
+    ("per-condition spoof count, both sites", rf"{N_SPOOF:,} spoof", 2),
     ("speaker count, both sites", rf"{N_SPK} speakers", 2),
-    ("naive-transfer miss range is not borrowed from the unlabeled-correction range",
-     rf"Naive transfer misses target by {min(_naive_miss):.0f}--{max(_naive_miss):.0f} pp", 1),
+    ("naive/unlabeled worst miss", rf"miss the target by up to {max(_naive_miss + _unlab):.0f} pp", 1),
+    ("A5 usable-destination counts",
+     rf"\({len(A5_USABLE)} ordered pairs\), where {sum(1 for v in A5_USABLE if v['log2_fpr_ratio'] < -SEV)} miss the FPR target conservatively by more than \$2\\times\$ and {sum(1 for v in A5_USABLE if v['fnr_price'] > 0)} pay", 1),
     ("calibration-condition AUC against the other six",
      rf"AUC {AUC['pstn']:.3f} against {min(AUC_OTHERS):.3f}--{max(AUC_OTHERS):.3f} elsewhere", 1),
     ("iid Beta N=100 reference", rf"{P100*100:.1f}\\% probability", 1),
@@ -534,11 +556,11 @@ def _table1_occurrence_bindings(tex):
     """Bind each Table 1 numeral to its artifact row, corpus, block and quantity."""
     bindings = {}
     columns = ("21LA", "21DF", "ITW", "BRSpeech")
-    for row in TABLE1_ROWS:
+    for row, blocks in TABLE1_LINES.items():
         lines = list(re.finditer(rf"(?m)^{re.escape(row)}\s*&[^\n]*\\\\\s*$", tex))
-        if len(lines) != 2:
-            raise AssertionError(f"Table 1 row {row}: expected an FNR line and an EER line, found {len(lines)}")
-        for match, expected_cells, quantities in zip(lines, (TABLE1_ROWS[row], EER_ROWS[row]), TABLE1_BLOCKS):
+        if len(lines) != len(blocks):
+            raise AssertionError(f"Table 1 row {row}: expected {len(blocks)} line(s), found {len(lines)}")
+        for match, (expected_cells, quantities) in zip(lines, blocks):
             line = match.group(0)
             ampersands = [i for i, char in enumerate(line) if char == "&"]
             if len(ampersands) != 4:
