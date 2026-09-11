@@ -16,9 +16,9 @@ Every artifact-derived literal below is RECOMPUTED from the artifact and
 formatted with the rounding the sentence uses: nearest for point values and
 ranges, floor for "at least" lower bounds, ceiling for "at most" upper bounds.
 
-Run from paper/A2/. Exit 1 on any failure. A2_TEX and A2_DOCS override the
-manuscript path and the reader-file directory for mutation testing; the live
-files are never edited by the build.
+Run from paper/A2/. Exit 1 on any failure. A2_TEX, A2_DOCS, A2_BBL and A2_PDF
+override the manuscript, reader-file, bibliography and PDF paths for mutation
+testing; the live files are never edited by the harness.
 """
 
 import ast
@@ -29,6 +29,8 @@ import os
 import re
 import subprocess
 import sys
+import unicodedata
+import zlib
 from pathlib import Path
 
 HERE = Path(__file__).parent
@@ -37,6 +39,7 @@ E102 = EXP / "EXP-102-a2-campaign"
 TEX = Path(os.environ.get("A2_TEX", HERE / "main.tex")).read_text()
 DOCS = Path(os.environ.get("A2_DOCS", HERE))
 BBL = Path(os.environ.get("A2_BBL", HERE / "main.bbl"))
+PDF = Path(os.environ.get("A2_PDF", HERE / "main.pdf"))
 CMETH = (E102 / "c_methods.py").read_text()
 
 drift = json.load(open(E102 / "results_drift.json"))
@@ -319,6 +322,11 @@ elif "subplots(1, 1" not in _gen[0]:
 elif not all(s in _gen[0] for s in ("results_drift.json", "results_a5.json", '"log2_fpr_ratio"', '100 * v["fnr_price"]', '"ssl/twin_free"')):
     failures.append(f"paper/figures.py: the function writing {_figfile} does not plot log2_fpr_ratio against 100*fnr_price "
                     "from results_drift.json and results_a5.json ssl/twin_free")
+elif not (re.search(r"^COL = 86 / 25\.4", _figsrc, re.M) and "figsize=(COL, 1.62)" in _gen[0]):
+    failures.append("paper/figures.py: the figure is not generated at the 86 mm column width and 1.62 in height, "
+                    "so including it at \\columnwidth rescales its type or clips the y-axis label (format doc S2)")
+elif not re.search(r'rc = \{[^}]*"font.size": 9[^}]*\}', _gen[0]) or "rc_context(rc)" not in _gen[0]:
+    failures.append("paper/figures.py: the figure text is not drawn in a nine-point rc context (format doc S2)")
 else:
     print(f"  ok  figure file {_figfile} exists and its generator is single-panel")
 
@@ -448,10 +456,10 @@ fpr_lo, fpr_hi = min(e["fpr_mean"] for e in q), max(e["fpr_mean"] for e in q)
 # "at most" is an upper bound, so the printed premium is the ceiling of the max
 # over usable cells (oracle FNR <= 50%).
 premium = ceil_to(max(e["fnr_minus_oracle_pts"] for e, o in zip(q, oracles) if o <= 0.5), 1)
-check("mean realized FPR range and premium (abstract)", "Recalibrating on",
+check("mean realized FPR range (abstract)", "Recalibrating on",
       f"Recalibrating on {script_constant(E102 / 'drift_map.py', 'N_CAL')} target bona-fide recordings with an order statistic "
-      f"restores mean FPR to {fpr_lo*100:.2f}--{fpr_hi*100:.2f}\\% across twelve detector--corpus cells at a mean FNR cost of "
-      f"at most {premium:.1f} points in usable cells, but the guarantee is marginal, not per deployment",
+      f"restores mean FPR to {fpr_lo*100:.2f}--{fpr_hi*100:.2f}\\% across twelve detector--corpus cells, but the guarantee "
+      "is marginal",
       (fpr_lo, fpr_hi, premium), "EXP-002 results.json + results_sls_complete.json")
 check("mean realized FPR range (experiments)", "\\textbf{FPR control and FNR cost.}",
       f"mean realized FPR is {fpr_lo*100:.2f}--{fpr_hi*100:.2f}\\% across the {len(q)} "
@@ -574,14 +582,10 @@ check("entropy monitor clip constant", MON,
       _eclip, "drift_map.py entropy clip")
 assert all(drift[r][f"{d}/entropy"]["achieves_tpr80_fpr20"] is None
            for r in ("monitor_eval", "monitor_eval_PREREGISTERED") for d in ("ssl", "aasist")), "an entropy monitor has an operating point"
-check("abstract: label-free heuristic and both monitors reported as negatives",
-      "Label-free alternatives, an importance-weighted quantile and two drift monitors",
-      "neither restore nor reliably detect the loss of control", None,
-      "results_drift.json: no pre-specified operating point; W1 pass defeated by re-mix; entropy null under both readings")
 check("abstract opening hedges the failure", "A speech-deepfake detector's threshold",
       "often loses that operating point on another")
-check("abstract closes on the reporting prescription", "Threshold transport can therefore fail quietly",
-      "fixed-threshold deployments should report both error rates, the calibration sampling unit and its dispersion")
+check("abstract closes on the reporting prescription", "Fixed-threshold deployments should therefore report",
+      "both error rates, the calibration sampling unit and its dispersion")
 pre = drift["monitor_eval_PREREGISTERED"]
 cor = drift["monitor_eval"]
 assert all(v["achieves_tpr80_fpr20"] is None for v in pre.values()), "a pre-specified pass exists"
@@ -713,9 +717,6 @@ check("usable-pair spoof-side cost: median and count above 10 points (section 4)
       f"across all {len(_usable)} pairs the median cost is $+{_med:.1f}$ points and {_over10} exceed $+10$ "
       f"(Fig.~\\ref{{fig:drift}}, filled triangles)",
       (_med, _over10), "results_a5.json ssl/twin_free usable pairs; a5_usable_cost.json")
-check("usable-pair spoof-side cost (abstract)", "The failure persists on ASVspoof~5",
-      f", and on the {len(_usable)} usable SSL-AASIST pairs the transported threshold misses a median "
-      f"{_med:.1f} points more spoofs", (len(_usable), _med), "a5_usable_cost.json")
 if "keep oracle FNR at or below" in window("\\begin{abstract}", 3000):
     failures.append("abstract restates the usable-destination rule; it belongs in section 4 and the Fig. 1 caption only")
 check("the usable-destination rule is stated in section 4", PILOT, f"exceed {round(_obar * 100)}\\% oracle FNR", _obar,
@@ -796,7 +797,7 @@ check("speaker-permutation null range and count", SPK_ANCHOR,
 if any(v["permutation"]["null_exceedances"] != 0 for v in SPK["cells"].values()):
     failures.append("speaker clustering: a cell no longer exceeds every permutation null")
 assert all(v["seed_sweep"]["mean_width_pp"] > v["permutation"]["null_median_pp"] for v in SPK["cells"].values())
-check("the abstract's six-cell speaker claim", "but the guarantee is marginal, not per deployment",
+check("the abstract's six-cell speaker claim", "but the guarantee is marginal:",
       f"speaker clustering widens the realized-FPR spread in all {WORDS[len(SPK['cells'])]} tested cells", len(SPK["cells"]),
       "speaker_clustering.json cells; all widths exceed their null")
 
@@ -815,6 +816,34 @@ check("Table 1 caption: per-condition 21LA EER ranges", "\\caption{Upper block:"
 check("Table 1 caption resolves to the release", "\\caption{Upper block:",
       "\\url{https://github.com/rvirgilli/speech-deepfake-threshold-transport")
 check("Table 1 EER block header", "\\label{tab:fnr}", "\\emph{EER (\\%) on the same trials}")
+# Both declarations are conference policy, quoted from docs/icassp2027-submission-format.md S4.
+check("the funding acknowledgment and competing-interest declaration are present",
+      "\\section{Acknowledgment}",
+      "with financial resources from the PPI IoT of the MCTI grant 057/2023, signed with EMBRAPII. "
+      "The authors declare no competing interests.", chars=700)
+AI_DISCLOSURE = ("During preparation, the authors used a large language model (Anthropic Claude) to help write and "
+                 "edit the text, the LaTeX layout and the supporting code. The authors reviewed all assisted content "
+                 "and take full responsibility.")
+check("the AI-use disclosure required by the venue's author guidelines is in the acknowledgment",
+      "\\section{Acknowledgment}", AI_DISCLOSURE, chars=900)
+# The acknowledgment is the one place the venue requires a model to be named.
+# Anywhere else in the manuscript, a model, agent or assistant must not appear.
+_without = _flat(TEX).replace(_flat(AI_DISCLOSURE), " ")
+for _pat in (r"large language model", r"(?i)\bclaude\b", r"(?i)\bchatgpt\b", r"(?i)\bgpt-?\d",
+             r"(?i)\bAI (?:assistant|agent)\b", r"(?i)\bLLM\b", r"(?i)\banthropic\b"):
+    for _m in re.finditer(_pat, _without):
+        failures.append(f"a model, agent or assistant is named outside the AI-use disclosure: "
+                        f"...{_without[max(0, _m.start()-40):_m.end()+40]!r}")
+check("the ethics statement names the disposition and the corpora",
+      "\\section{Compliance with Ethical Standards}",
+      "This study used only previously collected, publicly available recordings, under the licence and terms of use of "
+      "the ASVspoof, In-the-Wild and BRSpeech-DF corpora, for non-commercial academic research. It involved no new "
+      "recording and no interaction with human participants, and required no ethical approval.", chars=700)
+# docs/icassp2027-submission-format.md: \floatsep is the gap between two
+# stacked floats and must stay at the template default; the other three float
+# lengths may be tightened.
+check("float separation between stacked floats is the template default", "\\setlength{\\floatsep}",
+      "{12pt plus 2pt minus 2pt}", None, "format document", chars=60)
 check("Table 1 realized-FPR block header", "\\label{tab:fnr}",
       "\\emph{Realized FPR (\\%) at the conformal quantile, same run}")
 
@@ -835,7 +864,7 @@ SCOPE_CRITICAL = [
 ]
 print("\nscope words and disqualifications:")
 check("the realized-threshold limitation is explicit (abstract)", "Recalibrating on",
-      "but the guarantee is marginal, not per deployment")
+      "but the guarantee is marginal: speaker clustering widens the realized-FPR spread")
 check("exchangeability is scoped to marginal rank validity (section 1)", "We study the deployment behavior",
       "has marginal rank validity under exchangeability without ties, and under iid continuous sampling "
       "its conditional FPR follows an exact finite-sample Beta law")
@@ -868,9 +897,6 @@ PRESENCE = [
     ("limitations section exists", r"\\textbf\{Limitations\.\}"),
     ("speaker identity is cited as a documented source of detector variation",
      r"speaker identity is itself a documented source of detector variation \\cite\{dao26speaker\}"),
-    ("the prior-art delta to TRACE and the industry report is positioned",
-     r"our question is finite-sample reset from target bona fide alone"),
-    ("the bona-fide resource-shift neighbour is cited", r"under bona-fide resource shifts \\cite\{pham26\}"),
     ("the DCF/tandem scope is stated and the 5% target justified",
      r"tandem evaluation uses t-DCF \\cite\{tdcf\}; we report EER and both class-conditional errors at a prescribed 5\\% bona-fide rejection target"),
     ("demographic threshold calibration is cited as the class-conditional neighbour",
@@ -879,8 +905,6 @@ PRESENCE = [
      r"report equal error rate \(EER\), measured at an oracle threshold selected with labels from both classes"),
     ("the three positioned neighbours (drift monitoring, entropy reliability, Beta under dependence) are cited",
      r"Wang et al\.\\ \\cite\{driftmon26\} monitor spoof-conditioned embedding distributions.{0,140}Pascu et al\.\\ \\cite\{pascu24\}.{0,120}Ramos et al\.\\ \\cite\{ramos26\} analyse the calibration-conditional Beta law under dependence"),
-    ("the speaker-sensitivity and two-class-calibration neighbours are cited",
-     r"label-free speaker sensitivity \\cite\{darross26\}, and calibration from labeled examples of both classes \\cite\{negroni26\}"),
     ("the speaker-unit failure is disclosed",
      r"speaker-disjoint diagnostic on 21LA, which calibrates.{0,200}widened"),
     ("the flag-definition change is disclosed as post-hoc",
@@ -956,6 +980,12 @@ RETIRED = [
     (r"our scores agree at per-trial", "the unnamed agreement statistic"),
     (r"C5 also needs cohort embeddings, not included", "the pre-release C5 caveat"),
     (r"where FPR control holds but no usable operating point exists", "the old italics definition"),
+    (r"Neighbouring work examines threshold transfer", "the section-2 neighbour summary, deleted by the format ruling"),
+    (r"Threshold transport can therefore fail quietly", "the abstract's old closing sentence"),
+    (r"Label-free alternatives, an importance-weighted quantile", "the abstract's label-free sentence (now section 4 only)"),
+    (r"and on the 66 usable SSL-AASIST pairs the transported threshold", "the abstract's usable-pair clause (now section 4 only)"),
+    (r"at a mean FNR cost of at most 0\.5 points in usable cells", "the abstract's FNR-premium clause (now section 4 only)"),
+    (r"marginal, not per deployment", "the long marginal-guarantee phrasing"),
     (r"on the channels and corpora tested here|Of the 72 cells within our own|thresholds set on 1,000 cohorts|"
      r"Without target labels, an importance-weighted quantile|in the run shown, in cells where that reference misses at most 50",
      "abstract phrasings replaced in the fifth delta"),
@@ -986,7 +1016,7 @@ RETIRED = [
     (r"TPR 0\.89|FPR 0\.16|Spearman 0\.70", "the in-sample monitor operating point (cut; the pass is stated, not its numbers)"),
     (r"covers the eight cells", "the sweep-coverage sentence (cut)"),
     (r"We treat unlabeled drift monitoring as open", "the open-problem sentence (cut for space)"),
-    (r"\\cite\{[^}]*\b(leroux25|rtcfake26|leong26|mcp25|falsesafety26|cdts26|bashari25|brummer06|barber23|radar26|schaefer26reality|tong20|firc26)\b",
+    (r"\\cite\{[^}]*\b(leroux25|rtcfake26|leong26|mcp25|falsesafety26|cdts26|bashari25|brummer06|barber23|radar26|schaefer26reality|tong20|firc26|trace26|pham26|darross26|negroni26)\b",
      "a citation dropped on 2026-09-09 for the page budget"),
     (r"7--8\\,pp|0\.6--1\.4\\,pp", "the ITW budget-sweep offsets (sentence cut)"),
     (r"17--93 pp|3--95 pp|0\.68 pp on ITW|2--18 pp", "prose ranges now carried by Table 1's policy block"),
@@ -1026,7 +1056,7 @@ READER_STALE = [
      "the criterion framing presented as still live"),
     (r"criterion(?: defect)? (?:is|as) (?:the )?(?:transferable|main) (?:result|contribution)",
      "the criterion claimed as this paper's contribution"),
-    (r"xhigh|reviewer model", "a review named by its tool rather than its role"),
+    (r"gpt-5\.6|xhigh|reviewer model", "a review named by its tool rather than its role"),
     (r"74/19/0\.47|0\.19 → 0\.74|\+0\.55", "the all-phase flagship triple"),
     (r"58 of 108|58/108|34 of the 84|34 of them|60/84|22/84", "the all-phase grid counts"),
     (r"4\.94|5\.03", "the all-phase mean FPR range"),
@@ -1081,7 +1111,14 @@ ROOT = HERE.parent.parent
 
 
 def verify_pdf_layout(pdf):
-    """Bind the submission to the ICASSP 4+1 layout, including page-5 content."""
+    """Bind the submission to the venue's page budget.
+
+    docs/icassp2027-submission-format.md S3: five pages total, pages 1-4 carry
+    the technical content, and page 5 may contain ONLY references, funding
+    acknowledgements and a Compliance with Ethical Standards statement.
+    Asserted by subtraction: strip those three kinds of material from page 5
+    and require nothing to be left, so any technical content there fails.
+    """
     if not pdf.is_file():
         failures.append(f"submission PDF missing: {pdf}")
         return
@@ -1098,16 +1135,248 @@ def verify_pdf_layout(pdf):
     except (OSError, subprocess.CalledProcessError) as exc:
         failures.append(f"could not verify PDF page layout: {exc}")
         return
-    flat = _flat(page5)
-    # Page 5 must begin with the bibliography: its heading, or a numbered
-    # reference when the heading fits at the end of page 4. Never continued
-    # technical prose.
-    if not re.match(r"^\s*(\d+\.\s*REFERENCES\s*)?\[\d+\]", page5):
-        failures.append("page 5 does not begin with a numbered reference")
-    for heading in ("DISCUSSION", "CONCLUSION"):
-        if heading in flat:
-            failures.append(f"technical section {heading} spills onto references-only page 5")
-    print("  ok  PDF is exactly 5 pages and page 5 is references-only")
+
+    def squash(text):
+        """Compare on unaccented letters and digits only: line breaking,
+        hyphenation and accent spelling differ between the source and the
+        rendered column (M{\\"u}ller in the .bbl, Müller in the PDF)."""
+        folded = unicodedata.normalize("NFKD", text.lower())
+        return re.sub(r"[^a-z0-9]", "", folded)
+
+    def section_text(title):
+        """The declaration's own paragraph, to the next section or the bibliography."""
+        body = TEX.split("\\section{" + title + "}", 1)[1]
+        for stop in ("\\section", "\\bibliographystyle", "{\\small", "\\end{document}"):
+            body = body.split(stop, 1)[0]
+        return squash(re.sub(r"(?<!\\)%[^\n]*", "", body))
+
+    # Page 5 is stripped of the three permitted kinds of material in turn; if
+    # anything is left, it is content the venue does not allow there.
+    rest = re.sub(r"(?m)^\s*\d+\.\s*(ACKNOWLEDGMENT|COMPLIANCE WITH ETHICAL STANDARDS|REFERENCES)\s*$",
+                  "", page5)
+    entries = list(re.finditer(r"\[(\d+)\]", rest))
+    if not entries:
+        failures.append("page 5 carries no numbered references")
+        return
+    numbers = [int(e.group(1)) for e in entries]
+    last = len(re.findall(r"\\bibitem\{", BBL.read_text()))
+    if numbers != list(range(numbers[0], numbers[0] + len(numbers))) or numbers[-1] != last:
+        failures.append(f"page 5's reference numbering {numbers[:3]}..{numbers[-1:]} is not the consecutive tail "
+                        f"of the {last} entries in main.bbl")
+        return
+    bibliography, rest = rest[entries[0].start():], rest[:entries[0].start()]
+    # Every entry printed on page 5 must come from main.bbl, so prose cannot
+    # ride along inside or after the reference list.
+    # Drop control sequences and grouping only: an argument-taking command and a
+    # bare one are indistinguishable here, and swallowing {\em Journal} would
+    # delete the venue from the comparison text.
+    packed_bbl = squash(re.sub(r"\\[A-Za-z]+|[{}~]", " ", BBL.read_text()))
+    for index, entry in enumerate(re.split(r"\[\d+\]", bibliography)[1:]):
+        packed_entry = squash(entry)
+        if packed_entry and packed_entry not in packed_bbl:
+            failures.append(f"page 5 reference entry {numbers[index]} does not come from main.bbl: "
+                            f"{packed_entry[:100]!r}")
+            return
+    # No technical content may sit on page 5, including inside or after the
+    # reference list: no sentence of the manuscript body may appear there.
+    source = TEX.split("\\begin{document}", 1)[1].split("\\section{Acknowledgment}", 1)[0]
+    source = re.sub(r"(?<!\\)%[^\n]*", " ", source)
+    source = re.sub(r"\$[^$]*\$|\\[A-Za-z]+\s*(\[[^\]]*\])?(\{[^{}]*\})?|[{}]", " ", source)
+    packed_page5 = squash(page5)
+    for sentence in re.split(r"(?<=[.:;])\s", source):
+        packed = squash(sentence)
+        if len(packed) >= 60 and packed in packed_page5:
+            failures.append(f"page 5 carries manuscript body text: {packed[:100]!r}")
+            return
+    body = squash(rest)
+    for name, title in (("acknowledgment", "Acknowledgment"),
+                        ("ethics statement", "Compliance with Ethical Standards")):
+        paragraph = section_text(title)
+        # The declaration may start on page 4, so page 5 carries a suffix of it.
+        # A short accidental match is not a declaration: require a real tail.
+        tail = next((paragraph[i:] for i in range(len(paragraph)) if paragraph[i:] in body), "")
+        if len(tail) < 60:
+            failures.append(f"page 5 does not carry the {name} text from the source")
+            return
+        body = body.replace(tail, "", 1)
+    if body:
+        failures.append("page 5 carries material that is neither references, acknowledgment nor ethics "
+                        f"statement: {body[:120]!r}")
+        return
+    print("  ok  PDF is exactly 5 pages; page 5 carries only references, acknowledgment and ethics")
+
+
+# --- minimum type size, measured on the built PDF ------------------------------
+# docs/icassp2027-submission-format.md S2: "no smaller than 9 points throughout
+# the paper, including figure captions". Nine TeX points render as 8.9664 PDF
+# points. This was invisible to three audits because nothing read the PDF: a
+# \resizebox around a table or a figure generated wider than the column scales
+# the type down with the box. Mathematical sub- and superscripts are the only
+# permitted exception, recognised structurally -- a short run riding off the
+# baseline of full-size text beside it -- not by trusting the font name.
+MIN_PT = 8.9664
+SCRIPT_MAX_GLYPHS, SCRIPT_DY, SCRIPT_DX = 6, 6.0, 40.0
+_TOKEN = re.compile(rb"(<<|>>|\[|\]|\((?:\\.|[^()\\])*\)|<[0-9A-Fa-f\s]*>|/[^\s/\[\]<>()]+"
+                    rb"|[-+0-9.]+|[A-Za-z'\"*]+)", re.S)
+
+
+def _pdf_objects(data):
+    """Indirect objects, including those packed into object streams."""
+    objs = {int(m.group(1)): m.group(2)
+            for m in re.finditer(rb"(\d+)\s+0\s+obj\b(.*?)\bendobj", data, re.S)}
+    for body in list(objs.values()):
+        if b"/ObjStm" not in body.split(b"stream")[0]:
+            continue
+        raw = _pdf_stream(body)
+        head = body.split(b"stream")[0]
+        if raw is None or not re.search(rb"/N\s+(\d+)", head):
+            continue
+        n = int(re.search(rb"/N\s+(\d+)", head).group(1))
+        first = int(re.search(rb"/First\s+(\d+)", head).group(1))
+        nums = raw[:first].split()
+        for i in range(n):
+            number, offset = int(nums[2 * i]), int(nums[2 * i + 1])
+            end = int(nums[2 * i + 3]) + first if i + 1 < n else len(raw)
+            objs.setdefault(number, raw[first + offset:end])
+    return objs
+
+
+def _pdf_stream(body):
+    i = body.find(b"stream")
+    if i < 0:
+        return None
+    j = i + len(b"stream")
+    j += 2 if body[j:j + 2] == b"\r\n" else (1 if body[j:j + 1] in (b"\n", b"\r") else 0)
+    raw = body[j:body.rfind(b"endstream")]
+    if b"/FlateDecode" not in body[:i]:
+        return raw
+    try:
+        return zlib.decompressobj().decompress(raw)
+    except zlib.error:
+        return None
+
+
+def _pdf_deref(objs, token):
+    match = re.match(rb"(\d+)\s+0\s+R", (token or b"").strip())
+    return objs.get(int(match.group(1)), b"") if match else (token or b"")
+
+
+def _pdf_value(body, key):
+    """Value of /key in a dictionary body, balanced over << >> and [ ]."""
+    match = re.search(rb"/" + key.encode() + rb"\s*", body or b"")
+    if not match:
+        return None
+    i = match.end()
+    for opener, closer in ((b"<<", b">>"), (b"[", b"]")):
+        if body[i:i + len(opener)] == opener:
+            depth, j = 0, i
+            while j < len(body):
+                if body[j:j + len(opener)] == opener:
+                    depth += 1
+                    j += len(opener)
+                    continue
+                if body[j:j + len(closer)] == closer:
+                    depth -= 1
+                    j += len(closer)
+                    if depth == 0:
+                        return body[i:j]
+                    continue
+                j += 1
+    rest = re.match(rb"[^/>\]\n\r]+", body[i:])
+    return rest.group(0).strip() if rest else None
+
+
+def _matmul(a, b):
+    return (a[0]*b[0] + a[1]*b[2], a[0]*b[1] + a[1]*b[3],
+            a[2]*b[0] + a[3]*b[2], a[2]*b[1] + a[3]*b[3],
+            a[4]*b[0] + a[5]*b[2] + b[4], a[4]*b[1] + a[5]*b[3] + b[5])
+
+
+def _text_runs(objs, content, resources, ctm, out, depth=0):
+    """(size in PDF points, x, y, glyph count, sample) for every string drawn."""
+    if depth > 6:
+        return out
+    xobjects = _pdf_deref(objs, _pdf_value(resources, "XObject"))
+    stack, tm, line, size, operands = [], (1, 0, 0, 1, 0, 0), (1, 0, 0, 1, 0, 0), None, []
+    for match in _TOKEN.finditer(content):
+        token = match.group(0)
+        if re.match(rb"^[-+0-9.]+$", token):
+            try:
+                operands.append(float(token))
+            except ValueError:
+                operands.append(0.0)
+            continue
+        if (token.startswith(b"/") or token.startswith(b"(") or token.startswith(b"<")
+                or token in (b"[", b"]", b"<<", b">>")):
+            operands.append(token)
+            continue
+        op = token
+        if op == b"q":
+            stack.append(ctm)
+        elif op == b"Q" and stack:
+            ctm = stack.pop()
+        elif op == b"cm" and len(operands) >= 6:
+            ctm = _matmul(tuple(operands[-6:]), ctm)
+        elif op == b"BT":
+            tm = line = (1, 0, 0, 1, 0, 0)
+        elif op == b"Tf" and len(operands) >= 2:
+            size = float(operands[-1])
+        elif op == b"Tm" and len(operands) >= 6:
+            tm = line = tuple(operands[-6:])
+        elif op in (b"Td", b"TD") and len(operands) >= 2:
+            tm = line = _matmul((1, 0, 0, 1, operands[-2], operands[-1]), line)
+        elif op == b"T*":
+            tm = line = _matmul((1, 0, 0, 1, 0, -11.0), line)
+        elif op in (b"Tj", b"TJ", b"'", b'"') and size is not None:
+            placed = _matmul(tm, ctm)
+            scale = abs(placed[0] * placed[3] - placed[1] * placed[2]) ** 0.5
+            shown = b"".join(o for o in operands if isinstance(o, bytes) and o.startswith(b"("))
+            out.append((size * scale, placed[4], placed[5],
+                        len(re.sub(rb"\\.", b"x", shown)) - 2,
+                        shown[:40].decode("latin-1", "replace")))
+        elif op == b"Do" and operands and isinstance(operands[-1], bytes) and operands[-1].startswith(b"/"):
+            form = _pdf_deref(objs, _pdf_value(xobjects, operands[-1][1:].decode("latin-1")))
+            if form and b"/Form" in form[:400]:
+                raw = _pdf_value(form, "Matrix")
+                own = tuple(float(x) for x in re.findall(rb"[-+0-9.]+", raw)) if raw else (1, 0, 0, 1, 0, 0)
+                inner = _pdf_stream(form)
+                if inner:
+                    _text_runs(objs, inner, _pdf_deref(objs, _pdf_value(form, "Resources")) or resources,
+                               _matmul(own, ctm), out, depth + 1)
+        if op not in (b"[", b"]"):
+            operands = []
+    return out
+
+
+def verify_minimum_type_size(pdf):
+    if not pdf.is_file():
+        return
+    data = pdf.read_bytes()
+    objs = _pdf_objects(data)
+    pages = 0
+    for body in objs.values():
+        if not re.search(rb"/Type\s*/Page\b", body.split(b"stream")[0]):
+            continue
+        pages += 1
+        resources = _pdf_deref(objs, _pdf_value(body, "Resources"))
+        chunks = [_pdf_stream(objs.get(int(m.group(1)), b""))
+                  for m in re.finditer(rb"(\d+)\s+0\s+R", _pdf_value(body, "Contents") or b"")]
+        runs = _text_runs(objs, b"\n".join(c for c in chunks if c), resources or b"",
+                          (1, 0, 0, 1, 0, 0), [])
+        full = [r for r in runs if r[0] >= MIN_PT]
+        for size, x, y, glyphs, sample in runs:
+            if size >= MIN_PT:
+                continue
+            script = glyphs <= SCRIPT_MAX_GLYPHS and any(
+                0.3 < abs(other[2] - y) <= SCRIPT_DY and abs(other[1] - x) <= SCRIPT_DX for other in full)
+            if not script:
+                failures.append(f"type below the venue's nine-point minimum: {size:.4f} pt "
+                                f"({glyphs} glyphs, {sample!r}) is not a mathematical sub- or superscript")
+    if pages == 0:
+        failures.append(f"could not read any page from {pdf}")
+    elif not any("nine-point" in f for f in failures):
+        print(f"  ok  every string in the PDF is set at 9 points or more, "
+              f"apart from mathematical sub- and superscripts")
 
 
 def sha256(path):
@@ -1151,13 +1420,15 @@ def verify_claim_map(claim_map):
 
 if (ROOT / "manifest.json").is_file():
     # Running from a clean extracted package: self-authenticate it.
-    verify_pdf_layout(HERE / "main.pdf")
+    verify_pdf_layout(PDF)
+    verify_minimum_type_size(PDF)
     manifest = verify_manifest_tree(ROOT)
     if manifest is not None:
         verify_claim_map(ROOT / "claim_map.json")
         print(f"  ok  extracted package authenticates {len(manifest)} manifest entries")
 else:
-    verify_pdf_layout(HERE / "main.pdf")
+    verify_pdf_layout(PDF)
+    verify_minimum_type_size(PDF)
     package_root = E102 / "audit_package"
     manifest = verify_manifest_tree(package_root)
     required = ("main.pdf", "main.tex", "refs.bib", "spconf.sty", "IEEEbib.bst",

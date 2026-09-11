@@ -27,7 +27,7 @@ Federal University of Goi\'as (UFG), Goi\^ania, GO, Brazil}
 % every float, which at three floats costs more than a text line. These are the
 % standard LaTeX float-separation parameters, not a rule change.
 \setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
-\setlength{\floatsep}{8pt plus 2pt minus 2pt}
+\setlength{\floatsep}{12pt plus 2pt minus 2pt}
 \setlength{\intextsep}{8pt plus 2pt minus 2pt}
 \setlength{\dbltextfloatsep}{8pt plus 2pt minus 2pt}
 % Reference list at zero item separation: the standard list parameters, so the
@@ -39,7 +39,7 @@ Federal University of Goi\'as (UFG), Goi\^ania, GO, Brazil}
 \maketitle
 
 \begin{abstract}
-A speech-deepfake detector's threshold, set to 5\% false-positive rate (FPR, bona fide rejected) on one channel, often loses that operating point on another. Across 108 detector, source and target combinations built from the real transmissions of ASVspoof~2021~LA and four corpora, 77 realize an FPR more than $2\times$ off target (36 above, 41 below). The conservative misses are the quiet ones: 41 of the 72 cells inside a $\pm5$-point FPR tolerance sit below half the target, so the tolerance reads clean while spoofs pass. In one AASIST case, a threshold calibrated on PSTN and deployed on the same recordings over G.722 gives a mean \textbf{0.42\% FPR} while missing a mean \textbf{70\% of spoofs, against 0.66\% at the deployment-calibrated threshold}. The failure persists on ASVspoof~5 with no shared recordings or speakers: 187 of 264 pairs miss by more than $2\times$, and on the 66 usable SSL-AASIST pairs the transported threshold misses a median 41.5 points more spoofs. Recalibrating on 500 target bona-fide recordings with an order statistic restores mean FPR to 4.91--5.06\% across twelve detector--corpus cells at a mean FNR cost of at most 0.5 points in usable cells, but the guarantee is marginal, not per deployment: speaker clustering widens the realized-FPR spread in all six tested cells. Label-free alternatives, an importance-weighted quantile and two drift monitors, neither restore nor reliably detect the loss of control. Threshold transport can therefore fail quietly, and fixed-threshold deployments should report both error rates, the calibration sampling unit and its dispersion.
+A speech-deepfake detector's threshold, set to 5\% false-positive rate (FPR, bona fide rejected) on one channel, often loses that operating point on another. Across 108 detector, source and target combinations built from the real transmissions of ASVspoof~2021~LA and four corpora, 77 realize an FPR more than $2\times$ off target (36 above, 41 below). The conservative misses are the quiet ones: 41 of the 72 cells inside a $\pm5$-point FPR tolerance sit below half the target, so the tolerance reads clean while spoofs pass. In one AASIST case, a threshold calibrated on PSTN and deployed on the same recordings over G.722 gives a mean \textbf{0.42\% FPR} while missing a mean \textbf{70\% of spoofs, against 0.66\% at the deployment-calibrated threshold}. The failure persists on ASVspoof~5 with no shared recordings or speakers: 187 of 264 pairs miss by more than $2\times$. Recalibrating on 500 target bona-fide recordings with an order statistic restores mean FPR to 4.91--5.06\% across twelve detector--corpus cells, but the guarantee is marginal: speaker clustering widens the realized-FPR spread in all six tested cells. Fixed-threshold deployments should therefore report both error rates, the calibration sampling unit and its dispersion.
 \end{abstract}
 
 \begin{keywords}
@@ -68,7 +68,7 @@ We make three contributions (details in §§4--5). (1)~The measurement covers 10
 \section{Related work}
 \label{sec:related}
 % Provenance-first paragraph (Gate-2 evidence): the method is old, cite it as such.
-Order-statistic calibration is established: Neyman--Pearson methods control type-I error through class-0 order statistics \cite{tong18} and negative-only conformal calibration provides marginal guarantees \cite{vovk}. In audio, CA-SOADD calibrates a bona-fide-only $\alpha$-quantile \cite{zhao26ca}, \cite{eerhides26} audits threshold transfer and unlabeled corrections, and \cite{kwok25} documents bona-fide-driven cross-testing errors. Relative to that audit (one detector, two target corpora), we add a 108-cell fixed-FPR map with real transmissions, a finite-$N$ target-bona-fide comparison, and a 264-pair disjoint replication. Auditing both error rates at a preset threshold is standard biometric practice \cite{nistir8280,tdcf,asvspoof5}, and \cite{rubio26} holds a cost-optimal threshold fixed across the same 21LA codecs but reports relative cost only; what remains open is how a threshold set on one channel behaves on another when only bona fide is available to reset it, which is what we measure. Neighbouring work examines threshold transfer for partial deepfakes \cite{trace26}, under bona-fide resource shifts \cite{pham26}, label-free speaker sensitivity \cite{darross26}, and calibration from labeled examples of both classes \cite{negroni26}; our question is finite-sample reset from target bona fide alone. Demographic threshold calibration \cite{fursule26} likewise separates class-conditional error changes from unchanged discrimination. ReplayDF \cite{muller25replay} reports channel-induced spoof-side degradation with stable bona-fide acceptance; we measure it at a fixed bona-fide error target.
+Order-statistic calibration is established: Neyman--Pearson methods control type-I error through class-0 order statistics \cite{tong18} and negative-only conformal calibration provides marginal guarantees \cite{vovk}. In audio, CA-SOADD calibrates a bona-fide-only $\alpha$-quantile \cite{zhao26ca}, \cite{eerhides26} audits threshold transfer and unlabeled corrections, and \cite{kwok25} documents bona-fide-driven cross-testing errors. Relative to that audit (one detector, two target corpora), we add a 108-cell fixed-FPR map with real transmissions, a finite-$N$ target-bona-fide comparison, and a 264-pair disjoint replication. Auditing both error rates at a preset threshold is standard biometric practice \cite{nistir8280,tdcf,asvspoof5}, and \cite{rubio26} holds a cost-optimal threshold fixed across the same 21LA codecs but reports relative cost only; what remains open is how a threshold set on one channel behaves on another when only bona fide is available to reset it, which is what we measure. Demographic threshold calibration \cite{fursule26} likewise separates class-conditional error changes from unchanged discrimination. ReplayDF \cite{muller25replay} reports channel-induced spoof-side degradation with stable bona-fide acceptance; we measure it at a fixed bona-fide error target.
 
 ASVspoof~5's standalone track reports minDCF, actDCF, $C_{\mathrm{llr}}$ and EER \cite{asvspoof5}, and tandem evaluation uses t-DCF \cite{tdcf}; we report EER and both class-conditional errors at a prescribed 5\% bona-fide rejection target because our question is threshold control, not an application-cost mixture.
 
@@ -100,10 +100,10 @@ numerical rate difference is confounded by corpus, codecs and attacks. \textbf{T
 
 \textbf{Monitoring.} We evaluated two unlabeled drift monitors, pre-specified with the acceptance criterion TPR~$\ge$~0.8 and FPR~$\le$~0.2 for flagging drifted cells. The flag definition was changed after results existed, from ``realized FPR more than 2\,pp off target'' to $\lvert\log_2(\mathrm{FPR}/\alpha)\rvert>1$; under the pre-specified definition no monitor has an operating point. Under the post-hoc alternative definition the mixture-$W_1$ monitor, the $W_1$ distance between deployment and calibration mixture-score distributions, has an in-sample operating point on SSL-AASIST only (threshold selected on the same cells), but multiplying the deployment spoof-to-bona-fide odds by 0.5 and 1.5 with the bona-fide set fixed pushes 19\slash19 and 18\slash19 benign cells over it. The entropy monitor, the mean binary entropy of $p_i=\mathrm{clip}(\sigma((s_i-\mu)/\varsigma),10^{-6},1-10^{-6})$ over deployment scores with $\mu,\varsigma$ the calibration-mixture mean and standard deviation, alerting on large values, fails on both detectors under either definition. \textbf{Label-free heuristic.} We test an importance-weighted quantile that reweights the 500 labeled source-domain bona-fide scores of the calibration cohort by a clipped ratio of unlabeled deployment to calibration \emph{mixture-score} densities (15 equal-width bins over the pooled score range, ratio clipped to $[0.1,10]$, 200 draws); it uses no target labels. It places 17\slash108 cells within 2\,pp of the FPR target, compared with 20\slash108 unweighted, so it does not reliably restore near-target FPR across this grid; we did not evaluate its spoof-side error.
 
-\begin{table}[t]
+\begin{table}[!tp]
 \caption{Upper block: mean FNR (\%) over $B{=}1000$ paired $N{=}500$ cohorts at the conformal quantile targeting FPR${=}5\%$; parentheses give mean FNR minus deployment-oracle FNR, in points. Per-condition 21LA EER ranges: 1.9--11.1 (AASIST), 0.2--1.0 (SSL-AASIST), 0.5--3.5 (XLS-R+SLS). Lower block: mean realized FPR of each policy of \S\ref{sec:method} for SSL-AASIST at the same $N$ and $B$ from separate runs, with mean FNR for the two labeled competitors (naive transfer and C1/C2/C5 are deterministic); C5 reaches its FPR only at FNR ${\approx}99\%$. Italics: overlap-dominated cells (oracle FNR ${>}50\%$, no usable operating point). Score tables, code and results (C5 transformed scores and cohort IDs are included; embeddings are omitted): \protect\url{https://github.com/rvirgilli/speech-deepfake-threshold-transport/tree/a2-icassp2027-final}.}
 \label{tab:fnr}
-\centering\footnotesize\setlength{\tabcolsep}{2pt}
+\centering\small\setlength{\tabcolsep}{0.8pt}
 \begin{tabular}{lcccc}
 \toprule
 System & 21LA & 21DF & ITW & BRSpeech \\
@@ -135,10 +135,10 @@ Cohort z-norm & 0.2 & 0.9 & 10.7 & 73.1 \\
 Gaussian q. & 0.2 & 2.8 & 17.2 & 100.0 \\
 \bottomrule
 \end{tabular}\\[2pt]
-{\scriptsize $^\dagger$Official author-released scores for 21LA, 21DF and ITW; BRSpeech scored by us with the released checkpoint.}
+{\small $^\dagger$Official author-released scores for 21LA, 21DF and ITW; BRSpeech scored by us with the released checkpoint.}
 \end{table}
 
-\begin{figure}[t]
+\begin{figure}[!tp]
 \centering
 \includegraphics[width=\columnwidth]{figs/drift.pdf}
 % REWRITTEN 2026-08-14 after the Gate-8 correctness audit. The previous caption
@@ -158,6 +158,22 @@ Threshold transport is easy to mis-audit: conservative collapse makes FPR read b
 
 % \small on the bibliography only (9pt at this class size, within ICASSP's
 % minimum): the reference list spilled 3 lines onto a sixth page.
+\section{Acknowledgment}
+Funded by the project Research and Development of Algorithms for Construction
+of Digital Human Technological Components, supported by the Advanced Knowledge
+Center in Immersive Technologies (AKCIT), with financial resources from the PPI
+IoT of the MCTI grant 057/2023, signed with EMBRAPII. The authors declare no
+competing interests.
+During preparation, the authors used a large language model (Anthropic Claude)
+to help write and edit the text, the LaTeX layout and the supporting code. The
+authors reviewed all assisted content and take full responsibility.
+
+\section{Compliance with Ethical Standards}
+This study used only previously collected, publicly available recordings, under
+the licence and terms of use of the ASVspoof, In-the-Wild and BRSpeech-DF
+corpora, for non-commercial academic research. It involved no new recording and
+no interaction with human participants, and required no ethical approval.
+
 {\small
 \bibliographystyle{IEEEbib}
 

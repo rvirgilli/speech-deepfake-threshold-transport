@@ -443,7 +443,14 @@ DECLARED = {
     if value not in ARTIFACT_DERIVED and value not in ANALYTIC_DERIVED
 }
 
+# The acknowledgment carries a grant identifier, not a measurement. It is
+# declared for that block alone -- docs/icassp2027-submission-format.md S4 keeps
+# the funding sentence verbatim -- and the rule is keyed on its own words so the
+# exemption cannot cover a numeral anywhere else.
+GRANT_RULE = re.compile(r"MCTI grant 057/2023, signed with EMBRAPII")
 DECLARED_CONTEXT_RULES = (
+    ("057", GRANT_RULE, "AKCIT/PPI IoT grant number, format document S4"),
+    ("2023", GRANT_RULE, "AKCIT/PPI IoT grant year, format document S4"),
     ("19", re.compile(r"19LA"), "detector training-corpus name"),
     ("50", re.compile(r"(?:exceeds\s+|split\s+|\$\\pm\$?|\$[-+])50(?:/50)?\\%|50/50|\\pm\$50"),
      "design percentage, overlap criterion or re-mix magnitude"),
@@ -544,8 +551,9 @@ POSITION_BINDINGS = (
      rf"{sum(1 for v in in_tol if abs(v['log2_fpr_ratio']) > 0.585)} (?:of {len(in_tol)} )?at \$1\.5\\times\$", 1),
     ("sensitivity range at 4x, both sites",
      rf"{sum(1 for v in in_tol if abs(v['log2_fpr_ratio']) > 2.0)} (?:of {len(in_tol)} )?at \$4\\times\$", 1),
-    ("usable-pair median cost, both sites", rf"median (?:cost is \$\+)?{stats.median(100 * v['fnr_price'] for v in A5_USABLE):.1f}(?:\$)? points", 2),
-    ("usable-pair count, both sites", rf"(?:on the|across all) {len(A5_USABLE)} (?:usable SSL-AASIST )?pairs", 2),
+    ("usable-pair median cost (section 4; abstract clause cut)",
+     rf"median cost is \$\+{stats.median(100 * v['fnr_price'] for v in A5_USABLE):.1f}\$ points", 1),
+    ("usable-pair count (section 4; abstract clause cut)", rf"across all {len(A5_USABLE)} pairs", 1),
     ("flagship transported FNR (abstract; caption sentence cut)", rf"{FLAG['vanilla_fnr_mean']*100:.0f}\\% of spoofs", 1),
     ("flagship oracle FNR (abstract)", rf"against {FLAG['fnr_oracle']*100:.2f}\\%", 1),
     ("flagship FPR, abstract and Drift paragraph", rf"{FLAG['vanilla_fpr_mean']*100:.2f}\\% FPR", 2),

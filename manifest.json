@@ -432,40 +432,40 @@
     "bytes": 157
   },
   "paper/A2/main.pdf": {
-    "sha256": "7d89e710eb1d815197a30964ceb495f8bb4a60f8cd50a97835974cb0da626608",
-    "bytes": 234992
+    "sha256": "35a67ea14f7202505f0c3e7d580369141030602ae9f2660facc5df33299cf166",
+    "bytes": 223741
   },
   "paper/A2/main.tex": {
-    "sha256": "0e148a8ff4e9a1f65af82688628ac09e19de2b85d1fb8af1bbfa71dd3c1758dd",
-    "bytes": 28030
+    "sha256": "0804852216ac86623e89a762eab33ccf77097ea80ca98ab7509869fac817bc5b",
+    "bytes": 28286
   },
   "paper/A2/refs.bib": {
-    "sha256": "b25cbf72fa572e18cba53de72b25ac17ad0d2782e7e27dfaf4775eeaadbb9ac9",
-    "bytes": 14399
+    "sha256": "c946dcbccb7c49bac8974ab8d5cf4b970bd5e70239e2743a81590fca72e6e0f6",
+    "bytes": 14276
   },
   "paper/A2/spconf.sty": {
     "sha256": "dc5d632639040cb183f2ab62780f314845aa021be73048c8a9ec9c2072d64a86",
     "bytes": 8798
   },
   "paper/A2/IEEEbib.bst": {
-    "sha256": "af540b7da9d67446efa3229ecc14fdfdf82f81a2a4cf841e3b12293c2f4e3522",
-    "bytes": 18044
+    "sha256": "7e6ca0c8b72158d504a12bb091f817c07032a021ba41ca783cca4c2dd80d570b",
+    "bytes": 17903
   },
   "paper/A2/check_numbers.py": {
-    "sha256": "fc77c9eb8a4fc3157ba09372819efbc2361801ecbec7456e14c2ca72c878c28b",
-    "bytes": 80656
+    "sha256": "b5b337744a3b1ba0fd37fb0e993915f32d3346cf684bb6e91d653ff98c679b3a",
+    "bytes": 94477
   },
   "paper/A2/number_census.py": {
-    "sha256": "e18639495ce9f9a0e63bb404ff2fa3d80eba4a1285a7498768c9d016977e2b75",
-    "bytes": 44527
+    "sha256": "1fba2b78d922c8bf47ff918106c8d655b2066841a89f0c8f66f0146f63e3326e",
+    "bytes": 45035
   },
   "paper/A2/PRIOR-ART-SWEEP-INTERSPEECH-2026.md": {
     "sha256": "391658fa0678f30314878544762db364ebff8ed56afa0de2e1385badc1baf066",
     "bytes": 5324
   },
   "paper/A2/figs/drift.pdf": {
-    "sha256": "8fa0aa7df1fa679556e3edb0638407c3f135983d367fcee89457c8e24db5b632",
-    "bytes": 25990
+    "sha256": "6a4e5b5634e5a8a20d0f8b52fd174f4aa88f03805a68ef69152bb4bc373483cd",
+    "bytes": 23373
   },
   "claim_map.json": {
     "sha256": "8ed96e9622a3bc268a67ac7f668fb6c92216ee639ca9ca12cfeae17243db0a86",
