@@ -467,6 +467,10 @@
     "sha256": "6a4e5b5634e5a8a20d0f8b52fd174f4aa88f03805a68ef69152bb4bc373483cd",
     "bytes": 23373
   },
+  "paper/figures.py": {
+    "sha256": "b8d88e41bb4a6e0782380eed8b5cc8655c7dd9dcc7e6a554ed827e2a93d87010",
+    "bytes": 9969
+  },
   "claim_map.json": {
     "sha256": "8ed96e9622a3bc268a67ac7f668fb6c92216ee639ca9ca12cfeae17243db0a86",
     "bytes": 5183
