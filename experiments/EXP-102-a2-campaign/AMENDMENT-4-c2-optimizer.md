@@ -31,3 +31,27 @@ construction, where the separable objective has no finite optimum.
 C1 and C5 are unchanged. The manuscript's Table 1 now prints both C1 and C2 rows; the
 statement that the unlabeled corrections miss the target by up to 95 pp stands. The
 superseded file survives at commit `2b97a8a`.
+
+## Note, 2026-09-11: two EER implementations, and why the published one is order-invariant
+
+Raised by the M1 line, which found in its own code an EER computed from `np.argsort`
+positions with default tie ordering, and flagged that any such EER depends on input order
+rather than on the data. A2 prints twelve EERs in Table 1 plus per-condition ranges, so the
+question was whether ours shares that construction. It does not.
+
+`table1_eer_spread.eer` (and the identical `EXP-103/a5_eer.eer`) builds its threshold grid as
+`np.unique(concatenate([bona, spoof]))` and reads FPR and FNR by `searchsorted` on the sorted
+arrays, so equal scores are collapsed before any comparison and the result is a function of
+the score multiset alone. Checked on the real 21LA AASIST cell (16,492 bona fide, 148,148
+spoofs): five independent shuffles of both arrays return one distinct value, 8.2647%, the
+printed 8.26. Those arrays do contain **1,289 duplicate score values**, so the hazard was
+real and was avoided by the grouping, not by the absence of ties.
+
+A second implementation exists in `EXP-109/transport_released.eer`: trial-level, stable
+mergesort, `nanargmin` of the frr/far gap. Six permutations under heavy synthetic ties did not
+move it, so it is not order-sensitive either, but it differs from the grouped implementation
+by 1.6 points on that synthetic data because the two include ties differently at the crossing.
+On the real 21LA scores they agree to four decimals on both detectors (8.2647 and 0.8129). No
+published number comes from the trial-level one; it backs an internal provenance check. The
+divergence is recorded because two implementations that agree on today's data and disagree
+under ties are a trap for whoever edits either.

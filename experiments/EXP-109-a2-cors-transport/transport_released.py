@@ -12,6 +12,7 @@ stratum from the EXP-001 reproductions (AMENDMENT-1).
 import hashlib
 import json
 import subprocess
+import os
 import sys
 from pathlib import Path
 
@@ -22,8 +23,11 @@ sys.path.insert(0, str(REPO / "EXP-102-a2-campaign"))
 
 from drift_map import ALPHA, SEED, run_cell  # noqa: E402
 
-LA_KEY = Path.home() / "data/corpora/anti-spoofing/keys/LA/CM/trial_metadata.txt"
-SCORES = Path.home() / "data/corpora/anti-spoofing/official-scores"
+# Data roots follow the same environment overrides as the other released scripts, so a
+# reader can point them at their own copy of the official keys and score files.
+DATA = Path(os.environ.get("A2_DATA", Path.home() / "data/corpora/anti-spoofing"))
+LA_KEY = Path(os.environ.get("A2_LA_KEY", DATA / "keys/LA/CM/trial_metadata.txt"))
+SCORES = Path(os.environ.get("A2_OFFICIAL_SCORES", DATA / "official-scores"))
 
 # Variants frozen in AMENDMENT-1 before any cell was computed.
 RELEASED = {
