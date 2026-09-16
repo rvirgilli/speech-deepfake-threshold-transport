@@ -711,7 +711,9 @@ POSITION_BINDINGS = (
      + " points", 1),
     ("A5 realized speaker groups and their trial counts (section 4)",
      rf"two groups of {A5_GRP[0]} and {A5_GRP[1]} speakers \({A5_GRP_TRIALS[0]:,} and {A5_GRP_TRIALS[1]:,} trials\)", 1),
-    ("flagship FPR, abstract and Drift paragraph", rf"{FLAG['vanilla_fpr_mean']*100:.2f}\\% FPR", 2),
+    # The 2026-09-16 conclusion rewrite leads with the flagship cell, so the value now
+    # also appears in section 6; the artifact binding is unchanged.
+    ("flagship FPR, abstract, Drift paragraph and conclusion", rf"{FLAG['vanilla_fpr_mean']*100:.2f}\\% FPR", 3),
     ("flagship false-alarm count", rf"about {round(FLAG['vanilla_fpr_mean'] * FLAG['n_dep_bona'])} false alarms per draw among {N_BONA:,} bona fide", 1),
     ("released-score detectors, EXP-109",
      rf"on {min(CORS_N.values())}--{max(CORS_N.values())} of the 42 channel pairs each \({sum(CORS_N.values())} of {42 * len(CORS_N)}\)", 1),
