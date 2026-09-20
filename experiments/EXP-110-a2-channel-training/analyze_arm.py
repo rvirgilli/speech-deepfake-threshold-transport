@@ -6,6 +6,7 @@ target by more than a factor of two. Cell statistics come from EXP-102's audited
 """
 
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -16,7 +17,7 @@ sys.path.insert(0, str(REPO / "EXP-102-a2-campaign"))
 from drift_map import ALPHA, SEED, run_cell  # noqa: E402
 
 LA_KEY = Path.home() / "data/corpora/anti-spoofing/keys/LA/CM/trial_metadata.txt"
-ARTIFACTS = Path("/home/rv/exp-artifacts/icassp2027/EXP-110")
+ARTIFACTS = Path(os.environ.get("A2_ARTIFACTS", Path.home() / "exp-artifacts/icassp2027")) / "EXP-110"
 # arm 1 scored its tied checkpoints into arm1/epoch_<e>; arm 2 (run_arm2.sh) into arm2/scores/epoch_<e>.
 # Seed-factorial runs (run_seed.sh) follow arm 2's layout under <arm>_s<seed>/.
 TIED = {"arm1": [20, 21, 27, 28, 29]}

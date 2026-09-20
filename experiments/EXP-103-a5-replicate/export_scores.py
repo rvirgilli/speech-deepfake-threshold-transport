@@ -15,7 +15,7 @@ import numpy as np
 
 HERE = Path(__file__).parent
 RAW = Path(os.environ.get("A2_A5_RAW", Path.home() / "icassp-runs/EXP-103-a5-replicate/raw"))
-MANIFEST = Path(os.environ.get("A2_MANIFESTS", "/home/rv/exp-artifacts/icassp2027/EXP-001/manifests")) / "asv5_eval.csv"
+MANIFEST = Path(os.environ.get("A2_MANIFESTS", Path.home() / "exp-artifacts/icassp2027/EXP-001/manifests")) / "asv5_eval.csv"
 
 
 def main():

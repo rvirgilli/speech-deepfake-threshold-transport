@@ -46,7 +46,7 @@ def _publish_safe_point(model_dir: Path) -> None:
     current = _completed_epochs(model_dir)
     checkpoint = model_dir / "resume.pth"
     command = [
-        shutil.which("gpuq2") or "/home/rv/.local/bin/gpuq2",
+        shutil.which("gpuq2") or str(Path.home() / ".local/bin/gpuq2"),
         "safe-point",
         "--current",
         str(current),

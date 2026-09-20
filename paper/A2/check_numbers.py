@@ -191,9 +191,9 @@ for _promise, _delivery in CONTRIBUTIONS:
         failures.append(f"the contribution {_promise!r} is promised but the body does not deliver {_delivery!r}")
 print(f"  ok  each of the {len(CONTRIBUTIONS)} promises in the contribution sentence is delivered by a passage")
 # The scope the numbered list used to carry is now in section 2.
-check("the measurement scope is stated in the related-work positioning", "Relative to that audit",
-      f"we add a {len(cells)}-cell fixed-FPR map with real transmissions, a finite-$N$ target-bona-fide "
-      f"comparison, and a {sum(len(A5[f'{d}/twin_free']) for d in ('ssl', 'aasist'))}-pair disjoint replication",
+check("the measurement scope is stated in the related-work positioning", "We quantify recoverable spoof misses",
+      f"using a {len(cells)}-cell channel/corpus map with real transmissions, finite-$N$ target-bona-fide "
+      f"calibration and a {sum(len(A5[f'{d}/twin_free']) for d in ('ssl', 'aasist'))}-pair disjoint replication",
       (len(cells), sum(len(A5[f"{d}/twin_free"]) for d in ("ssl", "aasist"))),
       "results_drift.json cell count; results_a5.json twin-free pair count")
 # r5 deleted the sentence that decomposed the 108 into 42 + 12 ordered pairs, so
@@ -471,10 +471,10 @@ check("released-checkpoint and official-score provenance is stated, not correlat
 # Spoofs come from the BRSpeech-DF release; bona fide come from the CML-TTS test
 # manifest and carry a cml/ prefix (EXP-001 build_manifests.py brspeech()).
 check("BRSpeech-DF roster names both sources", "\\textbf{Setup.}",
-      f"BRSpeech-DF \\cite{{brspeechdf}} ({E2['ssl']['brspeech_test']['n_spoof']:,} test spoofs paired with the "
-      f"released set of {E2['ssl']['brspeech_test']['n_bona']:,} bona-fide scores bearing the cml/ prefix, whose "
-      "filenames all match the BRSpeech-DF test metadata; this establishes the trial roster, not waveform "
-      "equivalence between releases)",
+      f"BRSpeech-DF \\cite{{brspeechdf}} ({E2['ssl']['brspeech_test']['n_spoof']:,} test spoofs from its release; "
+      f"{E2['ssl']['brspeech_test']['n_bona']:,} bona fide from the separate CML-TTS release \\cite{{cmltts23}}; "
+      "all cml/ filenames match the BRSpeech-DF test roster without establishing waveform identity; class and "
+      "release are confounded, so results describe this release pairing)",
       (E2['ssl']['brspeech_test']['n_bona'], E2['ssl']['brspeech_test']['n_spoof']), "EXP-002 results.json", chars=1500)
 assert E2["aasist"]["brspeech_test"]["n_bona"] == E2["ssl"]["brspeech_test"]["n_bona"] == SLS["brspeech_test"]["n_bona"]
 check("the protocol correction is disclosed as post-hoc", "The 2021 keys carry",
@@ -974,9 +974,8 @@ check("the funding acknowledgment and competing-interest declaration are present
       "\\section{Acknowledgment}",
       "with financial resources from the PPI IoT of the MCTI grant 057/2023, signed with EMBRAPII. "
       "The authors declare no competing interests.", chars=700)
-AI_DISCLOSURE = ("The authors used a large language model (Anthropic Claude) to help write and edit the text, "
-                 "the LaTeX layout and the supporting code, reviewed all assisted content, and take full "
-                 "responsibility.")
+AI_DISCLOSURE = ("The authors used the large language model Anthropic Claude for text, LaTeX and code, "
+                 "reviewed all assisted content, and take full responsibility.")
 check("the AI-use disclosure required by the venue's author guidelines is in the acknowledgment",
       "\\section{Acknowledgment}", AI_DISCLOSURE, chars=900)
 # The acknowledgment is the one place the venue requires a model to be named.
@@ -989,8 +988,8 @@ for _pat in (r"large language model", r"(?i)\bclaude\b", r"(?i)\bchatgpt\b", r"(
                         f"...{_without[max(0, _m.start()-40):_m.end()+40]!r}")
 check("the ethics statement names the disposition and the corpora",
       "\\section{Compliance with Ethical Standards}",
-      "This study used only previously collected, publicly available recordings from the ASVspoof, In-the-Wild and "
-      "BRSpeech-DF corpora, under their licences and terms of use, for non-commercial academic research. It "
+      "This study used only previously collected, publicly available recordings from the ASVspoof, In-the-Wild, "
+      "BRSpeech-DF and CML-TTS corpora, under their licences and terms of use, for non-commercial academic research. It "
       "involved no new recording, no human participants and required no ethical approval.", chars=700)
 # docs/icassp2027-submission-format.md: \floatsep is the gap between two
 # stacked floats and must stay at the template default; the other three float
@@ -1102,11 +1101,12 @@ check("exchangeability is scoped to marginal rank validity (section 3)", "\\sect
 # The second neighbour changed from Firc's industry-experience report to TRACE, the
 # closer threshold-transfer precedent, in the 2026-09-14 audit repair. The rule's
 # substance is unchanged: name the two neighbours and what this paper measures instead.
-check("the positioning names the two neighbours and what we measure instead", "\\section{Related work}",
-      "Pham et al.\\ \\cite{pham26} study dataset-specific versus inference thresholds and bona-fide resource "
-      "effects. Khan et al.'s TRACE \\cite{trace26} contrasts transferred and target-selected thresholds for "
-      "partial deepfakes; we measure both error rates at a fixed bona-fide-error target and evaluate "
-      "finite-sample target-bona-fide calibration",
+# Pham's sentence was deleted on 2026-09-20 to fund the CML-TTS bibliography entry; the
+# positioning now runs through the nearest neighbour itself. What the rule protects is
+# unchanged: name the neighbour and say what this paper measures instead of it.
+check("the positioning names the nearest neighbour and what we measure instead", "\\section{Related work}",
+      "Zhou and Wang \\cite{eerhides26} transfer a source EER threshold (ITW: 78.7\\% bona fide rejected). "
+      "We quantify recoverable spoof misses against a destination oracle at fixed source FPR",
       None, "section 2", chars=2600)
 check("fixed-threshold auditing is credited to established evaluation practice", "\\section{Related work}",
       "established in spoofing evaluation \\cite{asvspoof5}", chars=2200)
@@ -1122,6 +1122,11 @@ assert max(_m2) < min(_m1), f"separation gone: arm1 {_m1}, arm2 {_m2}"
 # guard binds all four families of number and asserts the partial replication itself.
 _AA = {a: json.load(open(_F110C / f"results_aasist_{a}_s1234.json")) for a in ("arm1", "arm2")}
 _aam = {a: int(v["K_median"]) for a, v in _AA.items()}
+_aar = {a: (min(ep["K"] for ep in v["epochs"].values()), max(ep["K"] for ep in v["epochs"].values()))
+        for a, v in _AA.items()}
+assert _aar["arm2"][1] < _aar["arm1"][0], f"AASIST arm ranges no longer separate: {_aar}"
+assert (_aam["arm1"] - _aam["arm2"]) <= max(h - l for l, h in _aar.values()), \
+    "the AASIST median decrease now exceeds the wider range width; the conclusion's verdict must be rechecked"
 _aac = {a: max(c.get("fnr_price", 0) * 100 for ep in v["epochs"].values() for c in ep["cells"].values())
         for a, v in _AA.items()}
 _aaover = {a: 100 * sum(1 for ep in v["epochs"].values() for c in ep["cells"].values()
@@ -1136,11 +1141,12 @@ assert _aac["arm2"] > _aac["arm1"], f"AASIST spoof-side cost no longer rises: {_
 # the released report, so no rule binds it.
 _FACT = "\\textbf{Channel-matched training.}"
 check("section 4 carries both architectures on the count statistic", _FACT,
-      f"Median $K$ falls from {int(min(_m1))}--{int(max(_m1))} to {int(min(_m2))}--{int(max(_m2))} on "
-      f"SSL-AASIST and from {_aam['arm1']} to {_aam['arm2']} on AASIST",
+      f"Median $K$: SSL-AASIST {int(min(_m1))}--{int(max(_m1))} to {int(min(_m2))}--{int(max(_m2))}; "
+      f"AASIST {_aam['arm1']} to {_aam['arm2']} (five-checkpoint ranges: arm~1, {_aar['arm1'][0]}--{_aar['arm1'][1]}; "
+      f"arm~2, {_aar['arm2'][0]}--{_aar['arm2'][1]})",
       (_m1, _m2, _aam), "results_arm*.json and results_aasist_*.json K_median", chars=1400)
 check("section 4 states that the spoof-side benefit does not replicate", _FACT,
-      f"the largest excess FNR falls from 17.50 to 0.55 points on SSL-AASIST and rises from "
+      f"The largest excess FNR falls from 17.50 to 0.55 points on SSL-AASIST and rises from "
       f"{_aac['arm1']:.1f} to {_aac['arm2']:.1f} on AASIST",
       _aac, "results_aasist_*.json fnr_price", chars=1400)
 check("the conclusion says the controls are not comparable baselines", "\\section{Conclusion}",
@@ -1155,8 +1161,9 @@ for why, needle in SCOPE_CRITICAL:
 # --- statements that must EXIST (the half that catches silent omissions) ----
 PRESENCE = [
     ("the direct 2026 quantile prior art is cited", r"zhao26ca"),
-    ("the quantitative delta from the closest threshold-transfer audit is explicit",
-     r"Relative to that audit \(one detector, two target corpora\), we add a 108-cell fixed-FPR map.{0,120}264-pair"),
+    ("the increment over the closest threshold-transfer audit is stated as a measured contrast",
+     r"Zhou and Wang \\cite\{eerhides26\} transfer a source EER threshold.{0,60}We quantify recoverable spoof "
+     r"misses against a destination oracle at fixed source FPR"),
     ("the 2x severity bar is disclosed as post hoc in the main text",
      r"The twofold bar is post hoc"),
     ("spoof-side cost is oracle-referenced, not calibration-referenced",
@@ -1169,7 +1176,7 @@ PRESENCE = [
     ("EER is described as measured at an oracle threshold, not as an operating point",
      r"report equal error rate \(EER\), measured at an oracle threshold selected with labels from both classes"),
     ("the bona-fide-only quantile prior art is attributed by author, not by acronym",
-     r"Zhao et al\.\\ calibrate a bona-fide-only \$\\alpha\$-quantile \\cite\{zhao26ca\}"),
+     r"Zhao et al\.\\ use a bona-fide-only \$\\alpha\$-quantile \\cite\{zhao26ca\}"),
     ("the Beta-under-dependence neighbour is cited and positioned",
      r"Ramos et al\.\\ \\cite\{ramos26\} analyse the calibration-conditional Beta law under dependence, where we add "
      r"an empirical speaker-level diagnostic"),

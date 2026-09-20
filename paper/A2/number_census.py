@@ -370,6 +370,8 @@ _m2c = [int(_f110c[r]["K_median"]) for r in ("arm2", "arm2_s1235", "arm2_s1236")
 _AAC = {a: json.load(open(_F110C / f"results_aasist_{a}_s1234.json")) for a in ("arm1", "arm2")}
 _aacost = {a: max(c.get("fnr_price", 0) * 100 for ep in v["epochs"].values() for c in ep["cells"].values())
            for a, v in _AAC.items()}
+_aarange = {a: (min(ep["K"] for ep in v["epochs"].values()), max(ep["K"] for ep in v["epochs"].values()))
+            for a, v in _AAC.items()}
 _aaover = {a: 100 * sum(1 for ep in v["epochs"].values() for c in ep["cells"].values()
                         if c.get("fnr_price", 0) * 100 > 10)
               / sum(len(ep["cells"]) for ep in v["epochs"].values()) for a, v in _AAC.items()}
@@ -379,6 +381,8 @@ for _arm, _rs in (("arm1", ("arm1", "arm1_s1235", "arm1_s1236")), ("arm2", ("arm
                          for ep in json.load(open(_F110C / f"results_{r}.json"))["epochs"].values()
                          for c in ep["cells"].values())
 _F110_AASIST = {
+    str(_aarange["arm1"][0]): "AASIST control K range, lower endpoint (five checkpoints)",
+    str(_aarange["arm2"][1]): "AASIST matched K range, upper endpoint (five checkpoints)",
     str(int(_AAC["arm1"]["K_median"])): "AASIST control K median (one seed)",
     str(int(_AAC["arm2"]["K_median"])): "AASIST matched K median (one seed)",
     f"{_sslcost['arm1']:.2f}": "SSL-AASIST control, largest excess FNR (pp)",
@@ -539,6 +543,7 @@ DECLARED_RAW = {
     "80": "twin-free share of sources (%)", "90": "percentile", "95": "confidence level",
     "97.5": "percentile", "2.5": "percentile", "100": "N endpoint, 100k",
     "500": "calibration cohort size N",
+    "78.7": "bona-fide rejection reported by the cited EER-threshold transfer study (arXiv:2606.21584)",
     "1234": "training seed, EXP-110 run configuration",
     "1235": "training seed, EXP-110 run configuration",
     "1236": "training seed, EXP-110 run configuration",
@@ -692,7 +697,7 @@ POSITION_BINDINGS = (
     # r5 deleted the numbered contribution list that decomposed the grid; the
     # count is now bound in the abstract, in section 2's scope sentence and in
     # section 4's drift paragraph.
-    ("108-cell scope in the related-work positioning", rf"we add a {len(cells)}-cell fixed-FPR map", 1),
+    ("108-cell scope in the related-work positioning", rf"using a {len(cells)}-cell channel/corpus map", 1),
     ("108 cells in the drift paragraph", rf"Over the {len(cells)} cells", 1),
     # The in-tolerance count and its 1.5x/4x sensitivity range were withdrawn with
     # the additive-tolerance side analysis; nothing in the manuscript reports them.
