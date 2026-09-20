@@ -229,21 +229,10 @@ check("miss count, within-corpus share and the cross-corpus remainder (experimen
 # both of which still qualify the 108-cell count that the paper does report.
 check("the no-inference caveat survives the withdrawn tolerance analysis", "Over the 108 cells",
       "These counts describe this fixed, dependent grid; we make no population-frequency inference")
-FIG = "\\caption{Recoverable spoof loss by source usability."
+FIG = "\\caption{Transported FPR against spoof-side cost."
 # The caption now names a colour and a marker per detector. Read them off the
 # generator: "blue circles (SSL-AASIST)" is only true if the ssl series is drawn
 # that way, so a swap in either place fails.
-_a5cells = A5["ssl/twin_free"]
-_a5dest = {}
-for _k, _v in _a5cells.items():
-    _a5dest.setdefault(_k.split("->")[1], []).append(_v["fnr_oracle"])
-_a5ok = {_d for _d, _vs in _a5dest.items() if max(_vs) <= 0.5}
-_A5_HOLLOW = [_k for _k in _a5cells if _k.split("->")[1] not in _a5ok]
-_A5_SRC_OK = [_k for _k in _a5cells if _k.split("->")[1] in _a5ok and _k.split("->")[0] in _a5ok]
-_A5_SRC_WEAK = [_k for _k in _a5cells if _k.split("->")[1] in _a5ok and _k.split("->")[0] not in _a5ok]
-_A5_TAIL = sum(1 for _k in _A5_SRC_OK if 100 * _a5cells[_k]["fnr_price"] > 10)
-assert len(_A5_SRC_OK) == 30 and len(_A5_SRC_WEAK) == 36 and _A5_TAIL == 11, \
-    (len(_A5_SRC_OK), len(_A5_SRC_WEAK), _A5_TAIL)
 _figsrc_now = (HERE.parent / "figures.py").read_text()
 _gen_body = [f for f in re.split(r"(?m)^(?=def )", _figsrc_now) if "figs/drift.pdf" in f][0]
 _pal_line = re.search(r'(?m)^([A-Za-z_, ]+) = ("#[0-9A-Fa-f]{6}"(?:, "#[0-9A-Fa-f]{6}")*)$', _figsrc_now)
@@ -256,33 +245,21 @@ _drawn = [(m.group(1), _palette[m.group(2)], m.group(3))
           for m in re.finditer(r'\("(ssl|aasist)", (\w+), "(.)"\)', _gen_body)]
 assert len(_drawn) == 2, _drawn
 for _det, _hex, _marker in _drawn:
-    if not any(f"{w} {_MARKER_WORDS[_marker]}".lower() in _capflat for w in _SERIES_WORDS[_hex]):
+    if not any(f"{w} {_MARKER_WORDS[_marker]} ({_DET_NAME[_det]})".lower() in _capflat for w in _SERIES_WORDS[_hex]):
         failures.append(f"figure caption does not name the {_det} series as figures.py draws it "
                         f"({_hex}, marker {_marker!r}): expected "
-                        f"'{_SERIES_WORDS[_hex][0]} {_MARKER_WORDS[_marker]}'")
-# Each stratum figures.py draws must be named in the caption with its own marker and face.
-_strata = re.findall(r'\("(overlap|weak|usable)", "(.)", (\w+)\)', _gen_body)
-assert len(_strata) == 3, _strata
-_STRATUM_WORDS = {"overlap": "hollow, overlap-dominated destinations",
-                  "weak": "gray downward triangles",
-                  "usable": "filled green upward"}
-for _name, _marker, _colour in _strata:
-    if _STRATUM_WORDS[_name].lower() not in _capflat:
-        failures.append(f"figure caption does not name the {_name} stratum as figures.py draws it "
-                        f"(marker {_marker!r}, {_colour}): expected '{_STRATUM_WORDS[_name]}'")
-_hl = re.search(r'highlight = \(group == "usable"\) & \(y > (\d+)\)', _gen_body)
-assert _hl, "the usable-source highlight rule left figures.py"
-if f"black outlines identify the {_A5_TAIL} usable-source transfers exceeding $+{_hl.group(1)}$".lower() not in _capflat:
-    failures.append("figure caption does not bind the black outlines to the usable-source tail as drawn")
+                        f"'{_SERIES_WORDS[_hex][0]} {_MARKER_WORDS[_marker]} ({_DET_NAME[_det]})'")
+_a5 = re.search(r'marker="(.)", facecolors=(\w+) if filled', _gen_body)
+if f"{_SERIES_WORDS[_palette[_a5.group(2)]][0]} {_MARKER_WORDS[_a5.group(1)]} show the".lower() not in _capflat:
+    failures.append("figure caption does not name the ASVspoof 5 series as figures.py draws it")
 check("figure caption: cell populations, per series", FIG,
-      f"Blue circles/orange squares: {len(cells)} SSL-AASIST/AASIST 21LA and cross-corpus cells. "
-      f"Triangles: {len(A5['ssl/twin_free'])} ASVspoof~5 SSL-AASIST pairs", (len(cells), len(A5["ssl/twin_free"])),
+      f"show the {len(cells)} 21LA and cross-corpus cells; green triangles show the "
+      f"{len(A5['ssl/twin_free'])} ASVspoof~5 SSL-AASIST pairs", (len(cells), len(A5["ssl/twin_free"])),
       "results_drift.json within+cross; results_a5.json ssl/twin_free")
-check("figure caption: usable-destination rule and the source split", FIG,
-      "filled, usable destinations (oracle FNR $\\le$50\\% for every source). Filled green upward/gray downward "
-      f"triangles distinguish {len(_A5_SRC_OK)} usable-source/{len(_A5_SRC_WEAK)} "
-      "weak-source transfers (same criterion)")
-check("figure caption: the 2x bar is drawn", FIG, "dotted $2\\times$ bars")
+check("figure caption: usable-destination rule and the 2x bar", FIG,
+      "filled where the destination is usable (oracle FNR $\\le$50\\% for every source) and hollow where it is "
+      "overlap-dominated")
+check("figure caption: the 2x bar is drawn", FIG, "dotted lines mark the $2\\times$ bar")
 
 # The two sets of similar size must each name itself: 84 within-corpus cells and
 # 72 in-tolerance cells are different sets overlapping on n_within_tol.
@@ -422,7 +399,7 @@ check("severity floor stated in the Drift paragraph", "\\textbf{Drift} is detect
       f"Its severity is the $\\log_2$ ratio of $\\max(\\mathrm{{FPR}},{float(_floor):g}/n)$ to $\\alpha$, "
       "with $n$ the deployment bona-fide count", _floor, "drift_map.py log2_fpr_ratio")
 check("severity floor stated in the figure caption", FIG,
-      f"$x=\\log_2(\\max(\\mathrm{{FPR}},{float(_floor):g}/n)/5\\%)$ (\\S4")
+      f"severity $\\log_2(\\max(\\mathrm{{FPR}},{float(_floor):g}/n)/5\\%)$ (\\S4")
 check("the drift cell estimand names B and N", "\\textbf{Drift} is detector-conditioned",
       f"mean deployment FPR over {script_constant(E102 / 'drift_map.py', 'B')} thresholds, each set from "
       f"{script_constant(E102 / 'drift_map.py', 'N_CAL')} source bona-fide recordings", None, "drift_map.py B / N_CAL")
