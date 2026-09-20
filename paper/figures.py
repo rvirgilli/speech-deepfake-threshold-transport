@@ -128,12 +128,32 @@ def a2_drift():
         for k, v in cells.items():
             dest.setdefault(k.split("->")[1], []).append(v["fnr_oracle"])
         usable = {d for d, vals in dest.items() if max(vals) <= 0.5}
-        for filled in (True, False):
-            pts = [(v["log2_fpr_ratio"], 100 * v["fnr_price"]) for k, v in cells.items()
-                   if (k.split("->")[1] in usable) == filled]
-            x, y = map(np.array, zip(*pts))
-            ax.scatter(x, y, s=11, marker="^", facecolors=GREEN if filled else "none",
-                       edgecolors=GREEN, linewidths=0.5, alpha=0.9)
+        strata = {
+            "overlap": [(k, v) for k, v in cells.items()
+                        if k.split("->")[1] not in usable],
+            "weak": [(k, v) for k, v in cells.items()
+                     if k.split("->")[1] in usable
+                     and k.split("->")[0] not in usable],
+            "usable": [(k, v) for k, v in cells.items()
+                       if k.split("->")[1] in usable
+                       and k.split("->")[0] in usable],
+        }
+        assert len(cells) == 132
+        assert len(strata["usable"]) == 30
+        assert len(strata["weak"]) == 36
+        assert sum(100 * v["fnr_price"] > 10
+                   for k, v in strata["usable"]) == 11
+        for group, marker, color in (("overlap", "^", GREEN),
+                                     ("weak", "v", GRAY),
+                                     ("usable", "^", GREEN)):
+            members = strata[group]
+            x = np.array([v["log2_fpr_ratio"] for k, v in members])
+            y = np.array([100 * v["fnr_price"] for k, v in members])
+            highlight = (group == "usable") & (y > 10)
+            ax.scatter(x, y, s=np.where(highlight, 30, 11), marker=marker,
+                       facecolors="none" if group == "overlap" else color,
+                       edgecolors=np.where(highlight, "black", color),
+                       linewidths=0.5, alpha=1)
         ax.axvline(0, color=GRAY, lw=0.8)
         for xv in (-1, 1):
             ax.axvline(xv, color=GRAY, lw=0.8, ls=":")

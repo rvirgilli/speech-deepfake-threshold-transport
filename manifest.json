@@ -500,12 +500,12 @@
     "bytes": 2108
   },
   "paper/A2/main.pdf": {
-    "sha256": "dd8114cb6f1f0fd65411893acc1e6c07e33fb25bd3541241b79b4fa80bc661b8",
-    "bytes": 214950
+    "sha256": "718bcb1b095ac93ee10dd8307dad39fa33bc6e32c171140e951357a03399b7d4",
+    "bytes": 216924
   },
   "paper/A2/main.tex": {
-    "sha256": "f0aa1271c63cd518d17b98185c19f901bbe5a75fd0e0efe31f3e492aa4a5179a",
-    "bytes": 28349
+    "sha256": "31756b83a9fa21fade3edeb79dbab74a9cabf10d705978b27b2f26f4a249888b",
+    "bytes": 28305
   },
   "paper/A2/refs.bib": {
     "sha256": "6b9b03d6939eedfa644941206fc6172405113200dc306e4e176c482cc52cf64f",
@@ -520,8 +520,8 @@
     "bytes": 17903
   },
   "paper/A2/check_numbers.py": {
-    "sha256": "254a6d42000fa79a9188014ad254e148da5cee7435a8f3b4c87f2e41da926391",
-    "bytes": 117565
+    "sha256": "fc6428e79bc76db6a238f20b00767039163b78ab0acbb293f6fd948bf3457800",
+    "bytes": 119201
   },
   "paper/A2/number_census.py": {
     "sha256": "de43e4debf654bf59341a5858c333674d5ff607283db661b10b1e89a33ee6897",
@@ -532,12 +532,12 @@
     "bytes": 5324
   },
   "paper/A2/figs/drift.pdf": {
-    "sha256": "be00e519731ef7ca959b33e4c6ce6f1e31182b81daa29e763517230c25aadabc",
-    "bytes": 23373
+    "sha256": "1c4e41c6dbc8a744195db3da927db82ec1023306a9eb00163e9decc2a5a643d9",
+    "bytes": 24827
   },
   "paper/figures.py": {
-    "sha256": "b8d88e41bb4a6e0782380eed8b5cc8655c7dd9dcc7e6a554ed827e2a93d87010",
-    "bytes": 9969
+    "sha256": "33e6a5d9bc12373828dc997b5e4b39f0c996f64d7b828fd1e9fd45dae2111fd7",
+    "bytes": 10952
   },
   "claim_map.json": {
     "sha256": "8ed96e9622a3bc268a67ac7f668fb6c92216ee639ca9ca12cfeae17243db0a86",

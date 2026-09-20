@@ -173,16 +173,16 @@ _q5 = {c: E2["ssl"][c]["quantile"]["500"]["fpr_mean"] for c in E2_CORPORA}
 # can no longer do is COUNT the promises -- prose has no enumeration -- so an
 # added promise is caught because the sentence changed, not because a list grew.
 # Restoring the stronger property needs an enumerated list in the paper again.
-CONTRIBUTION_SENTENCE = ("Our contribution is empirical: we measure transport across channels and corpora, its "
-                         "spoof-side cost, its persistence on disjoint data, and what alternative policies buy "
-                         "at the same labeling budget.")
+CONTRIBUTION_SENTENCE = ("Our contribution is empirical: we quantify recoverable spoof loss and its variation "
+                         "with source usability on disjoint data, then examine finite-cohort recalibration and "
+                         "its sampling-unit limits.")
 check("the contribution sentence is pinned verbatim", "Our contribution is empirical",
       CONTRIBUTION_SENTENCE, None, "section 1")
 CONTRIBUTIONS = (
-    ("transport across channels and corpora", "\\textbf{Drift} is detector-conditioned"),
-    ("its spoof-side cost", "Their spoof-side cost is measured against the oracle"),
-    ("its persistence on disjoint data", "\\textbf{Replication on recording-disjoint data.}"),
-    ("what alternative policies buy at the same labeling budget", "\\textbf{Matched-resource policy comparison.}"),
+    ("recoverable spoof loss", "Their spoof-side cost is measured against the oracle"),
+    ("its variation with source usability", "\\textbf{Replication on recording-disjoint data.}"),
+    ("on disjoint data", "\\textbf{Drift} is detector-conditioned"),
+    ("finite-cohort recalibration and its sampling-unit limits", "\\textbf{Matched-resource policy comparison.}"),
 )
 for _promise, _delivery in CONTRIBUTIONS:
     if _flat(_promise) not in _flat(CONTRIBUTION_SENTENCE):
@@ -229,10 +229,21 @@ check("miss count, within-corpus share and the cross-corpus remainder (experimen
 # both of which still qualify the 108-cell count that the paper does report.
 check("the no-inference caveat survives the withdrawn tolerance analysis", "Over the 108 cells",
       "These counts describe this fixed, dependent grid; we make no population-frequency inference")
-FIG = "\\caption{Transported FPR against spoof-side cost."
+FIG = "\\caption{Recoverable spoof loss by source usability."
 # The caption now names a colour and a marker per detector. Read them off the
 # generator: "blue circles (SSL-AASIST)" is only true if the ssl series is drawn
 # that way, so a swap in either place fails.
+_a5cells = A5["ssl/twin_free"]
+_a5dest = {}
+for _k, _v in _a5cells.items():
+    _a5dest.setdefault(_k.split("->")[1], []).append(_v["fnr_oracle"])
+_a5ok = {_d for _d, _vs in _a5dest.items() if max(_vs) <= 0.5}
+_A5_HOLLOW = [_k for _k in _a5cells if _k.split("->")[1] not in _a5ok]
+_A5_SRC_OK = [_k for _k in _a5cells if _k.split("->")[1] in _a5ok and _k.split("->")[0] in _a5ok]
+_A5_SRC_WEAK = [_k for _k in _a5cells if _k.split("->")[1] in _a5ok and _k.split("->")[0] not in _a5ok]
+_A5_TAIL = sum(1 for _k in _A5_SRC_OK if 100 * _a5cells[_k]["fnr_price"] > 10)
+assert len(_A5_SRC_OK) == 30 and len(_A5_SRC_WEAK) == 36 and _A5_TAIL == 11, \
+    (len(_A5_SRC_OK), len(_A5_SRC_WEAK), _A5_TAIL)
 _figsrc_now = (HERE.parent / "figures.py").read_text()
 _gen_body = [f for f in re.split(r"(?m)^(?=def )", _figsrc_now) if "figs/drift.pdf" in f][0]
 _pal_line = re.search(r'(?m)^([A-Za-z_, ]+) = ("#[0-9A-Fa-f]{6}"(?:, "#[0-9A-Fa-f]{6}")*)$', _figsrc_now)
@@ -245,21 +256,33 @@ _drawn = [(m.group(1), _palette[m.group(2)], m.group(3))
           for m in re.finditer(r'\("(ssl|aasist)", (\w+), "(.)"\)', _gen_body)]
 assert len(_drawn) == 2, _drawn
 for _det, _hex, _marker in _drawn:
-    if not any(f"{w} {_MARKER_WORDS[_marker]} ({_DET_NAME[_det]})".lower() in _capflat for w in _SERIES_WORDS[_hex]):
+    if not any(f"{w} {_MARKER_WORDS[_marker]}".lower() in _capflat for w in _SERIES_WORDS[_hex]):
         failures.append(f"figure caption does not name the {_det} series as figures.py draws it "
                         f"({_hex}, marker {_marker!r}): expected "
-                        f"'{_SERIES_WORDS[_hex][0]} {_MARKER_WORDS[_marker]} ({_DET_NAME[_det]})'")
-_a5 = re.search(r'marker="(.)", facecolors=(\w+) if filled', _gen_body)
-if f"{_SERIES_WORDS[_palette[_a5.group(2)]][0]} {_MARKER_WORDS[_a5.group(1)]} show the".lower() not in _capflat:
-    failures.append("figure caption does not name the ASVspoof 5 series as figures.py draws it")
+                        f"'{_SERIES_WORDS[_hex][0]} {_MARKER_WORDS[_marker]}'")
+# Each stratum figures.py draws must be named in the caption with its own marker and face.
+_strata = re.findall(r'\("(overlap|weak|usable)", "(.)", (\w+)\)', _gen_body)
+assert len(_strata) == 3, _strata
+_STRATUM_WORDS = {"overlap": "hollow, overlap-dominated destinations",
+                  "weak": "gray downward triangles",
+                  "usable": "filled green upward"}
+for _name, _marker, _colour in _strata:
+    if _STRATUM_WORDS[_name].lower() not in _capflat:
+        failures.append(f"figure caption does not name the {_name} stratum as figures.py draws it "
+                        f"(marker {_marker!r}, {_colour}): expected '{_STRATUM_WORDS[_name]}'")
+_hl = re.search(r'highlight = \(group == "usable"\) & \(y > (\d+)\)', _gen_body)
+assert _hl, "the usable-source highlight rule left figures.py"
+if f"black outlines identify the {_A5_TAIL} usable-source transfers exceeding $+{_hl.group(1)}$".lower() not in _capflat:
+    failures.append("figure caption does not bind the black outlines to the usable-source tail as drawn")
 check("figure caption: cell populations, per series", FIG,
-      f"show the {len(cells)} 21LA and cross-corpus cells; green triangles show the "
-      f"{len(A5['ssl/twin_free'])} ASVspoof~5 SSL-AASIST pairs", (len(cells), len(A5["ssl/twin_free"])),
+      f"Blue circles/orange squares: {len(cells)} SSL-AASIST/AASIST 21LA and cross-corpus cells. "
+      f"Triangles: {len(A5['ssl/twin_free'])} ASVspoof~5 SSL-AASIST pairs", (len(cells), len(A5["ssl/twin_free"])),
       "results_drift.json within+cross; results_a5.json ssl/twin_free")
-check("figure caption: usable-destination rule and the 2x bar", FIG,
-      "filled where the destination is usable (oracle FNR $\\le$50\\% for every source) and hollow where it is "
-      "overlap-dominated")
-check("figure caption: the 2x bar is drawn", FIG, "dotted lines mark the $2\\times$ bar")
+check("figure caption: usable-destination rule and the source split", FIG,
+      "filled, usable destinations (oracle FNR $\\le$50\\% for every source). Filled green upward/gray downward "
+      f"triangles distinguish {len(_A5_SRC_OK)} usable-source/{len(_A5_SRC_WEAK)} "
+      "weak-source transfers (same criterion)")
+check("figure caption: the 2x bar is drawn", FIG, "dotted $2\\times$ bars")
 
 # The two sets of similar size must each name itself: 84 within-corpus cells and
 # 72 in-tolerance cells are different sets overlapping on n_within_tol.
@@ -399,7 +422,7 @@ check("severity floor stated in the Drift paragraph", "\\textbf{Drift} is detect
       f"Its severity is the $\\log_2$ ratio of $\\max(\\mathrm{{FPR}},{float(_floor):g}/n)$ to $\\alpha$, "
       "with $n$ the deployment bona-fide count", _floor, "drift_map.py log2_fpr_ratio")
 check("severity floor stated in the figure caption", FIG,
-      f"severity $\\log_2(\\max(\\mathrm{{FPR}},{float(_floor):g}/n)/5\\%)$ (\\S4")
+      f"$x=\\log_2(\\max(\\mathrm{{FPR}},{float(_floor):g}/n)/5\\%)$ (\\S4")
 check("the drift cell estimand names B and N", "\\textbf{Drift} is detector-conditioned",
       f"mean deployment FPR over {script_constant(E102 / 'drift_map.py', 'B')} thresholds, each set from "
       f"{script_constant(E102 / 'drift_map.py', 'N_CAL')} source bona-fide recordings", None, "drift_map.py B / N_CAL")
@@ -504,7 +527,7 @@ check("the cross-corpus 21LA node is the untransmitted condition", "For cross-co
 B = script_constant(E102 / "drift_map.py", "B")
 assert B == script_constant(E102 / "n_sweep.py", "B") == EER["B"]
 check("paired draws B, scoped to a run; Table 1 declared unpaired", "\\textbf{Setup.}",
-      f"Within each Monte Carlo run, labeled policies share paired cohort draws ($B{{=}}{B}$); Table~\\ref{{tab:fnr}} "
+      f"Labeled-policy cohort draws ($B{{=}}{B}$) are paired within runs; Table~\\ref{{tab:fnr}} "
       "combines unpaired means from separate runs", B, "drift_map.py / n_sweep.py B", chars=3000)
 check("spoof-positive convention (section 3)", "\\section{Threshold policies}",
       "We treat spoof as the positive class")
@@ -877,12 +900,12 @@ def _diag(det):
     return min(fprs), max(fprs)
 _ds, _da = _diag("ssl"), _diag("aasist")
 check("same-condition speaker-split control", PILOT,
-      f"realizes {_ds[0]*100:.1f}--{_ds[1]*100:.1f}\\% FPR (SSL-AASIST) and {_da[0]*100:.1f}--{_da[1]*100:.1f}\\% (AASIST) "
-      f"over the {WORDS[12]} conditions with no $2\\times$ miss, so the speaker split alone produces no $2\\times$ miss "
-      "in these same-condition controls",
+      f"yield {_ds[0]*100:.1f}--{_ds[1]*100:.1f}\\% FPR (SSL-AASIST) and {_da[0]*100:.1f}--{_da[1]*100:.1f}\\% (AASIST) "
+      f"over {WORDS[12]} conditions, with no $2\\times$ miss",
       (_ds, _da), "a5_diagonal.json (recomputed from its cells)")
-check("the flagship's non-replication is stated", PILOT,
-      "The flagship AASIST cell does not replicate; the spoof-side axis here rests on one detector")
+check("the absent usable AASIST destination is stated, with the detector boundary", PILOT,
+      "ASVspoof~5 supplies no AASIST destination meeting our oracle-FNR $\\le$50\\% criterion; "
+      "the spoof-side axis here rests on one detector")
 
 # --- dispersion: exact Beta and the speaker diagnostic ---------------------------
 # Integer-parameter Beta CDF equals a binomial upper tail, so no scipy is needed.
@@ -1146,7 +1169,9 @@ check("section 4 carries both architectures on the count statistic", _FACT,
       f"arm~2, {_aar['arm2'][0]}--{_aar['arm2'][1]})",
       (_m1, _m2, _aam), "results_arm*.json and results_aasist_*.json K_median", chars=1400)
 check("section 4 states that the spoof-side benefit does not replicate", _FACT,
-      f"The largest excess FNR falls from 17.50 to 0.55 points on SSL-AASIST and rises from "
+      f"For each arm, maxima below range over all 42 transfers and all five selected checkpoints, pooling the "
+      f"three SSL-AASIST seeds; AASIST has one seed. The largest excess FNR falls from 17.50 to 0.55 points on "
+      f"SSL-AASIST and rises from "
       f"{_aac['arm1']:.1f} to {_aac['arm2']:.1f} on AASIST",
       _aac, "results_aasist_*.json fnr_price", chars=1400)
 check("the conclusion says the controls are not comparable baselines", "\\section{Conclusion}",
