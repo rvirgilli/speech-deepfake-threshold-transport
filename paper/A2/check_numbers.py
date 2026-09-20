@@ -241,19 +241,22 @@ _SERIES_WORDS = {"#0072B2": ("blue",), "#D55E00": ("orange", "vermillion", "red"
 _MARKER_WORDS = {"o": "circles", "s": "squares", "^": "triangles"}
 _DET_NAME = {"ssl": "SSL-AASIST", "aasist": "AASIST"}
 _capflat = _flat(window(FIG, 1400)).lower()
-_drawn = [(m.group(1), _palette[m.group(2)], m.group(3))
-          for m in re.finditer(r'\("(ssl|aasist)", (\w+), "(.)"\)', _gen_body)]
+_drawn = [(m.group(1), _palette[m.group(2)])
+          for m in re.finditer(r'\("(ssl|aasist)", (\w+)\)', _gen_body)]
 assert len(_drawn) == 2, _drawn
-for _det, _hex, _marker in _drawn:
-    if not any(f"{w} {_MARKER_WORDS[_marker]} ({_DET_NAME[_det]})".lower() in _capflat for w in _SERIES_WORDS[_hex]):
-        failures.append(f"figure caption does not name the {_det} series as figures.py draws it "
-                        f"({_hex}, marker {_marker!r}): expected "
-                        f"'{_SERIES_WORDS[_hex][0]} {_MARKER_WORDS[_marker]} ({_DET_NAME[_det]})'")
-_a5 = re.search(r'marker="(.)", facecolors=(\w+) if filled', _gen_body)
-if f"{_SERIES_WORDS[_palette[_a5.group(2)]][0]} {_MARKER_WORDS[_a5.group(1)]} show the".lower() not in _capflat:
+for _det, _hex in _drawn:
+    if not any(f"{w} ({_DET_NAME[_det]})".lower() in _capflat for w in _SERIES_WORDS[_hex]):
+        failures.append(f"figure caption does not name the {_det} series by the colour figures.py draws it in "
+                        f"({_hex}): expected '{_SERIES_WORDS[_hex][0]} ({_DET_NAME[_det]})'")
+# Every series must be a circle now; a reintroduced shape channel has to be declared.
+_shapes = set(re.findall(r'marker="(.)"', _gen_body))
+if _shapes != {"o"}:
+    failures.append(f"the panel draws more than one marker shape ({sorted(_shapes)}); the caption names colours only")
+_a5 = re.search(r'facecolors="none", edgecolors=(\w+)', _gen_body)
+if not _a5 or f"{_SERIES_WORDS[_palette[_a5.group(1)]][0]} circles show the".lower() not in _capflat:
     failures.append("figure caption does not name the ASVspoof 5 series as figures.py draws it")
 check("figure caption: cell populations, per series", FIG,
-      f"show the {len(cells)} 21LA and cross-corpus cells; green triangles show the "
+      f"filled circles show the {len(cells)} 21LA and cross-corpus cells; green circles show the "
       f"{len(A5['ssl/twin_free'])} ASVspoof~5 SSL-AASIST pairs", (len(cells), len(A5["ssl/twin_free"])),
       "results_drift.json within+cross; results_a5.json ssl/twin_free")
 check("figure caption: usable-destination rule and the 2x bar", FIG,
@@ -863,7 +866,7 @@ assert abs(A5COST["ssl"]["cost_median_pp"] - _med) < 1e-6 and sorted(A5COST["ssl
 assert A5COST["aasist"]["n_pairs"] == 0
 check("usable-pair spoof-side cost: median and count above 10 points (section 4)", PILOT,
       f"across all {len(_usable)} pairs the median cost is $+{_med:.1f}$ points and {_over10} exceed $+10$ "
-      f"(Fig.~\\ref{{fig:drift}}, filled triangles)",
+      f"(Fig.~\\ref{{fig:drift}}, filled green circles)",
       (_med, _over10), "results_a5.json ssl/twin_free usable pairs; a5_usable_cost.json")
 if "keep oracle FNR at or below" in window("\\begin{abstract}", 3000):
     failures.append("abstract restates the usable-destination rule; it belongs in section 4 and the Fig. 1 caption only")

@@ -116,24 +116,28 @@ def a2_drift():
     rc = {"font.size": 9, "axes.labelsize": 9, "xtick.labelsize": 9, "ytick.labelsize": 9}
     with plt.rc_context(rc):
         fig, ax = plt.subplots(1, 1, figsize=(COL, 1.62))
-        for model, color, marker in (("ssl", BLUE, "o"), ("aasist", VERM, "s")):
-            pts = [(v["log2_fpr_ratio"], 100 * v["fnr_price"])
-                   for fam in ("within", "cross") for k, v in r[fam].items()
-                   if k.startswith(model + "/")]
-            x, y = map(np.array, zip(*pts))
-            ax.scatter(x, y, s=9, color=color, marker=marker, alpha=0.8,
-                       edgecolors="white", linewidths=0.3)
         cells = a5["ssl/twin_free"]
         dest = {}
         for k, v in cells.items():
             dest.setdefault(k.split("->")[1], []).append(v["fnr_oracle"])
         usable = {d for d, vals in dest.items() if max(vals) <= 0.5}
-        for filled in (True, False):
+        # The dense replication series is drawn first so the sparse grid series are not
+        # buried under it; transparency turns overplotting into visible density.
+        for filled in (False, True):
             pts = [(v["log2_fpr_ratio"], 100 * v["fnr_price"]) for k, v in cells.items()
                    if (k.split("->")[1] in usable) == filled]
             x, y = map(np.array, zip(*pts))
-            ax.scatter(x, y, s=11, marker="^", facecolors=GREEN if filled else "none",
-                       edgecolors=GREEN, linewidths=0.5, alpha=0.9)
+            if filled:
+                ax.scatter(x, y, s=5, marker="o", color=GREEN, alpha=0.5, linewidths=0)
+            else:
+                ax.scatter(x, y, s=5, marker="o", facecolors="none", edgecolors=GREEN,
+                           linewidths=0.4, alpha=0.85)
+        for model, color in (("aasist", VERM), ("ssl", BLUE)):
+            pts = [(v["log2_fpr_ratio"], 100 * v["fnr_price"])
+                   for fam in ("within", "cross") for k, v in r[fam].items()
+                   if k.startswith(model + "/")]
+            x, y = map(np.array, zip(*pts))
+            ax.scatter(x, y, s=4.25, marker="o", color=color, alpha=0.5, linewidths=0)
         ax.axvline(0, color=GRAY, lw=0.8)
         for xv in (-1, 1):
             ax.axvline(xv, color=GRAY, lw=0.8, ls=":")
