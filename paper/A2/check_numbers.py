@@ -1393,7 +1393,14 @@ READER_STALE = [
     (r"6\.4 (pp|points)", "the all-phase Gaussian worst miss"),
     (r"Five cells are resolution-limited|Five cells have", "the all-phase resolution-limited count"),
 ]
+# These two reader files stay out of the public package, so a reader running the shipped
+# checker from a clean download must not hit them. They are still checked in the working
+# repository, where they exist; skipping a file that is absent by design is not the same
+# as dropping the check.
 for fname in ("READING-MAP.md", "AUTHORS-DOUBTS.md"):
+    if not (DOCS / fname).is_file():
+        print(f"  --  {fname} is not shipped in the package; its currency check runs in the repository")
+        continue
     doc = (DOCS / fname).read_text()
     for pat, why in READER_STALE:
         if re.search(pat, doc):

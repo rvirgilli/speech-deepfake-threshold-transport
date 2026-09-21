@@ -1,0 +1,169 @@
+\begin{thebibliography}{10}
+
+\bibitem{asvspoof19}
+Xin Wang et~al.,
+\newblock ``{ASVspoof} 2019: a large-scale public database of synthesized,
+  converted and replayed speech,''
+\newblock {\em Computer Speech \& Language}, vol. 64, 2020.
+
+\bibitem{asvspoof21}
+Junichi Yamagishi et~al.,
+\newblock ``{ASVspoof} 2021: accelerating progress in spoofed and deepfake
+  speech detection,''
+\newblock in {\em Proc. ASVspoof Challenge Workshop}, 2021.
+
+\bibitem{itw}
+Nicolas~M. M{\"u}ller et~al.,
+\newblock ``Does audio deepfake detection generalize?,''
+\newblock in {\em Proc. Interspeech}, 2022.
+
+\bibitem{brspeechdf}
+Alexandre Costa~Ferro Filho et~al.,
+\newblock ``{BRSpeech-DF}: a deep fake synthetic speech dataset for
+  {Portuguese} zero-shot {TTS},''
+\newblock in {\em Proc. EMNLP}, 2025.
+
+\bibitem{tak22}
+Hemlata Tak et~al.,
+\newblock ``Automatic speaker verification spoofing and deepfake detection
+  using wav2vec 2.0 and data augmentation,''
+\newblock in {\em Proc. Odyssey}, 2022.
+
+\bibitem{eerhides26}
+Jingwen Zhou and Mingzhe Wang,
+\newblock ``When {EER} hides deployment failure: auditing threshold transfer
+  and unlabeled score calibration for speech deepfake detectors,''
+\newblock {\em arXiv:2606.21584}, 2026.
+
+\bibitem{kwok25}
+Chin~Yuen Kwok et~al.,
+\newblock ``Bona fide cross testing reveals weak spot in audio deepfake
+  detection systems,''
+\newblock in {\em Proc. Interspeech}, 2025,
+\newblock arXiv:2509.09204.
+
+\bibitem{delgado26}
+H{\'e}ctor Delgado et~al.,
+\newblock ``On deepfake voice detection -- it's all in the presentation,''
+\newblock in {\em Proc. ICASSP}, 2026,
+\newblock arXiv:2509.26471.
+
+\bibitem{lrlspoof26}
+Kirill Borodin et~al.,
+\newblock ``When spoof detectors travel: Evaluation across 66 languages in the
+  low-resource language spoofing corpus,''
+\newblock in {\em Proc. Interspeech}, 2026,
+\newblock arXiv:2603.02364.
+
+\bibitem{tong18}
+Xin Tong, Yang Feng, and Jingyi~Jessica Li,
+\newblock ``Neyman-{P}earson classification algorithms and {NP} receiver
+  operating characteristics,''
+\newblock {\em Science Advances}, vol. 4, no. 2, 2018.
+
+\bibitem{vovk}
+Vladimir Vovk, Alexander Gammerman, and Glenn Shafer,
+\newblock {\em Algorithmic Learning in a Random World},
+\newblock Springer, 2005.
+
+\bibitem{zhao26ca}
+Yuze Zhao, Kuiyuan Zhang, Zhongyun Hua, Yushu Zhang, Qing Liao, and Wei Jiang,
+\newblock ``Learning tight rejection boundaries without negatives for strict
+  one-class audio deepfake detection,''
+\newblock in {\em Proc. ICML}, 2026,
+\newblock OpenReview: ZuzygE5nsT.
+
+\bibitem{asvspoof5}
+Xin Wang et~al.,
+\newblock ``{ASVspoof} 5: evaluation of spoofing, deepfake, and adversarial
+  attack detection using crowdsourced speech,''
+\newblock {\em IEEE Trans. Audio, Speech, Lang. Process.}, 2026.
+
+\bibitem{rubio26}
+Santiago Rubio et~al.,
+\newblock ``An intervention-based framework for shortcut diagnosis in spoofing
+  countermeasures,''
+\newblock in {\em Proc. Odyssey}, 2026, pp. 1--8,
+\newblock doi:10.21437/Odyssey.2026-1.
+
+\bibitem{trace26}
+Awais Khan et~al.,
+\newblock ``{TRACE}: training-free partial audio deepfake detection via
+  embedding trajectory analysis of speech foundation models,'' 2026,
+\newblock arXiv:2604.01083.
+
+\bibitem{fursule26}
+Aishwarya~R. Fursule et~al.,
+\newblock ``What you train is what you get: gender bias, training composition,
+  and post-hoc mitigation in audio deepfake detection,''
+\newblock {\em arXiv:2607.09891}, 2026.
+
+\bibitem{muller25replay}
+Nicolas M{\"u}ller et~al.,
+\newblock ``Replay attacks against audio deepfake detection,''
+\newblock in {\em Proc. Interspeech}, 2025, pp. 2245--2249.
+
+\bibitem{schaefer26}
+Karla Sch{\"a}fer and Martin Steinebach,
+\newblock ``Reality check: Measuring real-world applicability of
+  state-of-the-art audio deepfake detectors on social media data,''
+\newblock in {\em Proc. ICWSM}, 2026, vol.~20, pp. 3031--3036,
+\newblock doi:10.1609/icwsm.v20i1.42803.
+
+\bibitem{ramos26}
+Thiago~R. Ramos et~al.,
+\newblock ``Conformal prediction via transported {Beta} laws,''
+\newblock {\em arXiv:2605.19024}, 2026.
+
+\bibitem{jung22}
+Jee-weon Jung et~al.,
+\newblock ``{AASIST}: audio anti-spoofing using integrated spectro-temporal
+  graph attention networks,''
+\newblock in {\em Proc. ICASSP}, 2022.
+
+\bibitem{zhang24sls}
+Qishan Zhang et~al.,
+\newblock ``Audio deepfake detection with self-supervised {XLS-R} and {SLS}
+  classifier,''
+\newblock in {\em Proc. ACM Multimedia}, 2024.
+
+\bibitem{cmltts23}
+Frederico~S. Oliveira et~al.,
+\newblock ``{CML-TTS}: A multilingual dataset for speech synthesis in
+  low-resource languages,''
+\newblock in {\em Proc. TSD}, 2023.
+
+\bibitem{asvspoof21taslp}
+Xuechen Liu et~al.,
+\newblock ``{ASVspoof} 2021: towards spoofed and deepfake speech detection in
+  the wild,''
+\newblock {\em IEEE/ACM Trans. Audio, Speech, Lang. Process.}, vol. 31, pp.
+  2507--2522, 2023.
+
+\bibitem{dao26}
+Anh-Tuan Dao et~al.,
+\newblock ``A comparison of {SSL}-based feature extractors and back-end
+  classifiers for spoofing detection: a multi-corpus training and
+  cross-linguistic analysis,''
+\newblock in {\em Proc. Odyssey}, 2026,
+\newblock doi:10.21437/odyssey.2026-39.
+
+\bibitem{xlsrmamba}
+Yang Xiao and Rohan~Kumar Das,
+\newblock ``{XLSR-Mamba}: a dual-column bidirectional state space model for
+  spoofing attack detection,''
+\newblock {\em IEEE Signal Process. Lett.}, 2025,
+\newblock arXiv:2411.10027.
+
+\bibitem{rosello23}
+Eros Rosello et~al.,
+\newblock ``A conformer-based classifier for variable-length utterance
+  processing in anti-spoofing,''
+\newblock in {\em Proc. Interspeech}, 2023, pp. 5281--5285.
+
+\bibitem{dar26iss}
+Daniyal~Kabir Dar and Arun Ross,
+\newblock ``Probing speaker identity sensitivity in audio deepfake detectors,''
+\newblock in {\em Proc. IJCB}, 2026.
+
+\end{thebibliography}

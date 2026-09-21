@@ -1,0 +1,745 @@
+{
+ "alpha": 0.05,
+ "detectors": {
+  "aasist": {
+   "n_pairs": 42,
+   "covariates": {
+    "alaw": {
+     "oracle_fnr": 0.004866754866754867,
+     "auc": 0.9960730116714837,
+     "eer": 0.021147965969697716
+    },
+    "ulaw": {
+     "oracle_fnr": 0.0034492534492534493,
+     "auc": 0.9962195550056331,
+     "eer": 0.0203927674216299
+    },
+    "gsm": {
+     "oracle_fnr": 0.14141939141939142,
+     "auc": 0.9754190654020874,
+     "eer": 0.07097346167804572
+    },
+    "pstn": {
+     "oracle_fnr": 0.30013230013230013,
+     "auc": 0.9559804641510923,
+     "eer": 0.11064942261886235
+    },
+    "g722": {
+     "oracle_fnr": 0.006567756567756568,
+     "auc": 0.9922344266571771,
+     "eer": 0.0249479848376283
+    },
+    "opus": {
+     "oracle_fnr": 0.04828954828954829,
+     "auc": 0.985742468711484,
+     "eer": 0.04897579706578009
+    },
+    "none": {
+     "oracle_fnr": 0.0038745038745038743,
+     "auc": 0.9974630775776786,
+     "eer": 0.019141844481403054
+    }
+   },
+   "rho": {
+    "source_oracle_fnr": 0.63939048542584,
+    "dest_oracle_fnr": -0.6443013186472366,
+    "source_auc": -0.6659089848213817,
+    "dest_auc": 0.6767128179084543
+   },
+   "exact_p": {
+    "source_oracle_fnr": 0.004365079365079365,
+    "dest_oracle_fnr": 0.9952380952380953,
+    "source_auc": 0.9986111111111111,
+    "dest_auc": 0.0015873015873015873
+   },
+   "sign_table": {
+    "pred_cons_and_cons": 18,
+    "pred_cons_and_lib": 3,
+    "pred_lib_and_cons": 3,
+    "pred_lib_and_lib": 18
+   },
+   "heat": {
+    "severity": {
+     "alaw->g722": -0.5506,
+     "alaw->gsm": 3.3081,
+     "alaw->none": -1.4634,
+     "alaw->opus": 0.8176,
+     "alaw->pstn": 3.8093,
+     "alaw->ulaw": -0.1807,
+     "g722->alaw": 0.7351,
+     "g722->gsm": 3.7439,
+     "g722->none": -0.7152,
+     "g722->opus": 1.3529,
+     "g722->pstn": 4.01,
+     "g722->ulaw": 0.5981,
+     "gsm->alaw": -3.4904,
+     "gsm->g722": -2.8406,
+     "gsm->none": -5.2952,
+     "gsm->opus": -2.0536,
+     "gsm->pstn": 1.7969,
+     "gsm->ulaw": -3.3805,
+     "none->alaw": 1.5389,
+     "none->g722": 0.7095,
+     "none->gsm": 4.0636,
+     "none->opus": 1.8721,
+     "none->pstn": 4.1783,
+     "none->ulaw": 1.4015,
+     "opus->alaw": -1.1294,
+     "opus->g722": -1.4794,
+     "opus->gsm": 2.4408,
+     "opus->none": -2.8146,
+     "opus->pstn": 3.3589,
+     "opus->ulaw": -1.174,
+     "pstn->alaw": -4.9868,
+     "pstn->g722": -3.56,
+     "pstn->gsm": -2.2034,
+     "pstn->none": -5.2952,
+     "pstn->opus": -3.8369,
+     "pstn->ulaw": -5.2952,
+     "ulaw->alaw": 0.2,
+     "ulaw->g722": -0.3887,
+     "ulaw->gsm": 3.4431,
+     "ulaw->none": -1.2432,
+     "ulaw->opus": 0.973,
+     "ulaw->pstn": 3.8713
+    },
+    "price_pp": {
+     "alaw->g722": 1.04,
+     "alaw->gsm": -14.000000000000002,
+     "alaw->none": 2.03,
+     "alaw->opus": -3.54,
+     "alaw->pstn": -29.92,
+     "alaw->ulaw": 0.15,
+     "g722->alaw": -0.22999999999999998,
+     "g722->gsm": -14.099999999999998,
+     "g722->none": 0.75,
+     "g722->opus": -4.279999999999999,
+     "g722->pstn": -29.98,
+     "g722->ulaw": -0.13,
+     "gsm->alaw": 24.6,
+     "gsm->g722": 40.45,
+     "gsm->none": 43.730000000000004,
+     "gsm->opus": 33.33,
+     "gsm->pstn": -25.25,
+     "gsm->ulaw": 24.63,
+     "none->alaw": -0.38999999999999996,
+     "none->g722": -0.33,
+     "none->gsm": -14.14,
+     "none->opus": -4.61,
+     "none->pstn": -30.009999999999998,
+     "none->ulaw": -0.26,
+     "opus->alaw": 1.43,
+     "opus->g722": 5.56,
+     "opus->gsm": -13.71,
+     "opus->none": 8.25,
+     "opus->pstn": -29.7,
+     "opus->ulaw": 1.49,
+     "pstn->alaw": 57.120000000000005,
+     "pstn->g722": 69.43,
+     "pstn->gsm": 40.5,
+     "pstn->none": 69.5,
+     "pstn->opus": 63.17,
+     "pstn->ulaw": 56.99999999999999,
+     "ulaw->alaw": -0.03,
+     "ulaw->g722": 0.72,
+     "ulaw->gsm": -14.030000000000001,
+     "ulaw->none": 1.59,
+     "ulaw->opus": -3.83,
+     "ulaw->pstn": -29.93
+    }
+   }
+  },
+  "ssl": {
+   "n_pairs": 42,
+   "covariates": {
+    "alaw": {
+     "oracle_fnr": 0.000945000945000945,
+     "auc": 0.9987390695158097,
+     "eer": 0.005995140545225435
+    },
+    "ulaw": {
+     "oracle_fnr": 0.0008977508977508977,
+     "auc": 0.998549287174075,
+     "eer": 0.0049564417136573335
+    },
+    "gsm": {
+     "oracle_fnr": 0.002031752031752032,
+     "auc": 0.9960338639243563,
+     "eer": 0.008001262033520098
+    },
+    "pstn": {
+     "oracle_fnr": 0.001134001134001134,
+     "auc": 0.9996224408363628,
+     "eer": 0.005192290845941101
+    },
+    "g722": {
+     "oracle_fnr": 0.0010395010395010396,
+     "auc": 0.9971629013967723,
+     "eer": 0.0062309896775092025
+    },
+    "opus": {
+     "oracle_fnr": 0.0010867510867510867,
+     "auc": 0.9978264577161012,
+     "eer": 0.010290883805315044
+    },
+    "none": {
+     "oracle_fnr": 0.0007087507087507088,
+     "auc": 0.9997990469127991,
+     "eer": 0.002714471093078903
+    }
+   },
+   "rho": {
+    "source_oracle_fnr": 0.6273269448430684,
+    "dest_oracle_fnr": -0.6922737344268213,
+    "source_auc": -0.23469408054128912,
+    "dest_auc": 0.2848802361287346
+   },
+   "exact_p": {
+    "source_oracle_fnr": 0.00376984126984127,
+    "dest_oracle_fnr": 0.9940476190476191,
+    "source_auc": 0.7720238095238096,
+    "dest_auc": 0.21071428571428572
+   },
+   "sign_table": {
+    "pred_cons_and_cons": 19,
+    "pred_cons_and_lib": 2,
+    "pred_lib_and_cons": 2,
+    "pred_lib_and_lib": 19
+   },
+   "heat": {
+    "severity": {
+     "alaw->g722": -0.6612,
+     "alaw->gsm": 3.4346,
+     "alaw->none": -1.2386,
+     "alaw->opus": 0.4172,
+     "alaw->pstn": 3.1484,
+     "alaw->ulaw": -0.1093,
+     "g722->alaw": 0.4876,
+     "g722->gsm": 3.6099,
+     "g722->none": -0.5386,
+     "g722->opus": 0.9161,
+     "g722->pstn": 3.387,
+     "g722->ulaw": 0.45,
+     "gsm->alaw": -2.5865,
+     "gsm->g722": -3.0683,
+     "gsm->none": -5.2952,
+     "gsm->opus": -1.6449,
+     "gsm->pstn": -0.706,
+     "gsm->ulaw": -2.949,
+     "none->alaw": 0.8539,
+     "none->g722": 0.4729,
+     "none->gsm": 3.7334,
+     "none->opus": 1.2488,
+     "none->pstn": 3.5228,
+     "none->ulaw": 0.8787,
+     "opus->alaw": -0.4888,
+     "opus->g722": -1.2631,
+     "opus->gsm": 3.2336,
+     "opus->none": -1.8868,
+     "opus->pstn": 2.9186,
+     "opus->ulaw": -0.6236,
+     "pstn->alaw": -2.4554,
+     "pstn->g722": -2.9008,
+     "pstn->gsm": 0.6921,
+     "pstn->none": -5.2591,
+     "pstn->opus": -1.4422,
+     "pstn->ulaw": -2.8373,
+     "ulaw->alaw": 0.0844,
+     "ulaw->g722": -0.5453,
+     "ulaw->gsm": 3.4763,
+     "ulaw->none": -1.0994,
+     "ulaw->opus": 0.5249,
+     "ulaw->pstn": 3.1922
+    },
+    "price_pp": {
+     "alaw->g722": 0.04,
+     "alaw->gsm": -0.16,
+     "alaw->none": 0.06,
+     "alaw->opus": -0.02,
+     "alaw->pstn": -0.1,
+     "alaw->ulaw": 0.0,
+     "g722->alaw": -0.01,
+     "g722->gsm": -0.16999999999999998,
+     "g722->none": 0.03,
+     "g722->opus": -0.05,
+     "g722->pstn": -0.1,
+     "g722->ulaw": -0.01,
+     "gsm->alaw": 0.36,
+     "gsm->g722": 0.65,
+     "gsm->none": 0.6,
+     "gsm->opus": 0.37,
+     "gsm->pstn": 0.03,
+     "gsm->ulaw": 0.31,
+     "none->alaw": -0.02,
+     "none->g722": -0.01,
+     "none->gsm": -0.16999999999999998,
+     "none->opus": -0.06999999999999999,
+     "none->pstn": -0.1,
+     "none->ulaw": -0.02,
+     "opus->alaw": 0.03,
+     "opus->g722": 0.06,
+     "opus->gsm": -0.15,
+     "opus->none": 0.08,
+     "opus->pstn": -0.1,
+     "opus->ulaw": 0.03,
+     "pstn->alaw": 0.29,
+     "pstn->g722": 0.47000000000000003,
+     "pstn->gsm": -0.04,
+     "pstn->none": 0.44,
+     "pstn->opus": 0.29,
+     "pstn->ulaw": 0.24,
+     "ulaw->alaw": 0.0,
+     "ulaw->g722": 0.04,
+     "ulaw->gsm": -0.16,
+     "ulaw->none": 0.06,
+     "ulaw->opus": -0.03,
+     "ulaw->pstn": -0.1
+    }
+   }
+  },
+  "xlsr_sls": {
+   "n_pairs": 42,
+   "covariates": {
+    "alaw": {
+     "oracle_fnr": 0.003024003024003024,
+     "auc": 0.9982576545076545,
+     "eer": 0.01128193148566663
+    },
+    "ulaw": {
+     "oracle_fnr": 0.0025515025515025513,
+     "auc": 0.9986026941672103,
+     "eer": 0.011046082353382863
+    },
+    "gsm": {
+     "oracle_fnr": 0.02527877527877528,
+     "auc": 0.9932563793981452,
+     "eer": 0.034814019321659395
+    },
+    "pstn": {
+     "oracle_fnr": 0.011765261765261764,
+     "auc": 0.9959097623571308,
+     "eer": 0.02372108802499295
+    },
+    "g722": {
+     "oracle_fnr": 0.0017482517482517483,
+     "auc": 0.9986374999639006,
+     "eer": 0.010290883805315044
+    },
+    "opus": {
+     "oracle_fnr": 0.0038745038745038743,
+     "auc": 0.9972802744449604,
+     "eer": 0.02166731538548177
+    },
+    "none": {
+     "oracle_fnr": 0.0010867510867510867,
+     "auc": 0.9997824512361864,
+     "eer": 0.0049564417136573335
+    }
+   },
+   "rho": {
+    "source_oracle_fnr": 0.698377076366341,
+    "dest_oracle_fnr": -0.7052528000436469,
+    "source_auc": -0.698377076366341,
+    "dest_auc": 0.7052528000436469
+   },
+   "exact_p": {
+    "source_oracle_fnr": 0.0001984126984126984,
+    "dest_oracle_fnr": 1.0,
+    "source_auc": 1.0,
+    "dest_auc": 0.0001984126984126984
+   },
+   "sign_table": {
+    "pred_cons_and_cons": 21,
+    "pred_cons_and_lib": 0,
+    "pred_lib_and_cons": 0,
+    "pred_lib_and_lib": 21
+   },
+   "heat": {
+    "severity": {
+     "alaw->g722": -0.9122,
+     "alaw->gsm": 3.5975,
+     "alaw->none": -2.0858,
+     "alaw->opus": 0.7073,
+     "alaw->pstn": 3.3719,
+     "alaw->ulaw": -0.0659,
+     "g722->alaw": 1.0039,
+     "g722->gsm": 3.8947,
+     "g722->none": -0.6339,
+     "g722->opus": 1.4958,
+     "g722->pstn": 3.8413,
+     "g722->ulaw": 0.9572,
+     "gsm->alaw": -3.1764,
+     "gsm->g722": -3.1168,
+     "gsm->none": -5.2952,
+     "gsm->opus": -1.8284,
+     "gsm->pstn": -2.5061,
+     "gsm->ulaw": -3.3079,
+     "none->alaw": 1.4945,
+     "none->g722": 0.5643,
+     "none->gsm": 4.014,
+     "none->opus": 1.9315,
+     "none->pstn": 4.0275,
+     "none->ulaw": 1.4719,
+     "opus->alaw": -1.0282,
+     "opus->g722": -1.7783,
+     "opus->gsm": 3.1951,
+     "opus->none": -3.7371,
+     "opus->pstn": 2.6359,
+     "opus->ulaw": -1.0923,
+     "pstn->alaw": -2.5712,
+     "pstn->g722": -2.887,
+     "pstn->gsm": 1.6237,
+     "pstn->none": -5.2952,
+     "pstn->opus": -1.1605,
+     "pstn->ulaw": -2.9401,
+     "ulaw->alaw": 0.0546,
+     "ulaw->g722": -0.8471,
+     "ulaw->gsm": 3.6224,
+     "ulaw->none": -2.0066,
+     "ulaw->opus": 0.768,
+     "ulaw->pstn": 3.4002
+    },
+    "price_pp": {
+     "alaw->g722": 0.11,
+     "alaw->gsm": -2.27,
+     "alaw->none": 0.19,
+     "alaw->opus": -0.16,
+     "alaw->pstn": -0.9299999999999999,
+     "alaw->ulaw": 0.01,
+     "g722->alaw": -0.09,
+     "g722->gsm": -2.34,
+     "g722->none": 0.06999999999999999,
+     "g722->opus": -0.27999999999999997,
+     "g722->pstn": -0.98,
+     "g722->ulaw": -0.06999999999999999,
+     "gsm->alaw": 7.6,
+     "gsm->g722": 6.94,
+     "gsm->none": 8.27,
+     "gsm->opus": 5.1499999999999995,
+     "gsm->pstn": 3.9600000000000004,
+     "gsm->ulaw": 7.61,
+     "none->alaw": -0.13999999999999999,
+     "none->g722": -0.04,
+     "none->gsm": -2.4,
+     "none->opus": -0.32,
+     "none->pstn": -1.04,
+     "none->ulaw": -0.12,
+     "opus->alaw": 0.16999999999999998,
+     "opus->g722": 0.37,
+     "opus->gsm": -2.21,
+     "opus->none": 0.59,
+     "opus->pstn": -0.89,
+     "opus->ulaw": 0.19,
+     "pstn->alaw": 2.3800000000000003,
+     "pstn->g722": 2.54,
+     "pstn->gsm": -1.7999999999999998,
+     "pstn->none": 3.15,
+     "pstn->opus": 1.43,
+     "pstn->ulaw": 2.19,
+     "ulaw->alaw": 0.0,
+     "ulaw->g722": 0.1,
+     "ulaw->gsm": -2.27,
+     "ulaw->none": 0.18,
+     "ulaw->opus": -0.18,
+     "ulaw->pstn": -0.9400000000000001
+    }
+   }
+  },
+  "xlsr_mamba": {
+   "n_pairs": 42,
+   "covariates": {
+    "alaw": {
+     "oracle_fnr": 0.0,
+     "auc": 0.9978712008635608,
+     "eer": 0.007765412901236331
+    },
+    "ulaw": {
+     "oracle_fnr": 4.725004725004725e-05,
+     "auc": 0.9977632437309857,
+     "eer": 0.006514489961009486
+    },
+    "gsm": {
+     "oracle_fnr": 0.00023625023625023625,
+     "auc": 0.9946300200969131,
+     "eer": 0.009275809997371966
+    },
+    "pstn": {
+     "oracle_fnr": 0.00033075033075033076,
+     "auc": 0.9997207113081477,
+     "eer": 0.0049564417136573335
+    },
+    "g722": {
+     "oracle_fnr": 0.000756000756000756,
+     "auc": 0.9963800567578157,
+     "eer": 0.007269688509077304
+    },
+    "opus": {
+     "oracle_fnr": 0.00014175014175014174,
+     "auc": 0.9954783148755985,
+     "eer": 0.012084781184950964
+    },
+    "none": {
+     "oracle_fnr": 0.0006142506142506142,
+     "auc": 0.9997798941984002,
+     "eer": 0.0047205925813735665
+    }
+   },
+   "rho": {
+    "source_oracle_fnr": -0.0479902670164096,
+    "dest_oracle_fnr": 0.06431685270240461,
+    "source_auc": -0.1226967651553565,
+    "dest_auc": 0.14100233092450243
+   },
+   "exact_p": {
+    "source_oracle_fnr": 0.5597222222222222,
+    "dest_oracle_fnr": 0.4299603174603175,
+    "source_auc": 0.6525793650793651,
+    "dest_auc": 0.34404761904761905
+   },
+   "sign_table": {
+    "pred_cons_and_cons": 9,
+    "pred_cons_and_lib": 12,
+    "pred_lib_and_cons": 12,
+    "pred_lib_and_lib": 9
+   },
+   "heat": {
+    "severity": {
+     "alaw->g722": -0.891,
+     "alaw->gsm": 2.8046,
+     "alaw->none": -1.579,
+     "alaw->opus": -0.1346,
+     "alaw->pstn": 2.9676,
+     "alaw->ulaw": -0.217,
+     "g722->alaw": 0.9572,
+     "g722->gsm": 3.3211,
+     "g722->none": -0.3513,
+     "g722->opus": 0.6715,
+     "g722->pstn": 3.4689,
+     "g722->ulaw": 0.8842,
+     "gsm->alaw": -2.0907,
+     "gsm->g722": -2.7882,
+     "gsm->none": -3.9529,
+     "gsm->opus": -1.3541,
+     "gsm->pstn": 0.3523,
+     "gsm->ulaw": -2.2946,
+     "none->alaw": 1.2231,
+     "none->g722": 0.2239,
+     "none->gsm": 3.4558,
+     "none->opus": 0.8957,
+     "none->pstn": 3.5876,
+     "none->ulaw": 1.1336,
+     "opus->alaw": 0.1849,
+     "opus->g722": -0.7273,
+     "opus->gsm": 2.8806,
+     "opus->none": -1.4272,
+     "opus->pstn": 3.0585,
+     "opus->ulaw": -0.03,
+     "pstn->alaw": -2.197,
+     "pstn->g722": -2.8893,
+     "pstn->gsm": -0.2701,
+     "pstn->none": -4.4166,
+     "pstn->opus": -1.4236,
+     "pstn->ulaw": -2.4722,
+     "ulaw->alaw": 0.1873,
+     "ulaw->g722": -0.6951,
+     "ulaw->gsm": 2.9312,
+     "ulaw->none": -1.3838,
+     "ulaw->opus": 0.0194,
+     "ulaw->pstn": 3.0861
+    },
+    "price_pp": {
+     "alaw->g722": 0.06999999999999999,
+     "alaw->gsm": -0.02,
+     "alaw->none": 0.09,
+     "alaw->opus": 0.01,
+     "alaw->pstn": -0.03,
+     "alaw->ulaw": 0.0,
+     "g722->alaw": 0.0,
+     "g722->gsm": -0.02,
+     "g722->none": 0.01,
+     "g722->opus": -0.01,
+     "g722->pstn": -0.03,
+     "g722->ulaw": -0.0,
+     "gsm->alaw": 0.3,
+     "gsm->g722": 0.7000000000000001,
+     "gsm->none": 0.63,
+     "gsm->opus": 0.21,
+     "gsm->pstn": -0.01,
+     "gsm->ulaw": 0.26,
+     "none->alaw": 0.0,
+     "none->g722": -0.02,
+     "none->gsm": -0.02,
+     "none->opus": -0.01,
+     "none->pstn": -0.03,
+     "none->ulaw": -0.0,
+     "opus->alaw": 0.0,
+     "opus->g722": 0.06,
+     "opus->gsm": -0.02,
+     "opus->none": 0.08,
+     "opus->pstn": -0.03,
+     "opus->ulaw": -0.0,
+     "pstn->alaw": 0.37,
+     "pstn->g722": 0.83,
+     "pstn->gsm": 0.02,
+     "pstn->none": 0.72,
+     "pstn->opus": 0.26,
+     "pstn->ulaw": 0.33,
+     "ulaw->alaw": 0.0,
+     "ulaw->g722": 0.05,
+     "ulaw->gsm": -0.02,
+     "ulaw->none": 0.06999999999999999,
+     "ulaw->opus": 0.0,
+     "ulaw->pstn": -0.03
+    }
+   }
+  },
+  "xlsr_conformer": {
+   "n_pairs": 42,
+   "covariates": {
+    "alaw": {
+     "oracle_fnr": 0.000189000189000189,
+     "auc": 0.9982885495406718,
+     "eer": 0.007765412901236331
+    },
+    "ulaw": {
+     "oracle_fnr": 0.00014175014175014174,
+     "auc": 0.9978658461256085,
+     "eer": 0.005475791129441384
+    },
+    "gsm": {
+     "oracle_fnr": 0.0019372519372519372,
+     "auc": 0.9946549787912267,
+     "eer": 0.01232063031723473
+    },
+    "pstn": {
+     "oracle_fnr": 0.0006615006615006615,
+     "auc": 0.9997197286034298,
+     "eer": 0.005947489394008919
+    },
+    "g722": {
+     "oracle_fnr": 0.0002835002835002835,
+     "auc": 0.9968814166607036,
+     "eer": 0.0062309896775092025
+    },
+    "opus": {
+     "oracle_fnr": 0.000189000189000189,
+     "auc": 0.9964784074503938,
+     "eer": 0.010810233221099096
+    },
+    "none": {
+     "oracle_fnr": 0.00023625023625023625,
+     "auc": 0.9999224264928849,
+     "eer": 0.00295032022536267
+    }
+   },
+   "rho": {
+    "source_oracle_fnr": 0.4206502824855704,
+    "dest_oracle_fnr": -0.4536765443336111,
+    "source_auc": -0.2165597703912685,
+    "dest_auc": 0.29087914613918114
+   },
+   "exact_p": {
+    "source_oracle_fnr": 0.08134920634920635,
+    "dest_oracle_fnr": 0.9023809523809524,
+    "source_auc": 0.7557539682539682,
+    "dest_auc": 0.20753968253968255
+   },
+   "sign_table": {
+    "pred_cons_and_cons": 13,
+    "pred_cons_and_lib": 7,
+    "pred_lib_and_cons": 8,
+    "pred_lib_and_lib": 14
+   },
+   "heat": {
+    "severity": {
+     "alaw->g722": -1.7838,
+     "alaw->gsm": 3.4341,
+     "alaw->none": -2.8976,
+     "alaw->opus": -0.585,
+     "alaw->pstn": 3.6963,
+     "alaw->ulaw": -0.0818,
+     "g722->alaw": 1.7855,
+     "g722->gsm": 4.0652,
+     "g722->none": -0.1289,
+     "g722->opus": 0.8376,
+     "g722->pstn": 4.1831,
+     "g722->ulaw": 1.6811,
+     "gsm->alaw": -2.7906,
+     "gsm->g722": -3.1798,
+     "gsm->none": -5.2952,
+     "gsm->opus": -2.106,
+     "gsm->pstn": -0.6405,
+     "gsm->ulaw": -3.2396,
+     "none->alaw": 1.8741,
+     "none->g722": 0.1091,
+     "none->gsm": 4.0872,
+     "none->opus": 0.9279,
+     "none->pstn": 4.1954,
+     "none->ulaw": 1.7781,
+     "opus->alaw": 0.7723,
+     "opus->g722": -1.084,
+     "opus->gsm": 3.7494,
+     "opus->none": -1.7545,
+     "opus->pstn": 3.9595,
+     "opus->ulaw": 0.6353,
+     "pstn->alaw": -2.7106,
+     "pstn->g722": -3.1798,
+     "pstn->gsm": 0.4587,
+     "pstn->none": -5.2952,
+     "pstn->opus": -1.8816,
+     "pstn->ulaw": -3.1801,
+     "ulaw->alaw": 0.0758,
+     "ulaw->g722": -1.7122,
+     "ulaw->gsm": 3.4899,
+     "ulaw->none": -2.7983,
+     "ulaw->opus": -0.5027,
+     "ulaw->pstn": 3.7327
+    },
+    "price_pp": {
+     "alaw->g722": 0.13999999999999999,
+     "alaw->gsm": -0.19,
+     "alaw->none": 0.13,
+     "alaw->opus": 0.02,
+     "alaw->pstn": -0.06,
+     "alaw->ulaw": -0.0,
+     "g722->alaw": -0.02,
+     "g722->gsm": -0.19,
+     "g722->none": 0.01,
+     "g722->opus": -0.02,
+     "g722->pstn": -0.06999999999999999,
+     "g722->ulaw": -0.01,
+     "gsm->alaw": 0.9400000000000001,
+     "gsm->g722": 2.68,
+     "gsm->none": 2.4,
+     "gsm->opus": 0.9199999999999999,
+     "gsm->pstn": 0.06,
+     "gsm->ulaw": 0.84,
+     "none->alaw": -0.02,
+     "none->g722": 0.0,
+     "none->gsm": -0.19,
+     "none->opus": -0.02,
+     "none->pstn": -0.06999999999999999,
+     "none->ulaw": -0.01,
+     "opus->alaw": -0.01,
+     "opus->g722": 0.06999999999999999,
+     "opus->gsm": -0.19,
+     "opus->none": 0.06999999999999999,
+     "opus->pstn": -0.06,
+     "opus->ulaw": -0.01,
+     "pstn->alaw": 0.64,
+     "pstn->g722": 1.8399999999999999,
+     "pstn->gsm": -0.06999999999999999,
+     "pstn->none": 1.52,
+     "pstn->opus": 0.61,
+     "pstn->ulaw": 0.58,
+     "ulaw->alaw": 0.0,
+     "ulaw->g722": 0.13,
+     "ulaw->gsm": -0.19,
+     "ulaw->none": 0.12,
+     "ulaw->opus": 0.02,
+     "ulaw->pstn": -0.06
+    }
+   }
+  }
+ }
+}

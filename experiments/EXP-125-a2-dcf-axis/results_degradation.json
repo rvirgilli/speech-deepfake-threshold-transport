@@ -1,0 +1,4319 @@
+{
+ "alpha": 0.05,
+ "n_cal": 500,
+ "b_draws": 1000,
+ "seed": 20260813,
+ "priors": [
+  0.05,
+  0.1,
+  0.5,
+  0.9
+ ],
+ "estimand": "degradation: (DCF on deployment - DCF on calibration) / DCF on calibration, one threshold",
+ "detectors": {
+  "aasist": {
+   "cells": {
+    "alaw->g722": {
+     "log2_fpr_ratio": -0.5506236031777224,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.665567116405826,
+       "v2_dcf_calibration": 0.9433825927777538,
+       "v2_delta": -0.2944886608029419,
+       "v3_threshold": -3.029788,
+       "v3_dcf_deployment": 0.3951475725669274,
+       "v3_dcf_calibration": 0.24287438803567832,
+       "v3_delta": 0.6269627100774418,
+       "v3_fpr_deployment": 0.00933786078098472,
+       "v3_fnr_deployment": 0.2177282177282177
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.3242046376282369,
+       "v2_dcf_calibration": 0.44975356051968957,
+       "v2_delta": -0.2791504813133242,
+       "v3_threshold": -2.35392,
+       "v3_dcf_deployment": 0.24018771344747572,
+       "v3_dcf_calibration": 0.152240935772345,
+       "v3_delta": 0.5776815363683973,
+       "v3_fpr_deployment": 0.010186757215619695,
+       "v3_fnr_deployment": 0.14850689850689847
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.05111465460616564,
+       "v2_dcf_calibration": 0.05485033471323795,
+       "v2_delta": -0.0681067877999788,
+       "v3_threshold": -0.721954,
+       "v3_dcf_deployment": 0.0636097142888314,
+       "v3_dcf_calibration": 0.038885906458062655,
+       "v3_delta": 0.6358038189860038,
+       "v3_fpr_deployment": 0.019100169779286927,
+       "v3_fnr_deployment": 0.044509544509544474
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.18694190843341957,
+       "v2_dcf_calibration": 0.09874978661268992,
+       "v2_delta": 0.8930867077883533,
+       "v3_threshold": 0.485765,
+       "v3_dcf_deployment": 0.17939070061311163,
+       "v3_dcf_calibration": 0.0930416002572198,
+       "v3_delta": 0.9280698108929113,
+       "v3_fpr_deployment": 0.03438030560271647,
+       "v3_fnr_deployment": 0.016112266112266127
+      }
+     }
+    },
+    "alaw->gsm": {
+     "log2_fpr_ratio": 3.3056348971743685,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 9.3947170865316,
+       "v2_dcf_calibration": 0.9433825927777538,
+       "v2_delta": 8.958544029171893,
+       "v3_threshold": -3.029788,
+       "v3_dcf_deployment": 2.0036687375397046,
+       "v3_dcf_calibration": 0.24287438803567832,
+       "v3_delta": 7.249814868274069,
+       "v3_fpr_deployment": 0.10441426146010187,
+       "v3_fnr_deployment": 0.019797769797769815
+      },
+      "0.1": {
+       "v2_dcf_deployment": 4.450867341200533,
+       "v2_dcf_calibration": 0.44975356051968957,
+       "v2_delta": 8.896235920973172,
+       "v3_threshold": -2.35392,
+       "v3_dcf_deployment": 1.3386800759466295,
+       "v3_dcf_calibration": 0.152240935772345,
+       "v3_delta": 7.793167679607792,
+       "v3_fpr_deployment": 0.14770797962648557,
+       "v3_fnr_deployment": 0.009308259308259292
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.4957875449356774,
+       "v2_dcf_calibration": 0.05485033471323795,
+       "v2_delta": 8.0389155786869,
+       "v3_threshold": -0.721954,
+       "v3_dcf_deployment": 0.3161258394704914,
+       "v3_dcf_calibration": 0.038885906458062655,
+       "v3_delta": 7.1295736235806695,
+       "v3_fpr_deployment": 0.3128183361629881,
+       "v3_fnr_deployment": 0.00330750330750329
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.5070081081562405,
+       "v2_dcf_calibration": 0.09874978661268992,
+       "v2_delta": 4.134270417664752,
+       "v3_threshold": 0.485765,
+       "v3_dcf_deployment": 0.504690590004682,
+       "v3_dcf_calibration": 0.0930416002572198,
+       "v3_delta": 4.424354144914003,
+       "v3_fpr_deployment": 0.4932088285229202,
+       "v3_fnr_deployment": 0.0012757512757513023
+      }
+     }
+    },
+    "alaw->none": {
+     "log2_fpr_ratio": -1.4651807719503802,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.36821904054968563,
+       "v2_dcf_calibration": 0.9433825927777538,
+       "v2_delta": -0.6096821762785778,
+       "v3_threshold": -3.029788,
+       "v3_dcf_deployment": 0.29151907377713826,
+       "v3_dcf_calibration": 0.24287438803567832,
+       "v3_delta": 0.20028742484907064,
+       "v3_fpr_deployment": 0.001697792869269949,
+       "v3_fnr_deployment": 0.25926100926100926
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.18712396414900662,
+       "v2_dcf_calibration": 0.44975356051968957,
+       "v2_delta": -0.5839411167022555,
+       "v3_threshold": -2.35392,
+       "v3_dcf_deployment": 0.2055488562279733,
+       "v3_dcf_calibration": 0.152240935772345,
+       "v3_delta": 0.3501549710344848,
+       "v3_fpr_deployment": 0.0021222410865874364,
+       "v3_fnr_deployment": 0.1864486864486864
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.0422479030284633,
+       "v2_dcf_calibration": 0.05485033471323795,
+       "v2_delta": -0.22976034240558782,
+       "v3_threshold": -0.721954,
+       "v3_dcf_deployment": 0.07038732845184459,
+       "v3_dcf_calibration": 0.038885906458062655,
+       "v3_delta": 0.8100986928967523,
+       "v3_fpr_deployment": 0.008064516129032258,
+       "v3_fnr_deployment": 0.06232281232281234
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.23535506613562643,
+       "v2_dcf_calibration": 0.09874978661268992,
+       "v2_delta": 1.383347592017803,
+       "v3_threshold": 0.485765,
+       "v3_dcf_deployment": 0.22747368035992807,
+       "v3_dcf_calibration": 0.0930416002572198,
+       "v3_delta": 1.444859930730573,
+       "v3_fpr_deployment": 0.01867572156196944,
+       "v3_fnr_deployment": 0.023199773199773177
+      }
+     }
+    },
+    "alaw->opus": {
+     "log2_fpr_ratio": 0.8200913883829066,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 1.6899737442156797,
+       "v2_dcf_calibration": 0.9433825927777538,
+       "v2_delta": 0.7913980575363564,
+       "v3_threshold": -3.029788,
+       "v3_dcf_deployment": 0.5643149352826772,
+       "v3_dcf_calibration": 0.24287438803567832,
+       "v3_delta": 1.3234847438906534,
+       "v3_fpr_deployment": 0.019524617996604415,
+       "v3_fnr_deployment": 0.1933471933471933
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.807214830803116,
+       "v2_dcf_calibration": 0.44975356051968957,
+       "v2_delta": 0.7947936418121525,
+       "v3_threshold": -2.35392,
+       "v3_dcf_deployment": 0.3906849700567867,
+       "v3_dcf_calibration": 0.152240935772345,
+       "v3_delta": 1.5662281177843087,
+       "v3_fpr_deployment": 0.02928692699490662,
+       "v3_fnr_deployment": 0.1271026271026271
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.10100770007306512,
+       "v2_dcf_calibration": 0.05485033471323795,
+       "v2_delta": 0.8415147437320422,
+       "v3_threshold": -0.721954,
+       "v3_dcf_deployment": 0.09217184641632856,
+       "v3_dcf_calibration": 0.038885906458062655,
+       "v3_delta": 1.3703149755743325,
+       "v3_fpr_deployment": 0.056876061120543296,
+       "v3_fnr_deployment": 0.035295785295785254
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.20286216992753492,
+       "v2_dcf_calibration": 0.09874978661268992,
+       "v2_delta": 1.0543048940772695,
+       "v3_threshold": 0.485765,
+       "v3_dcf_deployment": 0.19119823873643907,
+       "v3_dcf_calibration": 0.0930416002572198,
+       "v3_delta": 1.054975819502874,
+       "v3_fpr_deployment": 0.08701188455008489,
+       "v3_fnr_deployment": 0.01157626157626157
+      }
+     }
+    },
+    "alaw->pstn": {
+     "log2_fpr_ratio": 3.810029283151963,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 13.325642123569542,
+       "v2_dcf_calibration": 0.9433825927777538,
+       "v2_delta": 13.125384786179593,
+       "v3_threshold": -3.029788,
+       "v3_dcf_deployment": 5.5914181720633325,
+       "v3_dcf_calibration": 0.24287438803567832,
+       "v3_delta": 22.021851819311433,
+       "v3_fpr_deployment": 0.2937181663837012,
+       "v3_fnr_deployment": 0.010773010773010738
+      },
+      "0.1": {
+       "v2_dcf_deployment": 6.312654008119628,
+       "v2_dcf_calibration": 0.44975356051968957,
+       "v2_delta": 13.035806633360203,
+       "v3_threshold": -2.35392,
+       "v3_dcf_deployment": 3.288165924838251,
+       "v3_dcf_calibration": 0.152240935772345,
+       "v3_delta": 20.59843479782102,
+       "v3_fpr_deployment": 0.3646010186757216,
+       "v3_fnr_deployment": 0.006756756756756799
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.7022635157596958,
+       "v2_dcf_calibration": 0.05485033471323795,
+       "v2_delta": 11.803267645150884,
+       "v3_threshold": -0.721954,
+       "v3_dcf_deployment": 0.5579179687838431,
+       "v3_dcf_calibration": 0.038885906458062655,
+       "v3_delta": 13.347562384473198,
+       "v3_fpr_deployment": 0.5556027164685908,
+       "v3_fnr_deployment": 0.002315252315252314
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.7099811494773296,
+       "v2_dcf_calibration": 0.09874978661268992,
+       "v2_delta": 6.18969806245731,
+       "v3_threshold": 0.485765,
+       "v3_dcf_deployment": 0.7088429626629967,
+       "v3_dcf_calibration": 0.0930416002572198,
+       "v3_delta": 6.618559447637964,
+       "v3_fpr_deployment": 0.7011884550084889,
+       "v3_fnr_deployment": 0.0008505008505008682
+      }
+     }
+    },
+    "alaw->ulaw": {
+     "log2_fpr_ratio": -0.1899602389101685,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.8378009858493728,
+       "v2_dcf_calibration": 0.9433825927777538,
+       "v2_delta": -0.11191812074621818,
+       "v3_threshold": -3.029788,
+       "v3_dcf_deployment": 0.25768041897074156,
+       "v3_dcf_calibration": 0.24287438803567832,
+       "v3_delta": 0.060961680870558636,
+       "v3_fpr_deployment": 0.008488964346349746,
+       "v3_fnr_deployment": 0.09639009639009644
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.39948604527212334,
+       "v2_dcf_calibration": 0.44975356051968957,
+       "v2_delta": -0.1117667977758357,
+       "v3_threshold": -2.35392,
+       "v3_dcf_deployment": 0.1554467191139517,
+       "v3_dcf_calibration": 0.152240935772345,
+       "v3_delta": 0.021057301870506796,
+       "v3_fpr_deployment": 0.011460101867572157,
+       "v3_fnr_deployment": 0.052305802305802285
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.04883409281032371,
+       "v2_dcf_calibration": 0.05485033471323795,
+       "v2_delta": -0.10968468896986028,
+       "v3_threshold": -0.721954,
+       "v3_dcf_deployment": 0.03822440579656204,
+       "v3_dcf_calibration": 0.038885906458062655,
+       "v3_delta": -0.017011321626616144,
+       "v3_fpr_deployment": 0.025466893039049237,
+       "v3_fnr_deployment": 0.012757512757512801
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.08885488283111374,
+       "v2_dcf_calibration": 0.09874978661268992,
+       "v2_delta": -0.10020177380620915,
+       "v3_threshold": 0.485765,
+       "v3_dcf_deployment": 0.08496906204885821,
+       "v3_dcf_calibration": 0.0930416002572198,
+       "v3_delta": -0.08676267590029102,
+       "v3_fpr_deployment": 0.042869269949066216,
+       "v3_fnr_deployment": 0.004677754677754664
+      }
+     }
+    },
+    "g722->alaw": {
+     "log2_fpr_ratio": 0.7267794161585123,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 1.5747429246864728,
+       "v2_dcf_calibration": 0.9496746361746361,
+       "v2_delta": 0.6581920425185417,
+       "v3_threshold": -2.346641,
+       "v3_dcf_deployment": 0.2702367379786735,
+       "v3_dcf_calibration": 0.34167728522567237,
+       "v3_delta": -0.20908778644683257,
+       "v3_fpr_deployment": 0.011460101867572157,
+       "v3_fnr_deployment": 0.05249480249480254
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.7472726360616853,
+       "v2_dcf_calibration": 0.4540167414377941,
+       "v2_delta": 0.6459142755291346,
+       "v3_threshold": -0.606801,
+       "v3_dcf_deployment": 0.2606344694629924,
+       "v3_dcf_calibration": 0.21234756845962283,
+       "v3_delta": 0.2273955918292098,
+       "v3_fpr_deployment": 0.027589134125636672,
+       "v3_fnr_deployment": 0.012332262332262367
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.08529640516185508,
+       "v2_dcf_calibration": 0.05749042564832038,
+       "v2_delta": 0.48366278732443274,
+       "v3_threshold": 0.299518,
+       "v3_dcf_deployment": 0.050662318913592234,
+       "v3_dcf_calibration": 0.048045195753175424,
+       "v3_delta": 0.05447210942508937,
+       "v3_fpr_deployment": 0.04456706281833616,
+       "v3_fnr_deployment": 0.006095256095256074
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.10569141555686556,
+       "v2_dcf_calibration": 0.12088751504540983,
+       "v2_delta": -0.12570445742751885,
+       "v3_threshold": 1.71073,
+       "v3_dcf_deployment": 0.1099633743946138,
+       "v3_dcf_calibration": 0.10280952471105288,
+       "v3_delta": 0.06958353035544985,
+       "v3_fpr_deployment": 0.0933786078098472,
+       "v3_fnr_deployment": 0.0018427518427518441
+      }
+     }
+    },
+    "g722->gsm": {
+     "log2_fpr_ratio": 3.7405098015625255,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 12.698227749800328,
+       "v2_dcf_calibration": 0.9496746361746361,
+       "v2_delta": 12.371134982555484,
+       "v3_threshold": -2.346641,
+       "v3_dcf_deployment": 2.8317471543277994,
+       "v3_dcf_calibration": 0.34167728522567237,
+       "v3_delta": 7.2877828780964355,
+       "v3_fpr_deployment": 0.14855687606112053,
+       "v3_fnr_deployment": 0.009166509166509185
+      },
+      "0.1": {
+       "v2_dcf_deployment": 6.015163233671298,
+       "v2_dcf_calibration": 0.4540167414377941,
+       "v2_delta": 12.24876967008374,
+       "v3_threshold": -0.606801,
+       "v3_dcf_deployment": 2.936904581216975,
+       "v3_dcf_calibration": 0.21234756845962283,
+       "v3_delta": 12.83064850952328,
+       "v3_fpr_deployment": 0.32597623089983024,
+       "v3_fnr_deployment": 0.0031185031185031464
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.6687116207680724,
+       "v2_dcf_calibration": 0.05749042564832038,
+       "v2_delta": 10.631704118155355,
+       "v3_threshold": 0.299518,
+       "v3_dcf_deployment": 0.4651984550116978,
+       "v3_dcf_calibration": 0.048045195753175424,
+       "v3_delta": 8.682517631972637,
+       "v3_fpr_deployment": 0.4634974533106961,
+       "v3_fnr_deployment": 0.0017010017010017364
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.6719529740094256,
+       "v2_dcf_calibration": 0.12088751504540983,
+       "v2_delta": 4.558497697276804,
+       "v3_threshold": 1.71073,
+       "v3_dcf_deployment": 0.7245347113768165,
+       "v3_dcf_calibration": 0.10280952471105288,
+       "v3_delta": 6.04735007202035,
+       "v3_fpr_deployment": 0.7236842105263158,
+       "v3_fnr_deployment": 9.45000945000718e-05
+      }
+     }
+    },
+    "g722->none": {
+     "log2_fpr_ratio": -0.7145249291072086,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.5902532876887715,
+       "v2_dcf_calibration": 0.9496746361746361,
+       "v2_delta": -0.3784678823619445,
+       "v3_threshold": -2.346641,
+       "v3_dcf_deployment": 0.22606251638509703,
+       "v3_dcf_calibration": 0.34167728522567237,
+       "v3_delta": -0.3383741730569348,
+       "v3_fpr_deployment": 0.0021222410865874364,
+       "v3_fnr_deployment": 0.18573993573993575
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.2855504014408938,
+       "v2_dcf_calibration": 0.4540167414377941,
+       "v2_delta": -0.37105755057268586,
+       "v3_threshold": -0.606801,
+       "v3_dcf_deployment": 0.1328172355337041,
+       "v3_dcf_calibration": 0.21234756845962283,
+       "v3_delta": -0.3745290492508802,
+       "v3_fpr_deployment": 0.008488964346349746,
+       "v3_fnr_deployment": 0.05641655641655641
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.04178809244259159,
+       "v2_dcf_calibration": 0.05749042564832038,
+       "v2_delta": -0.2731295346773545,
+       "v3_threshold": 0.299518,
+       "v3_dcf_deployment": 0.04395850788040938,
+       "v3_dcf_calibration": 0.048045195753175424,
+       "v3_delta": -0.08505924075657338,
+       "v3_fpr_deployment": 0.016553480475382003,
+       "v3_fnr_deployment": 0.02740502740502737
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.13233052298502218,
+       "v2_dcf_calibration": 0.12088751504540983,
+       "v2_delta": 0.09465831054028974,
+       "v3_threshold": 1.71073,
+       "v3_dcf_deployment": 0.11049772509874381,
+       "v3_dcf_calibration": 0.10280952471105288,
+       "v3_delta": 0.07478101284193936,
+       "v3_fpr_deployment": 0.035653650254668934,
+       "v3_fnr_deployment": 0.008316008316008316
+      }
+     }
+    },
+    "g722->opus": {
+     "log2_fpr_ratio": 1.3674280272531518,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 2.4564389590357334,
+       "v2_dcf_calibration": 0.9496746361746361,
+       "v2_delta": 1.586611103914981,
+       "v3_threshold": -2.346641,
+       "v3_dcf_deployment": 0.682750989202602,
+       "v3_dcf_calibration": 0.34167728522567237,
+       "v3_delta": 0.9982334756366843,
+       "v3_fpr_deployment": 0.02928692699490662,
+       "v3_fnr_deployment": 0.12629937629937626
+      },
+      "0.1": {
+       "v2_dcf_deployment": 1.1663880252496552,
+       "v2_dcf_calibration": 0.4540167414377941,
+       "v2_delta": 1.569041885010456,
+       "v3_threshold": -0.606801,
+       "v3_dcf_deployment": 0.5744803537672807,
+       "v3_dcf_calibration": 0.21234756845962283,
+       "v3_delta": 1.7053775936055335,
+       "v3_fpr_deployment": 0.06027164685908319,
+       "v3_fnr_deployment": 0.032035532035532
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.13434727822079265,
+       "v2_dcf_calibration": 0.05749042564832038,
+       "v2_delta": 1.3368635160682218,
+       "v3_threshold": 0.299518,
+       "v3_dcf_deployment": 0.09623527025903936,
+       "v3_dcf_calibration": 0.048045195753175424,
+       "v3_delta": 1.0030154680487264,
+       "v3_fpr_deployment": 0.08191850594227504,
+       "v3_fnr_deployment": 0.014316764316764319
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.1770847569582714,
+       "v2_dcf_calibration": 0.12088751504540983,
+       "v2_delta": 0.46487217386966545,
+       "v3_threshold": 1.71073,
+       "v3_dcf_deployment": 0.17748192705747887,
+       "v3_dcf_calibration": 0.10280952471105288,
+       "v3_delta": 0.7263179414192747,
+       "v3_fpr_deployment": 0.14431239388794567,
+       "v3_fnr_deployment": 0.0036855036855036882
+      }
+     }
+    },
+    "g722->pstn": {
+     "log2_fpr_ratio": 4.009569067187176,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 15.30148142463465,
+       "v2_dcf_calibration": 0.9496746361746361,
+       "v2_delta": 15.112340839458676,
+       "v3_threshold": -2.346641,
+       "v3_dcf_deployment": 6.942193377677248,
+       "v3_dcf_calibration": 0.34167728522567237,
+       "v3_delta": 19.317983307236947,
+       "v3_fpr_deployment": 0.36502546689303905,
+       "v3_fnr_deployment": 0.006709506709506763
+      },
+      "0.1": {
+       "v2_dcf_deployment": 7.248242884736517,
+       "v2_dcf_calibration": 0.4540167414377941,
+       "v2_delta": 14.964703992594107,
+       "v3_threshold": -0.606801,
+       "v3_dcf_deployment": 5.1707266944957935,
+       "v3_dcf_calibration": 0.21234756845962283,
+       "v3_delta": 23.35029857890268,
+       "v3_fpr_deployment": 0.5742784380305602,
+       "v3_fnr_deployment": 0.0022207522207522423
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.8056520528180121,
+       "v2_dcf_calibration": 0.05749042564832038,
+       "v2_delta": 13.013673472281027,
+       "v3_threshold": 0.299518,
+       "v3_dcf_deployment": 0.6771855112262583,
+       "v3_dcf_calibration": 0.048045195753175424,
+       "v3_delta": 13.094760165099366,
+       "v3_fpr_deployment": 0.6761460101867572,
+       "v3_fnr_deployment": 0.0010395010395010118
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.8082776434436025,
+       "v2_dcf_calibration": 0.12088751504540983,
+       "v2_delta": 5.686196197679996,
+       "v3_threshold": 1.71073,
+       "v3_dcf_deployment": 0.8387112818352205,
+       "v3_dcf_calibration": 0.10280952471105288,
+       "v3_delta": 7.15791420291482,
+       "v3_fpr_deployment": 0.8378607809847198,
+       "v3_fnr_deployment": 9.45000945000718e-05
+      }
+     }
+    },
+    "g722->ulaw": {
+     "log2_fpr_ratio": 0.5675818080099493,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 1.4102170469025306,
+       "v2_dcf_calibration": 0.9496746361746361,
+       "v2_delta": 0.48494757381643405,
+       "v3_threshold": -2.346641,
+       "v3_dcf_deployment": 0.2698587376006731,
+       "v3_dcf_calibration": 0.34167728522567237,
+       "v3_delta": -0.2101940946339593,
+       "v3_fpr_deployment": 0.011460101867572157,
+       "v3_fnr_deployment": 0.05211680211680214
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.6691983711809687,
+       "v2_dcf_calibration": 0.4540167414377941,
+       "v2_delta": 0.4739508703175369,
+       "v3_threshold": -0.606801,
+       "v3_dcf_deployment": 0.2562001848928843,
+       "v3_dcf_calibration": 0.21234756845962283,
+       "v3_delta": 0.2065133910002832,
+       "v3_fpr_deployment": 0.027164685908319185,
+       "v3_fnr_deployment": 0.011718011718011678
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.07638343060371922,
+       "v2_dcf_calibration": 0.05749042564832038,
+       "v2_delta": 0.3286287193448672,
+       "v3_threshold": 0.299518,
+       "v3_dcf_deployment": 0.046369784485234385,
+       "v3_dcf_calibration": 0.048045195753175424,
+       "v3_delta": -0.0348715671083577,
+       "v3_fpr_deployment": 0.04074702886247878,
+       "v3_fnr_deployment": 0.005622755622755604
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.09463593485622335,
+       "v2_dcf_calibration": 0.12088751504540983,
+       "v2_delta": -0.21715708342028056,
+       "v3_threshold": 1.71073,
+       "v3_dcf_deployment": 0.1006215025739639,
+       "v3_dcf_calibration": 0.10280952471105288,
+       "v3_delta": -0.021282290169499698,
+       "v3_fpr_deployment": 0.08616298811544991,
+       "v3_fnr_deployment": 0.0016065016065015536
+      }
+     }
+    },
+    "gsm->alaw": {
+     "log2_fpr_ratio": -3.4953170252329278,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.3359187924107279,
+       "v2_dcf_calibration": 1.0857306274806273,
+       "v2_delta": -0.6906057691398029,
+       "v3_threshold": -5.633749,
+       "v3_dcf_deployment": 0.5371415855286823,
+       "v3_dcf_calibration": 0.7156827479408124,
+       "v3_delta": -0.24946970277799074,
+       "v3_fpr_deployment": 0.0025466893039049238,
+       "v3_fnr_deployment": 0.4887544887544888
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.29158093162974313,
+       "v2_dcf_calibration": 0.5909937853753643,
+       "v2_delta": -0.5066260613137443,
+       "v3_threshold": -4.625392,
+       "v3_dcf_deployment": 0.3459543370409245,
+       "v3_dcf_calibration": 0.5134701140643415,
+       "v3_delta": -0.3262425064965438,
+       "v3_fpr_deployment": 0.003395585738539898,
+       "v3_fnr_deployment": 0.31539406539406545
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.2561106430049554,
+       "v2_dcf_calibration": 0.1952043116911538,
+       "v2_delta": 0.3120132479971329,
+       "v3_threshold": -3.201902,
+       "v3_dcf_deployment": 0.11910292937457621,
+       "v3_dcf_calibration": 0.12059383281794148,
+       "v3_delta": -0.012363015657824354,
+       "v3_fpr_deployment": 0.007640067911714771,
+       "v3_fnr_deployment": 0.11146286146286144
+      },
+      "0.9": {
+       "v2_dcf_deployment": 2.269525498419812,
+       "v2_dcf_calibration": 1.3610493315361736,
+       "v2_delta": 0.6674821741091999,
+       "v3_threshold": -2.419032,
+       "v3_dcf_deployment": 0.5217614143760158,
+       "v3_dcf_calibration": 0.22979013598708012,
+       "v3_delta": 1.270599702353419,
+       "v3_fpr_deployment": 0.011035653650254669,
+       "v3_fnr_deployment": 0.05674730674730677
+      }
+     }
+    },
+    "gsm->g722": {
+     "log2_fpr_ratio": -2.823265440560427,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.5436677833935899,
+       "v2_dcf_calibration": 1.0857306274806273,
+       "v2_delta": -0.4992608943388303,
+       "v3_threshold": -5.633749,
+       "v3_dcf_deployment": 0.7153870540967314,
+       "v3_dcf_calibration": 0.7156827479408124,
+       "v3_delta": -0.00041316329746915627,
+       "v3_fpr_deployment": 0.00466893039049236,
+       "v3_fnr_deployment": 0.6266773766773767
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.4730226221032673,
+       "v2_dcf_calibration": 0.5909937853753643,
+       "v2_delta": -0.19961489645304595,
+       "v3_threshold": -4.625392,
+       "v3_dcf_deployment": 0.5243816661473707,
+       "v3_dcf_calibration": 0.5134701140643415,
+       "v3_delta": 0.021250607940274183,
+       "v3_fpr_deployment": 0.0055178268251273345,
+       "v3_fnr_deployment": 0.4747212247212247
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.41650649307100923,
+       "v2_dcf_calibration": 0.1952043116911538,
+       "v2_delta": 1.1336951497771877,
+       "v3_threshold": -3.201902,
+       "v3_dcf_deployment": 0.24974690339715805,
+       "v3_dcf_calibration": 0.12059383281794148,
+       "v3_delta": 1.070975750262427,
+       "v3_fpr_deployment": 0.008913412563667233,
+       "v3_fnr_deployment": 0.24083349083349082
+      },
+      "0.9": {
+       "v2_dcf_deployment": 3.6920423086068257,
+       "v2_dcf_calibration": 1.3610493315361736,
+       "v2_delta": 1.7126440041961841,
+       "v3_threshold": -2.419032,
+       "v3_dcf_deployment": 1.3931011401300033,
+       "v3_dcf_calibration": 0.22979013598708012,
+       "v3_delta": 5.062493214279354,
+       "v3_fpr_deployment": 0.010186757215619695,
+       "v3_fnr_deployment": 0.1536571536571537
+      }
+     }
+    },
+    "gsm->none": {
+     "log2_fpr_ratio": -5.295233228221942,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.4563221188140543,
+       "v2_dcf_calibration": 1.0857306274806273,
+       "v2_delta": -0.579709637672355,
+       "v3_threshold": -5.633749,
+       "v3_dcf_deployment": 0.6427271507916671,
+       "v3_dcf_calibration": 0.7156827479408124,
+       "v3_delta": -0.10193845996575404,
+       "v3_fpr_deployment": 0.00042444821731748726,
+       "v3_fnr_deployment": 0.6346626346626347
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.44777373171728013,
+       "v2_dcf_calibration": 0.5909937853753643,
+       "v2_delta": -0.2423376644597358,
+       "v3_threshold": -4.625392,
+       "v3_dcf_deployment": 0.5075455678172147,
+       "v3_dcf_calibration": 0.5134701140643415,
+       "v3_delta": -0.011538249422603017,
+       "v3_fpr_deployment": 0.0008488964346349745,
+       "v3_fnr_deployment": 0.49990549990549993
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.4409350220398608,
+       "v2_dcf_calibration": 0.1952043116911538,
+       "v2_delta": 1.2588385380415905,
+       "v3_threshold": -3.201902,
+       "v3_dcf_deployment": 0.28321357438505146,
+       "v3_dcf_calibration": 0.12059383281794148,
+       "v3_delta": 1.3484913595259413,
+       "v3_fpr_deployment": 0.001697792869269949,
+       "v3_fnr_deployment": 0.2815157815157815
+      },
+      "0.9": {
+       "v2_dcf_deployment": 3.9615764886813287,
+       "v2_dcf_calibration": 1.3610493315361736,
+       "v2_delta": 1.9106781046723869,
+       "v3_threshold": -2.419032,
+       "v3_dcf_deployment": 1.7328914718558184,
+       "v3_dcf_calibration": 0.22979013598708012,
+       "v3_delta": 6.541191724405653,
+       "v3_fpr_deployment": 0.0021222410865874364,
+       "v3_fnr_deployment": 0.1923076923076923
+      }
+     }
+    },
+    "gsm->opus": {
+     "log2_fpr_ratio": -2.0546135989101826,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.6099131970906164,
+       "v2_dcf_calibration": 1.0857306274806273,
+       "v2_delta": -0.4382463000920557,
+       "v3_threshold": -5.633749,
+       "v3_dcf_deployment": 0.6939355326452099,
+       "v3_dcf_calibration": 0.7156827479408124,
+       "v3_delta": -0.030386669733445972,
+       "v3_fpr_deployment": 0.00466893039049236,
+       "v3_fnr_deployment": 0.6052258552258551
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.4895566605880698,
+       "v2_dcf_calibration": 0.5909937853753643,
+       "v2_delta": -0.17163822581123697,
+       "v3_threshold": -4.625392,
+       "v3_dcf_deployment": 0.5355077286316675,
+       "v3_dcf_calibration": 0.5134701140643415,
+       "v3_delta": 0.042918981969346966,
+       "v3_fpr_deployment": 0.009762308998302207,
+       "v3_fnr_deployment": 0.4476469476469477
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.39327143138603243,
+       "v2_dcf_calibration": 0.1952043116911538,
+       "v2_delta": 1.0146657006647184,
+       "v3_threshold": -3.201902,
+       "v3_dcf_deployment": 0.23338154068204997,
+       "v3_dcf_calibration": 0.12059383281794148,
+       "v3_delta": 0.9352692855726896,
+       "v3_fpr_deployment": 0.017826825127334467,
+       "v3_fnr_deployment": 0.2155547155547155
+      },
+      "0.9": {
+       "v2_dcf_deployment": 3.4431576532722548,
+       "v2_dcf_calibration": 1.3610493315361736,
+       "v2_delta": 1.5297816717532722,
+       "v3_threshold": -2.419032,
+       "v3_dcf_deployment": 1.2250927272149688,
+       "v3_dcf_calibration": 0.22979013598708012,
+       "v3_delta": 4.331354724834008,
+       "v3_fpr_deployment": 0.028438030560271648,
+       "v3_fnr_deployment": 0.132961632961633
+      }
+     }
+    },
+    "gsm->pstn": {
+     "log2_fpr_ratio": 1.7912533420188888,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 3.3359709945677682,
+       "v2_dcf_calibration": 1.0857306274806273,
+       "v2_delta": 2.0725586164117784,
+       "v3_threshold": -5.633749,
+       "v3_dcf_deployment": 1.6345635619829169,
+       "v3_dcf_calibration": 0.7156827479408124,
+       "v3_delta": 1.2839219845468408,
+       "v3_fpr_deployment": 0.07512733446519525,
+       "v3_fnr_deployment": 0.20714420714420712
+      },
+      "0.1": {
+       "v2_dcf_deployment": 1.6053937449922169,
+       "v2_dcf_calibration": 0.5909937853753643,
+       "v2_delta": 1.7164308402542099,
+       "v3_threshold": -4.625392,
+       "v3_dcf_deployment": 1.3143305783373693,
+       "v3_dcf_calibration": 0.5134701140643415,
+       "v3_delta": 1.5597021955842092,
+       "v3_fpr_deployment": 0.13752122241086587,
+       "v3_fnr_deployment": 0.07663957663957666
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.22093194533177557,
+       "v2_dcf_calibration": 0.1952043116911538,
+       "v2_delta": 0.13179849060571594,
+       "v3_threshold": -3.201902,
+       "v3_dcf_deployment": 0.29053484486421666,
+       "v3_dcf_calibration": 0.12059383281794148,
+       "v3_delta": 1.4092015161574003,
+       "v3_fpr_deployment": 0.27801358234295415,
+       "v3_fnr_deployment": 0.01252126252126251
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.6039257083255386,
+       "v2_dcf_calibration": 1.3610493315361736,
+       "v2_delta": -0.5562793395270202,
+       "v3_threshold": -2.419032,
+       "v3_dcf_deployment": 0.4215958065703395,
+       "v3_dcf_calibration": 0.22979013598708012,
+       "v3_delta": 0.8346993214453888,
+       "v3_fpr_deployment": 0.35865874363327677,
+       "v3_fnr_deployment": 0.006993006993006978
+      }
+     }
+    },
+    "gsm->ulaw": {
+     "log2_fpr_ratio": -3.3772287096240676,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.3411315868090062,
+       "v2_dcf_calibration": 1.0857306274806273,
+       "v2_delta": -0.685804583407045,
+       "v3_threshold": -5.633749,
+       "v3_dcf_deployment": 0.5095460337395821,
+       "v3_dcf_calibration": 0.7156827479408124,
+       "v3_delta": -0.28802806102890444,
+       "v3_fpr_deployment": 0.0012733446519524619,
+       "v3_fnr_deployment": 0.4853524853524853
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.29301189241172265,
+       "v2_dcf_calibration": 0.5909937853753643,
+       "v2_delta": -0.5042047824147273,
+       "v3_threshold": -4.625392,
+       "v3_dcf_deployment": 0.34953812076053165,
+       "v3_dcf_calibration": 0.5134701140643415,
+       "v3_delta": -0.3192629693794954,
+       "v3_fpr_deployment": 0.0038200339558573855,
+       "v3_fnr_deployment": 0.31515781515781516
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.2545161368938958,
+       "v2_dcf_calibration": 0.1952043116911538,
+       "v2_delta": 0.3038448520367897,
+       "v3_threshold": -3.201902,
+       "v3_dcf_deployment": 0.1188178246752101,
+       "v3_dcf_calibration": 0.12059383281794148,
+       "v3_delta": -0.014727188789269085,
+       "v3_fpr_deployment": 0.008488964346349746,
+       "v3_fnr_deployment": 0.11032886032886036
+      },
+      "0.9": {
+       "v2_dcf_deployment": 2.252149476527236,
+       "v2_dcf_calibration": 1.3610493315361736,
+       "v2_delta": 0.6547155377427104,
+       "v3_threshold": -2.419032,
+       "v3_dcf_deployment": 0.5111301537447547,
+       "v3_dcf_calibration": 0.22979013598708012,
+       "v3_delta": 1.2243346153617876,
+       "v3_fpr_deployment": 0.011035653650254669,
+       "v3_fnr_deployment": 0.05556605556605554
+      }
+     }
+    },
+    "none->alaw": {
+     "log2_fpr_ratio": 1.5391282591616375,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 2.761814346943379,
+       "v2_dcf_calibration": 0.9470415084044115,
+       "v2_delta": 1.91625480238614,
+       "v3_threshold": -1.576779,
+       "v3_dcf_deployment": 0.38144048627919597,
+       "v3_dcf_calibration": 0.19848677913194043,
+       "v3_delta": 0.9217425359380759,
+       "v3_fpr_deployment": 0.01867572156196944,
+       "v3_fnr_deployment": 0.02660177660177665
+      },
+      "0.1": {
+       "v2_dcf_deployment": 1.3087201194391347,
+       "v2_dcf_calibration": 0.4510610330224082,
+       "v2_delta": 1.9014258018916899,
+       "v3_threshold": -0.497847,
+       "v3_dcf_deployment": 0.28246792211138555,
+       "v3_dcf_calibration": 0.13167601452830652,
+       "v3_delta": 1.1451736910723642,
+       "v3_fpr_deployment": 0.030135823429541596,
+       "v3_fnr_deployment": 0.011245511245511208
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.14624473743573912,
+       "v2_dcf_calibration": 0.054276652716805505,
+       "v2_delta": 1.6944317697479865,
+       "v3_threshold": 0.843391,
+       "v3_dcf_deployment": 0.06466509904540468,
+       "v3_dcf_calibration": 0.037382729233323475,
+       "v3_delta": 0.7298121451165029,
+       "v3_fpr_deployment": 0.060696095076400676,
+       "v3_fnr_deployment": 0.003969003969004015
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.15372725491825662,
+       "v2_dcf_calibration": 0.09170549414564688,
+       "v2_delta": 0.6763145583633913,
+       "v3_threshold": 2.665313,
+       "v3_dcf_deployment": 0.18209791172439707,
+       "v3_dcf_calibration": 0.08451573434595462,
+       "v3_delta": 1.1546036739029206,
+       "v3_fpr_deployment": 0.1769949066213922,
+       "v3_fnr_deployment": 0.0005670005670005418
+      }
+     }
+    },
+    "none->g722": {
+     "log2_fpr_ratio": 0.7161207700354038,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 1.5638518787228464,
+       "v2_dcf_calibration": 0.9470415084044115,
+       "v2_delta": 0.6513023609257058,
+       "v3_threshold": -1.576779,
+       "v3_dcf_deployment": 0.39565970211131496,
+       "v3_dcf_calibration": 0.19848677913194043,
+       "v3_delta": 0.993380636441823,
+       "v3_fpr_deployment": 0.016129032258064516,
+       "v3_fnr_deployment": 0.0892080892080892
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.7424724220165647,
+       "v2_dcf_calibration": 0.4510610330224082,
+       "v2_delta": 0.6460575568709779,
+       "v3_threshold": -0.497847,
+       "v3_dcf_deployment": 0.2275732343644058,
+       "v3_dcf_calibration": 0.13167601452830652,
+       "v3_delta": 0.7282816098256388,
+       "v3_fpr_deployment": 0.021222410865874362,
+       "v3_fnr_deployment": 0.036571536571536556
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.08536885665153918,
+       "v2_dcf_calibration": 0.054276652716805505,
+       "v2_delta": 0.572846746776385,
+       "v3_threshold": 0.843391,
+       "v3_dcf_deployment": 0.052324092646673294,
+       "v3_dcf_calibration": 0.037382729233323475,
+       "v3_delta": 0.3996862647479169,
+       "v3_fpr_deployment": 0.04032258064516129,
+       "v3_fnr_deployment": 0.012001512001512005
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.11121614449882702,
+       "v2_dcf_calibration": 0.09170549414564688,
+       "v2_delta": 0.2127533419338353,
+       "v3_threshold": 2.665313,
+       "v3_dcf_deployment": 0.1159120671005223,
+       "v3_dcf_calibration": 0.08451573434595462,
+       "v3_delta": 0.37148506130291326,
+       "v3_fpr_deployment": 0.09592529711375213,
+       "v3_fnr_deployment": 0.0022207522207522423
+      }
+     }
+    },
+    "none->gsm": {
+     "log2_fpr_ratio": 4.06693343710265,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 15.921845181409696,
+       "v2_dcf_calibration": 0.9470415084044115,
+       "v2_delta": 15.812193594592319,
+       "v3_threshold": -1.576779,
+       "v3_dcf_deployment": 4.09423793294761,
+       "v3_dcf_calibration": 0.19848677913194043,
+       "v3_delta": 19.62725764835975,
+       "v3_fpr_deployment": 0.21519524617996605,
+       "v3_fnr_deployment": 0.005528255528255532
+      },
+      "0.1": {
+       "v2_dcf_deployment": 7.54194280449968,
+       "v2_dcf_calibration": 0.4510610330224082,
+       "v2_delta": 15.720448569816948,
+       "v3_threshold": -0.497847,
+       "v3_dcf_deployment": 3.078151337489198,
+       "v3_dcf_calibration": 0.13167601452830652,
+       "v3_delta": 22.37670492622242,
+       "v3_fpr_deployment": 0.3416808149405772,
+       "v3_fnr_deployment": 0.0030240030240030746
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.8380209029716671,
+       "v2_dcf_calibration": 0.054276652716805505,
+       "v2_delta": 14.439804428326388,
+       "v3_threshold": 0.843391,
+       "v3_dcf_deployment": 0.5607449495395166,
+       "v3_dcf_calibration": 0.037382729233323475,
+       "v3_delta": 14.000107296597834,
+       "v3_fpr_deployment": 0.5598471986417657,
+       "v3_fnr_deployment": 0.0008977508977509041
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.8382662252169891,
+       "v2_dcf_calibration": 0.09170549414564688,
+       "v2_delta": 8.140850643971808,
+       "v3_threshold": 2.665313,
+       "v3_dcf_deployment": 0.8921901528013583,
+       "v3_dcf_calibration": 0.08451573434595462,
+       "v3_delta": 9.556497671182612,
+       "v3_fpr_deployment": 0.8921901528013583,
+       "v3_fnr_deployment": 0.0
+      }
+     }
+    },
+    "none->opus": {
+     "log2_fpr_ratio": 1.8823025844746084,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 3.5044367824851688,
+       "v2_dcf_calibration": 0.9470415084044115,
+       "v2_delta": 2.700404629982367,
+       "v3_threshold": -1.576779,
+       "v3_dcf_deployment": 0.8463443705379189,
+       "v3_dcf_calibration": 0.19848677913194043,
+       "v3_delta": 3.263983597493549,
+       "v3_fpr_deployment": 0.04074702886247878,
+       "v3_fnr_deployment": 0.07215082215082214
+      },
+      "0.1": {
+       "v2_dcf_deployment": 1.6611218419079201,
+       "v2_dcf_calibration": 0.4510610330224082,
+       "v2_delta": 2.6826986157001893,
+       "v3_threshold": -0.497847,
+       "v3_dcf_deployment": 0.5871144869447077,
+       "v3_dcf_calibration": 0.13167601452830652,
+       "v3_delta": 3.458780811736181,
+       "v3_fpr_deployment": 0.06196943972835314,
+       "v3_fnr_deployment": 0.029389529389529434
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.18646988944612033,
+       "v2_dcf_calibration": 0.054276652716805505,
+       "v2_delta": 2.4355451213811543,
+       "v3_threshold": 0.843391,
+       "v3_dcf_deployment": 0.10853383985811829,
+       "v3_dcf_calibration": 0.037382729233323475,
+       "v3_delta": 1.9033150356868471,
+       "v3_fpr_deployment": 0.0997453310696095,
+       "v3_fnr_deployment": 0.008788508788508786
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.2035770525532834,
+       "v2_dcf_calibration": 0.09170549414564688,
+       "v2_delta": 1.2199002845997629,
+       "v3_threshold": 2.665313,
+       "v3_dcf_deployment": 0.2173423557124744,
+       "v3_dcf_calibration": 0.08451573434595462,
+       "v3_delta": 1.571620034948884,
+       "v3_fpr_deployment": 0.2041595925297114,
+       "v3_fnr_deployment": 0.001464751464751446
+      }
+     }
+    },
+    "none->pstn": {
+     "log2_fpr_ratio": 4.178053111670016,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 17.19663586674877,
+       "v2_dcf_calibration": 0.9470415084044115,
+       "v2_delta": 17.158270481430005,
+       "v3_threshold": -1.576779,
+       "v3_dcf_deployment": 8.70581815743106,
+       "v3_dcf_calibration": 0.19848677913194043,
+       "v3_delta": 42.86094729082196,
+       "v3_fpr_deployment": 0.4579796264855688,
+       "v3_fnr_deployment": 0.004205254205254194
+      },
+      "0.1": {
+       "v2_dcf_deployment": 8.145786970314136,
+       "v2_dcf_calibration": 0.4510610330224082,
+       "v2_delta": 17.05916799270369,
+       "v3_threshold": -0.497847,
+       "v3_dcf_deployment": 5.2508529074743,
+       "v3_dcf_calibration": 0.13167601452830652,
+       "v3_delta": 38.87706437109334,
+       "v3_fpr_deployment": 0.5831918505942275,
+       "v3_fnr_deployment": 0.0021262521262521705
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.9051078531664271,
+       "v2_dcf_calibration": 0.054276652716805505,
+       "v2_delta": 15.675822989470783,
+       "v3_threshold": 0.843391,
+       "v3_dcf_deployment": 0.7481620614048459,
+       "v3_dcf_calibration": 0.037382729233323475,
+       "v3_delta": 19.013575165558645,
+       "v3_fpr_deployment": 0.7474533106960951,
+       "v3_fnr_deployment": 0.0007087507087507605
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.9052915613501352,
+       "v2_dcf_calibration": 0.09170549414564688,
+       "v2_delta": 8.8717265501274,
+       "v3_threshold": 2.665313,
+       "v3_dcf_deployment": 0.9376061120543293,
+       "v3_dcf_calibration": 0.08451573434595462,
+       "v3_delta": 10.093864584035389,
+       "v3_fpr_deployment": 0.9376061120543294,
+       "v3_fnr_deployment": 0.0
+      }
+     }
+    },
+    "none->ulaw": {
+     "log2_fpr_ratio": 1.4131379663633619,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 2.5308034870534866,
+       "v2_dcf_calibration": 0.9470415084044115,
+       "v2_delta": 1.6723258321775347,
+       "v3_threshold": -1.576779,
+       "v3_dcf_deployment": 0.3729507197249133,
+       "v3_dcf_calibration": 0.19848677913194043,
+       "v3_delta": 0.8789700823196952,
+       "v3_fpr_deployment": 0.01825127334465195,
+       "v3_fnr_deployment": 0.026176526176526216
+      },
+      "0.1": {
+       "v2_dcf_deployment": 1.199224539685066,
+       "v2_dcf_calibration": 0.4510610330224082,
+       "v2_delta": 1.6586746623831945,
+       "v3_threshold": -0.497847,
+       "v3_dcf_deployment": 0.2666207857209555,
+       "v3_dcf_calibration": 0.13167601452830652,
+       "v3_delta": 1.024824237550414,
+       "v3_fpr_deployment": 0.028438030560271648,
+       "v3_fnr_deployment": 0.010678510678510666
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.13396138179032915,
+       "v2_dcf_calibration": 0.054276652716805505,
+       "v2_delta": 1.4681216524034304,
+       "v3_threshold": 0.843391,
+       "v3_dcf_deployment": 0.0527797467525821,
+       "v3_dcf_calibration": 0.037382729233323475,
+       "v3_delta": 0.4118751582624823,
+       "v3_fpr_deployment": 0.04923599320882852,
+       "v3_fnr_deployment": 0.0035437535437535805
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.14038927821822564,
+       "v2_dcf_calibration": 0.09170549414564688,
+       "v2_delta": 0.5308709639060344,
+       "v3_threshold": 2.665313,
+       "v3_dcf_deployment": 0.16851316214643894,
+       "v3_dcf_calibration": 0.08451573434595462,
+       "v3_delta": 0.9938673366624411,
+       "v3_fpr_deployment": 0.16468590831918506,
+       "v3_fnr_deployment": 0.0004252504252504341
+      }
+     }
+    },
+    "opus->alaw": {
+     "log2_fpr_ratio": -1.1199747824765893,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.45618744703422126,
+       "v2_dcf_calibration": 0.9951326766084829,
+       "v2_delta": -0.5415812808107596,
+       "v3_threshold": -3.194701,
+       "v3_dcf_deployment": 0.2561516513129416,
+       "v3_dcf_calibration": 0.5530358917455692,
+       "v3_delta": -0.536826352256379,
+       "v3_fpr_deployment": 0.007640067911714771,
+       "v3_fnr_deployment": 0.11099036099036097
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.2261365132481431,
+       "v2_dcf_calibration": 0.4984348837392131,
+       "v2_delta": -0.5463068083203013,
+       "v3_threshold": -3.020549,
+       "v3_dcf_deployment": 0.1699157424963877,
+       "v3_dcf_calibration": 0.3685017547496325,
+       "v3_delta": -0.5389011305744477,
+       "v3_fpr_deployment": 0.008064516129032258,
+       "v3_fnr_deployment": 0.09733509733509738
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.04209576621928066,
+       "v2_dcf_calibration": 0.10107664944379716,
+       "v2_delta": -0.5835262995862593,
+       "v3_threshold": -0.457589,
+       "v3_dcf_deployment": 0.04166403275062018,
+       "v3_dcf_calibration": 0.09069666624844891,
+       "v3_delta": -0.5406222248953642,
+       "v3_fpr_deployment": 0.030560271646859084,
+       "v3_fnr_deployment": 0.0111037611037611
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.19482114894466349,
+       "v2_dcf_calibration": 0.5123316106987584,
+       "v2_delta": -0.6197362316196906,
+       "v3_threshold": 1.232662,
+       "v3_dcf_deployment": 0.1006415577722878,
+       "v3_dcf_calibration": 0.16690521656565763,
+       "v3_delta": -0.3970137072815987,
+       "v3_fpr_deployment": 0.07555178268251274,
+       "v3_fnr_deployment": 0.002787752787752784
+      }
+     }
+    },
+    "opus->g722": {
+     "log2_fpr_ratio": -1.4864363319904317,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.40224267929106633,
+       "v2_dcf_calibration": 0.9951326766084829,
+       "v2_delta": -0.5957898994313484,
+       "v3_threshold": -3.194701,
+       "v3_dcf_deployment": 0.4091488285036672,
+       "v3_dcf_calibration": 0.5530358917455692,
+       "v3_delta": -0.2601767179843347,
+       "v3_fpr_deployment": 0.008913412563667233,
+       "v3_fnr_deployment": 0.2397939897939898
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.2237961597664484,
+       "v2_dcf_calibration": 0.4984348837392131,
+       "v2_delta": -0.5510022129920964,
+       "v3_threshold": -3.020549,
+       "v3_dcf_deployment": 0.30091846390657934,
+       "v3_dcf_calibration": 0.3685017547496325,
+       "v3_delta": -0.18340018730431987,
+       "v3_fpr_deployment": 0.00933786078098472,
+       "v3_fnr_deployment": 0.21687771687771684
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.081038944146754,
+       "v2_dcf_calibration": 0.10107664944379716,
+       "v2_delta": -0.1982426743199967,
+       "v3_threshold": -0.457589,
+       "v3_dcf_deployment": 0.056754446397909906,
+       "v3_dcf_calibration": 0.09069666624844891,
+       "v3_delta": -0.37423889162099694,
+       "v3_fpr_deployment": 0.021222410865874362,
+       "v3_fnr_deployment": 0.035532035532035544
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.5865932817010918,
+       "v2_dcf_calibration": 0.5123316106987584,
+       "v2_delta": 0.1449484463803618,
+       "v3_threshold": 1.232662,
+       "v3_dcf_deployment": 0.12536464361591657,
+       "v3_dcf_calibration": 0.16690521656565763,
+       "v3_delta": -0.2488872055919218,
+       "v3_fpr_deployment": 0.04456706281833616,
+       "v3_fnr_deployment": 0.00897750897750893
+      }
+     }
+    },
+    "opus->gsm": {
+     "log2_fpr_ratio": 2.4567303006884007,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 5.219443251169057,
+       "v2_dcf_calibration": 0.9951326766084829,
+       "v2_delta": 4.244972227178259,
+       "v3_threshold": -3.194701,
+       "v3_dcf_deployment": 1.8246108729979698,
+       "v3_dcf_calibration": 0.5530358917455692,
+       "v3_delta": 2.2992630319867264,
+       "v3_fpr_deployment": 0.09465195246179967,
+       "v3_fnr_deployment": 0.02622377622377625
+      },
+      "0.1": {
+       "v2_dcf_deployment": 2.4745875635629453,
+       "v2_dcf_calibration": 0.4984348837392131,
+       "v2_delta": 3.964715842115253,
+       "v3_threshold": -3.020549,
+       "v3_dcf_deployment": 0.9629681565165435,
+       "v3_dcf_calibration": 0.3685017547496325,
+       "v3_delta": 1.6131982931012188,
+       "v3_fpr_deployment": 0.10483870967741936,
+       "v3_fnr_deployment": 0.019419769419769417
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.2787030134780559,
+       "v2_dcf_calibration": 0.10107664944379716,
+       "v2_delta": 1.757343214399152,
+       "v3_threshold": -0.457589,
+       "v3_dcf_deployment": 0.3514014893471599,
+       "v3_dcf_calibration": 0.09069666624844891,
+       "v3_delta": 2.8744697449468775,
+       "v3_fpr_deployment": 0.34847198641765703,
+       "v3_fnr_deployment": 0.002929502929502892
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.3124425712176137,
+       "v2_dcf_calibration": 0.5123316106987584,
+       "v2_delta": -0.39015558538057066,
+       "v3_threshold": 1.232662,
+       "v3_dcf_deployment": 0.6417761332871685,
+       "v3_dcf_calibration": 0.16690521656565763,
+       "v3_delta": 2.8451532342292305,
+       "v3_fpr_deployment": 0.6362478777589134,
+       "v3_fnr_deployment": 0.0006142506142505777
+      }
+     }
+    },
+    "opus->none": {
+     "log2_fpr_ratio": -2.8099781606853207,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.22158638680412873,
+       "v2_dcf_calibration": 0.9951326766084829,
+       "v2_delta": -0.777329805348852,
+       "v3_threshold": -3.194701,
+       "v3_dcf_deployment": 0.31259259485065943,
+       "v3_dcf_calibration": 0.5530358917455692,
+       "v3_delta": -0.43476978706750663,
+       "v3_fpr_deployment": 0.001697792869269949,
+       "v3_fnr_deployment": 0.2803345303345304
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.15028757525913722,
+       "v2_dcf_calibration": 0.4984348837392131,
+       "v2_delta": -0.6984810249802471,
+       "v3_threshold": -3.020549,
+       "v3_dcf_deployment": 0.2733126438559375,
+       "v3_dcf_calibration": 0.3685017547496325,
+       "v3_delta": -0.25831386056321054,
+       "v3_fpr_deployment": 0.001697792869269949,
+       "v3_fnr_deployment": 0.258032508032508
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.09324852602314403,
+       "v2_dcf_calibration": 0.10107664944379716,
+       "v2_delta": -0.07744739723496566,
+       "v3_threshold": -0.457589,
+       "v3_dcf_deployment": 0.059941859177852434,
+       "v3_dcf_calibration": 0.09069666624844891,
+       "v3_delta": -0.3390952318616501,
+       "v3_fpr_deployment": 0.009762308998302207,
+       "v3_fnr_deployment": 0.050179550179550225
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.7821976849723032,
+       "v2_dcf_calibration": 0.5123316106987584,
+       "v2_delta": 0.5267410181961641,
+       "v3_threshold": 1.232662,
+       "v3_dcf_deployment": 0.1364532429897454,
+       "v3_dcf_calibration": 0.16690521656565763,
+       "v3_delta": -0.18245069987931112,
+       "v3_fpr_deployment": 0.027589134125636672,
+       "v3_fnr_deployment": 0.012096012096012076
+      }
+     }
+    },
+    "opus->pstn": {
+     "log2_fpr_ratio": 3.364239466079863,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 9.785808038299974,
+       "v2_dcf_calibration": 0.9951326766084829,
+       "v2_delta": 8.833671698582986,
+       "v3_threshold": -3.194701,
+       "v3_dcf_deployment": 5.302796593119174,
+       "v3_dcf_calibration": 0.5530358917455692,
+       "v3_delta": 8.58852159917098,
+       "v3_fpr_deployment": 0.27843803056027167,
+       "v3_fnr_deployment": 0.012474012474012475
+      },
+      "0.1": {
+       "v2_dcf_deployment": 4.636996493308462,
+       "v2_dcf_calibration": 0.4984348837392131,
+       "v2_delta": 8.303113896286987,
+       "v3_threshold": -3.020549,
+       "v3_dcf_deployment": 2.6694693940025007,
+       "v3_dcf_calibration": 0.3685017547496325,
+       "v3_delta": 6.244115827389186,
+       "v3_fpr_deployment": 0.29541595925297115,
+       "v3_fnr_deployment": 0.010725760725760702
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.5179472573152539,
+       "v2_dcf_calibration": 0.10107664944379716,
+       "v2_delta": 4.1243018062569865,
+       "v3_threshold": -0.457589,
+       "v3_dcf_deployment": 0.5937598170195793,
+       "v3_dcf_calibration": 0.09069666624844891,
+       "v3_delta": 5.546655368710795,
+       "v3_fpr_deployment": 0.5916808149405772,
+       "v3_fnr_deployment": 0.0020790020790020236
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.5424760798440765,
+       "v2_dcf_calibration": 0.5123316106987584,
+       "v2_delta": 0.058837808395630097,
+       "v3_threshold": 1.232662,
+       "v3_dcf_deployment": 0.791603947376443,
+       "v3_dcf_calibration": 0.16690521656565763,
+       "v3_delta": 3.7428352670153946,
+       "v3_fpr_deployment": 0.7873514431239389,
+       "v3_fnr_deployment": 0.00047250047250047
+      }
+     }
+    },
+    "opus->ulaw": {
+     "log2_fpr_ratio": -1.1779814779326576,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.4381749745459423,
+       "v2_dcf_calibration": 0.9951326766084829,
+       "v2_delta": -0.5596818546454643,
+       "v3_threshold": -3.194701,
+       "v3_dcf_deployment": 0.2709104322007547,
+       "v3_dcf_calibration": 0.5530358917455692,
+       "v3_delta": -0.5101395112970528,
+       "v3_fpr_deployment": 0.008488964346349746,
+       "v3_fnr_deployment": 0.1096201096201096
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.2171902546817657,
+       "v2_dcf_calibration": 0.4984348837392131,
+       "v2_delta": -0.5642555090598311,
+       "v3_threshold": -3.020549,
+       "v3_dcf_deployment": 0.17208202479849338,
+       "v3_dcf_calibration": 0.3685017547496325,
+       "v3_delta": -0.5330225091725563,
+       "v3_fpr_deployment": 0.008488964346349746,
+       "v3_fnr_deployment": 0.09568134568134568
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.04040247879042446,
+       "v2_dcf_calibration": 0.10107664944379716,
+       "v2_delta": -0.6002788080852449,
+       "v3_threshold": -0.457589,
+       "v3_dcf_deployment": 0.03972918743716711,
+       "v3_dcf_calibration": 0.09069666624844891,
+       "v3_delta": -0.5619553718949779,
+       "v3_fpr_deployment": 0.02928692699490662,
+       "v3_fnr_deployment": 0.010442260442260487
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.18683453322247892,
+       "v2_dcf_calibration": 0.5123316106987584,
+       "v2_delta": -0.6353249939669755,
+       "v3_threshold": 1.232662,
+       "v3_dcf_deployment": 0.08238306455623932,
+       "v3_dcf_calibration": 0.16690521656565763,
+       "v3_delta": -0.5064080904635401,
+       "v3_fpr_deployment": 0.06112054329371817,
+       "v3_fnr_deployment": 0.00236250236250235
+      }
+     }
+    },
+    "pstn->alaw": {
+     "log2_fpr_ratio": -5.011113975243167,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.6070330567427342,
+       "v2_dcf_calibration": 1.245835717682492,
+       "v2_delta": -0.512750318419238,
+       "v3_threshold": -7.778829,
+       "v3_dcf_deployment": 0.7774842855488018,
+       "v3_dcf_calibration": 0.7349348559025978,
+       "v3_delta": 0.057895511832742844,
+       "v3_fpr_deployment": 0.00042444821731748726,
+       "v3_fnr_deployment": 0.7694197694197694
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.5915279633641263,
+       "v2_dcf_calibration": 0.7522321523174664,
+       "v2_delta": -0.21363642654497672,
+       "v3_threshold": -7.095003,
+       "v3_dcf_deployment": 0.7077440180156648,
+       "v3_dcf_calibration": 0.6257487407742076,
+       "v3_delta": 0.13103546503347097,
+       "v3_fpr_deployment": 0.0008488964346349745,
+       "v3_fnr_deployment": 0.7001039501039501
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.5791238886612401,
+       "v2_dcf_calibration": 0.357349300025446,
+       "v2_delta": 0.6206101106676354,
+       "v3_threshold": -4.51271,
+       "v3_dcf_deployment": 0.29998333011915357,
+       "v3_dcf_calibration": 0.20871581270562592,
+       "v3_delta": 0.43728127845422005,
+       "v3_fpr_deployment": 0.0038200339558573855,
+       "v3_fnr_deployment": 0.2961632961632962
+      },
+      "0.9": {
+       "v2_dcf_deployment": 5.1997109232482766,
+       "v2_dcf_calibration": 2.8212608479369945,
+       "v2_delta": 0.84304507931285,
+       "v3_threshold": -3.319992,
+       "v3_dcf_deployment": 1.114992175263822,
+       "v3_dcf_calibration": 0.3864813202673986,
+       "v3_delta": 1.8849833531213915,
+       "v3_fpr_deployment": 0.007640067911714771,
+       "v3_fnr_deployment": 0.12303912303912301
+      }
+     }
+    },
+    "pstn->g722": {
+     "log2_fpr_ratio": -3.5589891619731957,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.7809879893428281,
+       "v2_dcf_calibration": 1.245835717682492,
+       "v2_delta": -0.37312120831177903,
+       "v3_threshold": -7.778829,
+       "v3_dcf_deployment": 0.8974856878082684,
+       "v3_dcf_calibration": 0.7349348559025978,
+       "v3_delta": 0.22117719767969993,
+       "v3_fpr_deployment": 0.0021222410865874364,
+       "v3_fnr_deployment": 0.8571631071631072
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.7385643900219452,
+       "v2_dcf_calibration": 0.7522321523174664,
+       "v2_delta": -0.018169606621325336,
+       "v3_threshold": -7.095003,
+       "v3_dcf_deployment": 0.8301728212594086,
+       "v3_dcf_calibration": 0.6257487407742076,
+       "v3_delta": 0.3266871623781093,
+       "v3_fpr_deployment": 0.003395585738539898,
+       "v3_fnr_deployment": 0.7996125496125496
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.704625510565239,
+       "v2_dcf_calibration": 0.357349300025446,
+       "v2_delta": 0.9718116434398061,
+       "v3_threshold": -4.51271,
+       "v3_dcf_deployment": 0.4606294797296495,
+       "v3_dcf_calibration": 0.20871581270562592,
+       "v3_delta": 1.2069697248062572,
+       "v3_fpr_deployment": 0.005942275042444821,
+       "v3_fnr_deployment": 0.4546872046872047
+      },
+      "0.9": {
+       "v2_dcf_deployment": 6.307690715630446,
+       "v2_dcf_calibration": 2.8212608479369945,
+       "v2_delta": 1.2357701239298209,
+       "v3_threshold": -3.319992,
+       "v3_dcf_deployment": 2.3261029797532347,
+       "v3_dcf_calibration": 0.3864813202673986,
+       "v3_delta": 5.018668581818782,
+       "v3_fpr_deployment": 0.008913412563667233,
+       "v3_fnr_deployment": 0.25746550746550745
+      }
+     }
+    },
+    "pstn->gsm": {
+     "log2_fpr_ratio": -2.2172496991750426,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.7526959017442889,
+       "v2_dcf_calibration": 1.245835717682492,
+       "v2_delta": -0.3958305328214088,
+       "v3_threshold": -7.778829,
+       "v3_dcf_deployment": 0.852662159113772,
+       "v3_dcf_calibration": 0.7349348559025978,
+       "v3_delta": 0.1601873992853277,
+       "v3_fpr_deployment": 0.0029711375212224107,
+       "v3_fnr_deployment": 0.7962105462105462
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.6451704348512497,
+       "v2_dcf_calibration": 0.7522321523174664,
+       "v2_delta": -0.14232536742331803,
+       "v3_threshold": -7.095003,
+       "v3_dcf_deployment": 0.7558051777067057,
+       "v3_dcf_calibration": 0.6257487407742076,
+       "v3_delta": 0.20784130827268754,
+       "v3_fpr_deployment": 0.005942275042444821,
+       "v3_fnr_deployment": 0.7023247023247023
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.5591500613368185,
+       "v2_dcf_calibration": 0.357349300025446,
+       "v2_delta": 0.5647157033664338,
+       "v3_threshold": -4.51271,
+       "v3_dcf_deployment": 0.2327255752552866,
+       "v3_dcf_calibration": 0.20871581270562592,
+       "v3_delta": 0.11503566614535424,
+       "v3_fpr_deployment": 0.039898132427843805,
+       "v3_fnr_deployment": 0.1928274428274428
+      },
+      "0.9": {
+       "v2_dcf_deployment": 4.946330178516937,
+       "v2_dcf_calibration": 2.8212608479369945,
+       "v2_delta": 0.7532339067952076,
+       "v3_threshold": -3.319992,
+       "v3_dcf_deployment": 0.3868094233119705,
+       "v3_dcf_calibration": 0.3864813202673986,
+       "v3_delta": 0.0008489492955179887,
+       "v3_fpr_deployment": 0.08913412563667232,
+       "v3_fnr_deployment": 0.03307503307503312
+      }
+     }
+    },
+    "pstn->none": {
+     "log2_fpr_ratio": -5.295233228221942,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.7031159455191713,
+       "v2_dcf_calibration": 1.245835717682492,
+       "v2_delta": -0.43562707703780545,
+       "v3_threshold": -7.778829,
+       "v3_dcf_deployment": 0.8396805896805898,
+       "v3_dcf_calibration": 0.7349348559025978,
+       "v3_delta": 0.14252383450959108,
+       "v3_fpr_deployment": 0.0,
+       "v3_fnr_deployment": 0.8396805896805897
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.7014563529894599,
+       "v2_dcf_calibration": 0.7522321523174664,
+       "v2_delta": -0.06750017155153126,
+       "v3_threshold": -7.095003,
+       "v3_dcf_deployment": 0.7870912870912872,
+       "v3_dcf_calibration": 0.6257487407742076,
+       "v3_delta": 0.2578391865678523,
+       "v3_fpr_deployment": 0.0,
+       "v3_fnr_deployment": 0.7870912870912871
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.7001286789656909,
+       "v2_dcf_calibration": 0.357349300025446,
+       "v2_delta": 0.9592277889332268,
+       "v3_threshold": -4.51271,
+       "v3_dcf_deployment": 0.4840278796136182,
+       "v3_dcf_calibration": 0.20871581270562592,
+       "v3_delta": 1.3190762278097927,
+       "v3_fpr_deployment": 0.0008488964346349745,
+       "v3_fnr_deployment": 0.4831789831789832
+      },
+      "0.9": {
+       "v2_dcf_deployment": 6.29983043666745,
+       "v2_dcf_calibration": 2.8212608479369945,
+       "v2_delta": 1.2329840366494675,
+       "v3_threshold": -3.319992,
+       "v3_dcf_deployment": 2.6829017240732025,
+       "v3_dcf_calibration": 0.3864813202673986,
+       "v3_delta": 5.94186648456116,
+       "v3_fpr_deployment": 0.001697792869269949,
+       "v3_fnr_deployment": 0.29791154791154795
+      }
+     }
+    },
+    "pstn->opus": {
+     "log2_fpr_ratio": -3.8493299944292922,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.7473784515397418,
+       "v2_dcf_calibration": 1.245835717682492,
+       "v2_delta": -0.40009871210787096,
+       "v3_threshold": -7.778829,
+       "v3_dcf_deployment": 0.8820974143554788,
+       "v3_dcf_calibration": 0.7349348559025978,
+       "v3_delta": 0.20023891542352534,
+       "v3_fpr_deployment": 0.001697792869269949,
+       "v3_fnr_deployment": 0.8498393498393498
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.7126882987383836,
+       "v2_dcf_calibration": 0.7522321523174664,
+       "v2_delta": -0.05256868302857927,
+       "v3_threshold": -7.095003,
+       "v3_dcf_deployment": 0.8097752405901812,
+       "v3_dcf_calibration": 0.6257487407742076,
+       "v3_delta": 0.2940900841259175,
+       "v3_fpr_deployment": 0.0025466893039049238,
+       "v3_fnr_deployment": 0.7868550368550369
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.6849361764972971,
+       "v2_dcf_calibration": 0.357349300025446,
+       "v2_delta": 0.9167133570669493,
+       "v3_threshold": -4.51271,
+       "v3_dcf_deployment": 0.4390273838491156,
+       "v3_dcf_calibration": 0.20871581270562592,
+       "v3_delta": 1.1034696804133501,
+       "v3_fpr_deployment": 0.010611205432937181,
+       "v3_fnr_deployment": 0.4284161784161784
+      },
+      "0.9": {
+       "v2_dcf_deployment": 6.136673466234589,
+       "v2_dcf_calibration": 2.8212608479369945,
+       "v2_delta": 1.1751528118082173,
+       "v3_threshold": -3.319992,
+       "v3_dcf_deployment": 2.119839677140187,
+       "v3_dcf_calibration": 0.3864813202673986,
+       "v3_delta": 4.484973182335209,
+       "v3_fpr_deployment": 0.017826825127334467,
+       "v3_fnr_deployment": 0.2335569835569835
+      }
+     }
+    },
+    "pstn->ulaw": {
+     "log2_fpr_ratio": -5.295233228221942,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.5901202041202042,
+       "v2_dcf_calibration": 1.245835717682492,
+       "v2_delta": -0.5263258263152482,
+       "v3_threshold": -7.778829,
+       "v3_dcf_deployment": 0.7752162832807994,
+       "v3_dcf_calibration": 0.7349348559025978,
+       "v3_delta": 0.05480952094554104,
+       "v3_fpr_deployment": 0.00042444821731748726,
+       "v3_fnr_deployment": 0.7671517671517671
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.5815675725412568,
+       "v2_dcf_calibration": 0.7522321523174664,
+       "v2_delta": -0.22687753940113906,
+       "v3_threshold": -7.095003,
+       "v3_dcf_deployment": 0.7053342656059125,
+       "v3_dcf_calibration": 0.6257487407742076,
+       "v3_delta": 0.12718447460755206,
+       "v3_fpr_deployment": 0.0008488964346349745,
+       "v3_fnr_deployment": 0.6976941976941977
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.5747254672780988,
+       "v2_dcf_calibration": 0.357349300025446,
+       "v2_delta": 0.6083016455808755,
+       "v3_threshold": -4.51271,
+       "v3_dcf_deployment": 0.29917927710796977,
+       "v3_dcf_calibration": 0.20871581270562592,
+       "v3_delta": 0.43342889659220063,
+       "v3_fpr_deployment": 0.004244482173174873,
+       "v3_fnr_deployment": 0.2949347949347949
+      },
+      "0.9": {
+       "v2_dcf_deployment": 5.165687100239734,
+       "v2_dcf_calibration": 2.8212608479369945,
+       "v2_delta": 0.8309852858933858,
+       "v3_threshold": -3.319992,
+       "v3_dcf_deployment": 1.096281156552804,
+       "v3_dcf_calibration": 0.3864813202673986,
+       "v3_delta": 1.8365695806315012,
+       "v3_fpr_deployment": 0.007640067911714771,
+       "v3_fnr_deployment": 0.12096012096012099
+      }
+     }
+    },
+    "ulaw->alaw": {
+     "log2_fpr_ratio": 0.22409899145272114,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 1.1141294742746355,
+       "v2_dcf_calibration": 0.9468565839130354,
+       "v2_delta": 0.1766612739495545,
+       "v3_threshold": -2.909677,
+       "v3_dcf_deployment": 0.25012041141073393,
+       "v3_dcf_calibration": 0.2479941592844819,
+       "v3_delta": 0.00857379920715367,
+       "v3_fpr_deployment": 0.008488964346349746,
+       "v3_fnr_deployment": 0.0888300888300888
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.5301057051744658,
+       "v2_dcf_calibration": 0.4506426620115075,
+       "v2_delta": 0.17633271294880004,
+       "v3_threshold": -2.279692,
+       "v3_dcf_deployment": 0.16421356828827116,
+       "v3_dcf_calibration": 0.15246996613719876,
+       "v3_delta": 0.07702239626986615,
+       "v3_fpr_deployment": 0.012733446519524618,
+       "v3_fnr_deployment": 0.04961254961254957
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.06288668989432997,
+       "v2_dcf_calibration": 0.053671524490285095,
+       "v2_delta": 0.1716956149757378,
+       "v3_threshold": -0.792817,
+       "v3_dcf_deployment": 0.03898201096842861,
+       "v3_dcf_calibration": 0.03671641532422518,
+       "v3_delta": 0.06170525156655517,
+       "v3_fpr_deployment": 0.02461799660441426,
+       "v3_fnr_deployment": 0.014364014364014355
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.09876119376883391,
+       "v2_dcf_calibration": 0.08607258289134351,
+       "v2_delta": 0.1474175684202283,
+       "v3_threshold": 0.861711,
+       "v3_dcf_deployment": 0.0968415790147543,
+       "v3_dcf_calibration": 0.08070452467736043,
+       "v3_delta": 0.19995228770513665,
+       "v3_fpr_deployment": 0.06112054329371817,
+       "v3_fnr_deployment": 0.003969003969004015
+      }
+     }
+    },
+    "ulaw->g722": {
+     "log2_fpr_ratio": -0.39496213279855635,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.736350484084355,
+       "v2_dcf_calibration": 0.9468565839130354,
+       "v2_delta": -0.22232099708144867,
+       "v3_threshold": -2.909677,
+       "v3_dcf_deployment": 0.3805473079666628,
+       "v3_dcf_calibration": 0.2479941592844819,
+       "v3_delta": 0.5345010909314402,
+       "v3_fpr_deployment": 0.00933786078098472,
+       "v3_fnr_deployment": 0.20312795312795318
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.3560958151539645,
+       "v2_dcf_calibration": 0.4506426620115075,
+       "v2_delta": -0.2098044744266327,
+       "v3_threshold": -2.279692,
+       "v3_dcf_deployment": 0.24484380851104118,
+       "v3_dcf_calibration": 0.15246996613719876,
+       "v3_delta": 0.6058494319512121,
+       "v3_fpr_deployment": 0.011460101867572157,
+       "v3_fnr_deployment": 0.14170289170289174
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.051892080009652175,
+       "v2_dcf_calibration": 0.053671524490285095,
+       "v2_delta": -0.03315434949038967,
+       "v3_threshold": -0.792817,
+       "v3_dcf_deployment": 0.066161216840334,
+       "v3_dcf_calibration": 0.03671641532422518,
+       "v3_delta": 0.8019519676988021,
+       "v3_fpr_deployment": 0.019100169779286927,
+       "v3_fnr_deployment": 0.04706104706104708
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.1628249849425572,
+       "v2_dcf_calibration": 0.08607258289134351,
+       "v2_delta": 0.8917171934773301,
+       "v3_threshold": 0.861711,
+       "v3_dcf_deployment": 0.14535863347408326,
+       "v3_dcf_calibration": 0.08070452467736043,
+       "v3_delta": 0.8011212389292451,
+       "v3_fpr_deployment": 0.04074702886247878,
+       "v3_fnr_deployment": 0.011623511623511606
+      }
+     }
+    },
+    "ulaw->gsm": {
+     "log2_fpr_ratio": 3.4471997257924776,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 10.36286949689369,
+       "v2_dcf_calibration": 0.9468565839130354,
+       "v2_delta": 9.944497480354928,
+       "v3_threshold": -2.909677,
+       "v3_dcf_deployment": 2.1777805890709114,
+       "v3_dcf_calibration": 0.2479941592844819,
+       "v3_delta": 7.781580160413015,
+       "v3_fpr_deployment": 0.11375212224108659,
+       "v3_fnr_deployment": 0.016490266490266525
+      },
+      "0.1": {
+       "v2_dcf_deployment": 4.909304131868224,
+       "v2_dcf_calibration": 0.4506426620115075,
+       "v2_delta": 9.894006594836911,
+       "v3_threshold": -2.279692,
+       "v3_dcf_deployment": 1.3838589827554173,
+       "v3_dcf_calibration": 0.15246996613719876,
+       "v3_delta": 8.076272644477168,
+       "v3_fpr_deployment": 0.15280135823429541,
+       "v3_fnr_deployment": 0.008646758646758679
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.5464518398478502,
+       "v2_dcf_calibration": 0.053671524490285095,
+       "v2_delta": 9.181410813973834,
+       "v3_threshold": -0.792817,
+       "v3_dcf_deployment": 0.3085802716532767,
+       "v3_dcf_calibration": 0.03671641532422518,
+       "v3_delta": 7.4044226248219305,
+       "v3_fpr_deployment": 0.30517826825127337,
+       "v3_fnr_deployment": 0.003402003402003362
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.5552142666102768,
+       "v2_dcf_calibration": 0.08607258289134351,
+       "v2_delta": 5.4505356753516905,
+       "v3_threshold": 0.861711,
+       "v3_dcf_deployment": 0.5725958871120163,
+       "v3_dcf_calibration": 0.08070452467736043,
+       "v3_delta": 6.0949663528920235,
+       "v3_fpr_deployment": 0.5645161290322581,
+       "v3_fnr_deployment": 0.0008977508977509041
+      }
+     }
+    },
+    "ulaw->none": {
+     "log2_fpr_ratio": -1.2313564301427784,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.42410083922180697,
+       "v2_dcf_calibration": 0.9468565839130354,
+       "v2_delta": -0.5520960128205026,
+       "v3_threshold": -2.909677,
+       "v3_dcf_deployment": 0.27729680955487407,
+       "v3_dcf_calibration": 0.2479941592844819,
+       "v3_delta": 0.11815863065056373,
+       "v3_fpr_deployment": 0.001697792869269949,
+       "v3_fnr_deployment": 0.245038745038745
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.21114243514710407,
+       "v2_dcf_calibration": 0.4506426620115075,
+       "v2_delta": -0.5314637229315133,
+       "v3_threshold": -2.279692,
+       "v3_dcf_deployment": 0.20223413304907362,
+       "v3_dcf_calibration": 0.15246996613719876,
+       "v3_delta": 0.32638668567090123,
+       "v3_fpr_deployment": 0.0025466893039049238,
+       "v3_fnr_deployment": 0.1793139293139293
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.04077571188734177,
+       "v2_dcf_calibration": 0.053671524490285095,
+       "v2_delta": -0.24027289564464588,
+       "v3_threshold": -0.792817,
+       "v3_dcf_deployment": 0.07364758171209784,
+       "v3_dcf_calibration": 0.03671641532422518,
+       "v3_delta": 1.0058489114950664,
+       "v3_fpr_deployment": 0.008064516129032258,
+       "v3_fnr_deployment": 0.06558306558306559
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.19661468372631363,
+       "v2_dcf_calibration": 0.08607258289134351,
+       "v2_delta": 1.2842893418745955,
+       "v3_threshold": 0.861711,
+       "v3_dcf_deployment": 0.16793380757727083,
+       "v3_dcf_calibration": 0.08070452467736043,
+       "v3_delta": 1.0808474896374716,
+       "v3_fpr_deployment": 0.021222410865874362,
+       "v3_fnr_deployment": 0.01630126630126627
+      }
+     }
+    },
+    "ulaw->opus": {
+     "log2_fpr_ratio": 0.968877787725041,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 1.8694970674486802,
+       "v2_dcf_calibration": 0.9468565839130354,
+       "v2_delta": 0.9744247431038461,
+       "v3_threshold": -2.909677,
+       "v3_dcf_deployment": 0.616593302077173,
+       "v3_dcf_calibration": 0.2479941592844819,
+       "v3_delta": 1.4863218708705936,
+       "v3_fpr_deployment": 0.022920203735144314,
+       "v3_fnr_deployment": 0.18110943110943112
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.8908383238154036,
+       "v2_dcf_calibration": 0.4506426620115075,
+       "v2_delta": 0.9768175517138575,
+       "v3_threshold": -2.279692,
+       "v3_dcf_deployment": 0.39180453144799493,
+       "v3_dcf_calibration": 0.15246996613719876,
+       "v3_delta": 1.5697161308177445,
+       "v3_fpr_deployment": 0.030135823429541596,
+       "v3_fnr_deployment": 0.12058212058212059
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.10791132890878222,
+       "v2_dcf_calibration": 0.053671524490285095,
+       "v2_delta": 1.0105881085661148,
+       "v3_threshold": -0.792817,
+       "v3_dcf_deployment": 0.09344920210794574,
+       "v3_dcf_calibration": 0.03671641532422518,
+       "v3_delta": 1.545161374898403,
+       "v3_fpr_deployment": 0.05602716468590832,
+       "v3_fnr_deployment": 0.037422037422037424
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.18827496527241852,
+       "v2_dcf_calibration": 0.08607258289134351,
+       "v2_delta": 1.1873976468220255,
+       "v3_threshold": 0.861711,
+       "v3_dcf_deployment": 0.17841345090920693,
+       "v3_dcf_calibration": 0.08070452467736043,
+       "v3_delta": 1.2106994821227937,
+       "v3_fpr_deployment": 0.10144312393887946,
+       "v3_fnr_deployment": 0.008552258552258607
+      }
+     }
+    },
+    "ulaw->pstn": {
+     "log2_fpr_ratio": 3.8730118257422186,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 13.920059032075159,
+       "v2_dcf_calibration": 0.9468565839130354,
+       "v2_delta": 13.701338374337855,
+       "v3_threshold": -2.909677,
+       "v3_dcf_deployment": 5.840236920882081,
+       "v3_dcf_calibration": 0.2479941592844819,
+       "v3_delta": 22.54989705294858,
+       "v3_fpr_deployment": 0.3068760611205433,
+       "v3_fnr_deployment": 0.009591759591759619
+      },
+      "0.1": {
+       "v2_dcf_deployment": 6.594129490479236,
+       "v2_dcf_calibration": 0.4506426620115075,
+       "v2_delta": 13.632723544294281,
+       "v3_threshold": -2.279692,
+       "v3_dcf_deployment": 3.3526340016153258,
+       "v3_dcf_calibration": 0.15246996613719876,
+       "v3_delta": 20.988815807819407,
+       "v3_fpr_deployment": 0.37181663837011886,
+       "v3_fnr_deployment": 0.006284256284256329
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.7333858572024956,
+       "v2_dcf_calibration": 0.053671524490285095,
+       "v2_delta": 12.664338104188625,
+       "v3_threshold": -0.792817,
+       "v3_dcf_deployment": 0.549947952749311,
+       "v3_dcf_calibration": 0.03671641532422518,
+       "v3_delta": 13.978258304711462,
+       "v3_fpr_deployment": 0.5475382003395586,
+       "v3_fnr_deployment": 0.002409752409752386
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.7397290815457199,
+       "v2_dcf_calibration": 0.08607258289134351,
+       "v2_delta": 7.594247514095642,
+       "v3_threshold": 0.861711,
+       "v3_dcf_deployment": 0.7555298599441218,
+       "v3_dcf_calibration": 0.08070452467736043,
+       "v3_delta": 8.361679075176639,
+       "v3_fpr_deployment": 0.7491511035653651,
+       "v3_fnr_deployment": 0.0007087507087507605
+      }
+     }
+    }
+   },
+   "summary_by_prior": {
+    "0.05": {
+     "n_conservative": 17,
+     "n_liberal": 15,
+     "v2": {
+      "median_conservative": -0.5415812808107596,
+      "median_liberal": 8.958544029171893,
+      "median_all": 0.03237157660166816,
+      "n_conservative_negative": 17,
+      "n_liberal_negative": 0,
+      "frac_conservative_in_worse_half": 0.0,
+      "frac_liberal_in_worse_half": 1.0
+     },
+     "v3": {
+      "median_conservative": -0.00041316329746915627,
+      "median_liberal": 7.2877828780964355,
+      "median_all": 0.2107323112643853,
+      "n_conservative_negative": 9,
+      "n_liberal_negative": 0,
+      "frac_conservative_in_worse_half": 0.058823529411764705,
+      "frac_liberal_in_worse_half": 1.0
+     }
+    },
+    "0.1": {
+     "n_conservative": 17,
+     "n_liberal": 15,
+     "v2": {
+      "median_conservative": -0.2423376644597358,
+      "median_liberal": 8.896235920973172,
+      "median_all": 0.07908155316373736,
+      "n_conservative_negative": 17,
+      "n_liberal_negative": 0,
+      "frac_conservative_in_worse_half": 0.0,
+      "frac_liberal_in_worse_half": 1.0
+     },
+     "v3": {
+      "median_conservative": 0.042918981969346966,
+      "median_liberal": 7.793167679607792,
+      "median_all": 0.338421066706297,
+      "n_conservative_negative": 7,
+      "n_liberal_negative": 0,
+      "frac_conservative_in_worse_half": 0.058823529411764705,
+      "frac_liberal_in_worse_half": 1.0
+     }
+    },
+    "0.5": {
+     "n_conservative": 17,
+     "n_liberal": 15,
+     "v2": {
+      "median_conservative": 0.5647157033664338,
+      "median_liberal": 8.0389155786869,
+      "median_all": 0.8791140503994958,
+      "n_conservative_negative": 6,
+      "n_liberal_negative": 0,
+      "frac_conservative_in_worse_half": 0.35294117647058826,
+      "frac_liberal_in_worse_half": 0.9333333333333333
+     },
+     "v3": {
+      "median_conservative": 0.43728127845422005,
+      "median_liberal": 7.1295736235806695,
+      "median_all": 0.969142376810708,
+      "n_conservative_negative": 6,
+      "n_liberal_negative": 0,
+      "frac_conservative_in_worse_half": 0.35294117647058826,
+      "frac_liberal_in_worse_half": 0.8666666666666667
+     }
+    },
+    "0.9": {
+     "n_conservative": 17,
+     "n_liberal": 15,
+     "v2": {
+      "median_conservative": 0.84304507931285,
+      "median_liberal": 4.134270417664752,
+      "median_all": 0.8673811363950901,
+      "n_conservative_negative": 2,
+      "n_liberal_negative": 2,
+      "frac_conservative_in_worse_half": 0.47058823529411764,
+      "frac_liberal_in_worse_half": 0.6
+     },
+     "v3": {
+      "median_conservative": 1.444859930730573,
+      "median_liberal": 4.424354144914003,
+      "median_all": 1.2474671588576034,
+      "n_conservative_negative": 4,
+      "n_liberal_negative": 0,
+      "frac_conservative_in_worse_half": 0.5882352941176471,
+      "frac_liberal_in_worse_half": 0.7333333333333333
+     }
+    }
+   }
+  },
+  "ssl": {
+   "cells": {
+    "alaw->g722": {
+     "log2_fpr_ratio": -0.6611821370722465,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.6021898659318013,
+       "v2_dcf_calibration": 0.9434357993793476,
+       "v2_delta": -0.36170551686934044,
+       "v3_threshold": -3.168143,
+       "v3_dcf_deployment": 0.16078276562147528,
+       "v3_dcf_calibration": 0.06654635686893753,
+       "v3_delta": 1.4161016949152532,
+       "v3_fpr_deployment": 0.0055178268251273345,
+       "v3_fnr_deployment": 0.05594405594405594
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.2860098998876588,
+       "v2_dcf_calibration": 0.4474128791756126,
+       "v2_delta": -0.3607472801975422,
+       "v3_threshold": -1.778421,
+       "v3_dcf_deployment": 0.07744346920917378,
+       "v3_dcf_calibration": 0.04265628374287116,
+       "v3_delta": 0.8155231167346207,
+       "v3_fpr_deployment": 0.0055178268251273345,
+       "v3_fnr_deployment": 0.02778302778302777
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.03306592705234469,
+       "v2_dcf_calibration": 0.0505945430126245,
+       "v2_delta": -0.34645269858265176,
+       "v3_threshold": -0.575693,
+       "v3_dcf_deployment": 0.015487586794887351,
+       "v3_dcf_calibration": 0.011234280334450064,
+       "v3_delta": 0.37860070550264524,
+       "v3_fpr_deployment": 0.0055178268251273345,
+       "v3_fnr_deployment": 0.009969759969760017
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.04464937063578811,
+       "v2_dcf_calibration": 0.05853255095063241,
+       "v2_delta": -0.23718734429588872,
+       "v3_threshold": 4.331189,
+       "v3_dcf_deployment": 0.031870517863726994,
+       "v3_dcf_calibration": 0.03271379884283111,
+       "v3_delta": -0.025777531467853824,
+       "v3_fpr_deployment": 0.01230899830220713,
+       "v3_fnr_deployment": 0.0021735021735022064
+      }
+     }
+    },
+    "alaw->gsm": {
+     "log2_fpr_ratio": 3.4354078597526603,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 10.277829328256747,
+       "v2_dcf_calibration": 0.9434357993793476,
+       "v2_delta": 9.894042111840742,
+       "v3_threshold": -3.168143,
+       "v3_dcf_deployment": 0.16729107858140113,
+       "v3_dcf_calibration": 0.06654635686893753,
+       "v3_delta": 1.5139028859367831,
+       "v3_fpr_deployment": 0.008488964346349746,
+       "v3_fnr_deployment": 0.006000756000756002
+      },
+      "0.1": {
+       "v2_dcf_deployment": 4.868657002280517,
+       "v2_dcf_calibration": 0.4474128791756126,
+       "v2_delta": 9.881798957712919,
+       "v3_threshold": -1.778421,
+       "v3_dcf_deployment": 0.11484448878336825,
+       "v3_dcf_calibration": 0.04265628374287116,
+       "v3_delta": 1.6923228820316867,
+       "v3_fpr_deployment": 0.01230899830220713,
+       "v3_fnr_deployment": 0.0040635040635040864
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.5413191414995321,
+       "v2_dcf_calibration": 0.0505945430126245,
+       "v2_delta": 9.699160606400982,
+       "v3_threshold": -0.575693,
+       "v3_dcf_deployment": 0.03476231702038149,
+       "v3_dcf_calibration": 0.011234280334450064,
+       "v3_delta": 2.094307422059106,
+       "v3_fpr_deployment": 0.03225806451612903,
+       "v3_fnr_deployment": 0.0025042525042524577
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.5445344127148032,
+       "v2_dcf_calibration": 0.05853255095063241,
+       "v2_delta": 8.30310406553227,
+       "v3_threshold": 4.331189,
+       "v3_dcf_deployment": 0.323440772506986,
+       "v3_dcf_calibration": 0.03271379884283111,
+       "v3_delta": 8.886982984180838,
+       "v3_fpr_deployment": 0.3174872665534805,
+       "v3_fnr_deployment": 0.0006615006615006136
+      }
+     }
+    },
+    "alaw->none": {
+     "log2_fpr_ratio": -1.2408188403046356,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.40329871327451966,
+       "v2_dcf_calibration": 0.9434357993793476,
+       "v2_delta": -0.57252129552447,
+       "v3_threshold": -3.168143,
+       "v3_dcf_deployment": 0.05438480438480442,
+       "v3_dcf_calibration": 0.06654635686893753,
+       "v3_delta": -0.1827530920751257,
+       "v3_fpr_deployment": 0.0,
+       "v3_fnr_deployment": 0.05438480438480442
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.19173249935261816,
+       "v2_dcf_calibration": 0.4474128791756126,
+       "v2_delta": -0.5714640586433324,
+       "v3_threshold": -1.778421,
+       "v3_dcf_deployment": 0.029524059659883136,
+       "v3_dcf_calibration": 0.04265628374287116,
+       "v3_delta": -0.30786141995275706,
+       "v3_fpr_deployment": 0.00042444821731748726,
+       "v3_fnr_deployment": 0.025704025704025746
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.022479528215096984,
+       "v2_dcf_calibration": 0.0505945430126245,
+       "v2_delta": -0.5556926325139881,
+       "v3_threshold": -0.575693,
+       "v3_dcf_deployment": 0.009401957194826418,
+       "v3_dcf_calibration": 0.011234280334450064,
+       "v3_delta": -0.16310106967909674,
+       "v3_fpr_deployment": 0.00042444821731748726,
+       "v3_fnr_deployment": 0.00897750897750893
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.033062782798351634,
+       "v2_dcf_calibration": 0.05853255095063241,
+       "v2_delta": -0.4351385295638749,
+       "v3_threshold": 4.331189,
+       "v3_dcf_deployment": 0.026355097662398165,
+       "v3_dcf_calibration": 0.03271379884283111,
+       "v3_delta": -0.19437367121386426,
+       "v3_fpr_deployment": 0.0055178268251273345,
+       "v3_fnr_deployment": 0.002315252315252314
+      }
+     }
+    },
+    "alaw->opus": {
+     "log2_fpr_ratio": 0.4278702100434808,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 1.2788730696069406,
+       "v2_dcf_calibration": 0.9434357993793476,
+       "v2_delta": 0.3555485921228186,
+       "v3_threshold": -3.168143,
+       "v3_dcf_deployment": 0.1267779735521671,
+       "v3_dcf_calibration": 0.06654635686893753,
+       "v3_delta": 0.9051076500229037,
+       "v3_fpr_deployment": 0.0050933786078098476,
+       "v3_fnr_deployment": 0.030003780003780012
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.6062499796239184,
+       "v2_dcf_calibration": 0.4474128791756126,
+       "v2_delta": 0.3550123562401097,
+       "v3_threshold": -1.778421,
+       "v3_dcf_deployment": 0.08312462556944729,
+       "v3_dcf_calibration": 0.04265628374287116,
+       "v3_delta": 0.9487076293499037,
+       "v3_fpr_deployment": 0.007640067911714771,
+       "v3_fnr_deployment": 0.014364014364014355
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.06815150763750084,
+       "v2_dcf_calibration": 0.0505945430126245,
+       "v2_delta": 0.3470130092981664,
+       "v3_threshold": -0.575693,
+       "v3_dcf_deployment": 0.019488598860415523,
+       "v3_dcf_calibration": 0.011234280334450064,
+       "v3_delta": 0.7347438625555288,
+       "v3_fpr_deployment": 0.013582342954159592,
+       "v3_fnr_deployment": 0.0059062559062559306
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.07526509675108999,
+       "v2_dcf_calibration": 0.05853255095063241,
+       "v2_delta": 0.28586735976311983,
+       "v3_threshold": 4.331189,
+       "v3_dcf_deployment": 0.04671978780637536,
+       "v3_dcf_calibration": 0.03271379884283111,
+       "v3_delta": 0.4281370387717449,
+       "v3_fpr_deployment": 0.030560271646859084,
+       "v3_fnr_deployment": 0.0017955017955018082
+      }
+     }
+    },
+    "alaw->pstn": {
+     "log2_fpr_ratio": 3.147672956065663,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 8.419250024387118,
+       "v2_dcf_calibration": 0.9434357993793476,
+       "v2_delta": 7.924030686482153,
+       "v3_threshold": -3.168143,
+       "v3_dcf_deployment": 0.036951061144609575,
+       "v3_dcf_calibration": 0.06654635686893753,
+       "v3_delta": -0.4447320201557485,
+       "v3_fpr_deployment": 0.0012733446519524619,
+       "v3_fnr_deployment": 0.012757512757512801
+      },
+      "0.1": {
+       "v2_dcf_deployment": 3.9881252366112294,
+       "v2_dcf_calibration": 0.4474128791756126,
+       "v2_delta": 7.91374706056654,
+       "v3_threshold": -1.778421,
+       "v3_dcf_deployment": 0.029251710066650675,
+       "v3_dcf_calibration": 0.04265628374287116,
+       "v3_delta": -0.3142461672709755,
+       "v3_fpr_deployment": 0.0025466893039049238,
+       "v3_fnr_deployment": 0.006331506331506365
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.4432254063905167,
+       "v2_dcf_calibration": 0.0505945430126245,
+       "v2_delta": 7.7603401473538725,
+       "v3_threshold": -0.575693,
+       "v3_dcf_deployment": 0.019056930771701515,
+       "v3_dcf_calibration": 0.011234280334450064,
+       "v3_delta": 0.6963196755259162,
+       "v3_fpr_deployment": 0.01697792869269949,
+       "v3_fnr_deployment": 0.0020790020790020236
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.44412882729393743,
+       "v2_dcf_calibration": 0.05853255095063241,
+       "v2_delta": 6.587723755086722,
+       "v3_threshold": 4.331189,
+       "v3_dcf_deployment": 0.2466092275090581,
+       "v3_dcf_calibration": 0.03271379884283111,
+       "v3_delta": 6.538385520246601,
+       "v3_fpr_deployment": 0.24405772495755518,
+       "v3_fnr_deployment": 0.0002835002835003264
+      }
+     }
+    },
+    "alaw->ulaw": {
+     "log2_fpr_ratio": -0.10530327081463589,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.8840735607025929,
+       "v2_dcf_calibration": 0.9434357993793476,
+       "v2_delta": -0.06292133361465295,
+       "v3_threshold": -3.168143,
+       "v3_dcf_deployment": 0.08851915303528207,
+       "v3_dcf_calibration": 0.06654635686893753,
+       "v3_delta": 0.3301878149335773,
+       "v3_fpr_deployment": 0.003395585738539898,
+       "v3_fnr_deployment": 0.02400302400302401
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.41926880688255896,
+       "v2_dcf_calibration": 0.4474128791756126,
+       "v2_delta": -0.06290402803091172,
+       "v3_threshold": -1.778421,
+       "v3_dcf_deployment": 0.04147503256162004,
+       "v3_dcf_calibration": 0.04265628374287116,
+       "v3_delta": -0.027692313478867782,
+       "v3_fpr_deployment": 0.003395585738539898,
+       "v3_fnr_deployment": 0.010914760914760957
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.04742500382653184,
+       "v2_dcf_calibration": 0.0505945430126245,
+       "v2_delta": -0.06264587043116056,
+       "v3_threshold": -0.575693,
+       "v3_dcf_deployment": 0.00977113328556451,
+       "v3_dcf_calibration": 0.011234280334450064,
+       "v3_delta": -0.13023949957869524,
+       "v3_fpr_deployment": 0.0050933786078098476,
+       "v3_fnr_deployment": 0.004677754677754664
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.05498123138275941,
+       "v2_dcf_calibration": 0.05853255095063241,
+       "v2_delta": -0.06067255758028134,
+       "v3_threshold": 4.331189,
+       "v3_dcf_deployment": 0.030163900707194845,
+       "v3_dcf_calibration": 0.03271379884283111,
+       "v3_delta": -0.07794564452410123,
+       "v3_fpr_deployment": 0.015280135823429542,
+       "v3_fnr_deployment": 0.0016537516537517005
+      }
+     }
+    },
+    "g722->alaw": {
+     "log2_fpr_ratio": 0.4975353794066791,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 1.3420355137451911,
+       "v2_dcf_calibration": 0.9486599764664279,
+       "v2_delta": 0.41466441827134937,
+       "v3_threshold": -0.255495,
+       "v3_dcf_deployment": 0.16596807725839982,
+       "v3_dcf_calibration": 0.11287121770992734,
+       "v3_delta": 0.47041983444289953,
+       "v3_fpr_deployment": 0.008488964346349746,
+       "v3_fnr_deployment": 0.004677754677754664
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.636135683524478,
+       "v2_dcf_calibration": 0.44994605456490006,
+       "v2_delta": 0.41380433736578537,
+       "v3_threshold": -0.255495,
+       "v3_dcf_deployment": 0.08107843379490237,
+       "v3_dcf_calibration": 0.057692949458654,
+       "v3_delta": 0.40534388613651523,
+       "v3_fpr_deployment": 0.008488964346349746,
+       "v3_fnr_deployment": 0.004677754677754664
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.07141581934790765,
+       "v2_dcf_calibration": 0.05097491704367763,
+       "v2_delta": 0.40099922647672626,
+       "v3_threshold": 2.427355,
+       "v3_dcf_deployment": 0.014200604608074905,
+       "v3_dcf_calibration": 0.011278321549968422,
+       "v3_delta": 0.2591062016772048,
+       "v3_fpr_deployment": 0.011460101867572157,
+       "v3_fnr_deployment": 0.0027405027405027482
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.07802250995459845,
+       "v2_dcf_calibration": 0.059803115871876304,
+       "v2_delta": 0.3046562677730008,
+       "v3_threshold": 4.464826,
+       "v3_dcf_deployment": 0.033561893069533257,
+       "v3_dcf_calibration": 0.030594766587975025,
+       "v3_delta": 0.09698150410875929,
+       "v3_fpr_deployment": 0.01740237691001698,
+       "v3_fnr_deployment": 0.0017955017955018082
+      }
+     }
+    },
+    "g722->gsm": {
+     "log2_fpr_ratio": 3.6133275220310086,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 11.6267229638278,
+       "v2_dcf_calibration": 0.9486599764664279,
+       "v2_delta": 11.255943385674454,
+       "v3_threshold": -0.255495,
+       "v3_dcf_deployment": 0.848853195627389,
+       "v3_dcf_calibration": 0.11287121770992734,
+       "v3_delta": 6.520546095364133,
+       "v3_fpr_deployment": 0.04456706281833616,
+       "v3_fnr_deployment": 0.0020790020790020236
+      },
+      "0.1": {
+       "v2_dcf_deployment": 5.507588838191131,
+       "v2_dcf_calibration": 0.44994605456490006,
+       "v2_delta": 11.240553689301699,
+       "v3_threshold": -0.255495,
+       "v3_dcf_deployment": 0.4031825674440274,
+       "v3_dcf_calibration": 0.057692949458654,
+       "v3_delta": 5.988420096860721,
+       "v3_fpr_deployment": 0.04456706281833616,
+       "v3_fnr_deployment": 0.0020790020790020236
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.6122815376817923,
+       "v2_dcf_calibration": 0.05097491704367763,
+       "v2_delta": 11.011427839248107,
+       "v3_threshold": 2.427355,
+       "v3_dcf_deployment": 0.1471441878912167,
+       "v3_dcf_calibration": 0.011278321549968422,
+       "v3_delta": 12.046638831788643,
+       "v3_fpr_deployment": 0.1460101867572156,
+       "v3_fnr_deployment": 0.0011340011340010836
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.6152265386267934,
+       "v2_dcf_calibration": 0.059803115871876304,
+       "v2_delta": 9.287533177115224,
+       "v3_threshold": 4.464826,
+       "v3_dcf_deployment": 0.34678462225151496,
+       "v3_dcf_calibration": 0.030594766587975025,
+       "v3_delta": 10.334769338878216,
+       "v3_fpr_deployment": 0.34125636672325976,
+       "v3_fnr_deployment": 0.0006142506142505777
+      }
+     }
+    },
+    "g722->none": {
+     "log2_fpr_ratio": -0.5327249488367862,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.6576966821321659,
+       "v2_dcf_calibration": 0.9486599764664279,
+       "v2_delta": -0.3067097817471367,
+       "v3_threshold": -0.255495,
+       "v3_dcf_deployment": 0.031139305332853716,
+       "v3_dcf_calibration": 0.11287121770992734,
+       "v3_delta": -0.7241165111474213,
+       "v3_fpr_deployment": 0.0012733446519524619,
+       "v3_fnr_deployment": 0.006945756945756942
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.3120727432527093,
+       "v2_dcf_calibration": 0.44994605456490006,
+       "v2_delta": -0.306421869718393,
+       "v3_threshold": -0.255495,
+       "v3_dcf_deployment": 0.0184058588133291,
+       "v3_dcf_calibration": 0.057692949458654,
+       "v3_delta": -0.68096866279094,
+       "v3_fpr_deployment": 0.0012733446519524619,
+       "v3_fnr_deployment": 0.006945756945756942
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.035573592149143934,
+       "v2_dcf_calibration": 0.05097491704367763,
+       "v2_delta": -0.3021353596581068,
+       "v3_threshold": 2.427355,
+       "v3_dcf_deployment": 0.005052546224023275,
+       "v3_dcf_calibration": 0.011278321549968422,
+       "v3_delta": -0.5520125754849203,
+       "v3_fpr_deployment": 0.001697792869269949,
+       "v3_fnr_deployment": 0.003354753354753326
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.043663178238730026,
+       "v2_dcf_calibration": 0.059803115871876304,
+       "v2_delta": -0.2698845603249985,
+       "v3_threshold": 4.464826,
+       "v3_dcf_deployment": 0.028052088323735284,
+       "v3_dcf_calibration": 0.030594766587975025,
+       "v3_delta": -0.083108274643256,
+       "v3_fpr_deployment": 0.007640067911714771,
+       "v3_fnr_deployment": 0.0022680022680022782
+      }
+     }
+    },
+    "g722->opus": {
+     "log2_fpr_ratio": 0.9337713976525198,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 1.8153270648270645,
+       "v2_dcf_calibration": 0.9486599764664279,
+       "v2_delta": 0.9135697824934087,
+       "v3_threshold": -0.255495,
+       "v3_dcf_deployment": 0.3033483517354485,
+       "v3_dcf_calibration": 0.11287121770992734,
+       "v3_delta": 1.6875616112784098,
+       "v3_fpr_deployment": 0.015704584040747028,
+       "v3_fnr_deployment": 0.0049612549612549905
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.8601954858796962,
+       "v2_dcf_calibration": 0.44994605456490006,
+       "v2_delta": 0.9117747053288627,
+       "v3_threshold": -0.255495,
+       "v3_dcf_deployment": 0.14630251132797822,
+       "v3_dcf_calibration": 0.057692949458654,
+       "v3_delta": 1.535881987327183,
+       "v3_fpr_deployment": 0.015704584040747028,
+       "v3_fnr_deployment": 0.0049612549612549905
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.09609022272180166,
+       "v2_dcf_calibration": 0.05097491704367763,
+       "v2_delta": 0.8850491240518779,
+       "v3_threshold": 2.427355,
+       "v3_dcf_deployment": 0.025048060277262266,
+       "v3_dcf_calibration": 0.011278321549968422,
+       "v3_delta": 1.2209031872594904,
+       "v3_fpr_deployment": 0.022071307300509338,
+       "v3_fnr_deployment": 0.0029767529767529277
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.10070674133832029,
+       "v2_dcf_calibration": 0.059803115871876304,
+       "v2_delta": 0.6839714765711696,
+       "v3_threshold": 4.464826,
+       "v3_dcf_deployment": 0.04586607812414237,
+       "v3_dcf_calibration": 0.030594766587975025,
+       "v3_delta": 0.4991478360279298,
+       "v3_fpr_deployment": 0.03225806451612903,
+       "v3_fnr_deployment": 0.0015120015120014818
+      }
+     }
+    },
+    "g722->pstn": {
+     "log2_fpr_ratio": 3.3890385053086605,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 9.952449338804177,
+       "v2_dcf_calibration": 0.9486599764664279,
+       "v2_delta": 9.491060638897295,
+       "v3_threshold": -0.255495,
+       "v3_dcf_deployment": 0.5256582998518481,
+       "v3_dcf_calibration": 0.11287121770992734,
+       "v3_delta": 3.6571509594479634,
+       "v3_fpr_deployment": 0.027589134125636672,
+       "v3_fnr_deployment": 0.001464751464751446
+      },
+      "0.1": {
+       "v2_dcf_deployment": 4.714367844746452,
+       "v2_dcf_calibration": 0.44994605456490006,
+       "v2_delta": 9.477629033341048,
+       "v3_threshold": -0.255495,
+       "v3_dcf_deployment": 0.2497669585954815,
+       "v3_dcf_calibration": 0.057692949458654,
+       "v3_delta": 3.3292457906746216,
+       "v3_fpr_deployment": 0.027589134125636672,
+       "v3_fnr_deployment": 0.001464751464751446
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.5239026495002725,
+       "v2_dcf_calibration": 0.05097491704367763,
+       "v2_delta": 9.277655754718912,
+       "v3_threshold": 2.427355,
+       "v3_dcf_deployment": 0.1063018567263049,
+       "v3_dcf_calibration": 0.011278321549968422,
+       "v3_delta": 8.425325945473023,
+       "v3_fpr_deployment": 0.10568760611205433,
+       "v3_fnr_deployment": 0.0006142506142505777
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.5246586502562732,
+       "v2_dcf_calibration": 0.059803115871876304,
+       "v2_delta": 7.773098903079148,
+       "v3_threshold": 4.464826,
+       "v3_dcf_deployment": 0.26613384550566255,
+       "v3_dcf_calibration": 0.030594766587975025,
+       "v3_delta": 7.698672197429474,
+       "v3_fpr_deployment": 0.2635823429541596,
+       "v3_fnr_deployment": 0.0002835002835003264
+      }
+     }
+    },
+    "g722->ulaw": {
+     "log2_fpr_ratio": 0.4550963583457079,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 1.3031082391888844,
+       "v2_dcf_calibration": 0.9486599764664279,
+       "v2_delta": 0.37363045929554944,
+       "v3_threshold": -0.255495,
+       "v3_dcf_deployment": 0.13314301217527025,
+       "v3_dcf_calibration": 0.11287121770992734,
+       "v3_delta": 0.17960109651195827,
+       "v3_fpr_deployment": 0.006791171477079796,
+       "v3_fnr_deployment": 0.004110754110754122
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.6176710575250474,
+       "v2_dcf_calibration": 0.44994605456490006,
+       "v2_delta": 0.3727669156302263,
+       "v3_threshold": -0.255495,
+       "v3_dcf_deployment": 0.06523129740447228,
+       "v3_dcf_calibration": 0.057692949458654,
+       "v3_delta": 0.13066324423612088,
+       "v3_fpr_deployment": 0.006791171477079796,
+       "v3_fnr_deployment": 0.004110754110754122
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.06932131219397777,
+       "v2_dcf_calibration": 0.05097491704367763,
+       "v2_delta": 0.359910250262499,
+       "v3_threshold": 2.427355,
+       "v3_dcf_deployment": 0.011370415020669655,
+       "v3_dcf_calibration": 0.011278321549968422,
+       "v3_delta": 0.00816552979920055,
+       "v3_fpr_deployment": 0.008913412563667233,
+       "v3_fnr_deployment": 0.002457002457002422
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.07554206441473021,
+       "v2_dcf_calibration": 0.059803115871876304,
+       "v2_delta": 0.2631794065140925,
+       "v3_threshold": 4.464826,
+       "v3_dcf_deployment": 0.03143644315121348,
+       "v3_dcf_calibration": 0.030594766587975025,
+       "v3_delta": 0.02751047506174694,
+       "v3_fpr_deployment": 0.01697792869269949,
+       "v3_fnr_deployment": 0.0016065016065015536
+      }
+     }
+    },
+    "gsm->alaw": {
+     "log2_fpr_ratio": -2.585501468801251,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.16277868230287582,
+       "v2_dcf_calibration": 0.9454386480999383,
+       "v2_delta": -0.8278273448731819,
+       "v3_threshold": -5.336889,
+       "v3_dcf_deployment": 0.18139445558800393,
+       "v3_dcf_calibration": 0.14804201900976097,
+       "v3_delta": 0.22529033852236177,
+       "v3_fpr_deployment": 0.0012733446519524619,
+       "v3_fnr_deployment": 0.15720090720090718
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.0794764751721458,
+       "v2_dcf_calibration": 0.44890639003542226,
+       "v2_delta": -0.8229553489628997,
+       "v3_threshold": -3.731235,
+       "v3_dcf_deployment": 0.057190927734221485,
+       "v3_dcf_calibration": 0.07990440248504767,
+       "v3_delta": -0.2842581140016222,
+       "v3_fpr_deployment": 0.001697792869269949,
+       "v3_fnr_deployment": 0.041910791910791945
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.012834709467561758,
+       "v2_dcf_calibration": 0.05168058358380938,
+       "v2_delta": -0.7516531629959641,
+       "v3_threshold": -2.216805,
+       "v3_dcf_deployment": 0.018940851283805484,
+       "v3_dcf_calibration": 0.013873865316989276,
+       "v3_delta": 0.3652180449388836,
+       "v3_fpr_deployment": 0.003395585738539898,
+       "v3_fnr_deployment": 0.015545265545265585
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.0488706195034718,
+       "v2_dcf_calibration": 0.06789944580267146,
+       "v2_delta": -0.28025009739403467,
+       "v3_threshold": -1.219095,
+       "v3_dcf_deployment": 0.07696070047513145,
+       "v3_dcf_calibration": 0.04334666388995787,
+       "v3_delta": 0.7754699801236826,
+       "v3_fpr_deployment": 0.0050933786078098476,
+       "v3_fnr_deployment": 0.007985257985257954
+      }
+     }
+    },
+    "gsm->g722": {
+     "log2_fpr_ratio": -3.067492152382814,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.12084105541363604,
+       "v2_dcf_calibration": 0.9454386480999383,
+       "v2_delta": -0.8721851960923197,
+       "v3_threshold": -5.336889,
+       "v3_dcf_deployment": 0.32483340547856676,
+       "v3_dcf_calibration": 0.14804201900976097,
+       "v3_delta": 1.1941973478296677,
+       "v3_fpr_deployment": 0.004244482173174873,
+       "v3_fnr_deployment": 0.24418824418824414
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.06119759191618276,
+       "v2_dcf_calibration": 0.44890639003542226,
+       "v2_delta": -0.8636740459155554,
+       "v3_threshold": -3.731235,
+       "v3_dcf_deployment": 0.1268742385041196,
+       "v3_dcf_calibration": 0.07990440248504767,
+       "v3_delta": 0.5878253833117806,
+       "v3_fpr_deployment": 0.0050933786078098476,
+       "v3_fnr_deployment": 0.081033831033831
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.013482821118220108,
+       "v2_dcf_calibration": 0.05168058358380938,
+       "v2_delta": -0.7391124444956144,
+       "v3_threshold": -2.216805,
+       "v3_dcf_deployment": 0.04048286179016233,
+       "v3_dcf_calibration": 0.013873865316989276,
+       "v3_delta": 1.9179223572675848,
+       "v3_fpr_deployment": 0.0055178268251273345,
+       "v3_fnr_deployment": 0.034965034965035
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.07363061926601833,
+       "v2_dcf_calibration": 0.06789944580267146,
+       "v2_delta": 0.08440677822323812,
+       "v3_threshold": -1.219095,
+       "v3_dcf_deployment": 0.1705149918222927,
+       "v3_dcf_calibration": 0.04334666388995787,
+       "v3_delta": 2.9337512168219235,
+       "v3_fpr_deployment": 0.0055178268251273345,
+       "v3_fnr_deployment": 0.01833301833301837
+      }
+     }
+    },
+    "gsm->none": {
+     "log2_fpr_ratio": -5.295233228221942,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.02940585961553704,
+       "v2_dcf_calibration": 0.9454386480999383,
+       "v2_delta": -0.9688971255039823,
+       "v3_threshold": -5.336889,
+       "v3_dcf_deployment": 0.24721224721224722,
+       "v3_dcf_calibration": 0.14804201900976097,
+       "v3_delta": 0.6698789226587594,
+       "v3_fpr_deployment": 0.0,
+       "v3_fnr_deployment": 0.24721224721224722
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.0174533978158766,
+       "v2_dcf_calibration": 0.44890639003542226,
+       "v2_delta": -0.9611201840666617,
+       "v3_threshold": -3.731235,
+       "v3_dcf_deployment": 0.08273483273483273,
+       "v3_dcf_calibration": 0.07990440248504767,
+       "v3_delta": 0.03542270715702698,
+       "v3_fpr_deployment": 0.0,
+       "v3_fnr_deployment": 0.08273483273483273
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.00789142837614825,
+       "v2_dcf_calibration": 0.05168058358380938,
+       "v2_delta": -0.8473038067894323,
+       "v3_threshold": -2.216805,
+       "v3_dcf_deployment": 0.033168730961600244,
+       "v3_dcf_calibration": 0.013873865316989276,
+       "v3_delta": 1.3907346801891896,
+       "v3_fpr_deployment": 0.00042444821731748726,
+       "v3_fnr_deployment": 0.03274428274428276
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.06146088594560594,
+       "v2_dcf_calibration": 0.06789944580267146,
+       "v2_delta": -0.09482492501893437,
+       "v3_threshold": -1.219095,
+       "v3_dcf_deployment": 0.1513883491812182,
+       "v3_dcf_calibration": 0.04334666388995787,
+       "v3_delta": 2.4925028963137894,
+       "v3_fpr_deployment": 0.00042444821731748726,
+       "v3_fnr_deployment": 0.01677376677376674
+      }
+     }
+    },
+    "gsm->opus": {
+     "log2_fpr_ratio": -1.6394234738664895,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.3096623785978624,
+       "v2_dcf_calibration": 0.9454386480999383,
+       "v2_delta": -0.6724669768681497,
+       "v3_threshold": -5.336889,
+       "v3_dcf_deployment": 0.2119195103066071,
+       "v3_dcf_calibration": 0.14804201900976097,
+       "v3_delta": 0.43148216786096694,
+       "v3_fpr_deployment": 0.0025466893039049238,
+       "v3_fnr_deployment": 0.16353241353241355
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.14917001866577417,
+       "v2_dcf_calibration": 0.44890639003542226,
+       "v2_delta": -0.6677035079540671,
+       "v3_threshold": -3.731235,
+       "v3_dcf_deployment": 0.08704966854372623,
+       "v3_dcf_calibration": 0.07990440248504767,
+       "v3_delta": 0.0894226830619957,
+       "v3_fpr_deployment": 0.00466893039049236,
+       "v3_fnr_deployment": 0.04502929502929498
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.02077613072010356,
+       "v2_dcf_calibration": 0.05168058358380938,
+       "v2_delta": -0.5979896262895074,
+       "v3_threshold": -2.216805,
+       "v3_dcf_deployment": 0.024651689337597697,
+       "v3_dcf_calibration": 0.013873865316989276,
+       "v3_delta": 0.7768436390549655,
+       "v3_fpr_deployment": 0.006791171477079796,
+       "v3_fnr_deployment": 0.0178605178605179
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.058591288535261396,
+       "v2_dcf_calibration": 0.06789944580267146,
+       "v2_delta": -0.13708738204522783,
+       "v3_threshold": -1.219095,
+       "v3_dcf_deployment": 0.09523684226570432,
+       "v3_dcf_calibration": 0.04334666388995787,
+       "v3_delta": 1.1970973938727463,
+       "v3_fpr_deployment": 0.010186757215619695,
+       "v3_fnr_deployment": 0.0094500094500094
+      }
+     }
+    },
+    "gsm->pstn": {
+     "log2_fpr_ratio": -0.7045713322566779,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.5844145368580852,
+       "v2_dcf_calibration": 0.9454386480999383,
+       "v2_delta": -0.3818588461212247,
+       "v3_threshold": -5.336889,
+       "v3_dcf_deployment": 0.061504319568835744,
+       "v3_dcf_calibration": 0.14804201900976097,
+       "v3_delta": -0.5845482250226502,
+       "v3_fpr_deployment": 0.00042444821731748726,
+       "v3_fnr_deployment": 0.05343980343980348
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.2776021429701395,
+       "v2_dcf_calibration": 0.44890639003542226,
+       "v2_delta": -0.3816034943315587,
+       "v3_threshold": -3.731235,
+       "v3_dcf_deployment": 0.022578302714126187,
+       "v3_dcf_calibration": 0.07990440248504767,
+       "v3_delta": -0.7174335579525645,
+       "v3_fpr_deployment": 0.00042444821731748726,
+       "v3_fnr_deployment": 0.018758268758268803
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.03215222785978303,
+       "v2_dcf_calibration": 0.05168058358380938,
+       "v2_delta": -0.37786639333043914,
+       "v3_threshold": -2.216805,
+       "v3_dcf_deployment": 0.009446800618277724,
+       "v3_dcf_calibration": 0.013873865316989276,
+       "v3_delta": -0.3190938211927413,
+       "v3_fpr_deployment": 0.001697792869269949,
+       "v3_fnr_deployment": 0.007749007749007775
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.0439201356276907,
+       "v2_dcf_calibration": 0.06789944580267146,
+       "v2_delta": -0.35315914425383,
+       "v3_threshold": -1.219095,
+       "v3_dcf_deployment": 0.03783525472829422,
+       "v3_dcf_calibration": 0.04334666388995787,
+       "v3_delta": -0.12714725118535544,
+       "v3_fpr_deployment": 0.006366723259762309,
+       "v3_fnr_deployment": 0.0034965034965035446
+      }
+     }
+    },
+    "gsm->ulaw": {
+     "log2_fpr_ratio": -2.9473786262012482,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.12715500606629637,
+       "v2_dcf_calibration": 0.9454386480999383,
+       "v2_delta": -0.8655068667630188,
+       "v3_threshold": -5.336889,
+       "v3_dcf_deployment": 0.19355448387706456,
+       "v3_dcf_calibration": 0.14804201900976097,
+       "v3_delta": 0.30742937155094313,
+       "v3_fpr_deployment": 0.0021222410865874364,
+       "v3_fnr_deployment": 0.15323190323190328
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.06233327431756975,
+       "v2_dcf_calibration": 0.44890639003542226,
+       "v2_delta": -0.8611441590023899,
+       "v3_threshold": -3.731235,
+       "v3_dcf_deployment": 0.05775070842982561,
+       "v3_dcf_calibration": 0.07990440248504767,
+       "v3_delta": -0.2772524837960916,
+       "v3_fpr_deployment": 0.0021222410865874364,
+       "v3_fnr_deployment": 0.03865053865053869
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.01047588891858841,
+       "v2_dcf_calibration": 0.05168058358380938,
+       "v2_delta": -0.7972954600715786,
+       "v3_threshold": -2.216805,
+       "v3_dcf_deployment": 0.01790135024430436,
+       "v3_dcf_calibration": 0.013873865316989276,
+       "v3_delta": 0.2902929238028006,
+       "v3_fpr_deployment": 0.003395585738539898,
+       "v3_fnr_deployment": 0.014505764505764462
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.042425614868314386,
+       "v2_dcf_calibration": 0.06789944580267146,
+       "v2_delta": -0.3751699389180408,
+       "v3_threshold": -1.219095,
+       "v3_dcf_deployment": 0.06930699502855747,
+       "v3_dcf_calibration": 0.04334666388995787,
+       "v3_delta": 0.598900326089774,
+       "v3_fpr_deployment": 0.00466893039049236,
+       "v3_fnr_deployment": 0.007182007182007233
+      }
+     }
+    },
+    "none->alaw": {
+     "log2_fpr_ratio": 0.8571192256246692,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 1.7215708339176081,
+       "v2_dcf_calibration": 0.9409017458130361,
+       "v2_delta": 0.8297030923563581,
+       "v3_threshold": -0.559533,
+       "v3_dcf_deployment": 0.1262597472274891,
+       "v3_dcf_calibration": 0.01690027496479108,
+       "v3_delta": 6.470869408369411,
+       "v3_fpr_deployment": 0.006366723259762309,
+       "v3_fnr_deployment": 0.005292005292005242
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.8158620053946879,
+       "v2_dcf_calibration": 0.4460800140643095,
+       "v2_delta": 0.8289588855623297,
+       "v3_threshold": -0.559533,
+       "v3_dcf_deployment": 0.06259251462986602,
+       "v3_dcf_calibration": 0.012655792791616207,
+       "v3_delta": 3.945760068964644,
+       "v3_fpr_deployment": 0.006366723259762309,
+       "v3_fnr_deployment": 0.005292005292005242
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.09129494257635178,
+       "v2_dcf_calibration": 0.05022262866532818,
+       "v2_delta": 0.8178049417667853,
+       "v3_threshold": 2.729754,
+       "v3_dcf_deployment": 0.014860500853709735,
+       "v3_dcf_calibration": 0.004910796082273168,
+       "v3_delta": 2.026087950862527,
+       "v3_fpr_deployment": 0.01230899830220713,
+       "v3_fnr_deployment": 0.0025515025515026046
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.09708742036882978,
+       "v2_dcf_calibration": 0.056146272588972305,
+       "v2_delta": 0.7291872797963569,
+       "v3_threshold": 4.952526,
+       "v3_dcf_deployment": 0.045862869292411027,
+       "v3_dcf_calibration": 0.025068115475585497,
+       "v3_delta": 0.8295299994560059,
+       "v3_fpr_deployment": 0.03395585738539898,
+       "v3_fnr_deployment": 0.0013230013230013382
+      }
+     }
+    },
+    "none->g722": {
+     "log2_fpr_ratio": 0.46486349561145907,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 1.3121303583077775,
+       "v2_dcf_calibration": 0.9409017458130361,
+       "v2_delta": 0.3945455666829076,
+       "v3_threshold": -0.559533,
+       "v3_dcf_deployment": 0.11471396955267918,
+       "v3_dcf_calibration": 0.01690027496479108,
+       "v3_delta": 5.787698412698416,
+       "v3_fpr_deployment": 0.0055178268251273345,
+       "v3_fnr_deployment": 0.009875259875259834
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.6220369796999677,
+       "v2_dcf_calibration": 0.4460800140643095,
+       "v2_delta": 0.3944515783894573,
+       "v3_threshold": -0.559533,
+       "v3_dcf_deployment": 0.05953570130140584,
+       "v3_dcf_calibration": 0.012655792791616207,
+       "v3_delta": 3.7042253521126773,
+       "v3_fpr_deployment": 0.0055178268251273345,
+       "v3_fnr_deployment": 0.009875259875259834
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.06996227681371993,
+       "v2_dcf_calibration": 0.05022262866532818,
+       "v2_delta": 0.3930429105957821,
+       "v3_threshold": 2.729754,
+       "v3_dcf_deployment": 0.01146651953103562,
+       "v3_dcf_calibration": 0.004910796082273168,
+       "v3_delta": 1.3349614479874434,
+       "v3_fpr_deployment": 0.008064516129032258,
+       "v3_fnr_deployment": 0.003402003402003362
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.07758578843723149,
+       "v2_dcf_calibration": 0.056146272588972305,
+       "v2_delta": 0.3818510982057627,
+       "v3_threshold": 4.952526,
+       "v3_dcf_deployment": 0.032285339585848456,
+       "v3_dcf_calibration": 0.025068115475585497,
+       "v3_delta": 0.28790453423960033,
+       "v3_fpr_deployment": 0.017826825127334467,
+       "v3_fnr_deployment": 0.0016065016065015536
+      }
+     }
+    },
+    "none->gsm": {
+     "log2_fpr_ratio": 3.732294080298387,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 12.626024583742325,
+       "v2_dcf_calibration": 0.9409017458130361,
+       "v2_delta": 12.419068080091762,
+       "v3_threshold": -0.559533,
+       "v3_dcf_deployment": 0.6233774943452363,
+       "v3_dcf_calibration": 0.01690027496479108,
+       "v3_delta": 35.885642135642165,
+       "v3_fpr_deployment": 0.03268251273344652,
+       "v3_fnr_deployment": 0.002409752409752386
+      },
+      "0.1": {
+       "v2_dcf_deployment": 5.98090998272365,
+       "v2_dcf_calibration": 0.4460800140643095,
+       "v2_delta": 12.407706676276705,
+       "v3_threshold": -0.559533,
+       "v3_dcf_deployment": 0.29655236701077103,
+       "v3_dcf_calibration": 0.012655792791616207,
+       "v3_delta": 22.432144622913015,
+       "v3_fpr_deployment": 0.03268251273344652,
+       "v3_fnr_deployment": 0.002409752409752386
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.6648183019087094,
+       "v2_dcf_calibration": 0.05022262866532818,
+       "v2_delta": 12.237425431052257,
+       "v3_threshold": 2.729754,
+       "v3_dcf_deployment": 0.1610092289209437,
+       "v3_dcf_calibration": 0.004910796082273168,
+       "v3_delta": 31.78678776790378,
+       "v3_fpr_deployment": 0.1600169779286927,
+       "v3_fnr_deployment": 0.000992250992250976
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.6672730363634441,
+       "v2_dcf_calibration": 0.056146272588972305,
+       "v2_delta": 10.88454737233088,
+       "v3_threshold": 4.952526,
+       "v3_dcf_deployment": 0.470297449075038,
+       "v3_dcf_calibration": 0.025068115475585497,
+       "v3_delta": 17.76078197952587,
+       "v3_fpr_deployment": 0.4656196943972835,
+       "v3_fnr_deployment": 0.0005197505197505059
+      }
+     }
+    },
+    "none->opus": {
+     "log2_fpr_ratio": 1.2456413176461514,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 2.2530917550191742,
+       "v2_dcf_calibration": 0.9409017458130361,
+       "v2_delta": 1.3946089642678587,
+       "v3_threshold": -0.559533,
+       "v3_dcf_deployment": 0.2639707720352882,
+       "v3_dcf_calibration": 0.01690027496479108,
+       "v3_delta": 14.619318181818196,
+       "v3_fpr_deployment": 0.013582342954159592,
+       "v3_fnr_deployment": 0.0059062559062559306
+      },
+      "0.1": {
+       "v2_dcf_deployment": 1.0674720606218906,
+       "v2_dcf_calibration": 0.4460800140643095,
+       "v2_delta": 1.3930057993317708,
+       "v3_threshold": -0.559533,
+       "v3_dcf_deployment": 0.12814734249369225,
+       "v3_dcf_calibration": 0.012655792791616207,
+       "v3_delta": 9.125587910903779,
+       "v3_fpr_deployment": 0.013582342954159592,
+       "v3_fnr_deployment": 0.0059062559062559306
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.11897630510406401,
+       "v2_dcf_calibration": 0.05022262866532818,
+       "v2_delta": 1.3689780536358265,
+       "v3_threshold": 2.729754,
+       "v3_dcf_deployment": 0.025141758163829502,
+       "v3_dcf_calibration": 0.004910796082273168,
+       "v3_delta": 4.119690930475693,
+       "v3_fpr_deployment": 0.022495755517826826,
+       "v3_fnr_deployment": 0.0026460026460026764
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.12229099041874943,
+       "v2_dcf_calibration": 0.056146272588972305,
+       "v2_delta": 1.1780785220418821,
+       "v3_threshold": 4.952526,
+       "v3_dcf_deployment": 0.05604641767629838,
+       "v3_dcf_calibration": 0.025068115475585497,
+       "v3_delta": 1.2357650989314883,
+       "v3_fpr_deployment": 0.04584040747028863,
+       "v3_fnr_deployment": 0.0011340011340010836
+      }
+     }
+    },
+    "none->pstn": {
+     "log2_fpr_ratio": 3.524761661800418,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 10.934183209771918,
+       "v2_dcf_calibration": 0.9409017458130361,
+       "v2_delta": 10.620961761872017,
+       "v3_threshold": -0.559533,
+       "v3_dcf_deployment": 0.3326296632748245,
+       "v3_dcf_calibration": 0.01690027496479108,
+       "v3_delta": 18.681908369408383,
+       "v3_fpr_deployment": 0.01740237691001698,
+       "v3_fnr_deployment": 0.001984501984501952
+      },
+      "0.1": {
+       "v2_dcf_deployment": 5.179399678362751,
+       "v2_dcf_calibration": 0.4460800140643095,
+       "v2_delta": 10.610920720640173,
+       "v3_threshold": -0.559533,
+       "v3_dcf_deployment": 0.15860589417465476,
+       "v3_dcf_calibration": 0.012655792791616207,
+       "v3_delta": 11.532276467083339,
+       "v3_fpr_deployment": 0.01740237691001698,
+       "v3_fnr_deployment": 0.001984501984501952
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.575572853235417,
+       "v2_dcf_calibration": 0.05022262866532818,
+       "v2_delta": 10.460428665948559,
+       "v3_threshold": 2.729754,
+       "v3_dcf_deployment": 0.11813915676394451,
+       "v3_dcf_calibration": 0.004910796082273168,
+       "v3_delta": 23.057027574490295,
+       "v3_fpr_deployment": 0.11757215619694397,
+       "v3_fnr_deployment": 0.0005670005670005418
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.5763288539914174,
+       "v2_dcf_calibration": 0.056146272588972305,
+       "v2_delta": 9.264774978216705,
+       "v3_threshold": 4.952526,
+       "v3_dcf_deployment": 0.37309319185380263,
+       "v3_dcf_calibration": 0.025068115475585497,
+       "v3_delta": 13.883176687819553,
+       "v3_fpr_deployment": 0.37139219015280134,
+       "v3_fnr_deployment": 0.0001890001890001436
+      }
+     }
+    },
+    "none->ulaw": {
+     "log2_fpr_ratio": 0.8830963242343712,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 1.7527602761231793,
+       "v2_dcf_calibration": 0.9409017458130361,
+       "v2_delta": 0.8628515505714295,
+       "v3_threshold": -0.559533,
+       "v3_dcf_deployment": 0.10946921430792396,
+       "v3_dcf_calibration": 0.01690027496479108,
+       "v3_delta": 5.477362914862918,
+       "v3_fpr_deployment": 0.0055178268251273345,
+       "v3_fnr_deployment": 0.004630504630504628
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.8305955902148602,
+       "v2_dcf_calibration": 0.4460800140643095,
+       "v2_delta": 0.8619879035762329,
+       "v3_threshold": -0.559533,
+       "v3_dcf_deployment": 0.054290946056650635,
+       "v3_dcf_calibration": 0.012655792791616207,
+       "v3_delta": 3.289809966912188,
+       "v3_fpr_deployment": 0.0055178268251273345,
+       "v3_fnr_deployment": 0.004630504630504628
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.09286384148820483,
+       "v2_dcf_calibration": 0.05022262866532818,
+       "v2_delta": 0.8490438265792037,
+       "v3_threshold": 2.729754,
+       "v3_dcf_deployment": 0.013068207889939603,
+       "v3_dcf_calibration": 0.004910796082273168,
+       "v3_delta": 1.6611180083638162,
+       "v3_fpr_deployment": 0.010611205432937181,
+       "v3_fnr_deployment": 0.002457002457002422
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.09804282466718799,
+       "v2_dcf_calibration": 0.056146272588972305,
+       "v2_delta": 0.746203623968523,
+       "v3_threshold": 4.952526,
+       "v3_dcf_deployment": 0.041616782703370485,
+       "v3_dcf_calibration": 0.025068115475585497,
+       "v3_delta": 0.6601480372109413,
+       "v3_fpr_deployment": 0.030560271646859084,
+       "v3_fnr_deployment": 0.0012285012285012664
+      }
+     }
+    },
+    "opus->alaw": {
+     "log2_fpr_ratio": -0.4916961903445252,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.6769060120350442,
+       "v2_dcf_calibration": 0.9441861560409945,
+       "v2_delta": -0.2830799226358765,
+       "v3_threshold": -3.239252,
+       "v3_dcf_deployment": 0.06791660823918891,
+       "v3_dcf_calibration": 0.12022545893513634,
+       "v3_delta": -0.43508963209006285,
+       "v3_fpr_deployment": 0.0021222410865874364,
+       "v3_fnr_deployment": 0.027594027594027626
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.3213117845307998,
+       "v2_dcf_calibration": 0.44781518829905925,
+       "v2_delta": -0.2824902037127382,
+       "v3_threshold": -2.561876,
+       "v3_dcf_deployment": 0.04507325602402006,
+       "v3_dcf_calibration": 0.0709702127359173,
+       "v3_delta": -0.36489895850052956,
+       "v3_fpr_deployment": 0.0029711375212224107,
+       "v3_fnr_deployment": 0.01833301833301837
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.03683640252740423,
+       "v2_dcf_calibration": 0.05071841410551086,
+       "v2_delta": -0.2737075246325233,
+       "v3_threshold": -1.035954,
+       "v3_dcf_deployment": 0.012747084054384603,
+       "v3_dcf_calibration": 0.019068963890695605,
+       "v3_delta": -0.33152718063489867,
+       "v3_fpr_deployment": 0.0055178268251273345,
+       "v3_fnr_deployment": 0.007229257229257269
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.047052240743242435,
+       "v2_dcf_calibration": 0.05936895275604941,
+       "v2_delta": -0.20746048971786796,
+       "v3_threshold": 3.920685,
+       "v3_dcf_deployment": 0.03399195674238159,
+       "v3_dcf_calibration": 0.044175505126268944,
+       "v3_delta": -0.2305247750937818,
+       "v3_fpr_deployment": 0.014855687606112054,
+       "v3_fnr_deployment": 0.0021262521262521705
+      }
+     }
+    },
+    "opus->g722": {
+     "log2_fpr_ratio": -1.267961198630822,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.39608536406923495,
+       "v2_dcf_calibration": 0.9441861560409945,
+       "v2_delta": -0.5805007714474074,
+       "v3_threshold": -3.239252,
+       "v3_dcf_deployment": 0.15479725157144517,
+       "v3_dcf_calibration": 0.12022545893513634,
+       "v3_delta": 0.28755800096351386,
+       "v3_fpr_deployment": 0.0050933786078098476,
+       "v3_fnr_deployment": 0.05802305802305807
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.18846227408621294,
+       "v2_dcf_calibration": 0.44781518829905925,
+       "v2_delta": -0.5791516701297001,
+       "v3_threshold": -2.561876,
+       "v3_dcf_deployment": 0.0910042327699373,
+       "v3_dcf_calibration": 0.0709702127359173,
+       "v3_delta": 0.2822877269449269,
+       "v3_fpr_deployment": 0.0055178268251273345,
+       "v3_fnr_deployment": 0.04134379134379129
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.022363802099795285,
+       "v2_dcf_calibration": 0.05071841410551086,
+       "v2_delta": -0.5590595152823337,
+       "v3_threshold": -1.035954,
+       "v3_dcf_deployment": 0.021346592653893135,
+       "v3_dcf_calibration": 0.019068963890695605,
+       "v3_delta": 0.11944166323105064,
+       "v3_fpr_deployment": 0.0055178268251273345,
+       "v3_fnr_deployment": 0.0158287658287658
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.035175746911739955,
+       "v2_dcf_calibration": 0.05936895275604941,
+       "v2_delta": -0.40750602328662916,
+       "v3_threshold": 3.920685,
+       "v3_dcf_deployment": 0.0322997793286415,
+       "v3_dcf_calibration": 0.044175505126268944,
+       "v3_delta": -0.26883056036784403,
+       "v3_fpr_deployment": 0.010186757215619695,
+       "v3_fnr_deployment": 0.002457002457002422
+      }
+     }
+    },
+    "opus->gsm": {
+     "log2_fpr_ratio": 3.242407110235722,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 8.991047236329495,
+       "v2_dcf_calibration": 0.9441861560409945,
+       "v2_delta": 8.522536608701477,
+       "v3_threshold": -3.239252,
+       "v3_dcf_deployment": 0.1673383286286512,
+       "v3_dcf_calibration": 0.12022545893513634,
+       "v3_delta": 0.39187099064377906,
+       "v3_fpr_deployment": 0.008488964346349746,
+       "v3_fnr_deployment": 0.006048006048006038
+      },
+      "0.1": {
+       "v2_dcf_deployment": 4.259188153137644,
+       "v2_dcf_calibration": 0.44781518829905925,
+       "v2_delta": 8.511039965650472,
+       "v3_threshold": -2.561876,
+       "v3_dcf_deployment": 0.08881300180111722,
+       "v3_dcf_calibration": 0.0709702127359173,
+       "v3_delta": 0.25141236551725676,
+       "v3_fpr_deployment": 0.00933786078098472,
+       "v3_fnr_deployment": 0.004772254772254736
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.4737008865841633,
+       "v2_dcf_calibration": 0.05071841410551086,
+       "v2_delta": 8.339820555088943,
+       "v3_threshold": -1.035954,
+       "v3_dcf_deployment": 0.0234447675024925,
+       "v3_dcf_calibration": 0.019068963890695605,
+       "v3_delta": 0.22947254171119377,
+       "v3_fpr_deployment": 0.02037351443123939,
+       "v3_fnr_deployment": 0.0030712530712531105
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.47782071270398935,
+       "v2_dcf_calibration": 0.05936895275604941,
+       "v2_delta": 7.048326448798639,
+       "v3_threshold": 3.920685,
+       "v3_dcf_deployment": 0.2631723344796352,
+       "v3_dcf_calibration": 0.044175505126268944,
+       "v3_delta": 4.957426717077647,
+       "v3_fpr_deployment": 0.25551782682512736,
+       "v3_fnr_deployment": 0.0008505008505008682
+      }
+     }
+    },
+    "opus->none": {
+     "log2_fpr_ratio": -1.8672248731094478,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.2619125965577578,
+       "v2_dcf_calibration": 0.9441861560409945,
+       "v2_delta": -0.7226049175980651,
+       "v3_threshold": -3.239252,
+       "v3_dcf_deployment": 0.057267057267057275,
+       "v3_dcf_calibration": 0.12022545893513634,
+       "v3_delta": -0.5236694642359084,
+       "v3_fpr_deployment": 0.0,
+       "v3_fnr_deployment": 0.057267057267057275
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.12486251166811434,
+       "v2_dcf_calibration": 0.44781518829905925,
+       "v2_delta": -0.7211740134532265,
+       "v3_threshold": -2.561876,
+       "v3_dcf_deployment": 0.04242332255914604,
+       "v3_dcf_calibration": 0.0709702127359173,
+       "v3_delta": -0.4022376300743984,
+       "v3_fpr_deployment": 0.00042444821731748726,
+       "v3_fnr_deployment": 0.038603288603288655
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.015222443756399594,
+       "v2_dcf_calibration": 0.05071841410551086,
+       "v2_delta": -0.6998635697730623,
+       "v3_threshold": -1.035954,
+       "v3_dcf_deployment": 0.014788462581331843,
+       "v3_dcf_calibration": 0.019068963890695605,
+       "v3_delta": -0.22447477135621222,
+       "v3_fpr_deployment": 0.00042444821731748726,
+       "v3_fnr_deployment": 0.014364014364014355
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.027361925895881583,
+       "v2_dcf_calibration": 0.05936895275604941,
+       "v2_delta": -0.5391206240690589,
+       "v3_threshold": 3.920685,
+       "v3_dcf_deployment": 0.02593466048474586,
+       "v3_dcf_calibration": 0.044175505126268944,
+       "v3_delta": -0.4129176245836785,
+       "v3_fpr_deployment": 0.0029711375212224107,
+       "v3_fnr_deployment": 0.0025515025515026046
+      }
+     }
+    },
+    "opus->pstn": {
+     "log2_fpr_ratio": 2.9180427595421823,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 7.180474314264637,
+       "v2_dcf_calibration": 0.9441861560409945,
+       "v2_delta": 6.6049349678802916,
+       "v3_threshold": -3.239252,
+       "v3_dcf_deployment": 0.037423561617110045,
+       "v3_dcf_calibration": 0.12022545893513634,
+       "v3_delta": -0.688721823575648,
+       "v3_fpr_deployment": 0.0012733446519524619,
+       "v3_fnr_deployment": 0.013230013230013271
+      },
+      "0.1": {
+       "v2_dcf_deployment": 3.4013741444853496,
+       "v2_dcf_calibration": 0.44781518829905925,
+       "v2_delta": 6.595486337577833,
+       "v3_threshold": -2.561876,
+       "v3_dcf_deployment": 0.020484860892331234,
+       "v3_dcf_calibration": 0.0709702127359173,
+       "v3_delta": -0.7113597366749325,
+       "v3_fpr_deployment": 0.0012733446519524619,
+       "v3_fnr_deployment": 0.009024759024759077
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.3780940086619204,
+       "v2_dcf_calibration": 0.05071841410551086,
+       "v2_delta": 6.454767964064519,
+       "v3_threshold": -1.035954,
+       "v3_dcf_deployment": 0.01123026929478544,
+       "v3_dcf_calibration": 0.019068963890695605,
+       "v3_delta": -0.4110708185742032,
+       "v3_fpr_deployment": 0.008064516129032258,
+       "v3_fnr_deployment": 0.0031657531657531823
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.3795659421338537,
+       "v2_dcf_calibration": 0.05936895275604941,
+       "v2_delta": 5.393340702732503,
+       "v3_threshold": 3.920685,
+       "v3_dcf_deployment": 0.19822293294279741,
+       "v3_dcf_calibration": 0.044175505126268944,
+       "v3_delta": 3.487168451751879,
+       "v3_fpr_deployment": 0.19524617996604415,
+       "v3_fnr_deployment": 0.0003307503307503623
+      }
+     }
+    },
+    "opus->ulaw": {
+     "log2_fpr_ratio": -0.6193420410552428,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.6196069375262924,
+       "v2_dcf_calibration": 0.9441861560409945,
+       "v2_delta": -0.34376612751416963,
+       "v3_threshold": -3.239252,
+       "v3_dcf_deployment": 0.08974765426378334,
+       "v3_dcf_calibration": 0.12022545893513634,
+       "v3_delta": -0.2535054134232608,
+       "v3_fpr_deployment": 0.003395585738539898,
+       "v3_fnr_deployment": 0.025231525231525276
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.2941230665585504,
+       "v2_dcf_calibration": 0.44781518829905925,
+       "v2_delta": -0.3432043525014842,
+       "v3_threshold": -2.561876,
+       "v3_dcf_deployment": 0.047759288845876255,
+       "v3_dcf_calibration": 0.0709702127359173,
+       "v3_delta": -0.3270516318784294,
+       "v3_fpr_deployment": 0.003395585738539898,
+       "v3_fnr_deployment": 0.017199017199017175
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.03373596978435688,
+       "v2_dcf_calibration": 0.05071841410551086,
+       "v2_delta": -0.3348378418501996,
+       "v3_threshold": -1.035954,
+       "v3_dcf_deployment": 0.01166113517556639,
+       "v3_dcf_calibration": 0.019068963890695605,
+       "v3_delta": -0.3884756800417324,
+       "v3_fpr_deployment": 0.0050933786078098476,
+       "v3_fnr_deployment": 0.006567756567756544
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.04323663128501839,
+       "v2_dcf_calibration": 0.05936895275604941,
+       "v2_delta": -0.27172993159100683,
+       "v3_threshold": 3.920685,
+       "v3_dcf_deployment": 0.030590755548310842,
+       "v3_dcf_calibration": 0.044175505126268944,
+       "v3_delta": -0.30751769649556165,
+       "v3_fpr_deployment": 0.014431239388794566,
+       "v3_fnr_deployment": 0.0017955017955018082
+      }
+     }
+    },
+    "pstn->alaw": {
+     "log2_fpr_ratio": -2.4489070746515056,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.17779244578438128,
+       "v2_dcf_calibration": 0.9419485812792263,
+       "v2_delta": -0.8112503704364332,
+       "v3_threshold": -3.393138,
+       "v3_dcf_deployment": 0.07075161107419174,
+       "v3_dcf_calibration": 0.02223953030404647,
+       "v3_delta": 2.1813446645192203,
+       "v3_fpr_deployment": 0.0021222410865874364,
+       "v3_fnr_deployment": 0.030429030429030446
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.08621774289813339,
+       "v2_dcf_calibration": 0.44677455751012624,
+       "v2_delta": -0.8070218157035962,
+       "v3_threshold": -3.393138,
+       "v3_dcf_deployment": 0.04952920020831737,
+       "v3_dcf_calibration": 0.017995048130871598,
+       "v3_delta": 1.7523794239453587,
+       "v3_fpr_deployment": 0.0021222410865874364,
+       "v3_fnr_deployment": 0.030429030429030446
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.012957980589135077,
+       "v2_dcf_calibration": 0.05063533849484614,
+       "v2_delta": -0.7440921503772708,
+       "v3_threshold": -1.73729,
+       "v3_dcf_deployment": 0.0155852957211191,
+       "v3_dcf_calibration": 0.008594695351910962,
+       "v3_delta": 0.8133622057533236,
+       "v3_fpr_deployment": 0.0038200339558573855,
+       "v3_fnr_deployment": 0.011765261765261714
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.04336206299321737,
+       "v2_dcf_calibration": 0.05957882743833515,
+       "v2_delta": -0.27219005714575933,
+       "v3_threshold": -0.826015,
+       "v3_dcf_deployment": 0.06292583202600212,
+       "v3_dcf_calibration": 0.0322997793286415,
+       "v3_delta": 0.9481814840203346,
+       "v3_fpr_deployment": 0.005942275042444821,
+       "v3_fnr_deployment": 0.006331506331506365
+      }
+     }
+    },
+    "pstn->g722": {
+     "log2_fpr_ratio": -2.8967004345285905,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.13324742106193718,
+       "v2_dcf_calibration": 0.9419485812792263,
+       "v2_delta": -0.8585406637791431,
+       "v3_threshold": -3.393138,
+       "v3_dcf_deployment": 0.16098700776120134,
+       "v3_dcf_calibration": 0.02223953030404647,
+       "v3_delta": 6.238777328490155,
+       "v3_fpr_deployment": 0.0050933786078098476,
+       "v3_fnr_deployment": 0.06421281421281422
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.06610820204665709,
+       "v2_dcf_calibration": 0.44677455751012624,
+       "v2_delta": -0.8520323036856039,
+       "v3_threshold": -3.393138,
+       "v3_dcf_deployment": 0.11005322168310283,
+       "v3_dcf_calibration": 0.017995048130871598,
+       "v3_delta": 5.115750337688724,
+       "v3_fpr_deployment": 0.0050933786078098476,
+       "v3_fnr_deployment": 0.06421281421281422
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.012396826834432963,
+       "v2_dcf_calibration": 0.05063533849484614,
+       "v2_delta": -0.7551744058016959,
+       "v3_threshold": -1.73729,
+       "v3_dcf_deployment": 0.032308603615904125,
+       "v3_dcf_calibration": 0.008594695351910962,
+       "v3_delta": 2.759133080699663,
+       "v3_fpr_deployment": 0.0055178268251273345,
+       "v3_fnr_deployment": 0.026790776790776794
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.05786006629767257,
+       "v2_dcf_calibration": 0.05957882743833515,
+       "v2_delta": -0.028848522446023598,
+       "v3_threshold": -0.826015,
+       "v3_dcf_deployment": 0.12203644334374386,
+       "v3_dcf_calibration": 0.0322997793286415,
+       "v3_delta": 2.778243872877772,
+       "v3_fpr_deployment": 0.0055178268251273345,
+       "v3_fnr_deployment": 0.012946512946512945
+      }
+     }
+    },
+    "pstn->gsm": {
+     "log2_fpr_ratio": 0.6727499706632821,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 1.5160858472390728,
+       "v2_dcf_calibration": 0.9419485812792263,
+       "v2_delta": 0.609520813949453,
+       "v3_threshold": -3.393138,
+       "v3_dcf_deployment": 0.16776357905390163,
+       "v3_dcf_calibration": 0.02223953030404647,
+       "v3_delta": 6.543485710369394,
+       "v3_fpr_deployment": 0.008488964346349746,
+       "v3_fnr_deployment": 0.006473256473256472
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.7190315178672564,
+       "v2_dcf_calibration": 0.44677455751012624,
+       "v2_delta": 0.6093833137554154,
+       "v3_threshold": -3.393138,
+       "v3_dcf_deployment": 0.08287393559040418,
+       "v3_dcf_calibration": 0.017995048130871598,
+       "v3_delta": 3.605374489008946,
+       "v3_fpr_deployment": 0.008488964346349746,
+       "v3_fnr_deployment": 0.006473256473256472
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.08138805436980309,
+       "v2_dcf_calibration": 0.05063533849484614,
+       "v2_delta": 0.6073370256641434,
+       "v3_threshold": -1.73729,
+       "v3_dcf_deployment": 0.01674970053577867,
+       "v3_dcf_calibration": 0.008594695351910962,
+       "v3_delta": 0.9488416808228705,
+       "v3_fpr_deployment": 0.012733446519524618,
+       "v3_fnr_deployment": 0.0040162540162540505
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.09484902583077456,
+       "v2_dcf_calibration": 0.05957882743833515,
+       "v2_delta": 0.5919921540742729,
+       "v3_threshold": -0.826015,
+       "v3_dcf_deployment": 0.05098111634614179,
+       "v3_dcf_calibration": 0.0322997793286415,
+       "v3_delta": 0.5783735185130138,
+       "v3_fpr_deployment": 0.025891341256366725,
+       "v3_fnr_deployment": 0.002787752787752784
+      }
+     }
+    },
+    "pstn->none": {
+     "log2_fpr_ratio": -5.263838031946408,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.029897040622847072,
+       "v2_dcf_calibration": 0.9419485812792263,
+       "v2_delta": -0.9682604324513713,
+       "v3_threshold": -3.393138,
+       "v3_dcf_deployment": 0.06407106407106411,
+       "v3_dcf_calibration": 0.02223953030404647,
+       "v3_delta": 1.8809540127475812,
+       "v3_fpr_deployment": 0.0,
+       "v3_fnr_deployment": 0.06407106407106411
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.016883458279892922,
+       "v2_dcf_calibration": 0.44677455751012624,
+       "v2_delta": -0.9622103407723475,
+       "v3_threshold": -3.393138,
+       "v3_dcf_deployment": 0.06407106407106411,
+       "v3_dcf_calibration": 0.017995048130871598,
+       "v3_delta": 2.5604830620678536,
+       "v3_fpr_deployment": 0.0,
+       "v3_fnr_deployment": 0.06407106407106411
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.0064725924055295935,
+       "v2_dcf_calibration": 0.05063533849484614,
+       "v2_delta": -0.872172427440405,
+       "v3_threshold": -1.73729,
+       "v3_dcf_deployment": 0.02546697325984251,
+       "v3_dcf_calibration": 0.008594695351910962,
+       "v3_delta": 1.963103660699286,
+       "v3_fpr_deployment": 0.00042444821731748726,
+       "v3_fnr_deployment": 0.02504252504252502
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.047842465775403034,
+       "v2_dcf_calibration": 0.05957882743833515,
+       "v2_delta": -0.1969887990004402,
+       "v3_threshold": -0.826015,
+       "v3_dcf_deployment": 0.1016340494269184,
+       "v3_dcf_calibration": 0.0322997793286415,
+       "v3_delta": 2.146586494997984,
+       "v3_fpr_deployment": 0.00042444821731748726,
+       "v3_fnr_deployment": 0.011245511245511208
+      }
+     }
+    },
+    "pstn->opus": {
+     "log2_fpr_ratio": -1.445000541841511,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.3529352628626822,
+       "v2_dcf_calibration": 0.9419485812792263,
+       "v2_delta": -0.6253136637422676,
+       "v3_threshold": -3.393138,
+       "v3_dcf_deployment": 0.12405271276239013,
+       "v3_dcf_calibration": 0.02223953030404647,
+       "v3_delta": 4.5780275512302,
+       "v3_fpr_deployment": 0.00466893039049236,
+       "v3_fnr_deployment": 0.03534303534303529
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.16928925267592498,
+       "v2_dcf_calibration": 0.44677455751012624,
+       "v2_delta": -0.621085735903643,
+       "v3_threshold": -3.393138,
+       "v3_dcf_deployment": 0.07736340885746654,
+       "v3_dcf_calibration": 0.017995048130871598,
+       "v3_delta": 3.299149871388502,
+       "v3_fpr_deployment": 0.00466893039049236,
+       "v3_fnr_deployment": 0.03534303534303529
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.022372444526519222,
+       "v2_dcf_calibration": 0.05063533849484614,
+       "v2_delta": -0.5581654000635075,
+       "v3_threshold": -1.73729,
+       "v3_dcf_deployment": 0.02200328006779618,
+       "v3_dcf_calibration": 0.008594695351910962,
+       "v3_delta": 1.560100057869291,
+       "v3_fpr_deployment": 0.008064516129032258,
+       "v3_fnr_deployment": 0.01393876393876392
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.05443519258926726,
+       "v2_dcf_calibration": 0.05957882743833515,
+       "v2_delta": -0.0863332675419236,
+       "v3_threshold": -0.826015,
+       "v3_dcf_deployment": 0.07907331506652385,
+       "v3_dcf_calibration": 0.0322997793286415,
+       "v3_delta": 1.4481069750345446,
+       "v3_fpr_deployment": 0.01230899830220713,
+       "v3_fnr_deployment": 0.007418257418257412
+      }
+     }
+    },
+    "pstn->ulaw": {
+     "log2_fpr_ratio": -2.8355393252387016,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.1364226730113827,
+       "v2_dcf_calibration": 0.9419485812792263,
+       "v2_delta": -0.8551697239926707,
+       "v3_threshold": -3.393138,
+       "v3_dcf_deployment": 0.08484889130050415,
+       "v3_dcf_calibration": 0.02223953030404647,
+       "v3_delta": 2.8152285655540994,
+       "v3_fpr_deployment": 0.0029711375212224107,
+       "v3_fnr_deployment": 0.028397278397278347
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.06637598370747778,
+       "v2_dcf_calibration": 0.44677455751012624,
+       "v2_delta": -0.8514329372796181,
+       "v3_threshold": -3.393138,
+       "v3_dcf_deployment": 0.05513751608828004,
+       "v3_dcf_calibration": 0.017995048130871598,
+       "v3_delta": 2.0640382669323505,
+       "v3_fpr_deployment": 0.0029711375212224107,
+       "v3_fnr_deployment": 0.028397278397278347
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.010338632264353834,
+       "v2_dcf_calibration": 0.05063533849484614,
+       "v2_delta": -0.795821800116807,
+       "v3_threshold": -1.73729,
+       "v3_dcf_deployment": 0.014545794681618087,
+       "v3_dcf_calibration": 0.008594695351910962,
+       "v3_delta": 0.6924153894976565,
+       "v3_fpr_deployment": 0.0038200339558573855,
+       "v3_fnr_deployment": 0.010725760725760702
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.03701033893606057,
+       "v2_dcf_calibration": 0.05957882743833515,
+       "v2_delta": -0.3788004811882753,
+       "v3_threshold": -0.826015,
+       "v3_dcf_deployment": 0.05654868006311095,
+       "v3_dcf_calibration": 0.0322997793286415,
+       "v3_delta": 0.7507450898578428,
+       "v3_fpr_deployment": 0.0050933786078098476,
+       "v3_fnr_deployment": 0.005717255717255676
+      }
+     }
+    },
+    "ulaw->alaw": {
+     "log2_fpr_ratio": 0.08936922942881251,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 1.0116567573664348,
+       "v2_dcf_calibration": 0.9407893836764804,
+       "v2_delta": 0.0753275652548439,
+       "v3_threshold": -1.743566,
+       "v3_dcf_deployment": 0.08448765706830225,
+       "v3_dcf_calibration": 0.07533638985251884,
+       "v3_delta": 0.12147206992129901,
+       "v3_fpr_deployment": 0.0038200339558573855,
+       "v3_fnr_deployment": 0.011907011907011933
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.47970429556677435,
+       "v2_dcf_calibration": 0.4461119643216418,
+       "v2_delta": 0.07530022490253782,
+       "v3_threshold": -1.743566,
+       "v3_dcf_deployment": 0.0462873175097284,
+       "v3_dcf_calibration": 0.041380532467119854,
+       "v3_delta": 0.11857713639879765,
+       "v3_fpr_deployment": 0.0038200339558573855,
+       "v3_fnr_deployment": 0.011907011907011933
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.05414232612704598,
+       "v2_dcf_calibration": 0.05037002883777078,
+       "v2_delta": 0.07489170398184254,
+       "v3_threshold": -0.574967,
+       "v3_dcf_deployment": 0.011658728551767552,
+       "v3_dcf_calibration": 0.00977113328556451,
+       "v3_delta": 0.1931807919345139,
+       "v3_fpr_deployment": 0.006366723259762309,
+       "v3_fnr_deployment": 0.005292005292005242
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.06171896570368555,
+       "v2_dcf_calibration": 0.05758832405606606,
+       "v2_delta": 0.07172706820913968,
+       "v3_threshold": 3.705469,
+       "v3_dcf_deployment": 0.03441800937556475,
+       "v3_dcf_calibration": 0.029317410896358382,
+       "v3_delta": 0.17397847638175762,
+       "v3_fpr_deployment": 0.014431239388794566,
+       "v3_fnr_deployment": 0.0022207522207522423
+      }
+     }
+    },
+    "ulaw->g722": {
+     "log2_fpr_ratio": -0.5389749266667517,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.655247690844465,
+       "v2_dcf_calibration": 0.9407893836764804,
+       "v2_delta": -0.30351287736279103,
+       "v3_threshold": -1.743566,
+       "v3_dcf_deployment": 0.13191298675169646,
+       "v3_dcf_calibration": 0.07533638985251884,
+       "v3_delta": 0.7509863030327569,
+       "v3_fpr_deployment": 0.0055178268251273345,
+       "v3_fnr_deployment": 0.02707427707427712
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.31111780968996583,
+       "v2_dcf_calibration": 0.4461119643216418,
+       "v2_delta": -0.30260151134244556,
+       "v3_threshold": -1.743566,
+       "v3_dcf_deployment": 0.07673471850042313,
+       "v3_dcf_calibration": 0.041380532467119854,
+       "v3_delta": 0.85436759571412,
+       "v3_fpr_deployment": 0.0055178268251273345,
+       "v3_fnr_deployment": 0.02707427707427712
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.03581390476636655,
+       "v2_dcf_calibration": 0.05037002883777078,
+       "v2_delta": -0.28898383438067615,
+       "v3_threshold": -0.574967,
+       "v3_dcf_deployment": 0.015487586794887351,
+       "v3_dcf_calibration": 0.00977113328556451,
+       "v3_delta": 0.5850348513583481,
+       "v3_fpr_deployment": 0.0055178268251273345,
+       "v3_fnr_deployment": 0.009969759969760017
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.0470212379736996,
+       "v2_dcf_calibration": 0.05758832405606606,
+       "v2_delta": -0.1834935510899518,
+       "v3_threshold": 3.705469,
+       "v3_dcf_deployment": 0.03400158323757663,
+       "v3_dcf_calibration": 0.029317410896358382,
+       "v3_delta": 0.1597744206600482,
+       "v3_fpr_deployment": 0.009762308998302207,
+       "v3_fnr_deployment": 0.0026932526932527123
+      }
+     }
+    },
+    "ulaw->gsm": {
+     "log2_fpr_ratio": 3.469675949481516,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 10.52485991732766,
+       "v2_dcf_calibration": 0.9407893836764804,
+       "v2_delta": 10.187264758662456,
+       "v3_threshold": -1.743566,
+       "v3_dcf_deployment": 0.24595173788722177,
+       "v3_dcf_calibration": 0.07533638985251884,
+       "v3_delta": 2.2647136180630043,
+       "v3_fpr_deployment": 0.012733446519524618,
+       "v3_fnr_deployment": 0.0040162540162540505
+      },
+      "0.1": {
+       "v2_dcf_deployment": 4.985666368940563,
+       "v2_dcf_calibration": 0.4461119643216418,
+       "v2_delta": 10.175818556047405,
+       "v3_threshold": -1.743566,
+       "v3_dcf_deployment": 0.11861727269197563,
+       "v3_dcf_calibration": 0.041380532467119854,
+       "v3_delta": 1.8664994290787955,
+       "v3_fpr_deployment": 0.012733446519524618,
+       "v3_fnr_deployment": 0.0040162540162540505
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.5543115302308851,
+       "v2_dcf_calibration": 0.05037002883777078,
+       "v2_delta": 10.00478882027611,
+       "v3_threshold": -0.574967,
+       "v3_dcf_deployment": 0.03476231702038149,
+       "v3_dcf_calibration": 0.00977113328556451,
+       "v3_delta": 2.557654573368472,
+       "v3_fpr_deployment": 0.03225806451612903,
+       "v3_fnr_deployment": 0.0025042525042524577
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.5574489333682884,
+       "v2_dcf_calibration": 0.05758832405606606,
+       "v2_delta": 8.679895056948954,
+       "v3_threshold": 3.705469,
+       "v3_dcf_deployment": 0.2406773811697412,
+       "v3_dcf_calibration": 0.029317410896358382,
+       "v3_delta": 7.20936685100104,
+       "v3_fpr_deployment": 0.23259762308998302,
+       "v3_fnr_deployment": 0.0008977508977509041
+      }
+     }
+    },
+    "ulaw->none": {
+     "log2_fpr_ratio": -1.105303270814636,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 0.4428423464068625,
+       "v2_dcf_calibration": 0.9407893836764804,
+       "v2_delta": -0.5292864119317617,
+       "v3_threshold": -1.743566,
+       "v3_dcf_deployment": 0.03320154126605735,
+       "v3_dcf_calibration": 0.07533638985251884,
+       "v3_delta": -0.5592894571792748,
+       "v3_fpr_deployment": 0.00042444821731748726,
+       "v3_fnr_deployment": 0.025137025137025093
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.21043996949684549,
+       "v2_dcf_calibration": 0.4461119643216418,
+       "v2_delta": -0.5282799244874755,
+       "v3_threshold": -1.743566,
+       "v3_dcf_deployment": 0.02895705909288248,
+       "v3_dcf_calibration": 0.041380532467119854,
+       "v3_delta": -0.30022507284334293,
+       "v3_fpr_deployment": 0.00042444821731748726,
+       "v3_fnr_deployment": 0.025137025137025093
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.024518067968831984,
+       "v2_dcf_calibration": 0.05037002883777078,
+       "v2_delta": -0.5132409384199773,
+       "v3_threshold": -0.574967,
+       "v3_dcf_deployment": 0.009401957194826418,
+       "v3_dcf_calibration": 0.00977113328556451,
+       "v3_delta": -0.037782320632500144,
+       "v3_fpr_deployment": 0.00042444821731748726,
+       "v3_fnr_deployment": 0.00897750897750893
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.03474071019147428,
+       "v2_dcf_calibration": 0.05758832405606606,
+       "v2_delta": -0.39674038512300003,
+       "v3_threshold": 3.705469,
+       "v3_dcf_deployment": 0.02678596354317934,
+       "v3_dcf_calibration": 0.029317410896358382,
+       "v3_delta": -0.08634621120289585,
+       "v3_fpr_deployment": 0.0025466893039049238,
+       "v3_fnr_deployment": 0.0026932526932527123
+      }
+     }
+    },
+    "ulaw->opus": {
+     "log2_fpr_ratio": 0.5244349552745132,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 1.3672887419903548,
+       "v2_dcf_calibration": 0.9407893836764804,
+       "v2_delta": 0.4533420186430797,
+       "v3_threshold": -1.743566,
+       "v3_dcf_deployment": 0.16725907048487687,
+       "v3_dcf_calibration": 0.07533638985251884,
+       "v3_delta": 1.2201630687680827,
+       "v3_fpr_deployment": 0.008064516129032258,
+       "v3_fnr_deployment": 0.014033264033263992
+      },
+      "0.1": {
+       "v2_dcf_deployment": 0.6481036825676044,
+       "v2_dcf_calibration": 0.4461119643216418,
+       "v2_delta": 0.4527825622276493,
+       "v3_threshold": -1.743566,
+       "v3_dcf_deployment": 0.0866139091945543,
+       "v3_dcf_calibration": 0.041380532467119854,
+       "v3_delta": 1.0931076530582584,
+       "v3_fpr_deployment": 0.008064516129032258,
+       "v3_fnr_deployment": 0.014033264033263992
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.07275563502940414,
+       "v2_dcf_calibration": 0.05037002883777078,
+       "v2_delta": 0.4444231363005922,
+       "v3_threshold": -0.574967,
+       "v3_dcf_deployment": 0.019488598860415523,
+       "v3_dcf_calibration": 0.00977113328556451,
+       "v3_delta": 0.9945075244452161,
+       "v3_fpr_deployment": 0.013582342954159592,
+       "v3_fnr_deployment": 0.0059062559062559306
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.07945266772643689,
+       "v2_dcf_calibration": 0.05758832405606606,
+       "v2_delta": 0.3796662609782573,
+       "v3_threshold": 3.705469,
+       "v3_dcf_deployment": 0.045027610392636266,
+       "v3_dcf_calibration": 0.029317410896358382,
+       "v3_delta": 0.53586585636146,
+       "v3_fpr_deployment": 0.025891341256366725,
+       "v3_fnr_deployment": 0.0021262521262521705
+      }
+     }
+    },
+    "ulaw->pstn": {
+     "log2_fpr_ratio": 3.1942080181553507,
+     "by_prior": {
+      "0.05": {
+       "v2_dcf_deployment": 8.69523354936258,
+       "v2_dcf_calibration": 0.9407893836764804,
+       "v2_delta": 8.242486894763585,
+       "v3_threshold": -1.743566,
+       "v3_dcf_deployment": 0.05448235286944962,
+       "v3_dcf_calibration": 0.07533638985251884,
+       "v3_delta": -0.27681226859813446,
+       "v3_fpr_deployment": 0.0025466893039049238,
+       "v3_fnr_deployment": 0.006095256095256074
+      },
+      "0.1": {
+       "v2_dcf_deployment": 4.118849848174127,
+       "v2_dcf_calibration": 0.4461119643216418,
+       "v2_delta": 8.232771540743709,
+       "v3_threshold": -1.743566,
+       "v3_dcf_deployment": 0.029015459830400388,
+       "v3_dcf_calibration": 0.041380532467119854,
+       "v3_delta": -0.29881376336915205,
+       "v3_fpr_deployment": 0.0025466893039049238,
+       "v3_fnr_deployment": 0.006095256095256074
+      },
+      "0.5": {
+       "v2_dcf_deployment": 0.4577428872233626,
+       "v2_dcf_calibration": 0.05037002883777078,
+       "v2_delta": 8.087604231826777,
+       "v3_threshold": -0.574967,
+       "v3_dcf_deployment": 0.019056930771701515,
+       "v3_dcf_calibration": 0.00977113328556451,
+       "v3_delta": 0.9503296306330686,
+       "v3_fpr_deployment": 0.01697792869269949,
+       "v3_fnr_deployment": 0.0020790020790020236
+      },
+      "0.9": {
+       "v2_dcf_deployment": 0.4585790240594992,
+       "v2_dcf_calibration": 0.05758832405606606,
+       "v2_delta": 6.9630555598916555,
+       "v3_threshold": 3.705469,
+       "v3_dcf_deployment": 0.1770021264927887,
+       "v3_dcf_calibration": 0.029317410896358382,
+       "v3_delta": 5.037440588410717,
+       "v3_fpr_deployment": 0.1731748726655348,
+       "v3_fnr_deployment": 0.0004252504252504341
+      }
+     }
+    }
+   },
+   "summary_by_prior": {
+    "0.05": {
+     "n_conservative": 14,
+     "n_liberal": 11,
+     "v2": {
+      "median_conservative": -0.8195388576548075,
+      "median_liberal": 9.491060638897295,
+      "median_all": 0.006203115820095473,
+      "n_conservative_negative": 14,
+      "n_liberal_negative": 0,
+      "frac_conservative_in_worse_half": 0.0,
+      "frac_liberal_in_worse_half": 1.0
+     },
+     "v3": {
+      "median_conservative": 0.5506805452598631,
+      "median_liberal": 2.2647136180630043,
+      "median_all": 0.8280469765278303,
+      "n_conservative_negative": 3,
+      "n_liberal_negative": 3,
+      "frac_conservative_in_worse_half": 0.42857142857142855,
+      "frac_liberal_in_worse_half": 0.6363636363636364
+     }
+    },
+    "0.1": {
+     "n_conservative": 14,
+     "n_liberal": 11,
+     "v2": {
+      "median_conservative": -0.8149885823332479,
+      "median_liberal": 9.477629033341048,
+      "median_all": 0.006198098435813051,
+      "n_conservative_negative": 14,
+      "n_liberal_negative": 0,
+      "frac_conservative_in_worse_half": 0.0,
+      "frac_liberal_in_worse_half": 1.0
+     },
+     "v3": {
+      "median_conservative": 0.18585520500346128,
+      "median_liberal": 1.8664994290787955,
+      "median_all": 0.7016742500232007,
+      "n_conservative_negative": 5,
+      "n_liberal_negative": 3,
+      "frac_conservative_in_worse_half": 0.35714285714285715,
+      "frac_liberal_in_worse_half": 0.6363636363636364
+     }
+    },
+    "0.5": {
+     "n_conservative": 14,
+     "n_liberal": 11,
+     "v2": {
+      "median_conservative": -0.7416022974364427,
+      "median_liberal": 9.277655754718912,
+      "median_all": 0.006122916775340992,
+      "n_conservative_negative": 14,
+      "n_liberal_negative": 0,
+      "frac_conservative_in_worse_half": 0.0,
+      "frac_liberal_in_worse_half": 1.0
+     },
+     "v3": {
+      "median_conservative": 0.734629514276311,
+      "median_liberal": 2.557654573368472,
+      "median_all": 0.7557937508052471,
+      "n_conservative_negative": 3,
+      "n_liberal_negative": 1,
+      "frac_conservative_in_worse_half": 0.5,
+      "frac_liberal_in_worse_half": 0.7272727272727273
+     }
+    },
+    "0.9": {
+     "n_conservative": 14,
+     "n_liberal": 11,
+     "v2": {
+      "median_conservative": -0.276220077269897,
+      "median_liberal": 7.773098903079148,
+      "median_all": 0.07806692321618891,
+      "n_conservative_negative": 13,
+      "n_liberal_negative": 0,
+      "frac_conservative_in_worse_half": 0.07142857142857142,
+      "frac_liberal_in_worse_half": 1.0
+     },
+     "v3": {
+      "median_conservative": 0.8618257320720086,
+      "median_liberal": 7.20936685100104,
+      "median_all": 0.7054465635343921,
+      "n_conservative_negative": 4,
+      "n_liberal_negative": 0,
+      "frac_conservative_in_worse_half": 0.6428571428571429,
+      "frac_liberal_in_worse_half": 1.0
+     }
+    }
+   }
+  }
+ }
+}
