@@ -92,11 +92,10 @@ Awais Khan et~al.,
   embedding trajectory analysis of speech foundation models,'' 2026,
 \newblock arXiv:2604.01083.
 
-\bibitem{fursule26}
-Aishwarya~R. Fursule et~al.,
-\newblock ``What you train is what you get: gender bias, training composition,
-  and post-hoc mitigation in audio deepfake detection,''
-\newblock {\em arXiv:2607.09891}, 2026.
+\bibitem{weizman25}
+Avishai Weizman, Yehuda Ben-Shimol, and Itshak Lapidot,
+\newblock ``{ASVspoof2019} vs. {ASVspoof5}: Assessment and comparison,''
+\newblock in {\em Proc. Interspeech}, 2025.
 
 \bibitem{muller25replay}
 Nicolas M{\"u}ller et~al.,

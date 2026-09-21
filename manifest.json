@@ -516,20 +516,20 @@
     "bytes": 2108
   },
   "paper/A2/main.pdf": {
-    "sha256": "4d5a5f44f92d3b5e0149bba94fb679542c08bc82167ccb59daa13e13dd9e612b",
-    "bytes": 215133
+    "sha256": "14cd1330fd83bbf170bb98efbeb7126e8dc83c49b6399f9d8ad38c764dcc6457",
+    "bytes": 215044
   },
   "paper/A2/main.tex": {
-    "sha256": "76c942c26ed2c6a6ee60fb6322b7a9fdcb19efa74a1ed3cae8978b211d138b41",
-    "bytes": 28216
+    "sha256": "d3bac9c8ae15fcad368e25497cecf25cc5eaa793d384f0ff59da9bec87e6adee",
+    "bytes": 28211
   },
   "paper/A2/main.bbl": {
-    "sha256": "e5e544d2d5f6fb30a8b834ce52bd9d49343fcecc218f62309d0b3b7d4dd38587",
-    "bytes": 5740
+    "sha256": "9d8a617d6c097fb5aaa0618674e38a4238ced9e253f455053d710677d5bc1971",
+    "bytes": 5708
   },
   "paper/A2/refs.bib": {
-    "sha256": "6b9b03d6939eedfa644941206fc6172405113200dc306e4e176c482cc52cf64f",
-    "bytes": 15361
+    "sha256": "aed03e8ebb8d3f5ed2c759dfad51ab9fbd6c94e8b35da10203e3f956961deb0c",
+    "bytes": 15342
   },
   "paper/A2/spconf.sty": {
     "sha256": "dc5d632639040cb183f2ab62780f314845aa021be73048c8a9ec9c2072d64a86",
@@ -540,8 +540,8 @@
     "bytes": 17903
   },
   "paper/A2/check_numbers.py": {
-    "sha256": "7f1e95979dca68ca4fe093a81d1a3f98ad24b139779ecf48990bb2c69032a803",
-    "bytes": 118293
+    "sha256": "14dba7cabeaaaac1ebd16ca31fe70bbf039cd4e0abb0873ab06b1f6dc81463dc",
+    "bytes": 118303
   },
   "paper/A2/number_census.py": {
     "sha256": "de43e4debf654bf59341a5858c333674d5ff607283db661b10b1e89a33ee6897",

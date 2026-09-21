@@ -1176,8 +1176,9 @@ PRESENCE = [
     ("limitations section exists", r"\\textbf\{Limitations\.\}"),
     ("speaker identity is cited as a documented source of detector variation",
      r"speaker identity is itself a documented source of detector variation \\cite\{dar26iss\}"),
-    ("demographic threshold calibration is cited as the class-conditional neighbour",
-     r"Demographic threshold calibration \\cite\{fursule26\} likewise separates class-conditional error changes from unchanged discrimination"),
+    ("the transferred-threshold predecessor is cited by author and by what it transfers",
+     r"Weizman et al\.\\ \\cite\{weizman25\} transfer an ASVspoof 2019 development EER threshold to ASVspoof~5 "
+     r"and report bona-fide errors"),
     ("EER is described as measured at an oracle threshold, not as an operating point",
      r"report equal error rate \(EER\), measured at an oracle threshold selected with labels from both classes"),
     ("the bona-fide-only quantile prior art is attributed by author, not by acronym",
